@@ -10,8 +10,13 @@ import com.github.InspiredOne.InspiredNations.Regions.Implem.GoodBusinessLand;
 
 public class GoodBusiness extends Business {
 
-	public GoodBusiness(InspiredNations instance) {
-		super(instance);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8118583887730062434L;
+
+	public GoodBusiness() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

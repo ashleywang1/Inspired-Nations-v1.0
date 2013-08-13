@@ -11,8 +11,13 @@ import com.github.InspiredOne.InspiredNations.Regions.Implem.BankLand;
 
 public class Bank extends InspiredGov {
 
-	public Bank(InspiredNations instance) {
-		super(instance);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4274087416352050894L;
+
+	public Bank() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

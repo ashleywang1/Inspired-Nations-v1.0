@@ -7,7 +7,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 
 public abstract class InspiredListener implements Listener {
 
-	private InspiredNations plugin;
+	protected InspiredNations plugin;
 	private ActionManager manager;
 	
 	public InspiredListener(InspiredNations instance, ActionManager manager) {

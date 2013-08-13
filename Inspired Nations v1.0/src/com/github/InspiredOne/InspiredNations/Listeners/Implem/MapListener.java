@@ -15,7 +15,7 @@ public class MapListener extends InspiredListener {
 	
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent event) {
-		if(this.getPlayerData().getPlayer() != event.getPlayer()) {
+		if(this.getPlayerData().getPlayer(plugin) != event.getPlayer()) {
 			return;
 		}
 		else {

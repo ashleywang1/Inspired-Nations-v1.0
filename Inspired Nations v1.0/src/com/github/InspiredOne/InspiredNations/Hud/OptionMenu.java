@@ -28,9 +28,10 @@ public abstract class OptionMenu extends Menu {
 	
 	@Override
 	public Prompt getNextPrompt(String arg) {
-		
+		System.out.println("NextPrompt1");
 		int answer;
 		try {
+			System.out.println("NextPrompt2");
 			answer = Integer.parseInt(arg);
 			if(answer > options.size()) {
 				this.getContext().setSessionData("Error", MenuError.OUT_OF_RANGE_NUMBER_INPUT);
@@ -41,6 +42,7 @@ public abstract class OptionMenu extends Menu {
 			}
 		}
 		catch (Exception ex) {
+				System.out.println("NextPrompt3");
 				this.PDI.getCon().getContext().setSessionData("Error", MenuError.INVALID_NUMBER_INPUT);
 				return this.getSelf();
 		}
@@ -59,7 +61,7 @@ public abstract class OptionMenu extends Menu {
 		int iter = 1;
 		
 		for(Option option:options)  {
-			output = output.concat(TextColor.OPTION + "(" + TextColor.OPTIONNUMBER + iter + TextColor.OPTION + ")" + option.getLabel() + "\n");
+			output = output.concat(TextColor.OPTION + "(" + TextColor.OPTIONNUMBER + iter + TextColor.OPTION + ") " + option.getLabel() + "\n");
 			iter ++;
 		}
 		

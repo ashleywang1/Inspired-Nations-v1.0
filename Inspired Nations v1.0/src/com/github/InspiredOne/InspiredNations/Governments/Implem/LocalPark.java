@@ -10,8 +10,13 @@ import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 
 public class LocalPark extends InspiredGov {
 
-	public LocalPark(InspiredNations instance) {
-		super(instance);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1321780872694379634L;
+
+	public LocalPark() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

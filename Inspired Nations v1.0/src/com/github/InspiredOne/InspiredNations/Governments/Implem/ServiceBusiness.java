@@ -9,8 +9,13 @@ import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 
 public class ServiceBusiness extends Business {
 
-	public ServiceBusiness(InspiredNations instance) {
-		super(instance);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 357732768193607382L;
+
+	public ServiceBusiness() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

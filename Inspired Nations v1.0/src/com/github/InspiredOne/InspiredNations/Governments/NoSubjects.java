@@ -7,8 +7,13 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 
 public abstract class NoSubjects extends InspiredGov {
 	
-	public NoSubjects(InspiredNations instance) {
-		super(instance);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2000613785185838007L;
+
+	public NoSubjects() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

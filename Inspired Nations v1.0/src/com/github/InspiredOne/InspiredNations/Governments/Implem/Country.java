@@ -12,8 +12,13 @@ import com.github.InspiredOne.InspiredNations.Regions.Implem.CountryLand;
 
 public class Country extends Subjects {
 
-	public Country(InspiredNations instance) {
-		super(instance);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4242189402669618103L;
+
+	public Country() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

@@ -1,23 +1,32 @@
 package com.github.InspiredOne.InspiredNations;
 
+import java.io.Serializable;
+
 import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
 
 
-public class PlayerData {
+public class PlayerData implements Serializable {
 
-	private InspiredNations plugin;
-	private Conversation con;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8628182579123244877L;
+	
+	private transient Conversation con;
 	private String name;
 	
-	public PlayerData(InspiredNations instance, String name) {
+	public PlayerData(String name) {
 		this.setName(name);
-		plugin = instance;
+		con = null;
 	}
 
 	public Conversation getCon() {
-		
 		return con;
+	}
+	
+	public void setCon(Conversation con) {
+		this.con = con;
 	}
 
 	public String getName() {
@@ -28,7 +37,7 @@ public class PlayerData {
 		this.name = name;
 	}
 	
-	public Player getPlayer() {
+	public Player getPlayer(InspiredNations plugin) {
 		return plugin.getServer().getPlayer(name);
 	}
 	

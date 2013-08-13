@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Governments;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,9 +23,13 @@ import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
  * @author InspiredOne
  *
  */
-public abstract class InspiredGov {
+public abstract class InspiredGov implements Serializable {
 
-	InspiredNations plugin;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5014430464149332251L;
+	
 	private Account account;
 	private InspiredRegion region;
 	private List<InspiredGov> facilities = new ArrayList<InspiredGov>();
@@ -35,12 +40,10 @@ public abstract class InspiredGov {
 	/**
 	 * @param instance	the plugin instance
 	 */
-	public InspiredGov(InspiredNations instance) {
-		plugin = instance;
+	public InspiredGov() {
 		for(Class<? extends InspiredGov> gov:this.getSubGovs()) {
 			taxrates.put(gov, 1.0);
 		}
-		plugin.regiondata.put(this.getClass(), this);
 	}
 	/**
 	 * 
@@ -116,7 +119,7 @@ public abstract class InspiredGov {
 	 * @param key	the Class of InspiredGovs to find
 	 * @return		a List of InspiredGovs of the type 
 	 */
-	public List<InspiredGov> getAllSubGovs(Class<? extends InspiredGov> key){
+	public List<InspiredGov> getAllSubGovs(InspiredNations plugin, Class<? extends InspiredGov> key){
 		List<InspiredGov> output = new ArrayList<InspiredGov>();
 		for(Iterator<InspiredGov> iter = plugin.regiondata.get(key).iterator(); iter.hasNext(); ) {
 			InspiredGov gov = iter.next();

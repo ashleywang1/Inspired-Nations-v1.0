@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
+import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,8 +10,13 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class MultiMap<T, K> implements Map<T, HashSet<K>>{
+public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5789101682525659411L;
+	
 	private HashMap<T, HashSet<K>> set = new HashMap<T, HashSet<K>>();
 
 	@Override

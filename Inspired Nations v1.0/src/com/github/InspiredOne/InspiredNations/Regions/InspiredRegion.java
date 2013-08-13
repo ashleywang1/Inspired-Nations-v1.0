@@ -1,11 +1,17 @@
 package com.github.InspiredOne.InspiredNations.Regions;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.bukkit.Location;
 
-public abstract class InspiredRegion {
+public abstract class InspiredRegion implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3476603574063579787L;
+	
 	private Region region;
 	
 	public Region getRegion() {

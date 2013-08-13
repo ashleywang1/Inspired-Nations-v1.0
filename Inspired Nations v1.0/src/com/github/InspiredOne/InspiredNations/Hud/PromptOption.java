@@ -26,9 +26,4 @@ public class PromptOption extends Option {
 		return MenuTools.getMenuInstance(plugin, PDI, nextPrompt);
 	}
 
-	@Override
-	public String getLabel() {
-		return this.getLabel();
-	}
-
 }

@@ -11,8 +11,13 @@ import com.github.InspiredOne.InspiredNations.Regions.Implem.FederalParkLand;
 
 public class FederalPark extends InspiredGov {
 
-	public FederalPark(InspiredNations instance) {
-		super(instance);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3146602156968003911L;
+
+	public FederalPark() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

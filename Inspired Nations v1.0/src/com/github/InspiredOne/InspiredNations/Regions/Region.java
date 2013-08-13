@@ -1,11 +1,18 @@
 package com.github.InspiredOne.InspiredNations.Regions;
 
+import java.io.Serializable;
+
 import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 
-public abstract class Region {
+public abstract class Region implements Serializable {
 
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -330203131653502896L;
 	
 	public abstract boolean isIn(Region region);
 	/**Returns true if the entire region is within the input region*/

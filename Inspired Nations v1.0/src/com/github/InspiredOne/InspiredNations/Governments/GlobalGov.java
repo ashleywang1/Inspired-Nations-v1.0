@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Governments;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
@@ -8,8 +9,13 @@ import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 
 public class GlobalGov extends InspiredGov {
 
-	public GlobalGov(InspiredNations instance) {
-		super(instance);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4539890228965981190L;
+
+	public GlobalGov() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -26,8 +32,8 @@ public class GlobalGov extends InspiredGov {
 
 	@Override
 	public List<Class<? extends InspiredGov>> getSubGovs() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+		return output;
 	}
 
 	@Override

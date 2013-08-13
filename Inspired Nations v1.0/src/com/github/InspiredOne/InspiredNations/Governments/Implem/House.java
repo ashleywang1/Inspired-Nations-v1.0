@@ -12,8 +12,13 @@ import com.github.InspiredOne.InspiredNations.Regions.Implem.HouseLand;
 
 public class House extends NoSubjects {
 
-	public House(InspiredNations instance) {
-		super(instance);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1683829601317933069L;
+
+	public House() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

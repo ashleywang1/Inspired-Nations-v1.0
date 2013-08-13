@@ -9,8 +9,13 @@ import com.github.InspiredOne.InspiredNations.Governments.Subjects;
 
 public abstract class Business extends Subjects {
 
-	public Business(InspiredNations instance) {
-		super(instance);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3649203192582681407L;
+
+	public Business() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

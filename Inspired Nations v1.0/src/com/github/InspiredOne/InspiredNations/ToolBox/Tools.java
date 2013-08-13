@@ -77,7 +77,7 @@ public class Tools {
 	public static String drawMap(InspiredNations plugin, PlayerData PDI, int res, Class<? extends InspiredGov> gov) {
 		
 		String output = "";
-		Location location = PDI.getPlayer().getLocation();
+		Location location = PDI.getPlayer(plugin).getLocation();
 
 		
 		HashMap<InspiredGov, ChatColor> superGov = new HashMap<InspiredGov, ChatColor>();

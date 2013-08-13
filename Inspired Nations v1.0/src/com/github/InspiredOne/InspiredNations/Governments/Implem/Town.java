@@ -12,8 +12,13 @@ import com.github.InspiredOne.InspiredNations.Regions.Implem.TownLand;
 
 public class Town extends Subjects {
 
-	public Town(InspiredNations instance) {
-		super(instance);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3468445598611221739L;
+
+	public Town() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

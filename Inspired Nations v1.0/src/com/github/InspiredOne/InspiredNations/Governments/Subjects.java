@@ -6,8 +6,13 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 
 public abstract class Subjects extends NoSubjects {
 
-	public Subjects(InspiredNations instance) {
-		super(instance);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3448350609903588185L;
+
+	public Subjects() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

@@ -1,9 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Hud;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.conversations.Prompt;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
@@ -25,7 +21,7 @@ public class MainHud extends OptionMenu {
 
 	@Override
 	public String getHeader() {
-		return "Welcome to the HUD! Enter and option number.";
+		return "Welcome to the HUD! Enter an option number.";
 	}
 
 	@Override

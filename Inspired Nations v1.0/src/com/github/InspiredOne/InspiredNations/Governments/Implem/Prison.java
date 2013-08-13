@@ -10,8 +10,13 @@ import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 
 public class Prison extends InspiredGov {
 
-	public Prison(InspiredNations instance) {
-		super(instance);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3660969970048913227L;
+
+	public Prison() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
