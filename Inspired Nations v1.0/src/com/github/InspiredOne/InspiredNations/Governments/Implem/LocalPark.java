@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
+import com.github.InspiredOne.InspiredNations.Regions.Implem.LocalParkLand;
 
 public class LocalPark extends InspiredGov {
 
@@ -15,17 +15,11 @@ public class LocalPark extends InspiredGov {
 	 */
 	private static final long serialVersionUID = -1321780872694379634L;
 
-	public LocalPark() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	private static final String typeName = "Local Park";
 	
 	@Override
 	public Class<? extends InspiredRegion> getSelfRegionType() {
-		// TODO Auto-generated method stub
-		return null;
+		return LocalParkLand.class;
 	}
 
 	@Override
@@ -64,8 +58,8 @@ public class LocalPark extends InspiredGov {
 
 	@Override
 	public Class<? extends InspiredGov> getCommonEcon() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return Town.class;
 	}
 
 }

@@ -33,7 +33,7 @@ public abstract class InspiredGov implements Serializable {
 	private Account account;
 	private InspiredRegion region;
 	private List<InspiredGov> facilities = new ArrayList<InspiredGov>();
-	private HashMap<Class<? extends InspiredGov>, Double> taxrates;
+	private HashMap<Class<? extends InspiredGov>, Double> taxrates = new HashMap<Class<? extends InspiredGov>, Double>();
 	private InspiredGov supergov;
 	private String name;
 	
@@ -119,7 +119,7 @@ public abstract class InspiredGov implements Serializable {
 	 * @param key	the Class of InspiredGovs to find
 	 * @return		a List of InspiredGovs of the type 
 	 */
-	public List<InspiredGov> getAllSubGovs(InspiredNations plugin, Class<? extends InspiredGov> key){
+	public List<InspiredGov> getAllSubGovs(InspiredNations plugin, Class<? extends InspiredGov> key) {
 		List<InspiredGov> output = new ArrayList<InspiredGov>();
 		for(Iterator<InspiredGov> iter = plugin.regiondata.get(key).iterator(); iter.hasNext(); ) {
 			InspiredGov gov = iter.next();
@@ -239,6 +239,47 @@ public abstract class InspiredGov implements Serializable {
 	 * @param amount	the <code>BigDecimal</code> amount to be paid up to the supergov
 	 */
 	public abstract void paySuper(BigDecimal amount);
-
-
+	/**
+	 * Registers all the region types into the plugin.regiondata hashmap.
+	 * @param plugin	the <code>InspiredNations</code> plugin where
+	 * the regiondata hashmap is stored
+	 */
+	public void register(InspiredNations plugin) {
+		plugin.regiondata.put(this.getClass(), new HashSet<InspiredGov>());
+		
+		for(Class<? extends InspiredGov> cla:this.getSubGovs()) {
+			try{
+				System.out.println(cla.getConstructor().toString());
+				InspiredGov obj = cla.getConstructor().newInstance();
+				obj.register(plugin);
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		for(Class<? extends InspiredGov> cla:this.getGovFacilities()) {
+			try{
+				System.out.println(cla.getConstructor().toString());
+				InspiredGov obj = cla.getConstructor().newInstance();
+				obj.register(plugin);
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		for(Class<? extends InspiredGov> cla:this.getSelfGovs()) {
+			try{
+				System.out.println(cla.getConstructor().toString());
+				InspiredGov obj = cla.getConstructor().newInstance();
+				if(!cla.equals(this.getClass())) {
+					obj.register(plugin);
+				}
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
 }

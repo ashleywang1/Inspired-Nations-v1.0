@@ -9,6 +9,7 @@ import org.bukkit.conversations.StringPrompt;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public abstract class Menu extends StringPrompt {
@@ -38,6 +39,7 @@ public abstract class Menu extends StringPrompt {
 	
 	@Override
 	public String getPromptText(ConversationContext arg0) {
+		this.register();
 		return this.getPromptText();
 	}
 	
@@ -63,13 +65,16 @@ public abstract class Menu extends StringPrompt {
 		
 		return this.getNextPrompt(arg);
 	}
-	
+	/**
+	 * 
+	 * @return	the <code>String</code> to be used for the error in the menu
+	 */
 	public String getError() {
-		String output = (String) PDI.getCon().getContext().getSessionData("Error");
+		MenuError output = (MenuError) PDI.getCon().getContext().getSessionData("Error");
 		if(output == null) return "";
 		else {
 			PDI.getCon().getContext().setSessionData("Error", null);
-			return output;
+			return "\n" + TextColor.ALERT + output.toString();
 		}
 	}
 	/**
@@ -79,22 +84,40 @@ public abstract class Menu extends StringPrompt {
 	public Menu getSelf() {
 		return MenuTools.getMenuInstance(plugin, PDI, this.getClass());
 	}
-	
+	/**
+	 * 
+	 * @return the <code>ConversationContext</code> of the player using this menu
+	 */
 	public ConversationContext getContext() {
 		return this.PDI.getCon().getContext();
 	}
-	
+	/**
+	 * 
+	 * @param error	the <code>MenuError</code> to be used as the error
+	 */
+	public void setError(MenuError error) {
+		this.getContext().setSessionData("Error", error);
+	}
+	/**
+	 * 
+	 * @return	the <code>String</code> to be used for the header of the menu
+	 */
 	public abstract String getHeader();
-	
+	/**
+	 * 
+	 * @return	the <code>String</code> to be used for the filler of the menu
+	 */
 	public abstract String getFiller();
-	
+	/**
+	 * A method that allows events to be registered by a superclass.
+	 */
+	public abstract void register();
 	/**
 	 * Returns the prompt to go to when player uses "back"
 	 * @return the <code>Prompt</code> that lead to this menu
 	 * 
 	 */
 	public abstract Prompt getPreviousPrompt();
-	
 	/**
 	 * 
 	 * @param input	the <code>String</code> used to process the next <code>Prompt</code>

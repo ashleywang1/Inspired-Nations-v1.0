@@ -7,6 +7,11 @@ import com.github.InspiredOne.InspiredNations.Regions.Region;
 
 public class TownLand extends InspiredRegion {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8790299096282773658L;
+
 	@Override
 	public List<Class<? extends Region>> getAllowedForms() {
 		// TODO Auto-generated method stub

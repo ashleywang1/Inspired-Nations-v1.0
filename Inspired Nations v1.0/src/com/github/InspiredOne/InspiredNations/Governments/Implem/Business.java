@@ -1,34 +1,30 @@
 package com.github.InspiredOne.InspiredNations.Governments.Implem;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.Subjects;
+import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 
-public abstract class Business extends Subjects {
+public class Business extends Subjects {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3649203192582681407L;
-
-	public Business() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	private static final String typeName = "Business";
 
 	@Override
 	public List<Class<? extends InspiredGov>> getSubGovs() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+		return output;
 	}
 
 	@Override
 	public Class<? extends InspiredGov> getSuperGov() {
-		// TODO Auto-generated method stub
-		return null;
+		return Town.class;
 	}
 
 	@Override
@@ -37,21 +33,36 @@ public abstract class Business extends Subjects {
 
 	}
 	
+	public static String getTypeName() {
+		return typeName;
+	}
+	
 	@Override
 	public List<Class<? extends InspiredGov>> getSelfGovs() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+		output.add(GoodBusiness.class);
+		output.add(ServiceBusiness.class);
+		return output;
 	}
 	
 	@Override
 	public Class<? extends InspiredGov> getCommonGov() {
-		// TODO Auto-generated method stub
-		return null;
+		return Country.class;
 	}
 
 	@Override
 	public Class<? extends InspiredGov> getCommonEcon() {
-		// TODO Auto-generated method stub
+		return Country.class;
+	}
+
+	@Override
+	public Class<? extends InspiredRegion> getSelfRegionType() {
 		return null;
+	}
+
+	@Override
+	public List<Class<? extends InspiredGov>> getGovFacilities() {
+		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+		return output;
 	}
 }

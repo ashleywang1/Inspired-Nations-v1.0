@@ -2,7 +2,6 @@ package com.github.InspiredOne.InspiredNations.Economy.Nodes;
 
 import java.math.BigDecimal;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.NPC;
 
 public class CobDugNode extends Node {

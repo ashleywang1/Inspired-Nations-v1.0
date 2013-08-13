@@ -48,14 +48,14 @@ public class MenuTools {
 		
 		
 		
-		private String color;
+		private String error;
 		
-        private MenuError(String color) {
-                this.color = color;
+        private MenuError(String error) {
+                this.error = error;
         }
         @Override
         public String toString() {
-        	return color;
+        	return error;
         }
 	}
 	

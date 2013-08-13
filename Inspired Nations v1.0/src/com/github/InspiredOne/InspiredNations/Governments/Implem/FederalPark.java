@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.FederalParkLand;
@@ -31,7 +31,7 @@ public class FederalPark extends InspiredGov {
 
 	@Override
 	public Class<? extends InspiredGov> getSuperGov() {
-		return Country.class;
+		return GlobalGov.class;
 	}
 
 	public static String getTypeName() {
@@ -64,8 +64,7 @@ public class FederalPark extends InspiredGov {
 
 	@Override
 	public Class<? extends InspiredGov> getCommonEcon() {
-		// TODO Auto-generated method stub
-		return null;
+		return Country.class;
 	}
 
 }

@@ -4,20 +4,16 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 
 public class GlobalGov extends InspiredGov {
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4539890228965981190L;
-
-	public GlobalGov() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	private static final String typeName = "Global Government"; 
 
 	@Override
 	public Class<? extends InspiredRegion> getSelfRegionType() {
@@ -26,25 +22,24 @@ public class GlobalGov extends InspiredGov {
 
 	@Override
 	public List<Class<? extends InspiredGov>> getGovFacilities() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Class<? extends InspiredGov>> getSubGovs() {
 		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
 		return output;
 	}
 
 	@Override
+	public List<Class<? extends InspiredGov>> getSubGovs() {
+		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+		output.add(Country.class);
+		return output;
+	}
+
+	@Override
 	public Class<? extends InspiredGov> getSuperGov() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public static String getTypeName() {
-		// TODO Auto-generated method stub
-		return null;
+		return typeName;
 	}
 
 	@Override
@@ -55,14 +50,14 @@ public class GlobalGov extends InspiredGov {
 
 	@Override
 	public Class<? extends InspiredGov> getCommonEcon() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getClass();
 	}
 
 	@Override
 	public List<Class<? extends InspiredGov>> getSelfGovs() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+		output.add(this.getClass());
+		return output;
 	}
 
 }

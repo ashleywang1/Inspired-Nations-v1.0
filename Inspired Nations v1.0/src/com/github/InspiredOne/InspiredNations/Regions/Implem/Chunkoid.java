@@ -7,6 +7,10 @@ import com.github.InspiredOne.InspiredNations.Regions.Region;
 
 public class Chunkoid extends Region {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4821199291297874395L;
 	private static final String typeName = "Chunkoid";
 	private static final String description = "";
 	

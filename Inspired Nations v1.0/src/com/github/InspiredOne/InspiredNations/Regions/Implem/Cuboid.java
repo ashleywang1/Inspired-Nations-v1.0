@@ -1,13 +1,16 @@
 package com.github.InspiredOne.InspiredNations.Regions.Implem;
 
 import org.bukkit.Location;
-import org.bukkit.conversations.Prompt;
 
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
 
 public class Cuboid extends Region {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6074456272514021954L;
 	private static final String typeName = "Cuboid";
 	private static final String description = "";
 	

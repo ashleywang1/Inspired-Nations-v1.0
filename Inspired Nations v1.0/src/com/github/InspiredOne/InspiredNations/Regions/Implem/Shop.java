@@ -1,12 +1,16 @@
 package com.github.InspiredOne.InspiredNations.Regions.Implem;
 
 import org.bukkit.Location;
-import org.bukkit.conversations.Prompt;
 
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
 
 public class Shop extends Region {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2195353839150455099L;
 
 	@Override
 	public boolean isIn(Region region) {

@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
@@ -16,12 +15,6 @@ public class House extends NoSubjects {
 	 * 
 	 */
 	private static final long serialVersionUID = -1683829601317933069L;
-
-	public House() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	private static final String typeName = "House";
 	
 	@Override
@@ -65,14 +58,12 @@ public class House extends NoSubjects {
 
 	@Override
 	public Class<? extends InspiredGov> getCommonGov() {
-		// TODO Auto-generated method stub
-		return null;
+		return Country.class;
 	}
 
 	@Override
 	public Class<? extends InspiredGov> getCommonEcon() {
-		// TODO Auto-generated method stub
-		return null;
+		return Country.class;
 	}
 
 }

@@ -23,6 +23,7 @@ public class Map extends ActionMenu {
 	public Map(InspiredNations instance, PlayerData PDI) {
 		super(instance, PDI);
 		managers.add(new MapManager(plugin, this));
+
 	}
 
 	@Override
@@ -36,14 +37,19 @@ public class Map extends ActionMenu {
 	}
 
 	@Override
-	public Prompt getPreviousPrompt() {
+	public String getHeader() {
+		return "Map";
+	}
+
+	@Override
+	public Prompt PreviousPrompt() {
 		return MenuTools.getMenuInstance(plugin, PDI, MainHud.class);
 	}
 
 	@Override
-	public Prompt getNextPrompt(String input) {
-		this.getContext().setSessionData("Error", MenuError.NOT_AN_OPTION);
-		return null;
+	public Prompt NextPrompt() {
+		this.setError(MenuError.NOT_AN_OPTION);
+		return this.getSelf();
 	}
 
 }

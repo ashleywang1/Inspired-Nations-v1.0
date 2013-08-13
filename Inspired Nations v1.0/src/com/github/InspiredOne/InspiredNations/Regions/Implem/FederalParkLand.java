@@ -7,6 +7,11 @@ import com.github.InspiredOne.InspiredNations.Regions.Region;
 
 public class FederalParkLand extends InspiredRegion {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7861340648433138139L;
+
 	@Override
 	public List<Class<? extends Region>> getAllowedForms() {
 		// TODO Auto-generated method stub

@@ -1,18 +1,15 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
-import java.awt.Point;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.google.common.primitives.Chars;
 
 public class Tools {
 	
@@ -101,6 +98,7 @@ public class Tools {
 			Location loctest = location.clone();
 			loctest.setZ(location.getBlockZ() + z*res);
 			for (int x = -26; x < 27; x++) {
+				character = "/";
 				loctest.setX(location.getBlockX() + x*res);
 				
 				//Loop through the superGovs to see if any of them contain loctest

@@ -7,6 +7,11 @@ import com.github.InspiredOne.InspiredNations.Regions.Region;
 
 public class BankLand extends InspiredRegion {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 13526312948350046L;
+
 	@Override
 	public List<Class<? extends Region>> getAllowedForms() {
 		// TODO Auto-generated method stub

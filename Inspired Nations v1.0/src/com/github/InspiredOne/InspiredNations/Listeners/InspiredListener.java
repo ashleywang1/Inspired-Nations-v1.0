@@ -5,7 +5,7 @@ import org.bukkit.event.Listener;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 
-public abstract class InspiredListener implements Listener {
+public class InspiredListener implements Listener {
 
 	protected InspiredNations plugin;
 	private ActionManager manager;
@@ -16,7 +16,7 @@ public abstract class InspiredListener implements Listener {
 	}
 	
 	public PlayerData getPlayerData() {
-		return this.getPlayerData();
+		return this.manager.getPlayerData();
 	}
 
 	public ActionManager getManager() {

@@ -2,7 +2,6 @@
 package com.github.InspiredOne.InspiredNations;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.logging.Logger;
 
 import org.bukkit.command.Command;
@@ -36,6 +35,7 @@ public class InspiredNations extends JavaPlugin {
 		this.regiondata.get(Country.class);
 		SS.Start();
 		pm.registerEvents(PL, this);
+		global.register(this);
 		this.getCommand("hud").setExecutor(CM);
 		this.getCommand("map").setExecutor(CM);
 	}

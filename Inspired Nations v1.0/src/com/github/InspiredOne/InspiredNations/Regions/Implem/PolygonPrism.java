@@ -1,13 +1,16 @@
 package com.github.InspiredOne.InspiredNations.Regions.Implem;
 
 import org.bukkit.Location;
-import org.bukkit.conversations.Prompt;
 
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
 
 public class PolygonPrism extends Region {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6427556511666509346L;
 	private static final String typeName = "Polygon Prism";
 	private static final String description = "";
 	

@@ -7,6 +7,7 @@ import org.bukkit.conversations.Prompt;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
@@ -28,23 +29,20 @@ public abstract class OptionMenu extends Menu {
 	
 	@Override
 	public Prompt getNextPrompt(String arg) {
-		System.out.println("NextPrompt1");
 		int answer;
 		try {
-			System.out.println("NextPrompt2");
 			answer = Integer.parseInt(arg);
 			if(answer > options.size()) {
-				this.getContext().setSessionData("Error", MenuError.OUT_OF_RANGE_NUMBER_INPUT);
-				return this.getSelf();
+				this.setError(MenuError.OUT_OF_RANGE_NUMBER_INPUT);
+				return MenuTools.getMenuInstance(plugin, PDI, this.getClass());
 			}
 			else {
 				return options.get(answer - 1).response(arg);
 			}
 		}
 		catch (Exception ex) {
-				System.out.println("NextPrompt3");
-				this.PDI.getCon().getContext().setSessionData("Error", MenuError.INVALID_NUMBER_INPUT);
-				return this.getSelf();
+				this.setError(MenuError.INVALID_NUMBER_INPUT);
+				return MenuTools.getMenuInstance(plugin, PDI, this.getClass());
 		}
 	}
 	
@@ -66,6 +64,11 @@ public abstract class OptionMenu extends Menu {
 		}
 		
 		return output;
+	}
+	
+	@Override
+	public void register() {
+		
 	}
 
 }

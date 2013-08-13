@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.Subjects;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
@@ -68,13 +67,12 @@ public class Country extends Subjects {
 
 	@Override
 	public Class<? extends InspiredGov> getCommonGov() {
-		return null;
+		return this.getClass();
 	}
 
 	@Override
 	public Class<? extends InspiredGov> getCommonEcon() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getClass();
 	}
 
 }

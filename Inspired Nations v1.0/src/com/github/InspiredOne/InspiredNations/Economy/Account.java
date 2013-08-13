@@ -1,13 +1,19 @@
 package com.github.InspiredOne.InspiredNations.Economy;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
-public abstract class Account {
+public abstract class Account implements Serializable {
 
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7022565910007118461L;
 	
 	private BigDecimal money = BigDecimal.ZERO;
 	private BigDecimal moneyMultiplyer = BigDecimal.ONE;

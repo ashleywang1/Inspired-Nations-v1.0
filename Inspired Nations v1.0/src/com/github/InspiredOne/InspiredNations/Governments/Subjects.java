@@ -2,8 +2,6 @@ package com.github.InspiredOne.InspiredNations.Governments;
 
 import java.util.HashSet;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
-
 public abstract class Subjects extends NoSubjects {
 
 	/**

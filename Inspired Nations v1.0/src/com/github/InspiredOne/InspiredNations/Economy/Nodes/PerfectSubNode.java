@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations.Economy.Nodes;
 import java.math.BigDecimal;
 import java.util.Vector;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.NPC;
 
 public class PerfectSubNode extends Node {

@@ -8,6 +8,11 @@ import com.github.InspiredOne.InspiredNations.Regions.Region;
 
 public class GoodBusinessLand extends InspiredRegion {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7256618677030098681L;
+
 	@Override
 	public List<Class<? extends Region>> getAllowedForms() {
 		List<Class<? extends Region>> output = new ArrayList<Class<? extends Region>>();
