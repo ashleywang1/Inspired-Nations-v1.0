@@ -81,7 +81,7 @@ public class MenuTools {
         }
 	}
 	
-	public static Menu getMenuInstance(InspiredNations plugin, PlayerData PDI, Class<? extends Menu> menu) {
+	public static Menu MenuInstance(InspiredNations plugin, PlayerData PDI, Class<? extends Menu> menu) {
 		try {
 			return menu.getConstructor(InspiredNations.class, PlayerData.class).newInstance(plugin, PDI);
 		} 

@@ -9,11 +9,12 @@ public abstract class Option {
 	protected InspiredNations plugin;
 	protected OptionMenu menu;
 	private OptionUnavail reason;
-	public Option(InspiredNations instance, OptionMenu menu, String label, OptionUnavail reason) {
-		this.label = label;
-		this.plugin = instance;
-		this.reason = reason;
+	public Option(OptionMenu menu, String label, OptionUnavail reason) {
 		this.menu = menu;
+		this.label = label;
+		this.plugin = this.menu.plugin;
+		this.reason = reason;
+
 	}
 	/**
 	 * Interprets the input and executes the associated task, then returns

@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.InputManager;
@@ -12,9 +13,9 @@ public abstract class InputMenu extends ActionMenu {
 
 	protected List<ActionManager> managers = new ArrayList<ActionManager>();
 	
-	public InputMenu(PlayerData PDI) {
-		super(PDI);
-		managers.add(new InputManager(plugin, this, this.getTabOptions()));
+	public InputMenu(InspiredNations plugin, PlayerData PDI) {
+		super(plugin, PDI);
+		managers.add(new InputManager(this.plugin, this, this.getTabOptions()));
 	}
 	
 	@Override

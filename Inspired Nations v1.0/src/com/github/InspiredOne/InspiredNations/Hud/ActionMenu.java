@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud;
 
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
@@ -13,8 +14,8 @@ public abstract class ActionMenu extends Menu {
 
 	private String current;
 	
-	public ActionMenu(PlayerData PDI) {
-		super(PDI);
+	public ActionMenu(InspiredNations plugin, PlayerData PDI) {
+		super(plugin, PDI);
 		current = this.getPromptText();
 	}
 

@@ -3,12 +3,13 @@ package com.github.InspiredOne.InspiredNations.Hud;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 
 public abstract class PassByMenu extends OptionMenu {
 
-	public PassByMenu(PlayerData PDI) {
-		super(PDI);
+	public PassByMenu(InspiredNations plugin, PlayerData PDI) {
+		super(plugin, PDI);
 	}
 	
 	@Override

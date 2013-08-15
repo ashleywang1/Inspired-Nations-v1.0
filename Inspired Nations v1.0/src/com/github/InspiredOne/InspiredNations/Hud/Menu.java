@@ -16,14 +16,12 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 public abstract class Menu extends MessagePrompt {
 
 	private static final String footer = MenuTools.addDivider("") + TextColor.ENDINSTRU + "Type 'exit' to leave, 'say' to chat, or 'back' to go back.";
-	public InspiredNations plugin;
 	public PlayerData PDI;
-	protected ConversationContext con;
+	public InspiredNations plugin;
 	
-	public Menu(PlayerData PDI) {
+	public Menu(InspiredNations plugin, PlayerData PDI) {
 		this.PDI = PDI;
-		this.con = this.PDI.getCon().getContext();
-		this.plugin = (InspiredNations) this.con.getSessionData(ContextData.Plugin);
+		this.plugin = plugin;
 	}
 	
 	/**
@@ -31,7 +29,7 @@ public abstract class Menu extends MessagePrompt {
 	 * @return	the <code>String</code> of the prompt text as it would appear exactly
 	 */
 	public String getPromptText() {
-		String space = MenuTools.space(plugin);
+		String space = MenuTools.space(this.plugin);
 		String main = MenuTools.header(getHeader());
 		String filler = this.getFiller();
 		String end = footer;
@@ -69,7 +67,7 @@ public abstract class Menu extends MessagePrompt {
 				//TODO send the chat message here
 			}
 			try {
-				return this.getClass().getConstructor(InspiredNations.class, PlayerData.class).newInstance(plugin,PDI);
+				return this.getSelf();
 			} catch (Exception e) {
 				
 			}
@@ -96,14 +94,15 @@ public abstract class Menu extends MessagePrompt {
 	 * @return	the <code>Menu</code> of itself
 	 */
 	public final Menu getSelf() {
-		return MenuTools.getMenuInstance(plugin, PDI, this.getClass());
+		return this;
+		//return MenuTools.getMenuInstance(plugin, PDI, this.getClass());
 	}
 	/**
 	 * 
 	 * @return the <code>ConversationContext</code> of the player using this menu
 	 */
 	public final ConversationContext getContext() {
-		return this.con;
+		return this.PDI.getCon().getContext();
 	}
 	/**
 	 * 

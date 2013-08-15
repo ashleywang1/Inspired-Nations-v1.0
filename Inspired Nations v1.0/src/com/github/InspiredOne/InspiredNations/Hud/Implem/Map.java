@@ -3,10 +3,10 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
-import com.github.InspiredOne.InspiredNations.Hud.MainHud;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MapManager;
@@ -18,8 +18,8 @@ public class Map extends ActionMenu {
 
 	List<ActionManager> managers= new ArrayList<ActionManager>();
 	
-	public Map(PlayerData PDI) {
-		super(PDI);
+	public Map(InspiredNations plugin, PlayerData PDI) {
+		super(plugin, PDI);
 		managers.add(new MapManager(plugin, this));
 
 	}
@@ -41,7 +41,7 @@ public class Map extends ActionMenu {
 
 	@Override
 	public Menu PreviousMenu() {
-		return MenuTools.getMenuInstance(plugin, PDI, MainHud.class);
+		return new MainHud(plugin, PDI);
 	}
 
 	@Override

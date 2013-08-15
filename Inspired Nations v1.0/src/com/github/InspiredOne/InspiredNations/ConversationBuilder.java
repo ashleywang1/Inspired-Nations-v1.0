@@ -18,7 +18,7 @@ import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationFactory;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
-import com.github.InspiredOne.InspiredNations.Hud.MainHud;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Map;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
@@ -33,14 +33,13 @@ public class ConversationBuilder {
 		plugin = instance;
 		this.PDI = PDI;
 		this.initSessionData.put(ContextData.Error, MenuError.NO_ERROR);
-		this.initSessionData.put(ContextData.Plugin, plugin);
 	}
 	
 	public Conversation HudConvo() {
 		ConversationFactory HudConvo = new ConversationFactory(plugin)
 		.withModality(true)
 		.withEscapeSequence("exit")
-		.withFirstPrompt(new MainHud(PDI))
+		.withFirstPrompt(new MainHud(plugin, PDI))
 		.withLocalEcho(false)
 		.withInitialSessionData(this.initSessionData);
 		//.withTimeout(180);
@@ -51,7 +50,7 @@ public class ConversationBuilder {
 		ConversationFactory MapConvo = new ConversationFactory(plugin)
 		.withModality(true)
 		.withEscapeSequence("exit")
-		.withFirstPrompt(new Map(PDI))
+		.withFirstPrompt(new Map(plugin, PDI))
 		.withLocalEcho(false)
 		.withInitialSessionData(initSessionData);
 		return MapConvo.buildConversation((Conversable) plugin.getServer().getPlayerExact(PDI.getName()));
