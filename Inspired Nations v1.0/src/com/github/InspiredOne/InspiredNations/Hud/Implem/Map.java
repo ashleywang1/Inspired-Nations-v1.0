@@ -3,13 +3,11 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.conversations.Prompt;
-
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.MainHud;
+import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MapManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
@@ -20,8 +18,8 @@ public class Map extends ActionMenu {
 
 	List<ActionManager> managers= new ArrayList<ActionManager>();
 	
-	public Map(InspiredNations instance, PlayerData PDI) {
-		super(instance, PDI);
+	public Map(PlayerData PDI) {
+		super(PDI);
 		managers.add(new MapManager(plugin, this));
 
 	}
@@ -42,12 +40,12 @@ public class Map extends ActionMenu {
 	}
 
 	@Override
-	public Prompt PreviousPrompt() {
+	public Menu PreviousMenu() {
 		return MenuTools.getMenuInstance(plugin, PDI, MainHud.class);
 	}
 
 	@Override
-	public Prompt NextPrompt() {
+	public Menu NextMenu(String input) {
 		this.setError(MenuError.NOT_AN_OPTION);
 		return this.getSelf();
 	}

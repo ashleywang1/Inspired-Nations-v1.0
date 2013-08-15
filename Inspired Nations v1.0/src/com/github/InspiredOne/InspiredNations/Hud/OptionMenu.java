@@ -3,9 +3,6 @@ package com.github.InspiredOne.InspiredNations.Hud;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.conversations.Prompt;
-
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
@@ -15,8 +12,8 @@ public abstract class OptionMenu extends Menu {
 
 	protected List<Option> options = new ArrayList<Option>();
 	
-	public OptionMenu(InspiredNations instance, PlayerData PDI) {
-		super(instance, PDI);
+	public OptionMenu(PlayerData PDI) {
+		super(PDI);
 	}
 
 	@Override
@@ -28,7 +25,7 @@ public abstract class OptionMenu extends Menu {
 	}
 	
 	@Override
-	public Prompt getNextPrompt(String arg) {
+	public Menu getNextMenu(String arg) {
 		int answer;
 		try {
 			answer = Integer.parseInt(arg);
@@ -54,12 +51,18 @@ public abstract class OptionMenu extends Menu {
 	public abstract String getPreOptionText();
 	/**Used to add text before the list of options*/
 	
-	public String optionsToText() {
+	private final String optionsToText() {
 		String output = "";
 		int iter = 1;
 		
 		for(Option option:options)  {
-			output = output.concat(TextColor.OPTION + "(" + TextColor.OPTIONNUMBER + iter + TextColor.OPTION + ") " + option.getLabel() + "\n");
+			if(option.isAvailable()) {
+				output = output.concat(TextColor.OPTION + "(" + TextColor.OPTIONNUMBER + iter + TextColor.OPTION + ") " + option.getLabel() + "\n");
+			}
+			else {
+				output = output.concat(TextColor.UNAVAILABLE + "(" + TextColor.UNAVAILREASON + iter + TextColor.UNAVAILABLE + ") " + option.getLabel() +
+						TextColor.UNAVAILREASON + option.getUnvailReason() + "\n");
+			}
 			iter ++;
 		}
 		

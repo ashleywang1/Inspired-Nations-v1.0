@@ -5,6 +5,8 @@ import java.io.Serializable;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
 
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+
 
 public class PlayerData implements Serializable {
 
@@ -39,6 +41,16 @@ public class PlayerData implements Serializable {
 	
 	public Player getPlayer(InspiredNations plugin) {
 		return plugin.getServer().getPlayer(name);
+	}
+	
+	public boolean isSubjectOf(InspiredNations plugin, Class<? extends InspiredGov> govtype) {
+		for(InspiredGov gov:plugin.regiondata.get(govtype)) {
+			if(gov.getSubjects().contains(this.getName())) {
+				return true;
+			}
+		}
+		return false;
+		
 	}
 	
 }

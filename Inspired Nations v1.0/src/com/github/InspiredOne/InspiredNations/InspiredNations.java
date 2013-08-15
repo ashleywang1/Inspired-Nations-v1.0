@@ -19,6 +19,7 @@ import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiMap;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class InspiredNations extends JavaPlugin {
 
@@ -80,14 +81,14 @@ public class InspiredNations extends JavaPlugin {
 			PlayerData PDI = plugin.playerdata.get(sender.getName());
 			if (CommandLable.equalsIgnoreCase("hud")) {
 				// Handles Commands
-				ConversationBuilder convo = new ConversationBuilder(plugin);
-				Conversation conversation = convo.HudConvo(PDI);
+				ConversationBuilder convo = new ConversationBuilder(plugin, PDI);
+				Conversation conversation = convo.HudConvo();
 				PDI.setCon(conversation);
 				conversation.begin();
 			}
 			else if(CommandLable.equalsIgnoreCase("map")) {
-				ConversationBuilder convo = new ConversationBuilder(plugin);
-				Conversation conversation = convo.MapConvo(PDI);
+				ConversationBuilder convo = new ConversationBuilder(plugin, PDI);
+				Conversation conversation = convo.MapConvo();
 				PDI.setCon(conversation);
 				conversation.begin();
 			}

@@ -27,5 +27,4 @@ public class MapListener extends InspiredListener {
 			}
 		}
 	}
-
 }

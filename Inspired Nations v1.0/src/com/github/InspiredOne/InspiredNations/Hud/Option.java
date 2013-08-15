@@ -1,15 +1,19 @@
 package com.github.InspiredOne.InspiredNations.Hud;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
 
 public abstract class Option {
 
 	private final String label;
 	protected InspiredNations plugin;
-	
-	public Option(InspiredNations instance, String label) {
+	protected OptionMenu menu;
+	private OptionUnavail reason;
+	public Option(InspiredNations instance, OptionMenu menu, String label, OptionUnavail reason) {
 		this.label = label;
 		this.plugin = instance;
+		this.reason = reason;
+		this.menu = menu;
 	}
 	/**
 	 * Interprets the input and executes the associated task, then returns
@@ -29,4 +33,16 @@ public abstract class Option {
 		return this.label;
 	}
 	
+	public boolean isAvailable() {
+		switch(reason) {
+		case NOT_UNAVAILABLE:
+			return true;
+		default:
+			return false;
+		}
+	}
+	
+	public String getUnvailReason() {
+		return this.reason.toString();
+	}
 }

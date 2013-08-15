@@ -1,17 +1,18 @@
 package com.github.InspiredOne.InspiredNations.Hud;
 
-import org.bukkit.conversations.Prompt;
-
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Map;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
 
 public class MainHud extends OptionMenu {
 	
 
-	public MainHud(InspiredNations instance, PlayerData PDI) {
-		super(instance, PDI);
-		this.options.add(new PromptOption(plugin, PDI, "Map", Map.class));
+	public MainHud(PlayerData PDI) {
+		super(PDI);
+		InspiredGov gov = plugin.global;
+
+		this.options.add(new PromptOption(plugin, PDI, this, "Map", Map.class, OptionUnavail.NOT_UNAVAILABLE));
 	}
 
 	@Override
@@ -25,7 +26,7 @@ public class MainHud extends OptionMenu {
 	}
 
 	@Override
-	public Prompt getPreviousPrompt() {
+	public Menu getPreviousMenu() {
 		return this.getSelf();
 	}
 

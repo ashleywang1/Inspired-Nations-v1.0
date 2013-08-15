@@ -11,6 +11,8 @@
 package com.github.InspiredOne.InspiredNations;
 
 
+import java.util.HashMap;
+
 import org.bukkit.conversations.Conversable;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationFactory;
@@ -18,31 +20,40 @@ import org.bukkit.conversations.ConversationFactory;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Hud.MainHud;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Map;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class ConversationBuilder {
 	
 	// Grabbing the instance of the plugin.
 	InspiredNations plugin;
-	public ConversationBuilder(InspiredNations instance) {
+	PlayerData PDI;
+	HashMap<Object, Object> initSessionData = new HashMap<Object, Object>();
+	public ConversationBuilder(InspiredNations instance, PlayerData PDI) {
 		plugin = instance;
+		this.PDI = PDI;
+		this.initSessionData.put(ContextData.Error, MenuError.NO_ERROR);
+		this.initSessionData.put(ContextData.Plugin, plugin);
 	}
 	
-	public Conversation HudConvo(PlayerData PDI) {
+	public Conversation HudConvo() {
 		ConversationFactory HudConvo = new ConversationFactory(plugin)
 		.withModality(true)
 		.withEscapeSequence("exit")
-		.withFirstPrompt(new MainHud(plugin, PDI))
-		.withLocalEcho(false);
+		.withFirstPrompt(new MainHud(PDI))
+		.withLocalEcho(false)
+		.withInitialSessionData(this.initSessionData);
 		//.withTimeout(180);
 		return HudConvo.buildConversation((Conversable) plugin.getServer().getPlayerExact(PDI.getName()));
 	}
 	
-	public Conversation MapConvo(PlayerData PDI) {
+	public Conversation MapConvo() {
 		ConversationFactory MapConvo = new ConversationFactory(plugin)
 		.withModality(true)
 		.withEscapeSequence("exit")
-		.withFirstPrompt(new Map(plugin, PDI))
-		.withLocalEcho(false);
+		.withFirstPrompt(new Map(PDI))
+		.withLocalEcho(false)
+		.withInitialSessionData(initSessionData);
 		return MapConvo.buildConversation((Conversable) plugin.getServer().getPlayerExact(PDI.getName()));
 	}
 	

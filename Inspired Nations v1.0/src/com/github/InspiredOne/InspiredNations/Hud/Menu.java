@@ -3,24 +3,27 @@ package com.github.InspiredOne.InspiredNations.Hud;
 
 
 import org.bukkit.conversations.ConversationContext;
+import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
-import org.bukkit.conversations.StringPrompt;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
-public abstract class Menu extends StringPrompt {
+public abstract class Menu extends MessagePrompt {
 
 	private static final String footer = MenuTools.addDivider("") + TextColor.ENDINSTRU + "Type 'exit' to leave, 'say' to chat, or 'back' to go back.";
 	public InspiredNations plugin;
 	public PlayerData PDI;
+	protected ConversationContext con;
 	
-	public Menu(InspiredNations instance, PlayerData PDI) {
-		this.plugin = instance;
+	public Menu(PlayerData PDI) {
 		this.PDI = PDI;
+		this.con = this.PDI.getCon().getContext();
+		this.plugin = (InspiredNations) this.con.getSessionData(ContextData.Plugin);
 	}
 	
 	/**
@@ -36,20 +39,29 @@ public abstract class Menu extends StringPrompt {
 		
 		return space + main + filler + end + errmsg;
 	}
-	
+	public boolean blocksForInput() {
+		return true;
+	}
 	@Override
-	public String getPromptText(ConversationContext arg0) {
+	public boolean blocksForInput(ConversationContext arg0) {
+		return this.blocksForInput();
+	}
+	@Override
+	public Prompt getNextPrompt(ConversationContext arg0) {
+		return null;
+	}
+	@Override
+	public final String getPromptText(ConversationContext arg0) {
 		this.register();
 		return this.getPromptText();
 	}
-	
 	@Override
-	public Prompt acceptInput(ConversationContext arg0, String arg) {
+	public final Prompt acceptInput(ConversationContext arg0, String arg) {
 		if (arg.startsWith("/")) {
 			arg = arg.substring(1);
 		}
 		if (arg.equalsIgnoreCase("back")) {
-			return this.getPreviousPrompt();
+			return this.checkBack();
 		}
 		String[] args = arg.split(" ");
 		if (args[0].equalsIgnoreCase("say"))  {
@@ -63,17 +75,19 @@ public abstract class Menu extends StringPrompt {
 			}
 		}
 		
-		return this.getNextPrompt(arg);
+		return this.checkNext(arg);
 	}
 	/**
 	 * 
 	 * @return	the <code>String</code> to be used for the error in the menu
 	 */
-	public String getError() {
-		MenuError output = (MenuError) PDI.getCon().getContext().getSessionData("Error");
-		if(output == null) return "";
-		else {
-			PDI.getCon().getContext().setSessionData("Error", null);
+	protected String getError() {
+		MenuError output = (MenuError) this.getContext().getSessionData(ContextData.Error);
+		switch(output) {
+		case NO_ERROR:
+			return output.toString();
+		default:
+			this.setError(MenuError.NO_ERROR);
 			return "\n" + TextColor.ALERT + output.toString();
 		}
 	}
@@ -81,22 +95,51 @@ public abstract class Menu extends StringPrompt {
 	 * Returns a new instance of itself. Used for user input errors.
 	 * @return	the <code>Menu</code> of itself
 	 */
-	public Menu getSelf() {
+	public final Menu getSelf() {
 		return MenuTools.getMenuInstance(plugin, PDI, this.getClass());
 	}
 	/**
 	 * 
 	 * @return the <code>ConversationContext</code> of the player using this menu
 	 */
-	public ConversationContext getContext() {
-		return this.PDI.getCon().getContext();
+	public final ConversationContext getContext() {
+		return this.con;
 	}
 	/**
 	 * 
 	 * @param error	the <code>MenuError</code> to be used as the error
 	 */
-	public void setError(MenuError error) {
-		this.getContext().setSessionData("Error", error);
+	public final void setError(MenuError error) {
+		this.getContext().setSessionData(ContextData.Error, error);
+	}
+	/**
+	 * Looks at previous menu and determines if it should be skipped or not
+	 * @return	the actual previous menu rather than just the one before this one
+	 * in the menu graph
+	 */
+	private final Menu checkBack() {
+		Menu previous = this.getPreviousMenu();
+		if(previous.blocksForInput()) {
+			return previous;
+		}
+		else {
+			return previous.checkBack();
+		}
+	}
+	/**
+	 * Looks at next menu and determines if it should be skipped or not
+	 * @param input	the <code>String</code> input by the player
+	 * @return		the actual next Menu rather than just the one after this one
+	 * in the menu graph
+	 */
+	private final Menu checkNext(String input) {
+		Menu next = this.getNextMenu(input);
+		if(next.blocksForInput()) {
+			return next;
+		}
+		else {
+			return next.checkNext(input);
+		}
 	}
 	/**
 	 * 
@@ -117,14 +160,13 @@ public abstract class Menu extends StringPrompt {
 	 * @return the <code>Prompt</code> that lead to this menu
 	 * 
 	 */
-	public abstract Prompt getPreviousPrompt();
+	public abstract Menu getPreviousMenu();
 	/**
 	 * 
 	 * @param input	the <code>String</code> used to process the next <code>Prompt</code>
 	 * @return		the next <code>Prompt</code> to be used in this conversation
 	 */
-	public abstract Prompt getNextPrompt(String input);
-	/**Returns the next prompt based on input doing any actions as needed*/
+	public abstract Menu getNextMenu(String input);
 
 
 
