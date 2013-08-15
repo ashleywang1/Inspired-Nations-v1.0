@@ -7,22 +7,37 @@ import org.bukkit.conversations.Prompt;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class PickName extends InputMenu {
 
-	NewGovSeries series;
-	public PickName(PlayerData PDI) {
-		super(PDI);
-		this.series = series;
+	Class<? extends InspiredGov> GovType;
+	InspiredGov superGov;
+	public PickName(InspiredNations plugin, PlayerData PDI, Class<? extends InspiredGov> GovType, InspiredGov superGov) {
+		super(plugin, PDI);
+		this.GovType = GovType;
+		this.superGov = superGov;
 	}
 
 	@Override
 	public MenuError validate(String input) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		boolean allowed = true;
+		
+		for(InspiredGov gov: plugin.regiondata.get(this.GovType)) {
+			if(gov.getSuperGov().equals(superGov) && gov.getName().equalsIgnoreCase(input)) {
+				allowed = false;
+			}
+		}
+		if(allowed) {
+			return MenuError.NO_ERROR;
+		}
+		else {
+			return MenuError.
+		}
 	}
 
 	@Override

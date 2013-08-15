@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
@@ -70,24 +71,29 @@ public class MenuTools {
 		
 		
 		
+		
 		private String error;
 		
         private MenuError(String error) {
                 this.error = error;
+        }
+        
+        public String toString(Class<? extends InspiredGov> gov) {
+        	
         }
         @Override
         public String toString() {
         	return error;
         }
 	}
-	
-	public static Menu MenuInstance(InspiredNations plugin, PlayerData PDI, Class<? extends Menu> menu) {
+
+	public static InspiredGov getGovInstance(Class<? extends InspiredGov> gov) {
 		try {
-			return menu.getConstructor(InspiredNations.class, PlayerData.class).newInstance(plugin, PDI);
-		} 
-		catch (InstantiationException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e) {
+			return gov.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 			return null;
 		}

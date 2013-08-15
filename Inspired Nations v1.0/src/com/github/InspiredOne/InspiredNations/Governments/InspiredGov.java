@@ -282,4 +282,8 @@ public abstract class InspiredGov implements Serializable {
 			}
 		}
 	}
+	
+	public static boolean fromSameBranch(InspiredGov gov1, InspiredGov gov2) {
+		return gov1.getSuperGovObj().equals(gov2.getSuperGovObj());
+	}
 }

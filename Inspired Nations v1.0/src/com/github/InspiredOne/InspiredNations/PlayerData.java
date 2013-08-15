@@ -1,6 +1,8 @@
 package com.github.InspiredOne.InspiredNations;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
@@ -51,6 +53,18 @@ public class PlayerData implements Serializable {
 		}
 		return false;
 		
+	}
+	
+	public List<InspiredGov> getCitizenship(InspiredNations plugin, Class<? extends InspiredGov> govType) {
+		List<InspiredGov> output = new ArrayList<InspiredGov>();
+		
+		for(InspiredGov gov:plugin.regiondata.get(govType)) {
+			if(gov.getSubjects().contains(this.getName())) {
+				output.add(gov);
+			}
+		}
+		
+		return output;
 	}
 	
 }
