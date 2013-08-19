@@ -1,6 +1,7 @@
 
 package com.github.InspiredOne.InspiredNations;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -15,28 +16,31 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiMap;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class InspiredNations extends JavaPlugin {
 
+	public static InspiredNations plugin;
 	public Logger logger = Logger.getLogger("Minecraft"); // Variable to communicate with console
 	private StartStop SS = new StartStop(this); // Deals with start-up and shut-down
 	public MultiMap<Class<? extends InspiredGov>, InspiredGov> regiondata = new MultiMap<Class<? extends InspiredGov>, InspiredGov>(); 
 	public HashMap<String, PlayerData> playerdata = new HashMap<String, PlayerData>();
+	public HashMap<Currency, BigDecimal> Exchange = new HashMap<Currency, BigDecimal>();
 	public GlobalGov global = new GlobalGov();
 	public TempCommandListener CM = new TempCommandListener(this);
 	public TempPlayerListener PL = new TempPlayerListener(this);
 	
 	public void onEnable() {
+		InspiredNations.plugin = this;
 		PluginManager pm = this.getServer().getPluginManager();
 		this.regiondata.get(Country.class);
 		SS.Start();
 		pm.registerEvents(PL, this);
-		global.register(this);
+		global.register();
 		this.getCommand("hud").setExecutor(CM);
 		this.getCommand("map").setExecutor(CM);
 	}
@@ -81,13 +85,13 @@ public class InspiredNations extends JavaPlugin {
 			PlayerData PDI = plugin.playerdata.get(sender.getName());
 			if (CommandLable.equalsIgnoreCase("hud")) {
 				// Handles Commands
-				ConversationBuilder convo = new ConversationBuilder(plugin, PDI);
+				ConversationBuilder convo = new ConversationBuilder(PDI);
 				Conversation conversation = convo.HudConvo();
 				PDI.setCon(conversation);
 				conversation.begin();
 			}
 			else if(CommandLable.equalsIgnoreCase("map")) {
-				ConversationBuilder convo = new ConversationBuilder(plugin, PDI);
+				ConversationBuilder convo = new ConversationBuilder(PDI);
 				Conversation conversation = convo.MapConvo();
 				PDI.setCon(conversation);
 				conversation.begin();

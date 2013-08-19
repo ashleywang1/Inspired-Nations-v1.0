@@ -1,46 +1,43 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov;
 
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Hud.PassByMenu;
+import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
-import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
-public class PickSelfType extends PassByMenu {
+public class PickSelfType extends PassByOptionMenu {
 
 	Class<? extends InspiredGov> GovType;
 	
-	@SuppressWarnings("static-access")
-	public PickSelfType(InspiredNations plugin, PlayerData PDI, Class<? extends InspiredGov> GovType) {
-		super(plugin, PDI);
+	public PickSelfType(PlayerData PDI, Class<? extends InspiredGov> GovType) {
+		super(PDI);
+		System.out.println("hello1");
 		this.GovType = GovType;
 		
-		for(Class<? extends InspiredGov> gov:MenuTools.getGovInstance(GovType).getSelfGovs()) {
-			this.options.add(new PromptOption(this, Tools.getGovInstance(gov).getTypeName(), new PickSuperGov(plugin, PDI, GovType), OptionUnavail.NOT_UNAVAILABLE ));
+		for(Class<? extends InspiredGov> gov:GovFactory.getGovInstance(GovType).getSelfGovs()) {
+			this.options.add(new PromptOption(this, GovFactory.getGovInstance(gov).getTypeName(), new PickSuperGov(PDI, new GovFactory(gov)), OptionUnavail.NOT_UNAVAILABLE ));
 		}
 	}
 
 	@Override
 	public String getPreOptionText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Pick what kind of " + GovFactory.getGovInstance(GovType).getTypeName()
+				+ " you would like to make.";
 	}
 
 	@Override
 	public String getHeader() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Select " + GovFactory.getGovInstance(GovType).getTypeName() + " type.";
 	}
 
 	@Override
 	public Menu getPreviousMenu() {
-		return new MainHud(plugin, PDI);
+		return new MainHud(PDI);
 	}
 
 }

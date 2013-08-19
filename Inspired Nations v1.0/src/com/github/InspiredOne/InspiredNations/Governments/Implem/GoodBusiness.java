@@ -16,7 +16,8 @@ public class GoodBusiness extends Business {
 	private static final long serialVersionUID = 8118583887730062434L;
 	private static final String typeName = "Good Business";
 	
-	public static String getTypeName() {
+	@Override
+	public String getTypeName() {
 		return typeName;
 	}
 

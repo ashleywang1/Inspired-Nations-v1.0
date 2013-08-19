@@ -3,9 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
@@ -13,8 +11,9 @@ public abstract class OptionMenu extends Menu {
 
 	protected List<Option> options = new ArrayList<Option>();
 	
-	public OptionMenu(InspiredNations plugin, PlayerData PDI) {
-		super(plugin, PDI);
+	public OptionMenu(PlayerData PDI) {
+		super(PDI);
+		System.out.println("option menu constructor");
 	}
 
 	@Override
@@ -27,11 +26,13 @@ public abstract class OptionMenu extends Menu {
 	
 	@Override
 	public Menu getNextMenu(String arg) {
+		System.out.println("Option menu getNextMenu");
 		int answer;
 		try {
 			answer = Integer.parseInt(arg);
+
 			if(answer > options.size()) {
-				this.setError(MenuError.OUT_OF_RANGE_NUMBER_INPUT);
+				this.setError(MenuError.OUT_OF_RANGE_NUMBER_INPUT());
 				return this.getSelf();
 			}
 			else {
@@ -39,7 +40,7 @@ public abstract class OptionMenu extends Menu {
 			}
 		}
 		catch (Exception ex) {
-				this.setError(MenuError.INVALID_NUMBER_INPUT);
+				this.setError(MenuError.INVALID_NUMBER_INPUT());
 				return this.getSelf();
 		}
 	}

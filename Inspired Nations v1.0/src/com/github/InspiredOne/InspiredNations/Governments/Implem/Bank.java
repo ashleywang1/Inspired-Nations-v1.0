@@ -33,7 +33,8 @@ public class Bank extends InspiredGov {
 		return Country.class;
 	}
 
-	public static String getTypeName() {
+	@Override
+	public String getTypeName() {
 		return typeName;
 	}
 

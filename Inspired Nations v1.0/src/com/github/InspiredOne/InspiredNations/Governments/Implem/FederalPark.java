@@ -34,7 +34,8 @@ public class FederalPark extends InspiredGov {
 		return GlobalGov.class;
 	}
 
-	public static String getTypeName() {
+	@Override
+	public String getTypeName() {
 		return typeName;
 	}
 

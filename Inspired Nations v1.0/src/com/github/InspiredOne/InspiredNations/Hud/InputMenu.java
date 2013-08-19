@@ -3,30 +3,28 @@ package com.github.InspiredOne.InspiredNations.Hud;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.InputManager;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public abstract class InputMenu extends ActionMenu {
 
 	protected List<ActionManager> managers = new ArrayList<ActionManager>();
 	
-	public InputMenu(InspiredNations plugin, PlayerData PDI) {
-		super(plugin, PDI);
+	public InputMenu(PlayerData PDI) {
+		super(PDI);
 		managers.add(new InputManager(this.plugin, this, this.getTabOptions()));
 	}
 	
 	@Override
 	public final Menu NextMenu(String input) {
-		MenuError error = this.validate(input);
+		String error = this.validate(input);
 		this.setError(error);
-		switch(error) {
-		case NO_ERROR:
+		if(error.isEmpty()) {
 			this.useInput(input);
 			return this.nextMenu();
-		default:
+		}
+		else {
 			return this.getSelf();
 		}
 	}
@@ -36,13 +34,18 @@ public abstract class InputMenu extends ActionMenu {
 		return managers;
 	}
 	
+	@Override
+	public Menu getPassTo() {
+		return this.nextMenu();
+	}
+	
 	public abstract Menu nextMenu();
 	/**
 	 * 
 	 * @param input	the <code>String</code> that the player input
 	 * @return		the <code>MenuError</code> that the input throws. Returns <code>MenuError.NO_ERROR</code> if no error
 	 */
-	public abstract MenuError validate(String input);
+	public abstract String validate(String input);
 	/**
 	 * Conditions and implements the input.
 	 * @param input	the <code>String</code> that the player input

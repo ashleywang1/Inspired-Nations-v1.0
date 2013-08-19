@@ -46,7 +46,8 @@ public class LocalPark extends InspiredGov {
 		return output;
 	}
 
-	public static String getTypeName() {
+	@Override
+	public String getTypeName() {
 		return typeName;
 	}
 

@@ -3,10 +3,8 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.conversations.Prompt;
-
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -14,36 +12,32 @@ import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class PickName extends InputMenu {
 
-	Class<? extends InspiredGov> GovType;
-	InspiredGov superGov;
-	public PickName(InspiredNations plugin, PlayerData PDI, Class<? extends InspiredGov> GovType, InspiredGov superGov) {
-		super(plugin, PDI);
-		this.GovType = GovType;
-		this.superGov = superGov;
+	GovFactory Govf;
+	public PickName(PlayerData PDI, GovFactory Govf) {
+		super(PDI);
+		this.Govf = Govf;
 	}
 
 	@Override
-	public MenuError validate(String input) {
+	public String validate(String input) {
 		
 		boolean allowed = true;
 		
-		for(InspiredGov gov: plugin.regiondata.get(this.GovType)) {
-			if(gov.getSuperGov().equals(superGov) && gov.getName().equalsIgnoreCase(input)) {
+		for(InspiredGov gov: plugin.regiondata.get(Govf.getGov().getClass())) {
+			if(gov.getSuperGov().equals(Govf.getGov().getSuperGovObj()) && gov.getName().equalsIgnoreCase(input)) {
 				allowed = false;
 			}
 		}
 		if(allowed) {
-			return MenuError.NO_ERROR;
+			return MenuError.NO_ERROR();
 		}
 		else {
-			return MenuError.
+			return MenuError.NAME_ALREADY_TAKEN(Govf.getGov().getClass());
 		}
 	}
 
 	@Override
 	public void useInput(String input) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -59,20 +53,21 @@ public class PickName extends InputMenu {
 
 	@Override
 	public String getFiller() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Type the name that you would like to use for this " + Govf.getGov().getTypeName() + ".";
 	}
 
 	@Override
 	public Menu nextMenu() {
-		// TODO Auto-generated method stub
-		return null;
+		return new PickMoneyName(PDI, Govf);
 	}
 
 	@Override
 	public Menu PreviousMenu() {
-		// TODO Auto-generated method stub
-		return null;
+		return new PickSuperGov(PDI, Govf);
 	}
 
+	@Override
+	public boolean passBy() {
+		return false;
+	}
 }

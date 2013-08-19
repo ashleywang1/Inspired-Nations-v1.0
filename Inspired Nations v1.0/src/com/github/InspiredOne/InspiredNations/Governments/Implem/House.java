@@ -28,7 +28,8 @@ public class House extends NoSubjects {
 		return Town.class;
 	}
 
-	public static String getTypeName() {
+	@Override
+	public String getTypeName() {
 		return typeName;
 	}
 

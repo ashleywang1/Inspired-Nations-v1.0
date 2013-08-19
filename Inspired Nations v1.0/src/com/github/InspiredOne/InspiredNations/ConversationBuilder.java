@@ -29,17 +29,17 @@ public class ConversationBuilder {
 	InspiredNations plugin;
 	PlayerData PDI;
 	HashMap<Object, Object> initSessionData = new HashMap<Object, Object>();
-	public ConversationBuilder(InspiredNations instance, PlayerData PDI) {
-		plugin = instance;
+	public ConversationBuilder(PlayerData PDI) {
+		plugin = InspiredNations.plugin;
 		this.PDI = PDI;
-		this.initSessionData.put(ContextData.Error, MenuError.NO_ERROR);
+		this.initSessionData.put(ContextData.Error, MenuError.NO_ERROR());
 	}
 	
 	public Conversation HudConvo() {
 		ConversationFactory HudConvo = new ConversationFactory(plugin)
 		.withModality(true)
 		.withEscapeSequence("exit")
-		.withFirstPrompt(new MainHud(plugin, PDI))
+		.withFirstPrompt(new MainHud(PDI))
 		.withLocalEcho(false)
 		.withInitialSessionData(this.initSessionData);
 		//.withTimeout(180);
@@ -50,7 +50,7 @@ public class ConversationBuilder {
 		ConversationFactory MapConvo = new ConversationFactory(plugin)
 		.withModality(true)
 		.withEscapeSequence("exit")
-		.withFirstPrompt(new Map(plugin, PDI))
+		.withFirstPrompt(new Map(PDI))
 		.withLocalEcho(false)
 		.withInitialSessionData(initSessionData);
 		return MapConvo.buildConversation((Conversable) plugin.getServer().getPlayerExact(PDI.getName()));

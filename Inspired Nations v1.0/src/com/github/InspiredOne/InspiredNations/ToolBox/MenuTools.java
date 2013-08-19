@@ -1,26 +1,23 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.bukkit.ChatColor;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
-import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class MenuTools {
 
+	public static InspiredNations plugin = InspiredNations.plugin;
+	
 	public MenuTools() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * Builds the refresh space out of new-line characters.
 	 * @return	the space required to clear the chat area for a menu
 	 */
-	public static String space(InspiredNations plugin) {
+	public static String space() {
 		return Tools.repeat("\n", plugin.getConfig().getInt("hud_pre_message_space"));
 	}
 	
@@ -44,8 +41,6 @@ public class MenuTools {
 
 	public class ContextData {
 		public static final String Error = "Error";
-		public static final String Plugin = "Plugin";
-		public static final String PlayerData = "Player Data";
 		
 	}
 	
@@ -63,40 +58,39 @@ public class MenuTools {
         }
 	}
 	
-	public enum MenuError {
-		NO_ERROR(""),
-		INVALID_NUMBER_INPUT("Your entry must be a number."),
-		OUT_OF_RANGE_NUMBER_INPUT("That is not an option."),
-		NOT_AN_OPTION("That is not an option.");
+	public static class MenuError {
 		
+		public static String NO_ERROR() {
+			return "";
+		}
+		public static String INVALID_NUMBER_INPUT() {
+			return makeMessage("Your entry must be a number.");
+		}
+		public static String OUT_OF_RANGE_NUMBER_INPUT() {
+			return makeMessage("That is not an option.");
+		}
+		public static String NOT_AN_OPTION() {
+			return makeMessage("That is not an option.");
+		}
+		public static String NAME_ALREADY_TAKEN(Class<? extends InspiredGov> gov) {
+			
+			String GovName = getTypeName(gov);
+			return makeMessage("That " + GovName + " name is already taken.");
+		}
 		
+		private static final String getTypeName(Class<? extends InspiredGov> gov) {
+			String GovName = "";
+			try {
+				GovName = (String) gov.getMethod("getTypeName").invoke(gov, new Object[] {});
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			return GovName;
+		}
 		
-		
-		private String error;
-		
-        private MenuError(String error) {
-                this.error = error;
-        }
-        
-        public String toString(Class<? extends InspiredGov> gov) {
-        	
-        }
-        @Override
-        public String toString() {
-        	return error;
-        }
-	}
-
-	public static InspiredGov getGovInstance(Class<? extends InspiredGov> gov) {
-		try {
-			return gov.newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-			return null;
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			return null;
+		private static final String makeMessage(String msg) {
+			return "\n" + TextColor.ALERT + msg;
 		}
 	}
-	
 }

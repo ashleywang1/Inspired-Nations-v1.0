@@ -36,7 +36,8 @@ public class Town extends Subjects {
 		return Country.class;
 	}
 
-	public static String getTypeName() {
+	@Override
+	public String getTypeName() {
 		return typeName;
 	}
 

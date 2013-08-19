@@ -3,20 +3,17 @@ package com.github.InspiredOne.InspiredNations.Hud;
 
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
-import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public abstract class ActionMenu extends Menu {
 
-	private String current;
+	private String current = "";
 	
-	public ActionMenu(InspiredNations plugin, PlayerData PDI) {
-		super(plugin, PDI);
-		current = this.getPromptText();
+	public ActionMenu(PlayerData PDI) {
+		super(PDI);
 	}
 
 	public void Update() {
@@ -44,18 +41,13 @@ public abstract class ActionMenu extends Menu {
 
 	@Override
 	protected String getError() {
-		MenuError output = (MenuError) this.getContext().getSessionData(ContextData.Error);
-		switch(output) {
-		case NO_ERROR:
-			return output.toString();
-		default:
-			return "\n" + TextColor.ALERT + output.toString();
-		}
+		String output = (String) this.getContext().getSessionData(ContextData.Error);
+		return output;
 	}
 	
 	@Override
 	public final Menu getPreviousMenu() {
-		this.setError(MenuError.NO_ERROR);
+		this.setError(MenuError.NO_ERROR());
 		for(ActionManager manager:this.getActionManager()) {
 			manager.stopListening();
 		}
@@ -66,7 +58,7 @@ public abstract class ActionMenu extends Menu {
 
 	@Override
 	public final Menu getNextMenu(String input) {
-		this.setError(MenuError.NO_ERROR);
+		this.setError(MenuError.NO_ERROR());
 		for(ActionManager manager:this.getActionManager()) {
 			manager.stopListening();
 		}

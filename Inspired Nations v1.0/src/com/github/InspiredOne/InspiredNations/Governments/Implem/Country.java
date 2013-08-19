@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.Subjects;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
@@ -32,10 +33,11 @@ public class Country extends Subjects {
 
 	@Override
 	public Class<? extends InspiredGov> getSuperGov() {
-		return null;
+		return GlobalGov.class;
 	}
 
-	public static String getTypeName() {
+	@Override
+	public String getTypeName() {
 		return typeName;
 	}
 

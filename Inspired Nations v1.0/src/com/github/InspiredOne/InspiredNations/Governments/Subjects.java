@@ -8,6 +8,7 @@ public abstract class Subjects extends NoSubjects {
 	 * 
 	 */
 	private static final long serialVersionUID = 3448350609903588185L;
+	private int militarylevel = 0;
 
 	public Subjects() {
 		super();
@@ -23,6 +24,15 @@ public abstract class Subjects extends NoSubjects {
 
 	public void setSubjects(HashSet<String> subjects) {
 		this.subjects = subjects;
+	}
+
+	@Override
+	public int getMilitaryLevel() {
+		return militarylevel;
+	}
+
+	public void setMilitaryLevel(int militarylevel) {
+		this.militarylevel = militarylevel;
 	}
 
 }

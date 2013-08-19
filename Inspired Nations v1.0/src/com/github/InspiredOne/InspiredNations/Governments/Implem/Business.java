@@ -33,7 +33,8 @@ public class Business extends Subjects {
 
 	}
 	
-	public static String getTypeName() {
+	@Override
+	public String getTypeName() {
 		return typeName;
 	}
 	

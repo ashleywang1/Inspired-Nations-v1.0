@@ -3,14 +3,12 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MapManager;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
@@ -18,8 +16,8 @@ public class Map extends ActionMenu {
 
 	List<ActionManager> managers= new ArrayList<ActionManager>();
 	
-	public Map(InspiredNations plugin, PlayerData PDI) {
-		super(plugin, PDI);
+	public Map(PlayerData PDI) {
+		super(PDI);
 		managers.add(new MapManager(plugin, this));
 
 	}
@@ -41,13 +39,23 @@ public class Map extends ActionMenu {
 
 	@Override
 	public Menu PreviousMenu() {
-		return new MainHud(plugin, PDI);
+		return new MainHud(PDI);
 	}
 
 	@Override
 	public Menu NextMenu(String input) {
-		this.setError(MenuError.NOT_AN_OPTION);
+		this.setError(MenuError.NOT_AN_OPTION());
 		return this.getSelf();
+	}
+
+	@Override
+	public boolean passBy() {
+		return false;
+	}
+
+	@Override
+	public Menu getPassTo() {
+		return null;
 	}
 
 }

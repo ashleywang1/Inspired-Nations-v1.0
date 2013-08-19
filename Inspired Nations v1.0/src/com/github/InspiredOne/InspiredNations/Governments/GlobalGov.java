@@ -2,8 +2,12 @@ package com.github.InspiredOne.InspiredNations.Governments;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
+import org.bukkit.OfflinePlayer;
+
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 
@@ -34,11 +38,25 @@ public class GlobalGov extends InspiredGov {
 	}
 
 	@Override
+	public HashSet<String> getSubjects() {
+		
+		HashSet<String> output = new HashSet<String>();
+		
+		for(OfflinePlayer player:InspiredNations.plugin.getServer().getOfflinePlayers()) {
+			output.add(player.getName());
+		}
+		
+		return output;
+		
+	}
+	
+	@Override
 	public Class<? extends InspiredGov> getSuperGov() {
 		return null;
 	}
 
-	public static String getTypeName() {
+	@Override
+	public String getTypeName() {
 		return typeName;
 	}
 

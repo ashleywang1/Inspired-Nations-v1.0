@@ -1,6 +1,5 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -63,15 +62,6 @@ public class Tools {
 		return temp;
 	}
 	
-	public static InspiredGov getGovInstance(Class<? extends InspiredGov> gov) {
-		try {
-			return gov.getConstructor().newInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
-	}
 	
 	/**
 	 * Draws a ascii map for the player to view. The map shows the gov

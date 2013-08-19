@@ -30,17 +30,20 @@ public abstract class InspiredGov implements Serializable {
 	 */
 	private static final long serialVersionUID = 5014430464149332251L;
 	
+	private transient InspiredNations plugin;
 	private Account account;
 	private InspiredRegion region;
 	private List<InspiredGov> facilities = new ArrayList<InspiredGov>();
 	private HashMap<Class<? extends InspiredGov>, Double> taxrates = new HashMap<Class<? extends InspiredGov>, Double>();
 	private InspiredGov supergov;
 	private String name;
+	private int protectionlevel = 0;
 	
 	/**
 	 * @param instance	the plugin instance
 	 */
 	public InspiredGov() {
+		this.plugin = InspiredNations.plugin;
 		for(Class<? extends InspiredGov> gov:this.getSubGovs()) {
 			taxrates.put(gov, 1.0);
 		}
@@ -173,10 +176,7 @@ public abstract class InspiredGov implements Serializable {
 	 * 
 	 * @return	the <code>String</code> to be used as the name for this government in the menus
 	 */
-	public static String getTypeName() {
-    /**This Method must be set in the sub classes to avoid the error*/
-		throw new IllegalStateException("Type info hasn't been set up in the subclass");
-	}
+	public abstract String getTypeName();
 	/**
 	 * 
 	 * @param subgov	the <code>InspiredGov</code> type to be searched for
@@ -244,46 +244,38 @@ public abstract class InspiredGov implements Serializable {
 	 * @param plugin	the <code>InspiredNations</code> plugin where
 	 * the regiondata hashmap is stored
 	 */
-	public void register(InspiredNations plugin) {
-		plugin.regiondata.put(this.getClass(), new HashSet<InspiredGov>());
+	public void register() {
+		if(!plugin.regiondata.containsKey(this.getClass())) {
+			plugin.regiondata.put(this.getClass(), new HashSet<InspiredGov>());
+		}
 		
 		for(Class<? extends InspiredGov> cla:this.getSubGovs()) {
-			try{
-				System.out.println(cla.getConstructor().toString());
-				InspiredGov obj = cla.getConstructor().newInstance();
-				obj.register(plugin);
-			}
-			catch (Exception ex) {
-				ex.printStackTrace();
-			}
+			InspiredGov obj = GovFactory.getGovInstance(cla);
+			obj.register();
 		}
 		
 		for(Class<? extends InspiredGov> cla:this.getGovFacilities()) {
-			try{
-				System.out.println(cla.getConstructor().toString());
-				InspiredGov obj = cla.getConstructor().newInstance();
-				obj.register(plugin);
-			}
-			catch (Exception ex) {
-				ex.printStackTrace();
-			}
+			InspiredGov obj = GovFactory.getGovInstance(cla);
+			obj.register();
 		}
 		
 		for(Class<? extends InspiredGov> cla:this.getSelfGovs()) {
-			try{
-				System.out.println(cla.getConstructor().toString());
-				InspiredGov obj = cla.getConstructor().newInstance();
-				if(!cla.equals(this.getClass())) {
-					obj.register(plugin);
-				}
-			}
-			catch (Exception ex) {
-				ex.printStackTrace();
-			}
+			InspiredGov obj = GovFactory.getGovInstance(cla);
+			obj.register();
 		}
 	}
 	
 	public static boolean fromSameBranch(InspiredGov gov1, InspiredGov gov2) {
 		return gov1.getSuperGovObj().equals(gov2.getSuperGovObj());
+	}
+	public int getProtectionlevel() {
+		return protectionlevel;
+	}
+	public void setProtectionlevel(int protectionlevel) {
+		this.protectionlevel = protectionlevel;
+	}
+	
+	public int getMilitaryLevel() {
+		return this.getSuperGovObj().getMilitaryLevel();
 	}
 }

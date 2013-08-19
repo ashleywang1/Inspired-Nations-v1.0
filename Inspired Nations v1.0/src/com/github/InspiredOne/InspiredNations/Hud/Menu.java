@@ -19,9 +19,11 @@ public abstract class Menu extends MessagePrompt {
 	public PlayerData PDI;
 	public InspiredNations plugin;
 	
-	public Menu(InspiredNations plugin, PlayerData PDI) {
+	public Menu(PlayerData PDI) {
 		this.PDI = PDI;
-		this.plugin = plugin;
+		System.out.println("here5");
+		this.plugin = InspiredNations.plugin;
+		System.out.println("here6");
 	}
 	
 	/**
@@ -29,32 +31,40 @@ public abstract class Menu extends MessagePrompt {
 	 * @return	the <code>String</code> of the prompt text as it would appear exactly
 	 */
 	public String getPromptText() {
-		String space = MenuTools.space(this.plugin);
+		String space = MenuTools.space();
 		String main = MenuTools.header(getHeader());
 		String filler = this.getFiller();
 		String end = footer;
 		String errmsg = this.getError();
 		
+		System.out.println("getPrompttext()");
+		
 		return space + main + filler + end + errmsg;
 	}
-	public boolean blocksForInput() {
-		return true;
+	
+	public abstract boolean passBy();
+	
+	public abstract Menu getPassTo();
+	
+	@Override
+	public final boolean blocksForInput(ConversationContext arg0) {
+		return !this.passBy();
 	}
 	@Override
-	public boolean blocksForInput(ConversationContext arg0) {
-		return this.blocksForInput();
-	}
-	@Override
-	public Prompt getNextPrompt(ConversationContext arg0) {
-		return null;
+	public final Prompt getNextPrompt(ConversationContext arg0) {
+		return this.getPassTo();
 	}
 	@Override
 	public final String getPromptText(ConversationContext arg0) {
 		this.register();
+		System.out.println("getPrompttext(arg0)");
 		return this.getPromptText();
 	}
 	@Override
 	public final Prompt acceptInput(ConversationContext arg0, String arg) {
+		if(arg == null) {
+			return this.getNextPrompt(arg0);
+		}
 		if (arg.startsWith("/")) {
 			arg = arg.substring(1);
 		}
@@ -66,28 +76,19 @@ public abstract class Menu extends MessagePrompt {
 			if(args.length > 1) {
 				//TODO send the chat message here
 			}
-			try {
-				return this.getSelf();
-			} catch (Exception e) {
-				
-			}
+			return this.getSelf();
 		}
 		
-		return this.checkNext(arg);
+		return this.getNextMenu(arg);
 	}
 	/**
 	 * 
 	 * @return	the <code>String</code> to be used for the error in the menu
 	 */
 	protected String getError() {
-		MenuError output = (MenuError) this.getContext().getSessionData(ContextData.Error);
-		switch(output) {
-		case NO_ERROR:
-			return output.toString();
-		default:
-			this.setError(MenuError.NO_ERROR);
-			return "\n" + TextColor.ALERT + output.toString();
-		}
+		String output = (String) this.getContext().getSessionData(ContextData.Error);
+		this.setError(MenuError.NO_ERROR());
+		return output;
 	}
 	/**
 	 * Returns a new instance of itself. Used for user input errors.
@@ -95,20 +96,20 @@ public abstract class Menu extends MessagePrompt {
 	 */
 	public final Menu getSelf() {
 		return this;
-		//return MenuTools.getMenuInstance(plugin, PDI, this.getClass());
 	}
 	/**
 	 * 
 	 * @return the <code>ConversationContext</code> of the player using this menu
 	 */
 	public final ConversationContext getContext() {
+		this.PDI.getCon();
 		return this.PDI.getCon().getContext();
 	}
 	/**
 	 * 
 	 * @param error	the <code>MenuError</code> to be used as the error
 	 */
-	public final void setError(MenuError error) {
+	public final void setError(String error) {
 		this.getContext().setSessionData(ContextData.Error, error);
 	}
 	/**
@@ -118,7 +119,7 @@ public abstract class Menu extends MessagePrompt {
 	 */
 	private final Menu checkBack() {
 		Menu previous = this.getPreviousMenu();
-		if(previous.blocksForInput()) {
+		if(!previous.passBy()) {
 			return previous;
 		}
 		else {
@@ -131,15 +132,16 @@ public abstract class Menu extends MessagePrompt {
 	 * @return		the actual next Menu rather than just the one after this one
 	 * in the menu graph
 	 */
-	private final Menu checkNext(String input) {
-		Menu next = this.getNextMenu(input);
-		if(next.blocksForInput()) {
-			return next;
-		}
-		else {
-			return next.checkNext(input);
-		}
-	}
+//	private final Menu checkNext(String input) {
+//		Menu next = this.getNextMenu(input);
+//		return next;
+//		if(next.blocksForInput()) {
+//			return next;
+//		}
+//		else {
+//			return next.checkNext(input);
+//		}
+//	}
 	/**
 	 * 
 	 * @return	the <code>String</code> to be used for the header of the menu
