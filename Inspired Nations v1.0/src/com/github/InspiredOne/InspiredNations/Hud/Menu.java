@@ -18,12 +18,11 @@ public abstract class Menu extends MessagePrompt {
 	private static final String footer = MenuTools.addDivider("") + TextColor.ENDINSTRU + "Type 'exit' to leave, 'say' to chat, or 'back' to go back.";
 	public PlayerData PDI;
 	public InspiredNations plugin;
+	private boolean initialized = false;
 	
 	public Menu(PlayerData PDI) {
 		this.PDI = PDI;
-		System.out.println("here5");
 		this.plugin = InspiredNations.plugin;
-		System.out.println("here6");
 	}
 	
 	/**
@@ -37,12 +36,27 @@ public abstract class Menu extends MessagePrompt {
 		String end = footer;
 		String errmsg = this.getError();
 		
-		System.out.println("getPrompttext()");
-		
 		return space + main + filler + end + errmsg;
 	}
 	
-	public abstract boolean passBy();
+	public final void Initialize() {
+		if(!initialized) {
+			this.init();
+			initialized = true;
+		}
+	}
+	/**
+	 * Used to do things for the conversation, but only for when the user is directed to it. Use
+	 * for adding options.
+	 */
+	public abstract void init();
+	
+	public final boolean passBy() {
+		this.Initialize();
+		return this.getPassBy();
+	}
+	
+	public abstract boolean getPassBy();
 	
 	public abstract Menu getPassTo();
 	
@@ -57,7 +71,7 @@ public abstract class Menu extends MessagePrompt {
 	@Override
 	public final String getPromptText(ConversationContext arg0) {
 		this.register();
-		System.out.println("getPrompttext(arg0)");
+		this.Initialize();
 		return this.getPromptText();
 	}
 	@Override
@@ -79,8 +93,9 @@ public abstract class Menu extends MessagePrompt {
 			return this.getSelf();
 		}
 		
-		return this.getNextMenu(arg);
+		return this.checkNext(arg);
 	}
+
 	/**
 	 * 
 	 * @return	the <code>String</code> to be used for the error in the menu
@@ -125,6 +140,13 @@ public abstract class Menu extends MessagePrompt {
 		else {
 			return previous.checkBack();
 		}
+	}
+	private final Menu checkNext(String input) {
+		Menu next = this.getNextMenu(input);
+		while(next.passBy()) {
+			next = next.getPassTo();
+		}
+		return next;
 	}
 	/**
 	 * Looks at next menu and determines if it should be skipped or not

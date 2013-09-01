@@ -27,6 +27,18 @@ public abstract class NoSubjects extends InspiredGov {
 	public HashSet<String> getSubjects() {
 		return this.owners;
 	}
+	
+	public InspiredGov getCommonGovObj() {
+		boolean found = false;
+		InspiredGov test = this;
+		while(!found) {
+			if(test.getClass().equals(this.getCommonGov())) {
+				return test;
+			}
+			else test = test.getSuperGovObj();
+		}
+		return null;
+	}
 	/**Returns the gov of citizenship that must be common for both the player and this gov
 	 * Returns self if you're only allowed to have one
 	 * Regions that do not have owners or subjects are excluded

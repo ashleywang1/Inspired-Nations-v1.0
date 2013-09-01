@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class PickMoneyName extends InputMenu{
 
@@ -23,14 +25,17 @@ public class PickMoneyName extends InputMenu{
 
 	@Override
 	public String validate(String input) {
-		// TODO Auto-generated method stub
-		return null;
+		for(Currency currency:plugin.Exchange.keySet()) {
+			if(currency.getName().equalsIgnoreCase(input)) {
+				return MenuError.MONEY_NAME_ALREADY_TAKEN();
+			}
+		}
+		return MenuError.NO_ERROR();
 	}
 
 	@Override
 	public void useInput(String input) {
-		// TODO Auto-generated method stub
-
+		Govf = Govf.withMoneyname(input);
 	}
 
 	@Override
@@ -50,16 +55,22 @@ public class PickMoneyName extends InputMenu{
 	}
 
 	@Override
-	public String getFiller() {
+	public String getInstructions() {
 		return "Type the name of your currency.";
 	}
 
 	@Override
-	public boolean passBy() {
+	public boolean getPassBy() {
 		if(Govf.getGov().getCommonEcon().equals(Govf.getGov().getClass())) {
 			return false;
 		}
-		else return true;
+		else {
+			return true;
+		}
+	}
+
+	@Override
+	public void init() {
 	}
 
 }

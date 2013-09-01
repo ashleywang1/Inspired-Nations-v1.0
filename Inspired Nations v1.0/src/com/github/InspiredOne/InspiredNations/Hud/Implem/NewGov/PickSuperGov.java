@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
@@ -15,10 +16,6 @@ public class PickSuperGov extends PassByOptionMenu {
 	public PickSuperGov(PlayerData PDI, GovFactory Govf) {
 		super(PDI);
 		this.Govf = Govf;
-		System.out.println("Hello2)");
-		for(InspiredGov gov:PDI.getCitizenship(plugin, Govf.getGov().getSuperGov())) {
-			this.options.add(new PromptOption(this, gov.getTypeName(), new PickName(PDI, Govf.withSuperGov(gov)), OptionUnavail.NOT_UNAVAILABLE));
-		}
 	}
 
 	@Override
@@ -32,10 +29,16 @@ public class PickSuperGov extends PassByOptionMenu {
 		return "Select ";
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Menu getPreviousMenu() {
-		// TODO Auto-generated method stub
-		return new PickSelfType(PDI, Govf.getGov().getClass());
+		return new PickSelfType(PDI, (Class<? extends NoSubjects>) Govf.getGov().getClass());
 	}
 
+	@Override
+	public void init() {
+		for(InspiredGov gov:PDI.getCitizenship(Govf.getGov().getSuperGov())) {
+			this.options.add(new PromptOption(this, gov.getTypeName(), new WarningAlreadyOwnOne(PDI, Govf.withSuperGov(gov)), OptionUnavail.NOT_UNAVAILABLE));
+		}		
+	}
 }

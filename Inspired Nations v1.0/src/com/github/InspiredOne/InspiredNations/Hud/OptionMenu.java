@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
@@ -13,20 +14,21 @@ public abstract class OptionMenu extends Menu {
 	
 	public OptionMenu(PlayerData PDI) {
 		super(PDI);
-		System.out.println("option menu constructor");
 	}
 
 	@Override
 	public String getFiller() {
 		String output = "";
-		output = output.concat(this.getPreOptionText());
+		if(!this.getPreOptionText().isEmpty()) {
+			output = output.concat(TextColor.INSTRUCTION + this.getPreOptionText() + "\n");
+			output = MenuTools.addDivider(output);
+		}
 		output = output.concat(this.optionsToText());
 		return output;
 	}
 	
 	@Override
 	public Menu getNextMenu(String arg) {
-		System.out.println("Option menu getNextMenu");
 		int answer;
 		try {
 			answer = Integer.parseInt(arg);

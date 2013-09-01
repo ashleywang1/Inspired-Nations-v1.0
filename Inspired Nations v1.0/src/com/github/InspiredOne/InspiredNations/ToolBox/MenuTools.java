@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.ToolBox;
 import org.bukkit.ChatColor;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
@@ -77,15 +78,19 @@ public class MenuTools {
 			String GovName = getTypeName(gov);
 			return makeMessage("That " + GovName + " name is already taken.");
 		}
+		public static String MONEY_NAME_ALREADY_TAKEN() {
+			return makeMessage("That currency name is already in use.");
+		}
+		public static String MONEY_MULTIPLYER_TOO_LARGE() {
+			return makeMessage("Your currency is too inflated.");
+		}
+		public static String MONEY_MULTIPLYER_TOO_SMALL() {
+			return makeMessage("Your currency is too valuable.");
+		}
 		
 		private static final String getTypeName(Class<? extends InspiredGov> gov) {
 			String GovName = "";
-			try {
-				GovName = (String) gov.getMethod("getTypeName").invoke(gov, new Object[] {});
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
+			GovName = GovFactory.getGovInstance(gov).getTypeName();
 			return GovName;
 		}
 		

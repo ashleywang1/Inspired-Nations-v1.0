@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
 import com.github.InspiredOne.InspiredNations.Governments.Subjects;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.CountryLand;
@@ -25,8 +26,8 @@ public class Country extends Subjects {
 	private static final String typeName = "Country";
 	
 	@Override
-	public List<Class<? extends InspiredGov>> getSubGovs() {
-		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+	public List<Class<? extends NoSubjects>> getSubGovs() {
+		List<Class<? extends NoSubjects>> output = new ArrayList<Class<? extends NoSubjects>>();
 		output.add(Town.class);
 		return output;
 	}

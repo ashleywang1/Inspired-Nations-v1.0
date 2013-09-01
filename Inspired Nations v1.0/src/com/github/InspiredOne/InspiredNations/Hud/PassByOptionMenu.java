@@ -14,12 +14,13 @@ public abstract class PassByOptionMenu extends OptionMenu{
 	}
 	
 	@Override
-	public boolean passBy() {
+	public boolean getPassBy() {
+		this.Initialize();
 		if (this.options.size() == 1) {
-			return false;
+			return true;
 		}
 		else {
-			return true;
+			return false;
 		}
 	}
 	

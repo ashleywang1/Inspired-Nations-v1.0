@@ -18,8 +18,8 @@ public class House extends NoSubjects {
 	private static final String typeName = "House";
 	
 	@Override
-	public List<Class<? extends InspiredGov>> getSubGovs() {
-		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+	public List<Class<? extends NoSubjects>> getSubGovs() {
+		List<Class<? extends NoSubjects>> output = new ArrayList<Class<? extends NoSubjects>>();
 		return output;
 	}
 

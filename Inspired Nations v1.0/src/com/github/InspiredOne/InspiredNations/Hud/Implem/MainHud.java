@@ -1,7 +1,11 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
+import java.util.List;
+
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
@@ -14,10 +18,6 @@ public class MainHud extends OptionMenu {
 
 	public MainHud(PlayerData PDI) {
 		super(PDI);
-		InspiredGov gov = this.plugin.global;
-
-		this.options.add(new PromptOption(this, "Map", new Map(PDI), OptionUnavail.NOT_UNAVAILABLE));
-		this.options.add(new PromptOption(this, "New Country", new PickSelfType(PDI, Country.class), OptionUnavail.NOT_UNAVAILABLE));
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class MainHud extends OptionMenu {
 	}
 
 	@Override
-	public boolean passBy() {
+	public boolean getPassBy() {
 		return false;
 	}
 
@@ -45,4 +45,17 @@ public class MainHud extends OptionMenu {
 		return null;
 	}
 
+	@Override
+	public void init() {
+		this.options.add(new PromptOption(this, "Map", new Map(PDI), OptionUnavail.NOT_UNAVAILABLE));
+		List<Class<? extends NoSubjects>> array = plugin.global.getAllSubGovs();
+		array.remove(plugin.global.getClass());
+		
+		for(Class<? extends NoSubjects> gov:array) {
+			NoSubjects govobj = (NoSubjects) GovFactory.getGovInstance(gov);
+			if(!PDI.getCitizenship(govobj.getSuperGov()).isEmpty()) {
+				this.options.add(new PromptOption(this, "New " + govobj.getTypeName(), new PickSelfType(PDI, gov), OptionUnavail.NOT_UNAVAILABLE ));
+			}
+		}
+	}
 }

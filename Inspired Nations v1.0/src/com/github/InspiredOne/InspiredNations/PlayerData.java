@@ -7,7 +7,9 @@ import java.util.List;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
 
+import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 
 
 public class PlayerData implements Serializable {
@@ -19,6 +21,7 @@ public class PlayerData implements Serializable {
 	
 	private transient Conversation con;
 	private String name;
+	private IndexedMap<Account, String> accounts = new IndexedMap<Account, String>();
 	
 	public PlayerData(String name) {
 		this.setName(name);
@@ -41,7 +44,8 @@ public class PlayerData implements Serializable {
 		this.name = name;
 	}
 	
-	public Player getPlayer(InspiredNations plugin) {
+	public Player getPlayer() {
+		InspiredNations plugin = InspiredNations.plugin;
 		return plugin.getServer().getPlayer(name);
 	}
 	
@@ -52,11 +56,11 @@ public class PlayerData implements Serializable {
 			}
 		}
 		return false;
-		
 	}
 	
-	public List<InspiredGov> getCitizenship(InspiredNations plugin, Class<? extends InspiredGov> govType) {
+	public List<InspiredGov> getCitizenship(Class<? extends InspiredGov> govType) {
 		List<InspiredGov> output = new ArrayList<InspiredGov>();
+		InspiredNations plugin = InspiredNations.plugin;
 		
 		for(InspiredGov gov:plugin.regiondata.get(govType)) {
 			if(gov.getSubjects().contains(this.getName())) {
@@ -66,5 +70,12 @@ public class PlayerData implements Serializable {
 		
 		return output;
 	}
-	
+
+	public IndexedMap<Account, String> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(IndexedMap<Account, String> accounts) {
+		this.accounts = accounts;
+	}
 }

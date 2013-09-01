@@ -24,7 +24,7 @@ public class PickName extends InputMenu {
 		boolean allowed = true;
 		
 		for(InspiredGov gov: plugin.regiondata.get(Govf.getGov().getClass())) {
-			if(gov.getSuperGov().equals(Govf.getGov().getSuperGovObj()) && gov.getName().equalsIgnoreCase(input)) {
+			if(gov.getSuperGovObj().equals(Govf.getGov().getSuperGovObj()) && gov.getName().equalsIgnoreCase(input)) {
 				allowed = false;
 			}
 		}
@@ -38,6 +38,7 @@ public class PickName extends InputMenu {
 
 	@Override
 	public void useInput(String input) {
+		Govf = Govf.withName(input);
 	}
 
 	@Override
@@ -52,7 +53,7 @@ public class PickName extends InputMenu {
 	}
 
 	@Override
-	public String getFiller() {
+	public String getInstructions() {
 		return "Type the name that you would like to use for this " + Govf.getGov().getTypeName() + ".";
 	}
 
@@ -67,7 +68,11 @@ public class PickName extends InputMenu {
 	}
 
 	@Override
-	public boolean passBy() {
+	public boolean getPassBy() {
 		return false;
+	}
+
+	@Override
+	public void init() {
 	}
 }

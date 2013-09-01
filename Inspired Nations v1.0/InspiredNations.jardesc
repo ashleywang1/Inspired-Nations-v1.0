@@ -11,11 +11,6 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <file path="/Inspired Nations v1.0/config.yml"/>
-        <file path="/Inspired Nations v1.0/.project"/>
-        <file path="/Inspired Nations v1.0/.gitignore"/>
-        <file path="/Inspired Nations v1.0/.classpath"/>
-        <file path="/Inspired Nations v1.0/plugin.yml"/>
-        <javaElement handleIdentifier="=Inspired Nations v1.0/src"/>
+        <javaElement handleIdentifier="=Inspired Nations v1.0"/>
     </selectedElements>
 </jardesc>

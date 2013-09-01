@@ -17,6 +17,7 @@ public class InputListener extends InspiredListener {
 		if(((InputManager) this.getManager()).getTabOptions().size() > 0) {
 			event.getTabCompletions().clear();
 			event.getTabCompletions().addAll(((InputManager) this.getManager()).getTabOptions());
+			this.getManager().getActionMenu().Update();
 		}
 	}
 

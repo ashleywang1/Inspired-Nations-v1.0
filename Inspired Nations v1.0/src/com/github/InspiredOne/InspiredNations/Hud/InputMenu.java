@@ -6,6 +6,7 @@ import java.util.List;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.InputManager;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public abstract class InputMenu extends ActionMenu {
 
@@ -39,6 +40,14 @@ public abstract class InputMenu extends ActionMenu {
 		return this.nextMenu();
 	}
 	
+	@Override
+	public String getFiller() {
+		return TextColor.INSTRUCTION + this.getInstructions() + "\n";
+	}
+	/**
+	 * 
+	 * @return	the menu to go to if passBy() returns true
+	 */
 	public abstract Menu nextMenu();
 	/**
 	 * 
@@ -53,4 +62,9 @@ public abstract class InputMenu extends ActionMenu {
 	public abstract void useInput(String input);
 	
 	public abstract List<String> getTabOptions();
+	/**
+	 * 
+	 * @return	The text that instructs the player what to input
+	 */
+	public abstract String getInstructions();
 }

@@ -18,6 +18,7 @@ import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationFactory;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Map;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
@@ -36,10 +37,11 @@ public class ConversationBuilder {
 	}
 	
 	public Conversation HudConvo() {
+		Menu hud = new MainHud(PDI);
 		ConversationFactory HudConvo = new ConversationFactory(plugin)
 		.withModality(true)
 		.withEscapeSequence("exit")
-		.withFirstPrompt(new MainHud(PDI))
+		.withFirstPrompt(hud)
 		.withLocalEcho(false)
 		.withInitialSessionData(this.initSessionData);
 		//.withTimeout(180);

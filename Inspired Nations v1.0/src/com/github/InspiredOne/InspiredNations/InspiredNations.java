@@ -3,8 +3,11 @@ package com.github.InspiredOne.InspiredNations;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,31 +21,46 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
+import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiMap;
 
 public class InspiredNations extends JavaPlugin {
 
-	public static InspiredNations plugin;
+	public static InspiredNations plugin = (InspiredNations) Bukkit.getPluginManager().getPlugin("InspiredNations");
 	public Logger logger = Logger.getLogger("Minecraft"); // Variable to communicate with console
 	private StartStop SS = new StartStop(this); // Deals with start-up and shut-down
 	public MultiMap<Class<? extends InspiredGov>, InspiredGov> regiondata = new MultiMap<Class<? extends InspiredGov>, InspiredGov>(); 
 	public HashMap<String, PlayerData> playerdata = new HashMap<String, PlayerData>();
 	public HashMap<Currency, BigDecimal> Exchange = new HashMap<Currency, BigDecimal>();
-	public GlobalGov global = new GlobalGov();
+	public GlobalGov global = (GlobalGov) (new GovFactory(GlobalGov.class)).withMoneyname("Coin").withMoneyMultiplyer(BigDecimal.ONE).getGov();
 	public TempCommandListener CM = new TempCommandListener(this);
 	public TempPlayerListener PL = new TempPlayerListener(this);
 	
 	public void onEnable() {
 		InspiredNations.plugin = this;
 		PluginManager pm = this.getServer().getPluginManager();
-		this.regiondata.get(Country.class);
 		SS.Start();
 		pm.registerEvents(PL, this);
 		global.register();
+		if(regiondata.get(global.getClass()).isEmpty()) {
+			regiondata.put(global.getClass(), global);
+		}
 		this.getCommand("hud").setExecutor(CM);
 		this.getCommand("map").setExecutor(CM);
+		
+		for(HashSet<InspiredGov> set:this.regiondata.values()) {
+			for(Iterator<InspiredGov> iter = set.iterator(); iter.hasNext();){
+				InspiredGov gov = iter.next();
+				System.out.println(gov.getName());
+			}
+		}
+		for(String player:this.playerdata.keySet()) {
+			System.out.println(player);
+		}
+		for(Currency currency:this.Exchange.keySet()) {
+			System.out.println(currency.getName());
+		}
 	}
 	
 	public void onDisable() {

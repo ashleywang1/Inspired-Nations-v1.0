@@ -2,6 +2,8 @@ package com.github.InspiredOne.InspiredNations.Governments;
 
 import java.math.BigDecimal;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
+
 public class GovFactory {
 
 	InspiredGov gov;
@@ -16,21 +18,30 @@ public class GovFactory {
 	
 	public GovFactory withSuperGov(InspiredGov gov) {
 		this.gov.setSuperGovObj(gov);
+		if(!this.gov.getCommonEcon().equals(this.gov.getClass())) {
+			this.gov.setCurrency(gov.getCurrency());
+		}
 		return this;
 	}
 	
 	public GovFactory withMoneyname(String name) {
-		this.gov.getAccount().getCurrency().setName(name);
+		this.gov.getCurrency().setName(name);
 		return this;
 	}
 	
 	public GovFactory withMoneyMultiplyer(BigDecimal multiplyer) {
-		this.gov.getAccount().getCurrency().setMoneymultiplyer(multiplyer);
+		this.gov.getCurrency().setMoneymultiplyer(multiplyer);
 		return this;
 	}
 	
 	public InspiredGov getGov() {
 		return this.gov;
+	}
+
+	public void registerGov() {
+		InspiredNations.plugin.regiondata.put(gov.getClass(), gov);
+		InspiredNations.plugin.Exchange.put(gov.getCurrency(), BigDecimal.ONE);
+		//TODO change BigDecimal.ONE to whatever you're going to use for default values for exchanger
 	}
 	
 	public static InspiredGov getGovInstance(Class<? extends InspiredGov> gov) {

@@ -11,7 +11,7 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 
-public class GlobalGov extends InspiredGov {
+public class GlobalGov extends Subjects {
 	
 	/**
 	 * 
@@ -31,8 +31,8 @@ public class GlobalGov extends InspiredGov {
 	}
 
 	@Override
-	public List<Class<? extends InspiredGov>> getSubGovs() {
-		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+	public List<Class<? extends NoSubjects>> getSubGovs() {
+		List<Class<? extends NoSubjects>> output = new ArrayList<Class<? extends NoSubjects>>();
 		output.add(Country.class);
 		return output;
 	}
@@ -76,6 +76,11 @@ public class GlobalGov extends InspiredGov {
 		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
 		output.add(this.getClass());
 		return output;
+	}
+
+	@Override
+	public Class<? extends InspiredGov> getCommonGov() {
+		return this.getClass();
 	}
 
 }

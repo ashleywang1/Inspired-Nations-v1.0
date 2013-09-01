@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.FederalParkLand;
 
@@ -18,14 +19,13 @@ public class FederalPark extends InspiredGov {
 
 	public FederalPark() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	private static final String typeName = "Federal Park";
 	
 	@Override
-	public List<Class<? extends InspiredGov>> getSubGovs() {
-		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+	public List<Class<? extends NoSubjects>> getSubGovs() {
+		List<Class<? extends NoSubjects>> output = new ArrayList<Class<? extends NoSubjects>>();
 		return output;
 	}
 

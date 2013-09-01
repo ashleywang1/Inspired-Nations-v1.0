@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
 import com.github.InspiredOne.InspiredNations.Governments.Subjects;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 
@@ -17,8 +18,8 @@ public class Business extends Subjects {
 	private static final String typeName = "Business";
 
 	@Override
-	public List<Class<? extends InspiredGov>> getSubGovs() {
-		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+	public List<Class<? extends NoSubjects>> getSubGovs() {
+		List<Class<? extends NoSubjects>> output = new ArrayList<Class<? extends NoSubjects>>();
 		return output;
 	}
 

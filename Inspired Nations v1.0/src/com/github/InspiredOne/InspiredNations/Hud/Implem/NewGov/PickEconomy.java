@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.conversations.Prompt;
-
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
@@ -24,6 +22,7 @@ public class PickEconomy extends InputMenu{
 
 	@Override
 	public Menu nextMenu() {
+		Govf.registerGov();
 		return new MainHud(PDI);
 	}
 
@@ -31,7 +30,12 @@ public class PickEconomy extends InputMenu{
 	public String validate(String input) {
 		try {
 			BigDecimal answer = new BigDecimal(input);
-			// TODO check to make sure that the price is not out of reasonable range.
+			if(answer.compareTo(new BigDecimal(10000)) > 0) {
+				return MenuError.MONEY_MULTIPLYER_TOO_LARGE();
+			}
+			else if(answer.compareTo(new BigDecimal(50)) < 0) {
+				return MenuError.MONEY_MULTIPLYER_TOO_SMALL();
+			}
 			return MenuError.NO_ERROR();
 		}
 		
@@ -42,8 +46,7 @@ public class PickEconomy extends InputMenu{
 
 	@Override
 	public void useInput(String input) {
-		// TODO Make this so it sets economy multiplier. 
-
+		Govf = Govf.withMoneyMultiplyer(new BigDecimal(input));
 	}
 
 	@Override
@@ -63,16 +66,20 @@ public class PickEconomy extends InputMenu{
 	}
 
 	@Override
-	public String getFiller() {
-		return "Type the price of the diamond in this";
+	public String getInstructions() {
+		return "Type the price of the diamond in " + Govf.getGov().getCurrency().getName() + ".";
 	}
 
 	@Override
-	public boolean passBy() {
+	public boolean getPassBy() {
 		if(Govf.getGov().getCommonEcon().equals(Govf.getGov().getClass())) {
 			return false;
 		}
 		else return true;
+	}
+
+	@Override
+	public void init() {
 	}
 
 }

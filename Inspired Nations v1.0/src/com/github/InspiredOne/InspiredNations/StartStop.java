@@ -5,12 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiMap;
 
@@ -52,6 +54,13 @@ public class StartStop {
 	        plugin.playerdata = (HashMap<String, PlayerData>) pin.readObject();
 	        pin.close();
 	        playerIn.close();
+	        
+	        File econfile = new File(plugin.getDataFolder(), "econdata.yml");
+	        FileInputStream econIn = new FileInputStream(econfile);
+	        ObjectInputStream ein = new ObjectInputStream(econIn);
+	        plugin.Exchange = (HashMap<Currency, BigDecimal>) ein.readObject();
+	        ein.close();
+	        econIn.close();
 		}
 		catch(Exception ex) {
 			
@@ -59,7 +68,7 @@ public class StartStop {
 		
 		// Handles online players
 		for(Player player:plugin.getServer().getOnlinePlayers()) {
-			if(plugin.playerdata.containsKey(player.getName())) {
+			if(!plugin.playerdata.containsKey(player.getName())) {
 				plugin.playerdata.put(player.getName(), new PlayerData(player.getName()));
 			}
 		}
@@ -90,18 +99,19 @@ public class StartStop {
 	        rout.close();
 	        regionOut.close();
 	        
-	        System.out.println("Here1");
 	        File playerfile = new File(plugin.getDataFolder(), "playerdata.yml");
-	        System.out.println("Here2");
 	        FileOutputStream playerOut = new FileOutputStream(playerfile);
-	        System.out.println("Here3");
 	        ObjectOutputStream pout = new ObjectOutputStream(playerOut);
-	        System.out.println("Here4");
 	        pout.writeObject(plugin.playerdata);
-	        System.out.println("Here5");
 			pout.close();
-			System.out.println("Here6");
 			playerOut.close();
+			
+	        File econfile = new File(plugin.getDataFolder(), "econdata.yml");
+	        FileOutputStream econOut = new FileOutputStream(econfile);
+	        ObjectOutputStream eout = new ObjectOutputStream(econOut);
+	        eout.writeObject(plugin.Exchange);
+	        eout.close();
+	        econOut.close();
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();

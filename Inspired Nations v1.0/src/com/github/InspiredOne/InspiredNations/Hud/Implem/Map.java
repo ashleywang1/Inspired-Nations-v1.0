@@ -3,6 +3,12 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitScheduler;
+
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
@@ -18,8 +24,6 @@ public class Map extends ActionMenu {
 	
 	public Map(PlayerData PDI) {
 		super(PDI);
-		managers.add(new MapManager(plugin, this));
-
 	}
 
 	@Override
@@ -49,7 +53,7 @@ public class Map extends ActionMenu {
 	}
 
 	@Override
-	public boolean passBy() {
+	public boolean getPassBy() {
 		return false;
 	}
 
@@ -58,4 +62,8 @@ public class Map extends ActionMenu {
 		return null;
 	}
 
+	@Override
+	public void init() {
+		managers.add(new MapManager(plugin, this));
+	}
 }

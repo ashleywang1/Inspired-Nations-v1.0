@@ -12,7 +12,9 @@ import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
+import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 
 /**
  * Used as the base class to build governments. Each level
@@ -30,37 +32,22 @@ public abstract class InspiredGov implements Serializable {
 	 */
 	private static final long serialVersionUID = 5014430464149332251L;
 	
-	private transient InspiredNations plugin;
-	private Account account;
+	private IndexedMap<Account, String> accounts = new IndexedMap<Account, String>();
 	private InspiredRegion region;
 	private List<InspiredGov> facilities = new ArrayList<InspiredGov>();
 	private HashMap<Class<? extends InspiredGov>, Double> taxrates = new HashMap<Class<? extends InspiredGov>, Double>();
 	private InspiredGov supergov;
 	private String name;
 	private int protectionlevel = 0;
+	private Currency currency;
 	
 	/**
 	 * @param instance	the plugin instance
 	 */
 	public InspiredGov() {
-		this.plugin = InspiredNations.plugin;
 		for(Class<? extends InspiredGov> gov:this.getSubGovs()) {
 			taxrates.put(gov, 1.0);
 		}
-	}
-	/**
-	 * 
-	 * @return	the <code>Account</code> associated with this <code>InspiredGov</code>
-	 */
-	public Account getAccount() {
-		return account;
-	}
-	/**
-	 * 
-	 * @param account	the new <code>Account</code> to be associated with this <code>InspiredGov</code>
-	 */
-	public void setAccount(Account account) {
-		this.account = account;
 	}
 	/**
 	 * 
@@ -122,12 +109,12 @@ public abstract class InspiredGov implements Serializable {
 	 * @param key	the Class of InspiredGovs to find
 	 * @return		a List of InspiredGovs of the type 
 	 */
-	public List<InspiredGov> getAllSubGovs(InspiredNations plugin, Class<? extends InspiredGov> key) {
-		List<InspiredGov> output = new ArrayList<InspiredGov>();
+	public List<NoSubjects> getAllSubGovs(InspiredNations plugin, Class<? extends NoSubjects> key) {
+		List<NoSubjects> output = new ArrayList<NoSubjects>();
 		for(Iterator<InspiredGov> iter = plugin.regiondata.get(key).iterator(); iter.hasNext(); ) {
 			InspiredGov gov = iter.next();
 			if (gov.getSuperGovObj().equals(this)) {
-				output.add(gov);
+				output.add((NoSubjects) gov);
 			}
 		}
 		
@@ -159,7 +146,7 @@ public abstract class InspiredGov implements Serializable {
 	 * They have their own set of owners who are responsible for paying up to this government.
 	 * @return	a <code>List</code> of the <code>InspiredGov</code> that can be claimed by subjects
 	 */
-	public abstract List<Class<? extends InspiredGov>> getSubGovs();
+	public abstract List<Class<? extends NoSubjects>> getSubGovs();
 	/**
 	 * Returns the class of the supergov. If this is the highest form of government, then it should
 	 * return a <code>Class<? extends GlobalGov></code>.
@@ -182,15 +169,16 @@ public abstract class InspiredGov implements Serializable {
 	 * @param subgov	the <code>InspiredGov</code> type to be searched for
 	 * @return			the <code>double</code> representation of the tax rate
 	 */
-	public double getSubTaxRate(Class<? extends InspiredGov> subgov) {
+	public double getSubTaxRate(Class<? extends NoSubjects> subgov) {
 		return taxrates.get(subgov);
 	}
 	/**
 	 * 
 	 * @return	the <code>double</code> representation of the tax rate effective on this government
 	 */
+	@SuppressWarnings("unchecked")
 	public double getSuperTaxRate() {
-		 return this.supergov.getSubTaxRate(this.getClass());
+		 return this.supergov.getSubTaxRate((Class<? extends NoSubjects>) this.getClass());
 	}
 	/**
 	 * 
@@ -240,13 +228,27 @@ public abstract class InspiredGov implements Serializable {
 	 */
 	public abstract void paySuper(BigDecimal amount);
 	/**
+	 * Gets a list of all the governments that are below this government (including itself)
+	 * @return	A list of all the subgovs
+	 */
+	public List<Class<? extends NoSubjects>> getAllSubGovs() {
+		List<Class<? extends NoSubjects>> output = new ArrayList<Class<? extends NoSubjects>>();
+		for(Class<? extends NoSubjects> gov:this.getSubGovs()) {
+			output.add(gov);
+			output.addAll(GovFactory.getGovInstance(gov).getAllSubGovs());
+		}
+		return output;
+	}
+	/**
 	 * Registers all the region types into the plugin.regiondata hashmap.
 	 * @param plugin	the <code>InspiredNations</code> plugin where
 	 * the regiondata hashmap is stored
 	 */
 	public void register() {
+		InspiredNations plugin = InspiredNations.plugin;
+		HashSet<InspiredGov> value = new HashSet<InspiredGov>();
 		if(!plugin.regiondata.containsKey(this.getClass())) {
-			plugin.regiondata.put(this.getClass(), new HashSet<InspiredGov>());
+			plugin.regiondata.put(this.getClass(), value);
 		}
 		
 		for(Class<? extends InspiredGov> cla:this.getSubGovs()) {
@@ -260,8 +262,10 @@ public abstract class InspiredGov implements Serializable {
 		}
 		
 		for(Class<? extends InspiredGov> cla:this.getSelfGovs()) {
-			InspiredGov obj = GovFactory.getGovInstance(cla);
-			obj.register();
+			if(!cla.equals(this.getClass())) {
+				InspiredGov obj = GovFactory.getGovInstance(cla);
+				obj.register();
+			}
 		}
 	}
 	
@@ -277,5 +281,17 @@ public abstract class InspiredGov implements Serializable {
 	
 	public int getMilitaryLevel() {
 		return this.getSuperGovObj().getMilitaryLevel();
+	}
+	public IndexedMap<Account, String> getAccounts() {
+		return accounts;
+	}
+	public void setAccounts(IndexedMap<Account, String> accounts) {
+		this.accounts = accounts;
+	}
+	public Currency getCurrency() {
+		return currency;
+	}
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
 	}
 }
