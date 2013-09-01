@@ -14,7 +14,7 @@ public abstract class InputMenu extends ActionMenu {
 	
 	public InputMenu(PlayerData PDI) {
 		super(PDI);
-		managers.add(new InputManager(this.plugin, this, this.getTabOptions()));
+		managers.add(new InputManager(this, this.getTabOptions()));
 	}
 	
 	@Override
@@ -43,6 +43,11 @@ public abstract class InputMenu extends ActionMenu {
 	@Override
 	public String getFiller() {
 		return TextColor.INSTRUCTION + this.getInstructions() + "\n";
+	}
+	
+	@Override
+	public void actionResponse() {
+		
 	}
 	/**
 	 * 

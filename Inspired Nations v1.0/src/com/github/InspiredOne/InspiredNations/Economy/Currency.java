@@ -3,7 +3,9 @@ package com.github.InspiredOne.InspiredNations.Economy;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Currency implements Serializable{
+import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+
+public class Currency implements Serializable, Nameable{
 
 	/**
 	 * 
@@ -25,10 +27,11 @@ public class Currency implements Serializable{
 		this.moneymultiplyer = moneymultiplyer;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
-
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}

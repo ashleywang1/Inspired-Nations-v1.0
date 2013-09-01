@@ -7,11 +7,9 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 
 public class InspiredListener implements Listener {
 
-	protected InspiredNations plugin;
 	private ActionManager manager;
 	
-	public InspiredListener(InspiredNations instance, ActionManager manager) {
-		setPlugin(instance);
+	public InspiredListener(ActionManager manager) {
 		this.setManager(manager);
 	}
 	
@@ -27,12 +25,4 @@ public class InspiredListener implements Listener {
 		this.manager = manager;
 	}
 
-	public InspiredNations getPlugin() {
-		return plugin;
-	}
-
-	public void setPlugin(InspiredNations plugin) {
-		this.plugin = plugin;
-	}
-	
 }

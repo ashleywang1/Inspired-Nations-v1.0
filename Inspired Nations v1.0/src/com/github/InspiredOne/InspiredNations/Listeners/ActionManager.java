@@ -18,10 +18,8 @@ import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 public abstract class ActionManager {
 
 	private ActionMenu menu;
-	public InspiredNations plugin;
-	public ActionManager(InspiredNations instance, ActionMenu menu)	 {
+	public ActionManager(ActionMenu menu)	 {
 		this.menu = menu;
-		this.plugin = instance;
 	}
 	/**
 	 * 
@@ -33,7 +31,7 @@ public abstract class ActionManager {
 	 */
 	public void startListening() {
 		for(InspiredListener listener:this.getPlayerListener()) {
-			plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+			InspiredNations.plugin.getServer().getPluginManager().registerEvents(listener, InspiredNations.plugin);
 		}
 	}
 	/**

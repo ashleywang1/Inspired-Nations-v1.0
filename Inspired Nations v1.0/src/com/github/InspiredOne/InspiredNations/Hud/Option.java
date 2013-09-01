@@ -2,8 +2,9 @@ package com.github.InspiredOne.InspiredNations.Hud;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
+import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 
-public abstract class Option {
+public abstract class Option implements Nameable {
 
 	private final String label;
 	protected InspiredNations plugin;
@@ -30,8 +31,13 @@ public abstract class Option {
 	 * 
 	 * @return	the String as it should appear on the menu
 	 */
-	public String getLabel() {
+	@Override
+	public String getName() {
 		return this.label;
+	}
+	
+	@Override
+	public void setName(String label) {
 	}
 	
 	public boolean isAvailable() {

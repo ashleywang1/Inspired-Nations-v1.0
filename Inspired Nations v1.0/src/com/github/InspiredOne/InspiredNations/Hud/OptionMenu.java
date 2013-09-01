@@ -46,25 +46,32 @@ public abstract class OptionMenu extends Menu {
 				return this.getSelf();
 		}
 	}
-	
+	/**
+	 * Used to get the options.
+	 * @return	the options for this menu
+	 */
 	public List<Option> getOptions() {
 		return this.options;
 	}
-	/**Method used to set the options*/
-	
+	/**
+	 * Used to add text before the list of options.
+	 * @return	the text used before the options
+	 */
 	public abstract String getPreOptionText();
-	/**Used to add text before the list of options*/
-	
+	/**
+	 * 
+	 * @return
+	 */
 	private final String optionsToText() {
 		String output = "";
 		int iter = 1;
 		
 		for(Option option:options)  {
 			if(option.isAvailable()) {
-				output = output.concat(TextColor.OPTION + "(" + TextColor.OPTIONNUMBER + iter + TextColor.OPTION + ") " + option.getLabel() + "\n");
+				output = output.concat(TextColor.OPTION + "(" + TextColor.OPTIONNUMBER + iter + TextColor.OPTION + ") " + option.getName() + "\n");
 			}
 			else {
-				output = output.concat(TextColor.UNAVAILABLE + "(" + TextColor.UNAVAILREASON + iter + TextColor.UNAVAILABLE + ") " + option.getLabel() +
+				output = output.concat(TextColor.UNAVAILABLE + "(" + TextColor.UNAVAILREASON + iter + TextColor.UNAVAILABLE + ") " + option.getName() +
 						TextColor.UNAVAILREASON + option.getUnvailReason() + "\n");
 			}
 			iter ++;

@@ -10,9 +10,10 @@ import org.bukkit.entity.Player;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
+import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 
 
-public class PlayerData implements Serializable {
+public class PlayerData implements Serializable, Nameable {
 
 	/**
 	 * 
@@ -35,11 +36,11 @@ public class PlayerData implements Serializable {
 	public void setCon(Conversation con) {
 		this.con = con;
 	}
-
+	@Override
 	public String getName() {
 		return name;
 	}
-
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}

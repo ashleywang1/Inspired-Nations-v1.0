@@ -64,6 +64,10 @@ public class Map extends ActionMenu {
 
 	@Override
 	public void init() {
-		managers.add(new MapManager(plugin, this));
+		managers.add(new MapManager(this));
+	}
+
+	@Override
+	public void actionResponse() {
 	}
 }

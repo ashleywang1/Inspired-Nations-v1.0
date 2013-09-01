@@ -15,6 +15,7 @@ import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
+import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 
 /**
  * Used as the base class to build governments. Each level
@@ -25,7 +26,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
  * @author InspiredOne
  *
  */
-public abstract class InspiredGov implements Serializable {
+public abstract class InspiredGov implements Serializable, Nameable {
 
 	/**
 	 * 
@@ -198,6 +199,7 @@ public abstract class InspiredGov implements Serializable {
 	 * 
 	 * @return	the <code>String</code> to be used for this government's name
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -205,6 +207,7 @@ public abstract class InspiredGov implements Serializable {
 	 * 
 	 * @param name	the <code>String</code> to be used for the name of this government
 	 */
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}

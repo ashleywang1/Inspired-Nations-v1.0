@@ -17,12 +17,17 @@ public abstract class ActionMenu extends Menu {
 	}
 
 	public void Update() {
+		this.actionResponse();
 		if (!current.equals(this.getPromptText())) {
 			PDI.getCon().outputNextPrompt();
 			current = this.getPromptText();
 		}
 		else return;
 	}
+	/**
+	 * Called whenever the menu is updated.
+	 */
+	public abstract void actionResponse();
 	
 	public PlayerData getPlayerData() {
 		return this.PDI;

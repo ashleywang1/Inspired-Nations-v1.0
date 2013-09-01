@@ -8,9 +8,10 @@ import java.math.RoundingMode;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NoMoneyOfThatType;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
+import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
-public class Account implements Serializable {
+public class Account implements Serializable, Nameable {
 
 	
 	/**
@@ -18,6 +19,7 @@ public class Account implements Serializable {
 	 */
 	private static final long serialVersionUID = -7022565910007118461L;
 	private static final String typeName = "Money";
+	private String name = "Money";
 	private IndexedMap<Currency, BigDecimal> money = new IndexedMap<Currency, BigDecimal>();
 	private boolean AutoExchange = true;
 	private MathContext mcup = new MathContext(100, RoundingMode.UP);
@@ -205,5 +207,15 @@ public class Account implements Serializable {
 	 */
 	public void setAutoExchange(boolean autoExchange) {
 		AutoExchange = autoExchange;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 }
