@@ -10,12 +10,14 @@ public class TabListener extends InspiredListener {
 
 	public TabListener(ActionManager manager) {
 		super(manager);
-		// TODO Auto-generated constructor stub
 	}
 
 	@EventHandler
 	public void onChatTabPress(PlayerChatTabCompleteEvent event) {
-		this.getManager().Update();
+		if(event.getLastToken().equals("=") || event.getLastToken().equals("+") || event.getLastToken().equals("-")) {
+			event.getTabCompletions().clear();
+			this.getManager().Update();
+		}
 	}
 	
 }

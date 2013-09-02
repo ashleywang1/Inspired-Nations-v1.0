@@ -8,6 +8,7 @@ import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.Economy.Account;
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
@@ -23,6 +24,7 @@ public class PlayerData implements Serializable, Nameable {
 	private transient Conversation con;
 	private String name;
 	private IndexedMap<Account, String> accounts = new IndexedMap<Account, String>();
+	private Currency currency = Currency.DEFAULT;
 	
 	public PlayerData(String name) {
 		this.setName(name);
@@ -78,5 +80,13 @@ public class PlayerData implements Serializable, Nameable {
 
 	public void setAccounts(IndexedMap<Account, String> accounts) {
 		this.accounts = accounts;
+	}
+
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
 	}
 }

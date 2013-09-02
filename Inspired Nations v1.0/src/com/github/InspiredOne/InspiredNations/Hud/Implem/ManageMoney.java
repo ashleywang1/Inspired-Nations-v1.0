@@ -1,6 +1,9 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
+import java.math.BigDecimal;
+
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 
@@ -12,7 +15,11 @@ public class ManageMoney extends OptionMenu {
 
 	@Override
 	public String getPreOptionText() {
-		return null;
+		BigDecimal total = BigDecimal.ZERO;
+		for(Account account:PDI.getAccounts()) {
+			total = total.add(account.getTotalAdjustedMoney(PDI.getCurrency()));
+		}
+		return total.toString() + " " + PDI.getCurrency().getName();
 	}
 
 	@Override
@@ -35,7 +42,7 @@ public class ManageMoney extends OptionMenu {
 	}
 
 	@Override
-	public Menu getPreviousMenu() {
+	public Menu PreviousMenu() {
 		return new MainHud(PDI);
 	}
 

@@ -8,7 +8,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
-public abstract class OptionMenu extends Menu {
+public abstract class OptionMenu extends ActionMenu {
 
 	protected List<Option> options = new ArrayList<Option>();
 	
@@ -17,18 +17,20 @@ public abstract class OptionMenu extends Menu {
 	}
 
 	@Override
-	public String getFiller() {
+	public final String getFiller() {
 		String output = "";
 		if(!this.getPreOptionText().isEmpty()) {
 			output = output.concat(TextColor.INSTRUCTION + this.getPreOptionText() + "\n");
-			output = MenuTools.addDivider(output);
+			if(!optionsToText(options).isEmpty()) {
+				output = MenuTools.addDivider(output);
+			}
 		}
-		output = output.concat(this.optionsToText());
+		output = output.concat(optionsToText(options));
 		return output;
 	}
 	
 	@Override
-	public Menu getNextMenu(String arg) {
+	public final Menu NextMenu(String arg) {
 		int answer;
 		try {
 			answer = Integer.parseInt(arg);
@@ -46,29 +48,15 @@ public abstract class OptionMenu extends Menu {
 				return this.getSelf();
 		}
 	}
-	/**
-	 * Used to get the options.
-	 * @return	the options for this menu
-	 */
-	public List<Option> getOptions() {
-		return this.options;
-	}
-	/**
-	 * Used to add text before the list of options.
-	 * @return	the text used before the options
-	 */
-	public abstract String getPreOptionText();
-	/**
-	 * 
-	 * @return
-	 */
-	private final String optionsToText() {
+	
+	public static String optionsToText(List<Option> options) {
 		String output = "";
 		int iter = 1;
 		
 		for(Option option:options)  {
 			if(option.isAvailable()) {
-				output = output.concat(TextColor.OPTION + "(" + TextColor.OPTIONNUMBER + iter + TextColor.OPTION + ") " + option.getName() + "\n");
+				output = output.concat(TextColor.OPTION + "(" + TextColor.OPTIONNUMBER + iter + TextColor.OPTION + ") "
+			+ option.getName() + TextColor.OPTIONDESCRIP + option.getDescription() + "\n");
 			}
 			else {
 				output = output.concat(TextColor.UNAVAILABLE + "(" + TextColor.UNAVAILREASON + iter + TextColor.UNAVAILABLE + ") " + option.getName() +
@@ -80,8 +68,21 @@ public abstract class OptionMenu extends Menu {
 		return output;
 	}
 	
+	/**
+	 * Used to get the options.
+	 * @return	the options for this menu
+	 */
+	public final List<Option> getOptions() {
+		return this.options;
+	}
+	/**
+	 * Used to add text before the list of options.
+	 * @return	the text used before the options
+	 */
+	public abstract String getPreOptionText();
+
 	@Override
-	public void register() {
+	public void actionResponse() {
 		
 	}
 

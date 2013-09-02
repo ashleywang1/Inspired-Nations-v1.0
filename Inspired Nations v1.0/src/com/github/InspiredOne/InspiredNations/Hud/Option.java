@@ -9,13 +9,28 @@ public abstract class Option implements Nameable {
 	private final String label;
 	protected InspiredNations plugin;
 	protected OptionMenu menu;
+	private String description;
 	private OptionUnavail reason;
 	public Option(OptionMenu menu, String label, OptionUnavail reason) {
 		this.menu = menu;
 		this.label = label;
 		this.plugin = this.menu.plugin;
 		this.reason = reason;
-
+		this.description = "";
+	}
+	public Option(OptionMenu menu, String label) {
+		this.menu = menu;
+		this.label = label;
+		this.plugin = this.menu.plugin;
+		this.reason = OptionUnavail.NOT_UNAVAILABLE;
+		this.description = "";
+	}
+	public Option(OptionMenu menu, String label, String description) {
+		this.menu = menu;
+		this.label = label;
+		this.plugin = this.menu.plugin;
+		this.description = description;
+		this.reason = OptionUnavail.NOT_UNAVAILABLE;
 	}
 	/**
 	 * Interprets the input and executes the associated task, then returns
@@ -51,5 +66,8 @@ public abstract class Option implements Nameable {
 	
 	public String getUnvailReason() {
 		return this.reason.toString();
+	}
+	public String getDescription() {
+		return description;
 	}
 }

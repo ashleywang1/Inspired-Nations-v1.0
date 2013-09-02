@@ -32,7 +32,7 @@ public class PickSelfType extends PassByOptionMenu {
 	}
 
 	@Override
-	public Menu getPreviousMenu() {
+	public Menu PreviousMenu() {
 		return new MainHud(PDI);
 	}
 

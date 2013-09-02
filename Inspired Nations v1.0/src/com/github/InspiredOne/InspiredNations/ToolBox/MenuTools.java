@@ -98,4 +98,5 @@ public class MenuTools {
 			return "\n" + TextColor.ALERT + msg;
 		}
 	}
+	
 }

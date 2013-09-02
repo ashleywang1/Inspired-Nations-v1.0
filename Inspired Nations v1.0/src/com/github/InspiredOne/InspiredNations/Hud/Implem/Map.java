@@ -1,34 +1,17 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitScheduler;
-
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MapManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class Map extends ActionMenu {
 
-	List<ActionManager> managers= new ArrayList<ActionManager>();
-	
 	public Map(PlayerData PDI) {
 		super(PDI);
-	}
-
-	@Override
-	public List<ActionManager> getActionManager() {
-		return managers;
 	}
 
 	@Override

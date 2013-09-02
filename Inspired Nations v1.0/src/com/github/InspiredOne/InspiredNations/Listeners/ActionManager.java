@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Listeners;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.event.HandlerList;
@@ -18,14 +19,11 @@ import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 public abstract class ActionManager {
 
 	private ActionMenu menu;
+	protected List<InspiredListener> listeners = new ArrayList<InspiredListener>();
+
 	public ActionManager(ActionMenu menu)	 {
 		this.menu = menu;
 	}
-	/**
-	 * 
-	 * @return	a <code>List</code> of <code>InspiredPlayerListener</code>s used by this manager
-	 */
-	public abstract List<InspiredListener> getPlayerListener();
 	/**
 	 * Starts the PlayerListener associated with this operation.
 	 */
@@ -41,6 +39,14 @@ public abstract class ActionManager {
 		for(InspiredListener listener:this.getPlayerListener()) {
 			HandlerList.unregisterAll(listener);
 		}
+	}
+	
+	/**
+	 * 
+	 * @return	a <code>List</code> of <code>InspiredPlayerListener</code>s used by this manager
+	 */
+	public List<InspiredListener> getPlayerListener() {
+		return listeners;
 	}
 	
 	public ActionMenu getActionMenu() {

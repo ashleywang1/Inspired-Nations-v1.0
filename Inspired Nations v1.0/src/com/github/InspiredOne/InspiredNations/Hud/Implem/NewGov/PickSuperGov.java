@@ -31,7 +31,7 @@ public class PickSuperGov extends PassByOptionMenu {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Menu getPreviousMenu() {
+	public Menu PreviousMenu() {
 		return new PickSelfType(PDI, (Class<? extends NoSubjects>) Govf.getGov().getClass());
 	}
 

@@ -39,26 +39,21 @@ public abstract class Menu extends MessagePrompt {
 		return space + main + filler + end + errmsg;
 	}
 	
+	public PlayerData getPlayerData() {
+		return this.PDI;
+	}
+	
 	public final void Initialize() {
 		if(!initialized) {
 			this.init();
 			initialized = true;
 		}
 	}
-	/**
-	 * Used to do things for the conversation, but only for when the user is directed to it. Use
-	 * for adding options.
-	 */
-	public abstract void init();
-	
+
 	public final boolean passBy() {
 		this.Initialize();
 		return this.getPassBy();
 	}
-	
-	public abstract boolean getPassBy();
-	
-	public abstract Menu getPassTo();
 	
 	@Override
 	public final boolean blocksForInput(ConversationContext arg0) {
@@ -141,6 +136,12 @@ public abstract class Menu extends MessagePrompt {
 			return previous.checkBack();
 		}
 	}
+	/**
+	 * Looks at next menu and determines if it should be skipped or not
+	 * @param input	the <code>String</code> input by the player
+	 * @return		the actual next Menu rather than just the one after this one
+	 * in the menu graph
+	 */
 	private final Menu checkNext(String input) {
 		Menu next = this.getNextMenu(input);
 		while(next.passBy()) {
@@ -148,22 +149,7 @@ public abstract class Menu extends MessagePrompt {
 		}
 		return next;
 	}
-	/**
-	 * Looks at next menu and determines if it should be skipped or not
-	 * @param input	the <code>String</code> input by the player
-	 * @return		the actual next Menu rather than just the one after this one
-	 * in the menu graph
-	 */
-//	private final Menu checkNext(String input) {
-//		Menu next = this.getNextMenu(input);
-//		return next;
-//		if(next.blocksForInput()) {
-//			return next;
-//		}
-//		else {
-//			return next.checkNext(input);
-//		}
-//	}
+
 	/**
 	 * 
 	 * @return	the <code>String</code> to be used for the header of the menu
@@ -190,7 +176,21 @@ public abstract class Menu extends MessagePrompt {
 	 * @return		the next <code>Prompt</code> to be used in this conversation
 	 */
 	public abstract Menu getNextMenu(String input);
-
+	/**
+	 * Determines if this menu should be passed by or not
+	 * @return	<code>true</code> if it will be passed by
+	 */
+	public abstract boolean getPassBy();
+	/**
+	 * Get's the menu that will be used if getPassBy() returns <code>true</code>
+	 * @return	the menu passed to
+	 */
+	public abstract Menu getPassTo();
+	/**
+	 * Used to do things for the conversation, but only for when the user is directed to it. Use
+	 * for adding options, managers, and tab-completes.
+	 */
+	public abstract void init();
 
 
 	

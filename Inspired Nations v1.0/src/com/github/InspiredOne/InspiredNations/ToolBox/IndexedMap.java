@@ -1,13 +1,20 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-public class IndexedMap<E, T> implements Map<E, T> {
+public class IndexedMap<E, T> implements Map<E, T>,Iterable<E>, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4902824227056513918L;
+	
 	private Vector<E> indexes = new Vector<E>(); 
 	//private ArrayList<E> indexes = new ArrayList<E>();
 	private HashMap<E, T> map = new HashMap<E, T>();
@@ -91,6 +98,11 @@ public class IndexedMap<E, T> implements Map<E, T> {
 	public void remove(int index) {
 		map.remove(indexes.get(index));
 		indexes.remove(index);
+	}
+
+	@Override
+	public Iterator<E> iterator() {
+		return indexes.iterator();
 	}
 
 }

@@ -29,7 +29,7 @@ public class WarningAlreadyOwnOne extends OptionMenu {
 	}
 
 	@Override
-	public Menu getPreviousMenu() {
+	public Menu PreviousMenu() {
 		return new PickSuperGov(PDI, Govf);
 	}
 

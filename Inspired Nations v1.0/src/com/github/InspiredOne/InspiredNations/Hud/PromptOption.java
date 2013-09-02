@@ -20,7 +20,16 @@ public class PromptOption extends Option {
 		this.nextPrompt = nextPrompt;
 		this.PDI = this.menu.PDI;
 	}
-
+	public PromptOption(OptionMenu menu, String lable, Menu nextPrompt) {
+		super(menu, lable);
+		this.nextPrompt = nextPrompt;
+		this.PDI = this.menu.PDI;
+	}
+	public PromptOption(OptionMenu menu, String lable, Menu nextPrompt, String description) {
+		super(menu, lable, description);
+		this.nextPrompt = nextPrompt;
+		this.PDI = this.menu.PDI;
+	}
 
 	@Override
 	public Menu response(String input) {

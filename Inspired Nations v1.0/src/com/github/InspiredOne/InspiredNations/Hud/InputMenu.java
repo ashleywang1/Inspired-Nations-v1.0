@@ -1,17 +1,13 @@
 package com.github.InspiredOne.InspiredNations.Hud;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.InputManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public abstract class InputMenu extends ActionMenu {
 
-	protected List<ActionManager> managers = new ArrayList<ActionManager>();
-	
 	public InputMenu(PlayerData PDI) {
 		super(PDI);
 		managers.add(new InputManager(this, this.getTabOptions()));
@@ -28,11 +24,6 @@ public abstract class InputMenu extends ActionMenu {
 		else {
 			return this.getSelf();
 		}
-	}
-	
-	@Override
-	public List<ActionManager> getActionManager() {
-		return managers;
 	}
 	
 	@Override

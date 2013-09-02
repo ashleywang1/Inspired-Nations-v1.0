@@ -40,7 +40,7 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	private InspiredGov supergov;
 	private String name;
 	private int protectionlevel = 0;
-	private Currency currency;
+	private Currency currency = Currency.DEFAULT;
 	
 	/**
 	 * @param instance	the plugin instance

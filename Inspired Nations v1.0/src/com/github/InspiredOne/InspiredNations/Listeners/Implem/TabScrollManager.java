@@ -3,10 +3,15 @@ package com.github.InspiredOne.InspiredNations.Listeners.Implem;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 
-public class MapManager extends ActionManager {
+public class TabScrollManager extends ActionManager {
 
-	public MapManager(ActionMenu menu) {
+	public TabScrollManager(ActionMenu menu) {
 		super(menu);
-		listeners.add(new MapListener(this));
+		listeners.add(new TabListener(this));
+	}
+
+	@Override
+	public void Update() {
+		this.getActionMenu().Update();
 	}
 }
