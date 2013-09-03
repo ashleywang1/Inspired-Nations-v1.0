@@ -45,6 +45,10 @@ public class Account implements Serializable, Nameable {
 	public void setMoney(IndexedMap<Currency, BigDecimal> money) {
 		this.money = money;
 	}
+	
+	
+	
+	
 	/**
 	 * Returns the amount of money of a given currency in it's native value
 	 * @param curren	the currency that you want to get
@@ -52,7 +56,7 @@ public class Account implements Serializable, Nameable {
 	 */
 	public BigDecimal getMoney(Currency curren) {
 		if(money.containsKey(curren)) {
-			return Tools.cut(money.get(curren));
+			return money.get(curren);
 		}
 		else {
 			this.money.put(curren, BigDecimal.ZERO);
@@ -66,7 +70,7 @@ public class Account implements Serializable, Nameable {
 	 */
 	public BigDecimal getAdjustedMoney(Currency input, Currency output) {
 		if(money.containsKey(input)) {
-			return Tools.cut(this.getRawMoney(input).multiply(output.getMoneymultiplyer()));
+			return this.getRawMoney(input).multiply(output.getMoneymultiplyer());
 		}
 		else {
 			this.money.put(input, BigDecimal.ZERO);
@@ -217,5 +221,5 @@ public class Account implements Serializable, Nameable {
 	@Override
 	public void setName(String name) {
 		this.name = name;
-	}
+	} 
 }

@@ -46,7 +46,6 @@ public class MainHud extends OptionMenu {
 	public void init() {
 		this.options.add(new PromptOption(this, "Map", new Map(PDI)));
 		this.options.add(new PromptOption(this, "Manage Money", new ManageMoney(PDI)));
-		this.options.add(new PromptOption(this, "test", new TabSelectTest(PDI)));
 		List<Class<? extends NoSubjects>> array = plugin.global.getAllSubGovs();
 		array.remove(plugin.global.getClass());
 		

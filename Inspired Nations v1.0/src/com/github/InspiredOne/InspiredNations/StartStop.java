@@ -39,6 +39,7 @@ public class StartStop {
 			plugin.saveDefaultConfig();
 		}
 		
+		
 		// Loads Data
 		try {
 			File regionfile = new File(plugin.getDataFolder(), "regiondata.yml");
