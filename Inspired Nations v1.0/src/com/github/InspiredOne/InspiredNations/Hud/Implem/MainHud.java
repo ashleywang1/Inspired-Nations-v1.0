@@ -9,6 +9,8 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.PickSelfType;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.WarningAlreadyOwnOne;
+import com.github.InspiredOne.InspiredNations.Hud.ManageGov.ManageGov;
 
 public class MainHud extends OptionMenu {
 	
@@ -51,8 +53,18 @@ public class MainHud extends OptionMenu {
 		
 		for(Class<? extends NoSubjects> gov:array) {
 			NoSubjects govobj = (NoSubjects) GovFactory.getGovInstance(gov);
+			System.out.println("govobj is null: " + (govobj == null));
+			if(!PDI.getOwnership(gov).isEmpty()) {
+				System.out.println(govobj.getTypeName());
+				this.options.add(new PromptOption(this, "Manage " + govobj.getTypeName(), new PickSelfType(PDI, gov, new ManageGov(PDI))));
+			}
+
+		}
+		
+		for(Class<? extends NoSubjects> gov:array) {
+			NoSubjects govobj = (NoSubjects) GovFactory.getGovInstance(gov);
 			if(!PDI.getCitizenship(govobj.getSuperGov()).isEmpty()) {
-				this.options.add(new PromptOption(this, "New " + govobj.getTypeName(), new PickSelfType(PDI, gov)));
+				this.options.add(new PromptOption(this, "New " + govobj.getTypeName(), new PickSelfType(PDI, gov, new WarningAlreadyOwnOne(PDI))));
 			}
 		}
 	}

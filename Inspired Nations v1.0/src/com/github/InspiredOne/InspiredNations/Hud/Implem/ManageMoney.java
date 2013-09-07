@@ -17,13 +17,14 @@ public class ManageMoney extends OptionMenu {
 	public String getPreOptionText() {
 		BigDecimal total = BigDecimal.ZERO;
 		for(Account account:PDI.getAccounts()) {
-			total = total.add(account.getTotalAdjustedMoney(PDI.getCurrency()));
+			total = total.add(account.getTotalMoney(PDI.getCurrency()));
 		}
 		return total.toString() + " " + PDI.getCurrency().getName();
 	}
 
 	@Override
 	public void init() {
+		
 	}
 
 	@Override

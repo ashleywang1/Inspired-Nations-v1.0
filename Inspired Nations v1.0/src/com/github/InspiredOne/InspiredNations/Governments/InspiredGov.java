@@ -38,7 +38,7 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	private List<InspiredGov> facilities = new ArrayList<InspiredGov>();
 	private HashMap<Class<? extends InspiredGov>, Double> taxrates = new HashMap<Class<? extends InspiredGov>, Double>();
 	private InspiredGov supergov;
-	private String name;
+	private String name = "";
 	private int protectionlevel = 0;
 	private Currency currency = Currency.DEFAULT;
 	

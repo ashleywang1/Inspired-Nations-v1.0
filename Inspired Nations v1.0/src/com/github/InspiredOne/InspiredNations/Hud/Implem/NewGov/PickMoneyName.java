@@ -70,7 +70,8 @@ public class PickMoneyName extends InputMenu{
 	}
 
 	@Override
-	public void init() {
+	public void Init() {
+		
 	}
 
 }

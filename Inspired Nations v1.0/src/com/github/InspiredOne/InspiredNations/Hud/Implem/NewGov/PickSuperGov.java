@@ -4,24 +4,25 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
+import com.github.InspiredOne.InspiredNations.Hud.DataPassPromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
-import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
 
 public class PickSuperGov extends PassByOptionMenu {
 
+	Menu last;
 	GovFactory Govf;
 	
-	public PickSuperGov(PlayerData PDI, GovFactory Govf) {
+	public PickSuperGov(PlayerData PDI, Menu last) {
 		super(PDI);
-		this.Govf = Govf;
+		this.last = last;
 	}
 
 	@Override
 	public String getPreOptionText() {
 		return "Pick the " + GovFactory.getGovInstance(Govf.getGov().getSuperGov()).getTypeName()
-				+ " you would like to make this " + Govf.getGov().getTypeName() + " under.";
+				+ " you would like this " + Govf.getGov().getTypeName() + " to be under.";
 	}
 
 	@Override
@@ -32,13 +33,14 @@ public class PickSuperGov extends PassByOptionMenu {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Menu PreviousMenu() {
-		return new PickSelfType(PDI, (Class<? extends NoSubjects>) Govf.getGov().getClass());
+		return new PickSelfType(PDI, (Class<? extends NoSubjects>) Govf.getGov().getClass(), last);
 	}
 
 	@Override
 	public void init() {
+		Govf = (GovFactory) this.getContext().getSessionData(ContextData.PromptData);
 		for(InspiredGov gov:PDI.getCitizenship(Govf.getGov().getSuperGov())) {
-			this.options.add(new PromptOption(this, gov.getTypeName(), new WarningAlreadyOwnOne(PDI, Govf.withSuperGov(gov)), OptionUnavail.NOT_UNAVAILABLE));
-		}		
+			this.options.add(new DataPassPromptOption(this, gov.getName(), last, Govf.withSuperGov(gov)));
+		}
 	}
 }

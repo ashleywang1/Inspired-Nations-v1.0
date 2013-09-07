@@ -42,7 +42,7 @@ public class MenuTools {
 
 	public class ContextData {
 		public static final String Error = "Error";
-		
+		public static final String PromptData = "PromptData";
 	}
 	
 	public enum OptionUnavail {

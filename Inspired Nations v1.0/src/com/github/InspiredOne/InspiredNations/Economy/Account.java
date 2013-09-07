@@ -45,159 +45,73 @@ public class Account implements Serializable, Nameable {
 	public void setMoney(IndexedMap<Currency, BigDecimal> money) {
 		this.money = money;
 	}
-	
-	
-	
-	
-	/**
-	 * Returns the amount of money of a given currency in it's native value
-	 * @param curren	the currency that you want to get
-	 * @return	the amount of money in that currency type that the player owns
-	 */
-	public BigDecimal getMoney(Currency curren) {
-		if(money.containsKey(curren)) {
-			return money.get(curren);
-		}
-		else {
-			this.money.put(curren, BigDecimal.ZERO);
-			return this.getMoney(curren);
-		}
-	}
-	/**
-	 * Returns the amount of money of the input currency adjusted to the output currency. 
-	 * @param curren	the Currency that you would like to find the value of
-	 * @return	the value of all the currency the player owns adjusted for the accounts
-	 */
-	public BigDecimal getAdjustedMoney(Currency input, Currency output) {
-		if(money.containsKey(input)) {
-			return this.getRawMoney(input).multiply(output.getMoneymultiplyer());
-		}
-		else {
-			this.money.put(input, BigDecimal.ZERO);
-			return this.getAdjustedMoney(input, output);
-		}
-	}
-	/**
-	 * Returns the total amount of money in this account adjusted to the output currency.
-	 * @return	total amount of money adjusted for currency
-	 */
-	public BigDecimal getTotalAdjustedMoney(Currency output) {
-		return this.getTotalRawMoney().multiply(output.getMoneymultiplyer());
-	}
-	/**
-	 * Adds money to the account. If auto exchange is true, the money is put in first currency.
-	 * If auto exchange is false, the currency is put with currencies of it's kind.
-	 * @param curren	the currency of the money
-	 * @param money		the amount of money in that currency to add
-	 */
-	public void addMoney(Currency curren, BigDecimal money) {
-		if(this.AutoExchange) {
-			this.addRawMoney(money.divide(curren.getMoneymultiplyer()));
-		}
-		else {
-			if(this.money.containsKey(curren)) {
-				this.money.put(curren, this.money.get(curren).add(money));
-			}
-			else this.money.put(curren, money);
-		}
-	}
-	/**
-	 * Removes money from account in the order of the currencies. Throws error if 
-	 * account does not have enough value. 
-	 * @param money	the amount to remove in this currency type
-	 * @throws BalanceOutOfBoundsException
-	 * @throws NoMoneyOfThatType
-	 */
-	public void removeMoney(Currency curren, BigDecimal money) throws BalanceOutOfBoundsException {
-		this.removeRawMoney(money.divide(curren.getMoneymultiplyer()));
-	}
-	/**
-	 * Takes money with the given currency and puts it in the other account
-	 * @param money		the amount to transfer in this account's currency
-	 * @param curren	the currency that the money is in
-	 * @param account	the account to transfer to
-	 * @throws BalanceOutOfBoundsException 
-	 */
-	public void transferMoney(BigDecimal money, Currency curren, Account account) throws BalanceOutOfBoundsException {
-		this.transferRawMoney(money.divide(curren.getMoneymultiplyer()), account);
 
+	public BigDecimal getMoney(Currency getType, Currency valueType) {
+		if(money.containsKey(getType)) {
+			return getValue(money.get(getType), getType, valueType);
+		}
+		else {
+			money.put(getType, BigDecimal.ZERO);
+			return this.getMoney(getType, valueType);
+		}
 	}
-	/**
-	 * Transfers the raw amount from this account to the other account.
-	 * @param money	the unadjusted amount to transfer
-	 * @param account	the account to transfer to
-	 * @throws BalanceOutOfBoundsException
-	 */
-	public void transferRawMoney(BigDecimal money, Account account) throws BalanceOutOfBoundsException {
-		this.removeRawMoney(money);
-		account.addRawMoney(money);
-	}
-	/**
-	 * Gets the total amount of money in this account in Raw form.
-	 * @return	total raw money
-	 */
-	public BigDecimal getTotalRawMoney() {
+	
+	public BigDecimal getTotalMoney(Currency valueType) {
 		BigDecimal output = BigDecimal.ZERO;
-		for(Currency currency:money.keySet()) {
-			output = output.add(this.getRawMoney(currency));
+		for(Currency curren:money) {
+			output.add(this.getValue(money.get(curren), curren, valueType));
 		}
 		return output;
 	}
-	/**
-	 * Returns the raw value of the given currency in this account.
-	 * @param cur	the currency to look up
-	 * @return		the raw value of the given currency
-	 */
-	public BigDecimal getRawMoney(Currency cur) {
-		if(this.money.containsKey(cur)) {
-			return this.money.get(cur).divide(cur.getMoneymultiplyer(), mcdown);
+	
+	private void addMoney(BigDecimal mon, Currency monType) {
+		if(this.AutoExchange) {
+			Currency exTo = money.getIndex(0);
+			money.put(exTo, money.get(exTo).add(this.exchange(mon, monType, exTo)));
+		}
+		else if(money.containsKey(monType)) {
+			money.put(monType, money.get(monType).add(mon));
 		}
 		else {
-			this.money.put(cur, BigDecimal.ZERO);
-			return this.getRawMoney(cur);
+			money.put(monType, BigDecimal.ZERO);
+			this.addMoney(mon, monType);
 		}
 	}
-	/**
-	 * Adds the raw amount to the first currency in list.
-	 * @param money	the raw amount to add to account
-	 * @throws NoMoneyOfThatType 
-	 */
-	public void addRawMoney(BigDecimal money) {
-		if(this.money.size() == 0) {
-			this.money.put(Currency.DEFAULT, money.multiply(Currency.DEFAULT.getMoneymultiplyer()));
-		}
-		Currency cur = this.money.getIndex(0);
-		BigDecimal amount = money.multiply(cur.getMoneymultiplyer());
-		amount = amount.add(this.money.get(cur));
-		this.money.put(cur, amount);
-	}
-	/**
-	 * Removes the raw amount from the account in the order that the currencies are listed.
-	 * @param money	the raw amount to remove
-	 * @throws BalanceOutOfBoundsException
-	 */
-	public void removeRawMoney(BigDecimal money) throws BalanceOutOfBoundsException {
-		if(this.getTotalRawMoney().compareTo(money) < 0) {
+	
+	public void transferMoney(BigDecimal mon, Currency monType, Account accountTo) throws BalanceOutOfBoundsException {
+		if(getTotalMoney(monType).compareTo(mon) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}
 		else {
 			boolean done = false;
 			int iter = 0;
-			while (!done) {
-				Currency cur = this.money.getIndex(iter);
-				BigDecimal curamount = this.getRawMoney(cur);
-				if(curamount.compareTo(money) <= 0) {
-					this.money.put(cur, BigDecimal.ZERO);
-					money = money.subtract(curamount);
+			while(!done) {
+				Currency curren = money.getIndex(iter);
+				BigDecimal amount = money.get(curren);
+				if(amount.compareTo(this.getValue(mon, monType, curren)) < 0) {
+					mon.subtract(this.getValue(amount, curren, monType));
+					money.put(curren, BigDecimal.ZERO);
+					accountTo.addMoney(amount, curren);
 				}
 				else {
-					this.money.put(cur, curamount.subtract(money));
+					money.put(curren, money.get(curren).subtract(this.getValue(mon, monType, curren)));
+					accountTo.addMoney(getValue(mon, monType, curren), curren);
 					done = true;
 				}
+				iter++;
 			}
 		}
 	}
-
+	
+	public BigDecimal getValue(BigDecimal  mon, Currency monType, Currency valueType ) {
+		return mon.divide(monType.getMoneymultiplyer()).multiply(valueType.getMoneymultiplyer());
+	}
+	
+	public BigDecimal exchange(BigDecimal mon, Currency exFromType, Currency exToType) {
+		//TODO make this so it works with exchange in main class
+		return this.getValue(mon, exFromType, exToType);
+	}
+	
 	/**
 	 * Does this account auto exchange it's currencies when adding more money?
 	 * @return

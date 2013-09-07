@@ -79,7 +79,7 @@ public class PickEconomy extends InputMenu{
 	}
 
 	@Override
-	public void init() {
+	public void Init() {
+		
 	}
-
 }

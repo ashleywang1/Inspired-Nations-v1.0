@@ -32,14 +32,22 @@ public class PromptOption extends Option {
 	}
 
 	@Override
-	public Menu response(String input) {
+	public final Menu response(String input) {
 		if(this.isAvailable()) {
+			this.doStuff();
 			return this.nextPrompt;
 		}
 		else {
 			this.menu.setError(MenuError.NOT_AN_OPTION());
 			return this.menu.getSelf();
 		}
+	}
+
+	/**
+	 * A function to allow options to do something if the option has been selected.
+	 */
+	public void doStuff() {
+		
 	}
 
 }

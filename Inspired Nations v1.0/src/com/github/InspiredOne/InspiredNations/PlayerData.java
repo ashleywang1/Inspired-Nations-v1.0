@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 
@@ -52,7 +53,8 @@ public class PlayerData implements Serializable, Nameable {
 		return plugin.getServer().getPlayer(name);
 	}
 	
-	public boolean isSubjectOf(InspiredNations plugin, Class<? extends InspiredGov> govtype) {
+	public boolean isSubjectOf(Class<? extends InspiredGov> govtype) {
+		InspiredNations plugin = InspiredNations.plugin;
 		for(InspiredGov gov:plugin.regiondata.get(govtype)) {
 			if(gov.getSubjects().contains(this.getName())) {
 				return true;
@@ -68,6 +70,22 @@ public class PlayerData implements Serializable, Nameable {
 		for(InspiredGov gov:plugin.regiondata.get(govType)) {
 			if(gov.getSubjects().contains(this.getName())) {
 				output.add(gov);
+			}
+		}
+		
+		return output;
+	}
+	
+	public List<NoSubjects> getOwnership(Class<? extends NoSubjects> govType) {
+		List<NoSubjects> output = new ArrayList<NoSubjects>();
+		InspiredNations plugin = InspiredNations.plugin;
+		
+		for(InspiredGov gov:plugin.regiondata.get(govType)) {
+			if(gov instanceof NoSubjects) {
+				gov = (NoSubjects) gov;
+				if(((NoSubjects) gov).getOwners().contains(this.getName())) {
+					output.add((NoSubjects) gov);
+				}
 			}
 		}
 		

@@ -7,14 +7,14 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
 
 public class WarningAlreadyOwnOne extends OptionMenu {
 
 	GovFactory Govf;
-	public WarningAlreadyOwnOne(PlayerData PDI, GovFactory Govf) {
+	
+	public WarningAlreadyOwnOne(PlayerData PDI) {
 		super(PDI);
-		this.Govf = Govf;
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class WarningAlreadyOwnOne extends OptionMenu {
 
 	@Override
 	public Menu PreviousMenu() {
-		return new PickSuperGov(PDI, Govf);
+		return new PickSuperGov(PDI, this);
 	}
 
 	@Override
@@ -51,8 +51,9 @@ public class WarningAlreadyOwnOne extends OptionMenu {
 
 	@Override
 	public void init() {
-		options.add(new PromptOption(this, "Yes", new PickName(PDI, Govf), OptionUnavail.NOT_UNAVAILABLE));
-		options.add(new PromptOption(this, "No", new MainHud(PDI), OptionUnavail.NOT_UNAVAILABLE));		
+		Govf = (GovFactory) this.getContext().getSessionData(ContextData.PromptData);
+		options.add(new PromptOption(this, "Yes", new PickName(PDI, Govf)));
+		options.add(new PromptOption(this, "No", new MainHud(PDI)));
 	}
 
 }

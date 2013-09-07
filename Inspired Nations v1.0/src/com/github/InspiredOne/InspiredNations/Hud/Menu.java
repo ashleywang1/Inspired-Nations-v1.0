@@ -71,6 +71,7 @@ public abstract class Menu extends MessagePrompt {
 	}
 	@Override
 	public final Prompt acceptInput(ConversationContext arg0, String arg) {
+		System.out.println("In AcceptInput() " + this.getHeader());
 		if(arg == null) {
 			return this.getNextPrompt(arg0);
 		}
@@ -143,10 +144,12 @@ public abstract class Menu extends MessagePrompt {
 	 * in the menu graph
 	 */
 	private final Menu checkNext(String input) {
+		System.out.println("In CheckNext 1: " + this.getHeader());
 		Menu next = this.getNextMenu(input);
 		while(next.passBy()) {
 			next = next.getPassTo();
 		}
+		System.out.println("In CheckNext 2: " + this.getHeader());
 		return next;
 	}
 
@@ -188,7 +191,7 @@ public abstract class Menu extends MessagePrompt {
 	public abstract Menu getPassTo();
 	/**
 	 * Used to do things for the conversation, but only for when the user is directed to it. Use
-	 * for adding options, managers, and tab-completes.
+	 * for adding options, managers, grabbing context data, and tab-completes.
 	 */
 	public abstract void init();
 

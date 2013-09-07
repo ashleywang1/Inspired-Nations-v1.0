@@ -10,7 +10,7 @@ public abstract class InputMenu extends ActionMenu {
 
 	public InputMenu(PlayerData PDI) {
 		super(PDI);
-		managers.add(new InputManager(this, this.getTabOptions()));
+
 	}
 	
 	@Override
@@ -40,6 +40,12 @@ public abstract class InputMenu extends ActionMenu {
 	public void actionResponse() {
 		
 	}
+	
+	@Override
+	public void init() {
+		this.Init();
+		managers.add(new InputManager(this, this.getTabOptions()));
+	}
 	/**
 	 * 
 	 * @return	the menu to go to if passBy() returns true
@@ -63,4 +69,9 @@ public abstract class InputMenu extends ActionMenu {
 	 * @return	The text that instructs the player what to input
 	 */
 	public abstract String getInstructions();
+	/**
+	 * Used to do things for the conversation, but only for when the user is directed to it. Use
+	 * for adding options, managers, and tab-completes.
+	 */
+	public abstract void Init();
 }
