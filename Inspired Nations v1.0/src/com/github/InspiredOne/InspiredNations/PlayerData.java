@@ -66,20 +66,20 @@ public class PlayerData implements Serializable, Nameable {
 	public List<InspiredGov> getCitizenship(Class<? extends InspiredGov> govType) {
 		List<InspiredGov> output = new ArrayList<InspiredGov>();
 		InspiredNations plugin = InspiredNations.plugin;
-		
+
 		for(InspiredGov gov:plugin.regiondata.get(govType)) {
 			if(gov.getSubjects().contains(this.getName())) {
 				output.add(gov);
 			}
 		}
-		
+
 		return output;
 	}
 	
-	public List<NoSubjects> getOwnership(Class<? extends NoSubjects> govType) {
+	public List<NoSubjects> getOwnership(Class<? extends InspiredGov> govType) {
 		List<NoSubjects> output = new ArrayList<NoSubjects>();
 		InspiredNations plugin = InspiredNations.plugin;
-		
+
 		for(InspiredGov gov:plugin.regiondata.get(govType)) {
 			if(gov instanceof NoSubjects) {
 				gov = (NoSubjects) gov;

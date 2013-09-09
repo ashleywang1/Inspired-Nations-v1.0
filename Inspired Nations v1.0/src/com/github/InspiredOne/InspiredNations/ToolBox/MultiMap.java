@@ -17,7 +17,7 @@ public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable{
 	 */
 	private static final long serialVersionUID = 5789101682525659411L;
 	
-	private HashMap<T, HashSet<K>> set = new HashMap<T, HashSet<K>>();
+	protected HashMap<T, HashSet<K>> set = new HashMap<T, HashSet<K>>();
 
 	@Override
 	public void clear() {

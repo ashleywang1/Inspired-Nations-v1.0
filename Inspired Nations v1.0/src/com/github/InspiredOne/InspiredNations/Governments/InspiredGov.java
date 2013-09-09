@@ -13,6 +13,8 @@ import org.bukkit.Location;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.Exceptions.IsDirectSuperGovException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
@@ -38,7 +40,7 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	private List<InspiredGov> facilities = new ArrayList<InspiredGov>();
 	private HashMap<Class<? extends InspiredGov>, Double> taxrates = new HashMap<Class<? extends InspiredGov>, Double>();
 	private InspiredGov supergov;
-	private String name = "";
+	private String name;
 	private int protectionlevel = 0;
 	private Currency currency = Currency.DEFAULT;
 	
@@ -161,6 +163,13 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	 */
 	public abstract List<Class<? extends InspiredGov>> getSelfGovs();
 	/**
+	 * Returns the general gov that returns this gov in it's getSelfGovs() method.
+	 * @return	the class of the general gov of this type.
+	 */
+	public Class<? extends InspiredGov> getGeneralGovType() {
+		return this.getClass();
+	}
+	/**
 	 * 
 	 * @return	the <code>String</code> to be used as the name for this government in the menus
 	 */
@@ -234,11 +243,16 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	 * Gets a list of all the governments that are below this government (including itself)
 	 * @return	A list of all the subgovs
 	 */
-	public List<Class<? extends NoSubjects>> getAllSubGovs() {
+	@SuppressWarnings("unchecked")
+	public final List<Class<? extends NoSubjects>> getAllSubGovs() {
 		List<Class<? extends NoSubjects>> output = new ArrayList<Class<? extends NoSubjects>>();
 		for(Class<? extends NoSubjects> gov:this.getSubGovs()) {
-			output.add(gov);
+			output.add((Class<? extends NoSubjects>) gov);
 			output.addAll(GovFactory.getGovInstance(gov).getAllSubGovs());
+/*			for(Class<? extends InspiredGov> gov2:GovFactory.getGovInstance(gov).getSelfGovs()) {
+				output.add((Class<? extends NoSubjects>) gov2);
+				output.addAll(GovFactory.getGovInstance(gov2).getAllSubGovs());
+			}*/
 		}
 		return output;
 	}
@@ -275,6 +289,55 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	public static boolean fromSameBranch(InspiredGov gov1, InspiredGov gov2) {
 		return gov1.getSuperGovObj().equals(gov2.getSuperGovObj());
 	}
+	
+	/**
+	 * Gets the gov Just below the parameter class that governs this gov.
+	 * @param govType
+	 * @return
+	 */
+	public final InspiredGov getSuperGovBelow(Class<? extends InspiredGov> govType) throws IsDirectSuperGovException, NotASuperGovException {
+		boolean isOutput = govType.equals(this.getClass());
+		InspiredGov gov = this;
+		
+		if(govType.equals(this.getSuperGov())) {
+			throw new IsDirectSuperGovException();
+		}
+		
+		
+		while(!isOutput) {
+			if(gov.equals(InspiredNations.plugin.global)) {
+				throw new NotASuperGovException();				
+			}
+			if(gov.getSuperGov().getClass().equals(govType)) {
+				isOutput = true;
+				break;
+			}
+			gov = gov.getSuperGovObj();
+		}
+		return gov;
+	}
+	
+	/**
+	 * Determines if this government is below gov.
+	 * @param gov	the government to check if is above this government
+	 * @return		true if this is below gov
+	 */
+	public final boolean isSubOf(InspiredGov gov) {
+		
+		if(this.equals(InspiredNations.plugin.global)) {
+			return false;
+		}
+		else if(gov.equals(InspiredNations.plugin.global)) {
+			return true;
+		}
+		else if(gov.equals(this.getSuperGovObj())) {
+			return true;
+		}
+		else {
+			return this.getSuperGovObj().isSubOf(gov);
+		}
+	}
+	
 	public int getProtectionlevel() {
 		return protectionlevel;
 	}

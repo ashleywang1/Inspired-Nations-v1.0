@@ -17,6 +17,7 @@ public abstract class PassByOptionMenu extends OptionMenu{
 	public boolean getPassBy() {
 		this.Initialize();
 		if (this.options.size() == 1) {
+			System.out.println("In getPassBy() of: " + this.getHeader());
 			return true;
 		}
 		else {

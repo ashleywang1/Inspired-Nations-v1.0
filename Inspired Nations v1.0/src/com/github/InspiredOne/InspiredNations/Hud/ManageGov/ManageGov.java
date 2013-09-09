@@ -10,8 +10,9 @@ import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
 public class ManageGov extends OptionMenu {
 
 	NoSubjects gov;
-	public ManageGov(PlayerData PDI) {
+	public ManageGov(PlayerData PDI, NoSubjects gov) {
 		super(PDI);
+		this.gov = gov;
 
 	}
 
@@ -22,7 +23,7 @@ public class ManageGov extends OptionMenu {
 
 	@Override
 	public Menu PreviousMenu() {
-		return new PickSuperGov(PDI, this);
+		return new PickManageSuperGov(PDI, gov.getClass(), gov.getSuperGovObj());
 	}
 
 	@Override

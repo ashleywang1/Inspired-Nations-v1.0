@@ -13,8 +13,9 @@ public class WarningAlreadyOwnOne extends OptionMenu {
 
 	GovFactory Govf;
 	
-	public WarningAlreadyOwnOne(PlayerData PDI) {
+	public WarningAlreadyOwnOne(PlayerData PDI, GovFactory Govf) {
 		super(PDI);
+		this.Govf = Govf;
 	}
 
 	@Override
@@ -30,28 +31,40 @@ public class WarningAlreadyOwnOne extends OptionMenu {
 
 	@Override
 	public Menu PreviousMenu() {
-		return new PickSuperGov(PDI, this);
+		return new PickSuperGov(PDI, Govf);
 	}
 
 	@Override
 	public boolean getPassBy() {
+		System.out.println("Inside PassBy of 1: " + this.getHeader());
 		NoSubjects gov = ((NoSubjects) Govf.getGov());
+		System.out.println("Inside PassBy of 2: " + this.getHeader());
 		if(!PDI.getCitizenship(gov.getCommonGov()).isEmpty()) {
+			System.out.println("Inside PassBy of 3: " + this.getHeader());
+			System.out.println(PDI.getCitizenship(gov.getCommonGov()).get(0).getName());
+			System.out.println(gov.getCommonGovObj() == null);
 			if(gov.getCommonGovObj() != PDI.getCitizenship(gov.getCommonGov()).get(0)) {
+				System.out.println("Inside PassBy of 4: " + this.getHeader());
 				return false;
 			}
+			else {
+				System.out.println("Inside PassBy of 6: " + this.getHeader());
+				return true;
+			}
 		}
+		System.out.println("Inside PassBy of 5: " + this.getHeader());
 		return true;
 	}
 
 	@Override
 	public Menu getPassTo() {
+		System.out.println("Inside PassTo of 1: " + this.getHeader());
 		return new PickName(PDI, Govf);
 	}
 
 	@Override
 	public void init() {
-		Govf = (GovFactory) this.getContext().getSessionData(ContextData.PromptData);
+		System.out.println("Inside init of 1: " + this.getHeader());
 		options.add(new PromptOption(this, "Yes", new PickName(PDI, Govf)));
 		options.add(new PromptOption(this, "No", new MainHud(PDI)));
 	}

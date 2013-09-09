@@ -23,6 +23,7 @@ import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiMap;
 
 public class InspiredNations extends JavaPlugin {
@@ -30,7 +31,7 @@ public class InspiredNations extends JavaPlugin {
 	public static InspiredNations plugin = (InspiredNations) Bukkit.getPluginManager().getPlugin("InspiredNations");
 	public Logger logger = Logger.getLogger("Minecraft"); // Variable to communicate with console
 	private StartStop SS = new StartStop(this); // Deals with start-up and shut-down
-	public MultiMap<Class<? extends InspiredGov>, InspiredGov> regiondata = new MultiMap<Class<? extends InspiredGov>, InspiredGov>(); 
+	public MultiGovMap regiondata = new MultiGovMap(); 
 	public HashMap<String, PlayerData> playerdata = new HashMap<String, PlayerData>();
 	public HashMap<Currency, BigDecimal> Exchange = new HashMap<Currency, BigDecimal>();
 	public GlobalGov global = (GlobalGov) (new GovFactory(GlobalGov.class)).withMoneyname("Coin").withMoneyMultiplyer(BigDecimal.ONE).getGov();

@@ -8,7 +8,6 @@ import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class PickName extends InputMenu {
@@ -66,7 +65,7 @@ public class PickName extends InputMenu {
 
 	@Override
 	public Menu PreviousMenu() {
-		return new PickSuperGov(PDI, new WarningAlreadyOwnOne(PDI));
+		return new PickSuperGov(PDI, Govf);
 	}
 
 	@Override

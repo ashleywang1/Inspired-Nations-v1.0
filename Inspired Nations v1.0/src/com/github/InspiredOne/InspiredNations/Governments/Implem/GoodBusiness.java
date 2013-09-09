@@ -39,5 +39,10 @@ public class GoodBusiness extends Business {
 		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
 		return output;
 	}
+	
+	@Override
+	public Class<? extends InspiredGov> getGeneralGovType() {
+		return Business.class;
+	}
 
 }

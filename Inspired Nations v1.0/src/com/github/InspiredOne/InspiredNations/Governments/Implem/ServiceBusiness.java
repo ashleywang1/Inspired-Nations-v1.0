@@ -40,4 +40,9 @@ public class ServiceBusiness extends Business {
 		return output;
 	}
 
+	@Override
+	public Class<? extends InspiredGov> getGeneralGovType() {
+		return Business.class;
+	}
+	
 }

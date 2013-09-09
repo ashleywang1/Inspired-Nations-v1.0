@@ -14,6 +14,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiMap;
 
 
@@ -45,7 +46,7 @@ public class StartStop {
 			File regionfile = new File(plugin.getDataFolder(), "regiondata.yml");
 	        FileInputStream regionIn = new FileInputStream(regionfile);
 	        ObjectInputStream rin = new ObjectInputStream(regionIn);
-	        plugin.regiondata = (MultiMap<Class<? extends InspiredGov>, InspiredGov>) rin.readObject();
+	        plugin.regiondata = (MultiGovMap) rin.readObject();
 	        rin.close();
 	        regionIn.close();
 	        
