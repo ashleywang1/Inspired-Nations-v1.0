@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
@@ -61,8 +62,8 @@ public class Country extends Subjects {
 	}
 
 	@Override
-	public List<Class<? extends InspiredGov>> getGovFacilities() {
-		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+	public List<Class<? extends Facility>> getGovFacilities() {
+		List<Class<? extends Facility>> output = new ArrayList<Class<? extends Facility>>();
 		output.add(FederalPark.class);
 		
 		return output;

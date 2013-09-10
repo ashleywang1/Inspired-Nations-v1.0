@@ -25,7 +25,7 @@ public class PickMoneyName extends InputMenu{
 
 	@Override
 	public String validate(String input) {
-		for(Currency currency:plugin.Exchange.keySet()) {
+		for(Currency currency:plugin.Exchange.getExchangeMap().keySet()) {
 			if(currency.getName().equalsIgnoreCase(input)) {
 				return MenuError.MONEY_NAME_ALREADY_TAKEN();
 			}

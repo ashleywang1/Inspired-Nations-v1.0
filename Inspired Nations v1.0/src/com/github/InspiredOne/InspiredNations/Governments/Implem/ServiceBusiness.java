@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Governments.Implem;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.ServiceBusinessLand;
@@ -35,8 +36,8 @@ public class ServiceBusiness extends Business {
 	}
 
 	@Override
-	public List<Class<? extends InspiredGov>> getGovFacilities() {
-		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+	public List<Class<? extends Facility>> getGovFacilities() {
+		List<Class<? extends Facility>> output = new ArrayList<Class<? extends Facility>>();
 		return output;
 	}
 

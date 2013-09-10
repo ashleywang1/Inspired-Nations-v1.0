@@ -5,17 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.math.BigDecimal;
 import java.util.HashMap;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 
-import com.github.InspiredOne.InspiredNations.Economy.Currency;
-import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
-import com.github.InspiredOne.InspiredNations.ToolBox.MultiMap;
 
 
 public class StartStop {
@@ -60,7 +57,7 @@ public class StartStop {
 	        File econfile = new File(plugin.getDataFolder(), "econdata.yml");
 	        FileInputStream econIn = new FileInputStream(econfile);
 	        ObjectInputStream ein = new ObjectInputStream(econIn);
-	        plugin.Exchange = (HashMap<Currency, BigDecimal>) ein.readObject();
+	        plugin.Exchange = (MoneyExchange) ein.readObject();
 	        ein.close();
 	        econIn.close();
 		}

@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.BankLand;
 
-public class Bank extends InspiredGov {
+public class Bank extends Facility {
 
 	/**
 	 * 
@@ -22,12 +22,6 @@ public class Bank extends InspiredGov {
 	}
 
 	private static final String typeName = "Bank";
-	
-	@Override
-	public List<Class<? extends NoSubjects>> getSubGovs() {
-		List<Class<? extends NoSubjects>> output = new ArrayList<Class<? extends NoSubjects>>();
-		return output;
-	}
 
 	@Override
 	public Class<? extends InspiredGov> getSuperGov() {
@@ -58,8 +52,8 @@ public class Bank extends InspiredGov {
 	}
 
 	@Override
-	public List<Class<? extends InspiredGov>> getGovFacilities() {
-		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+	public List<Class<? extends Facility>> getGovFacilities() {
+		List<Class<? extends Facility>> output = new ArrayList<Class<? extends Facility>>();
 		return output;
 	}
 

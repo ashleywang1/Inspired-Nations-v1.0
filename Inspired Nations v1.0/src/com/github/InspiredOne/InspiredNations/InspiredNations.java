@@ -19,12 +19,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
-import com.github.InspiredOne.InspiredNations.ToolBox.MultiMap;
 
 public class InspiredNations extends JavaPlugin {
 
@@ -33,8 +32,8 @@ public class InspiredNations extends JavaPlugin {
 	private StartStop SS = new StartStop(this); // Deals with start-up and shut-down
 	public MultiGovMap regiondata = new MultiGovMap(); 
 	public HashMap<String, PlayerData> playerdata = new HashMap<String, PlayerData>();
-	public HashMap<Currency, BigDecimal> Exchange = new HashMap<Currency, BigDecimal>();
-	public GlobalGov global = (GlobalGov) (new GovFactory(GlobalGov.class)).withMoneyname("Coin").withMoneyMultiplyer(BigDecimal.ONE).getGov();
+	public MoneyExchange Exchange = new MoneyExchange();
+	public GlobalGov global = (GlobalGov) (new GovFactory(GlobalGov.class)).withMoneyname("Coin").withDiamondValue(new BigDecimal(1000)).getGov();
 	public TempCommandListener CM = new TempCommandListener(this);
 	public TempPlayerListener PL = new TempPlayerListener(this);
 	
@@ -64,9 +63,7 @@ public class InspiredNations extends JavaPlugin {
 		for(String player:this.playerdata.keySet()) {
 			System.out.println(player);
 		}
-		for(Currency currency:this.Exchange.keySet()) {
-			System.out.println(currency.getName());
-		}
+
 	}
 	
 	public void onDisable() {

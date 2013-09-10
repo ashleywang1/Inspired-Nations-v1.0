@@ -16,5 +16,8 @@ max_diamond_value: 10000
 tax_cycle_length: 10
 player_npc_pop: 100
 
+
 # Adjust this number to change the formating of the HUD. #
 hud_pre_message_space: 20
+
+exchange_multiplyer: 10000000

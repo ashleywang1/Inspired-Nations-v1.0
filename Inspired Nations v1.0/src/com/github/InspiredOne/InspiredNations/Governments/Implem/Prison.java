@@ -4,24 +4,18 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.PrisonLand;
 
-public class Prison extends InspiredGov {
+public class Prison extends Facility {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3660969970048913227L;
 	private static final String typeName = "Prison";
-
-	@Override
-	public List<Class<? extends NoSubjects>> getSubGovs() {
-		List<Class<? extends NoSubjects>> output = new ArrayList<Class<? extends NoSubjects>>();
-		return output;
-	}
 
 	@Override
 	public Class<? extends InspiredGov> getSuperGov() {
@@ -52,8 +46,8 @@ public class Prison extends InspiredGov {
 	}
 
 	@Override
-	public List<Class<? extends InspiredGov>> getGovFacilities() {
-		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
+	public List<Class<? extends Facility>> getGovFacilities() {
+		List<Class<? extends Facility>> output = new ArrayList<Class<? extends Facility>>();
 		return output;
 	}
 

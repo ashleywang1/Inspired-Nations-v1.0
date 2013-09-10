@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.LocalParkLand;
 
-public class LocalPark extends InspiredGov {
+public class LocalPark extends Facility {
 
 	/**
 	 * 
@@ -24,14 +24,8 @@ public class LocalPark extends InspiredGov {
 	}
 
 	@Override
-	public List<Class<? extends InspiredGov>> getGovFacilities() {
-		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
-		return output;
-	}
-
-	@Override
-	public List<Class<? extends NoSubjects>> getSubGovs() {
-		List<Class<? extends NoSubjects>> output = new ArrayList<Class<? extends NoSubjects>>();
+	public List<Class<? extends Facility>> getGovFacilities() {
+		List<Class<? extends Facility>> output = new ArrayList<Class<? extends Facility>>();
 		return output;
 	}
 

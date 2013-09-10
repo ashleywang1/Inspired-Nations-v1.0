@@ -7,6 +7,7 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 public class GovFactory {
 
 	InspiredGov gov;
+	BigDecimal diamondvalue = BigDecimal.ONE;
 	public GovFactory(Class<? extends InspiredGov> gov) {
 		this.gov = GovFactory.getGovInstance(gov);
 	}
@@ -29,8 +30,8 @@ public class GovFactory {
 		return this;
 	}
 	
-	public GovFactory withMoneyMultiplyer(BigDecimal multiplyer) {
-		this.gov.getCurrency().setMoneymultiplyer(multiplyer);
+	public GovFactory withDiamondValue(BigDecimal multiplyer) {
+		this.diamondvalue = multiplyer;
 		return this;
 	}
 	
@@ -40,11 +41,11 @@ public class GovFactory {
 
 	public void registerGov() {
 		InspiredNations.plugin.regiondata.put(gov.getClass(), gov);
-		InspiredNations.plugin.Exchange.put(gov.getCurrency(), BigDecimal.ONE);
+		InspiredNations.plugin.Exchange.registerCurrency(this.getGov().getCurrency(), diamondvalue);
 		//TODO change BigDecimal.ONE to whatever you're going to use for default values for exchanger
 	}
 	
-	public static InspiredGov getGovInstance(Class<? extends InspiredGov> gov) {
+	public static <T extends InspiredGov> T getGovInstance(Class<T> gov) {
 		try {
 			return gov.newInstance();
 		} catch (InstantiationException e) {

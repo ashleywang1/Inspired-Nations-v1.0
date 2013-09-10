@@ -137,12 +137,12 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	 */
 	public abstract Class<? extends InspiredRegion> getSelfRegionType();
 	/**
-	 * Gets the <code>InspiredGov</code> classes that this government uses as facilities.
+	 * Gets the <code>Facility</code> classes that this government uses as facilities.
 	 * facilities are not taxed by this gov, but are taxed by the supergov. They share owners with
 	 * this government. They can only be claimed by owners of this government.
 	 * @return	a <code>List</code> of <code>InspiredGov</code> classes that serve as facilities for this gov
 	 */
-	public abstract List<Class<? extends InspiredGov>> getGovFacilities();
+	public abstract List<Class<? extends Facility>> getGovFacilities();
 	/**
 	 * Gets the <code>InspiredGov</code>s that are under this government's control.
 	 * SubGovs are taxed by this government and can be claimed by any of the subjects.
@@ -243,7 +243,6 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	 * Gets a list of all the governments that are below this government (including itself)
 	 * @return	A list of all the subgovs
 	 */
-	@SuppressWarnings("unchecked")
 	public final List<Class<? extends NoSubjects>> getAllSubGovs() {
 		List<Class<? extends NoSubjects>> output = new ArrayList<Class<? extends NoSubjects>>();
 		for(Class<? extends NoSubjects> gov:this.getSubGovs()) {

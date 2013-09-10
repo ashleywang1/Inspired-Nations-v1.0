@@ -46,7 +46,7 @@ public class PickEconomy extends InputMenu{
 
 	@Override
 	public void useInput(String input) {
-		Govf = Govf.withMoneyMultiplyer(new BigDecimal(input));
+		Govf = Govf.withDiamondValue(new BigDecimal(input));
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class PickEconomy extends InputMenu{
 
 	@Override
 	public Menu PreviousMenu() {
-		return new PickName(PDI, Govf);
+		return new PickMoneyName(PDI, Govf);
 	}
 
 	@Override

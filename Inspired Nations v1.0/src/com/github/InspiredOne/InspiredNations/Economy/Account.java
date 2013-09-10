@@ -5,11 +5,10 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
-import com.github.InspiredOne.InspiredNations.Exceptions.NoMoneyOfThatType;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
-import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 public class Account implements Serializable, Nameable {
 
@@ -35,20 +34,21 @@ public class Account implements Serializable, Nameable {
 	 * 
 	 * @return	the <code>HashMap</code> with all the money values in it
 	 */
-	public IndexedMap<Currency, BigDecimal> getMoney() {
+	public final IndexedMap<Currency, BigDecimal> getMoney() {
 		return money;
 	}
 	/**
 	 * Sets the HashMap of all the money values
 	 * @param money	the HashMap to replace the current one
 	 */
-	public void setMoney(IndexedMap<Currency, BigDecimal> money) {
+	public final void setMoney(IndexedMap<Currency, BigDecimal> money) {
 		this.money = money;
 	}
 
-	public BigDecimal getMoney(Currency getType, Currency valueType) {
+	public final BigDecimal getMoney(Currency getType, Currency valueType) {
+		MoneyExchange exch = InspiredNations.plugin.Exchange;
 		if(money.containsKey(getType)) {
-			return getValue(money.get(getType), getType, valueType);
+			return exch.getValue(money.get(getType), getType, valueType);
 		}
 		else {
 			money.put(getType, BigDecimal.ZERO);
@@ -56,18 +56,20 @@ public class Account implements Serializable, Nameable {
 		}
 	}
 	
-	public BigDecimal getTotalMoney(Currency valueType) {
+	public final BigDecimal getTotalMoney(Currency valueType) {
+		MoneyExchange exch = InspiredNations.plugin.Exchange;
 		BigDecimal output = BigDecimal.ZERO;
 		for(Currency curren:money) {
-			output.add(this.getValue(money.get(curren), curren, valueType));
+			output.add(exch.getValue(money.get(curren), curren, valueType));
 		}
 		return output;
 	}
 	
-	private void addMoney(BigDecimal mon, Currency monType) {
+	private final void addMoney(BigDecimal mon, Currency monType) {
+		MoneyExchange exch = InspiredNations.plugin.Exchange;
 		if(this.AutoExchange) {
 			Currency exTo = money.getIndex(0);
-			money.put(exTo, money.get(exTo).add(this.exchange(mon, monType, exTo)));
+			money.put(exTo, money.get(exTo).add(exch.exchange(mon, monType, exTo)));
 		}
 		else if(money.containsKey(monType)) {
 			money.put(monType, money.get(monType).add(mon));
@@ -78,7 +80,8 @@ public class Account implements Serializable, Nameable {
 		}
 	}
 	
-	public void transferMoney(BigDecimal mon, Currency monType, Account accountTo) throws BalanceOutOfBoundsException {
+	public final void transferMoney(BigDecimal mon, Currency monType, Account accountTo) throws BalanceOutOfBoundsException {
+		MoneyExchange exch = InspiredNations.plugin.Exchange;
 		if(getTotalMoney(monType).compareTo(mon) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}
@@ -88,28 +91,19 @@ public class Account implements Serializable, Nameable {
 			while(!done) {
 				Currency curren = money.getIndex(iter);
 				BigDecimal amount = money.get(curren);
-				if(amount.compareTo(this.getValue(mon, monType, curren)) < 0) {
-					mon.subtract(this.getValue(amount, curren, monType));
+				if(amount.compareTo(exch.getValue(mon, monType, curren)) < 0) {
+					mon.subtract(exch.getValue(amount, curren, monType));
 					money.put(curren, BigDecimal.ZERO);
 					accountTo.addMoney(amount, curren);
 				}
 				else {
-					money.put(curren, money.get(curren).subtract(this.getValue(mon, monType, curren)));
-					accountTo.addMoney(getValue(mon, monType, curren), curren);
+					money.put(curren, money.get(curren).subtract(exch.getValue(mon, monType, curren)));
+					accountTo.addMoney(exch.getValue(mon, monType, curren), curren);
 					done = true;
 				}
 				iter++;
 			}
 		}
-	}
-	
-	public BigDecimal getValue(BigDecimal  mon, Currency monType, Currency valueType ) {
-		return mon.divide(monType.getMoneymultiplyer()).multiply(valueType.getMoneymultiplyer());
-	}
-	
-	public BigDecimal exchange(BigDecimal mon, Currency exFromType, Currency exToType) {
-		//TODO make this so it works with exchange in main class
-		return this.getValue(mon, exFromType, exToType);
 	}
 	
 	/**
