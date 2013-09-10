@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -59,7 +60,6 @@ public class MainHud extends OptionMenu {
 				System.out.println(govobj.getTypeName());
 				this.options.add(new PromptOption(this, "Manage " + govobj.getTypeName(), new PickManageSelfType(PDI, gov)));
 			}
-
 		}
 		
 		for(Class<? extends NoSubjects> gov:array) {

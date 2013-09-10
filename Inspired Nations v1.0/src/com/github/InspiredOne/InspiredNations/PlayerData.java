@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.bukkit.conversations.Conversation;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
@@ -89,6 +91,23 @@ public class PlayerData implements Serializable, Nameable {
 			}
 		}
 		
+		return output;
+	}
+	/**
+	 * 
+	 * @param govbot
+	 * @param govtop
+	 * @return
+	 */
+	public final LinkedHashSet<InspiredGov> getAllSuperGovsBelow(Class<? extends InspiredGov> govbot, InspiredGov govtop) {
+		LinkedHashSet<InspiredGov> output = new LinkedHashSet<InspiredGov>();
+		for(NoSubjects govbottom:this.getOwnership(govbot)) {
+			try {
+				output.add(govbottom.getSuperGovBelow(govtop));
+			} catch (NotASuperGovException e) {
+				e.printStackTrace();
+			}
+		}
 		return output;
 	}
 

@@ -1,11 +1,12 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 
-public class MultiGovMap extends MultiMap<Class<? extends InspiredGov>, InspiredGov> {
+public class MultiGovMap extends MultiMap<Class<? extends InspiredGov>, InspiredGov> implements Serializable {
 
 	/**
 	 * 

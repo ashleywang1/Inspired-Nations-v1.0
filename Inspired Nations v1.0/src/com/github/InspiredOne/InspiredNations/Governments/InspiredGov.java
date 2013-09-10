@@ -257,6 +257,27 @@ public abstract class InspiredGov implements Serializable, Nameable {
 		return output;
 	}
 	/**
+	 * Returns a list of all govs that are subgovs of the parameter and
+	 * are super govs of this gov or are this gov.
+	 * @param govtop
+	 * @return
+	 */
+	public final InspiredGov getSuperGovBelow(InspiredGov govtop) throws NotASuperGovException{
+		InspiredGov govbottom = this;
+		for(Class<? extends InspiredGov> govtype:govtop.getSubGovs()) {
+			for(InspiredGov govtest:InspiredNations.plugin.regiondata.get(govtype)) {
+				if(govbottom.equals(govtest)) {
+					return govtest;
+				}
+				else if(govbottom.isSubOf(govtest)) {
+					return govtest;
+				}
+			}
+		}
+		throw new NotASuperGovException();
+	}
+	
+	/**
 	 * Registers all the region types into the plugin.regiondata hashmap.
 	 * @param plugin	the <code>InspiredNations</code> plugin where
 	 * the regiondata hashmap is stored
@@ -291,49 +312,25 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	}
 	
 	/**
-	 * Gets the gov Just below the parameter class that governs this gov.
-	 * @param govType
-	 * @return
-	 */
-	public final InspiredGov getSuperGovBelow(Class<? extends InspiredGov> govType) throws IsDirectSuperGovException, NotASuperGovException {
-		boolean isOutput = govType.equals(this.getClass());
-		InspiredGov gov = this;
-		
-		if(govType.equals(this.getSuperGov())) {
-			throw new IsDirectSuperGovException();
-		}
-		
-		
-		while(!isOutput) {
-			if(gov.equals(InspiredNations.plugin.global)) {
-				throw new NotASuperGovException();				
-			}
-			if(gov.getSuperGov().getClass().equals(govType)) {
-				isOutput = true;
-				break;
-			}
-			gov = gov.getSuperGovObj();
-		}
-		return gov;
-	}
-	
-	/**
 	 * Determines if this government is below gov.
 	 * @param gov	the government to check if is above this government
 	 * @return		true if this is below gov
 	 */
 	public final boolean isSubOf(InspiredGov gov) {
-		
+		System.out.println("In isSubOf 1: " + this.getName());
 		if(this.equals(InspiredNations.plugin.global)) {
 			return false;
 		}
 		else if(gov.equals(InspiredNations.plugin.global)) {
+			System.out.println("In isSubOf 2: " + this.getName());
 			return true;
 		}
 		else if(gov.equals(this.getSuperGovObj())) {
+			System.out.println("In isSubOf 3: " + this.getName());
 			return true;
 		}
 		else {
+			System.out.println("In isSubOf 4: " + this.getName());
 			return this.getSuperGovObj().isSubOf(gov);
 		}
 	}

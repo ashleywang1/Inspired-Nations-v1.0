@@ -34,7 +34,6 @@ public abstract class OptionMenu extends ActionMenu {
 		int answer;
 		try {
 			answer = Integer.parseInt(arg);
-
 			if(answer > options.size()) {
 				this.setError(MenuError.OUT_OF_RANGE_NUMBER_INPUT());
 				return this.getSelf();

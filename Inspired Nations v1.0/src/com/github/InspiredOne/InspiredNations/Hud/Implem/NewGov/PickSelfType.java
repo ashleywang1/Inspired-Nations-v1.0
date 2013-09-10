@@ -52,11 +52,11 @@ public class PickSelfType extends PassByOptionMenu {
 				if(govf.getGov().getSelfGovs().get(0).equals(govf.getGov().getClass())) {
 					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickSuperGov(PDI, govf)));
 				}
-				else {
+				else if(!PDI.getOwnership(govf.getGov().getClass()).isEmpty()){
 					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickSelfType(PDI, ((NoSubjects) govf.getGov()).getClass())));
 				}
 			}
-			else {
+			else if(!PDI.getOwnership(govf.getGov().getClass()).isEmpty()){
 				this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickSelfType(PDI, ((NoSubjects) govf.getGov()).getClass())));
 			}
 		}

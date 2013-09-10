@@ -44,9 +44,14 @@ public class InspiredNations extends JavaPlugin {
 		SS.Start();
 		pm.registerEvents(PL, this);
 		global.register();
+
 		if(regiondata.get(global.getClass()).isEmpty()) {
 			regiondata.put(global.getClass(), global);
 		}
+		else {
+			global = (GlobalGov) regiondata.get(global.getClass()).iterator().next();
+		}
+
 		this.getCommand("hud").setExecutor(CM);
 		this.getCommand("map").setExecutor(CM);
 		

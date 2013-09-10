@@ -4,6 +4,8 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
+import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.PickSuperGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
 
@@ -18,7 +20,7 @@ public class ManageGov extends OptionMenu {
 
 	@Override
 	public String getPreOptionText() {
-		return null;
+		return "";
 	}
 
 	@Override
@@ -29,7 +31,7 @@ public class ManageGov extends OptionMenu {
 	@Override
 	public String getHeader() {
 		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 	@Override
@@ -44,7 +46,7 @@ public class ManageGov extends OptionMenu {
 
 	@Override
 	public void init() {
-		this.gov = (NoSubjects) this.getContext().getSessionData(ContextData.PromptData);
+		this.options.add(new PromptOption(this, "option 1", new MainHud(PDI)));
 	}
 
 }

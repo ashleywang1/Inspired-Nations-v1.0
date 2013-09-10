@@ -44,14 +44,20 @@ public abstract class Menu extends MessagePrompt {
 	}
 	
 	public final void Initialize() {
+		System.out.println("In Initialize 1: " + this.getHeader());
 		if(!initialized) {
+			System.out.println("In Initialize 2: " + this.getHeader());
 			this.init();
+			System.out.println("In Initialize 3: " + this.getHeader());
 			initialized = true;
+			System.out.println("In Initialize 4: " + this.getHeader());
 		}
 	}
 
 	public final boolean passBy() {
+		System.out.println("In passBy 1: " + this.getHeader());
 		this.Initialize();
+		System.out.println("In passBy 2: " + this.getHeader());
 		return this.getPassBy();
 	}
 	
@@ -146,10 +152,13 @@ public abstract class Menu extends MessagePrompt {
 	private final Menu checkNext(String input) {
 		System.out.println("In CheckNext 1: " + this.getHeader());
 		Menu next = this.getNextMenu(input);
-		while(next.passBy()) {
-			next = next.getPassTo();
-		}
 		System.out.println("In CheckNext 2: " + this.getHeader());
+		while(next.passBy()) {
+			System.out.println("In CheckNext 3: " + this.getHeader());
+			next = next.getPassTo();
+			System.out.println("In CheckNext 4: " + this.getHeader());
+		}
+		System.out.println("In CheckNext 5: " + this.getHeader());
 		return next;
 	}
 

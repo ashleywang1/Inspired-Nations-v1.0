@@ -40,33 +40,6 @@ public class PickManageSelfType extends PassByOptionMenu {
 	public String getHeader() {
 		return "Select " + GovFactory.getGovInstance(GovType).getTypeName() + " type.";
 	}
-
-/*	@Override
-	public boolean getPassBy() {
-		NoSubjects gov = (NoSubjects) GovFactory.getGovInstance(GovType);
-		HashSet<Class<? extends NoSubjects>> count = new HashSet<Class<? extends NoSubjects>>();
-		for(Class<? extends InspiredGov> selftype:gov.getSelfGovs()) {
-			for(NoSubjects govcheck:PDI.getOwnership(selftype)) {
-				count.add(govcheck.getClass());
-			}
-		}
-		
-		if(gov.getSelfGovs().size() <= 1) {
-			return true;
-		}
-		else if(count.size() <= 1) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public Menu getPassTo() {
-		return new PickManageSuperGov(PDI, GovType, InspiredNations.plugin.global);
-	} */
-	
 	
 
 	@Override

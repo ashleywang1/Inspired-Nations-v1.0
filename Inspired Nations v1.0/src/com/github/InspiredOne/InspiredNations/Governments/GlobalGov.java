@@ -45,9 +45,7 @@ public class GlobalGov extends Subjects {
 		for(OfflinePlayer player:InspiredNations.plugin.getServer().getOfflinePlayers()) {
 			output.add(player.getName());
 		}
-		
 		return output;
-		
 	}
 	
 	@Override
