@@ -1,6 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud;
 
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
 
 /**
@@ -12,27 +12,31 @@ import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
  */
 public class DataPassPromptOption extends PromptOption {
 
-	Object data;
+	InspiredGov data;
+	DataCatchMenu<InspiredGov> nextPrompt;
 	
-	public DataPassPromptOption(OptionMenu menu, String lable, Menu nextPrompt,
-			OptionUnavail reason, Object data) {
+	public DataPassPromptOption(OptionMenu menu, String lable, DataCatchMenu<InspiredGov> nextPrompt,
+			OptionUnavail reason, InspiredGov data) {
 		super(menu, lable, nextPrompt, reason);
 		this.data = data;
+		this.nextPrompt = nextPrompt;
 	}
 	
-	public DataPassPromptOption(OptionMenu menu, String lable, Menu nextPrompt,
-			String description, Object data) {
+	public DataPassPromptOption(OptionMenu menu, String lable, DataCatchMenu<InspiredGov> nextPrompt,
+			String description, InspiredGov data) {
 		super(menu, lable, nextPrompt, description);
 		this.data = data;
+		this.nextPrompt = nextPrompt;
 	}
 	
-	public DataPassPromptOption(OptionMenu menu, String lable, Menu nextPrompt, Object data) {
+	public DataPassPromptOption(OptionMenu menu, String lable, DataCatchMenu<InspiredGov> nextPrompt, InspiredGov data) {
 		super(menu, lable, nextPrompt);
 		this.data = data;
+		this.nextPrompt = nextPrompt;
 	}
 	
 	@Override
 	public final void doStuff() {
-		menu.getContext().setSessionData(ContextData.PromptData, data);
+		this.nextPrompt.setData(data);
 	}
 }

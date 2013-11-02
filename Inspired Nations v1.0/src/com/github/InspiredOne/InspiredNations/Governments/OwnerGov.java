@@ -2,14 +2,14 @@ package com.github.InspiredOne.InspiredNations.Governments;
 
 import java.util.HashSet;
 
-public abstract class NoSubjects extends InspiredGov {
+public abstract class OwnerGov extends InspiredGov {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2000613785185838007L;
 
-	public NoSubjects() {
+	public OwnerGov() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

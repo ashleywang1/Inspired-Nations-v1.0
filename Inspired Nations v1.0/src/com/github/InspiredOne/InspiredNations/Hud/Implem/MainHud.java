@@ -5,7 +5,7 @@ import java.util.List;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
-import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
@@ -50,11 +50,11 @@ public class MainHud extends OptionMenu {
 	public void init() {
 		this.options.add(new PromptOption(this, "Map", new Map(PDI)));
 		this.options.add(new PromptOption(this, "Manage Money", new ManageMoney(PDI)));
-		List<Class<? extends NoSubjects>> array = plugin.global.getAllSubGovs();
+		List<Class<? extends OwnerGov>> array = plugin.global.getAllSubGovs();
 		array.remove(plugin.global.getClass());
 		
-		for(Class<? extends NoSubjects> gov:array) {
-			NoSubjects govobj = (NoSubjects) GovFactory.getGovInstance(gov);
+		for(Class<? extends OwnerGov> gov:array) {
+			OwnerGov govobj = (OwnerGov) GovFactory.getGovInstance(gov);
 			System.out.println("govobj is null: " + (govobj == null));
 			if(!PDI.getOwnership(gov).isEmpty()) {
 				System.out.println(govobj.getTypeName());
@@ -62,8 +62,8 @@ public class MainHud extends OptionMenu {
 			}
 		}
 		
-		for(Class<? extends NoSubjects> gov:array) {
-			NoSubjects govobj = (NoSubjects) GovFactory.getGovInstance(gov);
+		for(Class<? extends OwnerGov> gov:array) {
+			OwnerGov govobj = (OwnerGov) GovFactory.getGovInstance(gov);
 			if(!PDI.getCitizenship(govobj.getSuperGov()).isEmpty()) {
 				this.options.add(new PromptOption(this, "New " + govobj.getTypeName(), new PickSelfType(PDI, gov)));
 			}

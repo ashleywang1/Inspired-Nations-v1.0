@@ -25,13 +25,13 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 	}
 
 	@Override
-	public final List<Class<? extends NoSubjects>> getSubGovs() {
-		List<Class<? extends NoSubjects>> output = new ArrayList<Class<? extends NoSubjects>>();
+	public final List<Class<? extends OwnerGov>> getSubGovs() {
+		List<Class<? extends OwnerGov>> output = new ArrayList<Class<? extends OwnerGov>>();
 		return output;
 	}
 
 	@Override
-	public Class<? extends InspiredGov> getSuperGov() {
+	public Class<? extends OwnerGov> getSuperGov() {
 		// TODO Auto-generated method stub
 		return null;
 	}

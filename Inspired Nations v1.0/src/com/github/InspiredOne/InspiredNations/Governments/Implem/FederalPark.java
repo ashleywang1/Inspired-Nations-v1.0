@@ -7,6 +7,7 @@ import java.util.List;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.FederalParkLand;
 
@@ -24,7 +25,7 @@ public class FederalPark extends Facility {
 	private static final String typeName = "Federal Park";
 
 	@Override
-	public Class<? extends InspiredGov> getSuperGov() {
+	public Class<? extends OwnerGov> getSuperGov() {
 		return GlobalGov.class;
 	}
 

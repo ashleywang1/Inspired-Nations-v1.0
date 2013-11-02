@@ -1,18 +1,16 @@
 package com.github.InspiredOne.InspiredNations.Hud.ManageGov;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.PickSuperGov;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
 
 public class ManageGov extends OptionMenu {
 
-	NoSubjects gov;
-	public ManageGov(PlayerData PDI, NoSubjects gov) {
+	OwnerGov gov;
+	public ManageGov(PlayerData PDI, OwnerGov gov) {
 		super(PDI);
 		this.gov = gov;
 

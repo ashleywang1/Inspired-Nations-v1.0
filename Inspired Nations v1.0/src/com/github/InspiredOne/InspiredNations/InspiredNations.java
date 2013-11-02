@@ -30,10 +30,10 @@ public class InspiredNations extends JavaPlugin {
 	public static InspiredNations plugin = (InspiredNations) Bukkit.getPluginManager().getPlugin("InspiredNations");
 	public Logger logger = Logger.getLogger("Minecraft"); // Variable to communicate with console
 	private StartStop SS = new StartStop(this); // Deals with start-up and shut-down
-	public MultiGovMap regiondata = new MultiGovMap(); 
-	public HashMap<String, PlayerData> playerdata = new HashMap<String, PlayerData>();
-	public MoneyExchange Exchange = new MoneyExchange();
-	public GlobalGov global = (GlobalGov) (new GovFactory(GlobalGov.class)).withMoneyname("Coin").withDiamondValue(new BigDecimal(1000)).getGov();
+	public static MultiGovMap regiondata = new MultiGovMap(); 
+	public static HashMap<String, PlayerData> playerdata = new HashMap<String, PlayerData>();
+	public static MoneyExchange Exchange = new MoneyExchange();
+	public static GlobalGov global = (GlobalGov) (new GovFactory(GlobalGov.class)).withMoneyname("Coin").withDiamondValue(new BigDecimal(1000)).getGov();
 	public TempCommandListener CM = new TempCommandListener(this);
 	public TempPlayerListener PL = new TempPlayerListener(this);
 	
@@ -54,13 +54,13 @@ public class InspiredNations extends JavaPlugin {
 		this.getCommand("hud").setExecutor(CM);
 		this.getCommand("map").setExecutor(CM);
 		
-		for(HashSet<InspiredGov> set:this.regiondata.values()) {
+		for(HashSet<InspiredGov> set:regiondata.values()) {
 			for(Iterator<InspiredGov> iter = set.iterator(); iter.hasNext();){
 				InspiredGov gov = iter.next();
 				System.out.println(gov.getName());
 			}
 		}
-		for(String player:this.playerdata.keySet()) {
+		for(String player:playerdata.keySet()) {
 			System.out.println(player);
 		}
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.BankLand;
 
@@ -24,7 +25,7 @@ public class Bank extends Facility {
 	private static final String typeName = "Bank";
 
 	@Override
-	public Class<? extends InspiredGov> getSuperGov() {
+	public Class<? extends OwnerGov> getSuperGov() {
 		return Country.class;
 	}
 

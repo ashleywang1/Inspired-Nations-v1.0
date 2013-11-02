@@ -13,7 +13,6 @@ import org.bukkit.Location;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
-import com.github.InspiredOne.InspiredNations.Exceptions.IsDirectSuperGovException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
@@ -83,11 +82,17 @@ public abstract class InspiredGov implements Serializable, Nameable {
 		this.region = region;
 	}
 	/**
-	 * 
+	 * If supergov has not been defined yet, then returns a new instance of type
+	 * that getSuperGov() returns.
 	 * @return the <code>InspiredGov</code> instance above this government
 	 */
 	public InspiredGov getSuperGovObj() {
-		return supergov;
+		if(supergov == null) {
+			return GovFactory.getGovInstance(this.getSuperGov());
+		}
+		else {
+			return supergov;
+		}
 	}
 	/**
 	 * 
@@ -112,12 +117,12 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	 * @param key	the Class of InspiredGovs to find
 	 * @return		a List of InspiredGovs of the type 
 	 */
-	public List<NoSubjects> getAllSubGovs(InspiredNations plugin, Class<? extends NoSubjects> key) {
-		List<NoSubjects> output = new ArrayList<NoSubjects>();
-		for(Iterator<InspiredGov> iter = plugin.regiondata.get(key).iterator(); iter.hasNext(); ) {
+	public List<OwnerGov> getAllSubGovs(InspiredNations plugin, Class<? extends OwnerGov> key) {
+		List<OwnerGov> output = new ArrayList<OwnerGov>();
+		for(Iterator<InspiredGov> iter = InspiredNations.regiondata.get(key).iterator(); iter.hasNext(); ) {
 			InspiredGov gov = iter.next();
 			if (gov.getSuperGovObj().equals(this)) {
-				output.add((NoSubjects) gov);
+				output.add((OwnerGov) gov);
 			}
 		}
 		
@@ -149,13 +154,13 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	 * They have their own set of owners who are responsible for paying up to this government.
 	 * @return	a <code>List</code> of the <code>InspiredGov</code> that can be claimed by subjects
 	 */
-	public abstract List<Class<? extends NoSubjects>> getSubGovs();
+	public abstract List<Class<? extends OwnerGov>> getSubGovs();
 	/**
 	 * Returns the class of the supergov. If this is the highest form of government, then it should
 	 * return a <code>Class<? extends GlobalGov></code>.
 	 * @return	the <code>InspiredGov</code> class that is the supergov to this government
 	 */
-	public abstract Class<? extends InspiredGov> getSuperGov();
+	public abstract Class<? extends OwnerGov> getSuperGov();
 	/**
 	 * Returns all the governments that could be claimed with 
 	 * @return	a <code>List</code> of <code>InspiredGov</code> classes that can
@@ -179,7 +184,7 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	 * @param subgov	the <code>InspiredGov</code> type to be searched for
 	 * @return			the <code>double</code> representation of the tax rate
 	 */
-	public double getSubTaxRate(Class<? extends NoSubjects> subgov) {
+	public double getSubTaxRate(Class<? extends OwnerGov> subgov) {
 		return taxrates.get(subgov);
 	}
 	/**
@@ -188,7 +193,7 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	 */
 	@SuppressWarnings("unchecked")
 	public double getSuperTaxRate() {
-		 return this.supergov.getSubTaxRate((Class<? extends NoSubjects>) this.getClass());
+		 return this.supergov.getSubTaxRate((Class<? extends OwnerGov>) this.getClass());
 	}
 	/**
 	 * 
@@ -243,13 +248,13 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	 * Gets a list of all the governments that are below this government (including itself)
 	 * @return	A list of all the subgovs
 	 */
-	public final List<Class<? extends NoSubjects>> getAllSubGovs() {
-		List<Class<? extends NoSubjects>> output = new ArrayList<Class<? extends NoSubjects>>();
-		for(Class<? extends NoSubjects> gov:this.getSubGovs()) {
-			output.add((Class<? extends NoSubjects>) gov);
+	public final List<Class<? extends OwnerGov>> getAllSubGovs() {
+		List<Class<? extends OwnerGov>> output = new ArrayList<Class<? extends OwnerGov>>();
+		for(Class<? extends OwnerGov> gov:this.getSubGovs()) {
+			output.add((Class<? extends OwnerGov>) gov);
 			output.addAll(GovFactory.getGovInstance(gov).getAllSubGovs());
 /*			for(Class<? extends InspiredGov> gov2:GovFactory.getGovInstance(gov).getSelfGovs()) {
-				output.add((Class<? extends NoSubjects>) gov2);
+				output.add((Class<? extends OwnerGov>) gov2);
 				output.addAll(GovFactory.getGovInstance(gov2).getAllSubGovs());
 			}*/
 		}
@@ -261,19 +266,35 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	 * @param govtop
 	 * @return
 	 */
-	public final InspiredGov getSuperGovBelow(InspiredGov govtop) throws NotASuperGovException{
+	public final OwnerGov getSuperGovBelow(InspiredGov govtop) throws NotASuperGovException{
 		InspiredGov govbottom = this;
-		for(Class<? extends InspiredGov> govtype:govtop.getSubGovs()) {
-			for(InspiredGov govtest:InspiredNations.plugin.regiondata.get(govtype)) {
+		for(Class<? extends OwnerGov> govtype:govtop.getSubGovs()) {
+			for(InspiredGov govtest:InspiredNations.regiondata.get(govtype)) {
 				if(govbottom.equals(govtest)) {
-					return govtest;
+					return (OwnerGov) govtest;
 				}
 				else if(govbottom.isSubOf(govtest)) {
-					return govtest;
+					return (OwnerGov) govtest;
 				}
 			}
 		}
 		throw new NotASuperGovException();
+	}
+	
+	public final boolean isSubOfClass(Class<? extends OwnerGov> gov) {
+		if(gov.equals(InspiredNations.global.getClass())) {
+			return true;
+		}
+		else if (this instanceof GlobalGov) {
+			return false;
+		}
+		else if(gov.equals(this.getClass())) {
+			return false;
+		}
+		else {
+			return this.getSuperGovObj().isSubOfClass(gov);
+		}
+
 	}
 	
 	/**
@@ -282,10 +303,9 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	 * the regiondata hashmap is stored
 	 */
 	public void register() {
-		InspiredNations plugin = InspiredNations.plugin;
 		HashSet<InspiredGov> value = new HashSet<InspiredGov>();
-		if(!plugin.regiondata.containsKey(this.getClass())) {
-			plugin.regiondata.put(this.getClass(), value);
+		if(!InspiredNations.regiondata.containsKey(this.getClass())) {
+			InspiredNations.regiondata.put(this.getClass(), value);
 		}
 		
 		for(Class<? extends InspiredGov> cla:this.getSubGovs()) {
@@ -316,20 +336,16 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	 * @return		true if this is below gov
 	 */
 	public final boolean isSubOf(InspiredGov gov) {
-		System.out.println("In isSubOf 1: " + this.getName());
-		if(this.equals(InspiredNations.plugin.global)) {
+		if(this.equals(InspiredNations.global)) {
 			return false;
 		}
-		else if(gov.equals(InspiredNations.plugin.global)) {
-			System.out.println("In isSubOf 2: " + this.getName());
+		else if(gov.equals(InspiredNations.global)) {
 			return true;
 		}
 		else if(gov.equals(this.getSuperGovObj())) {
-			System.out.println("In isSubOf 3: " + this.getName());
 			return true;
 		}
 		else {
-			System.out.println("In isSubOf 4: " + this.getName());
 			return this.getSuperGovObj().isSubOf(gov);
 		}
 	}

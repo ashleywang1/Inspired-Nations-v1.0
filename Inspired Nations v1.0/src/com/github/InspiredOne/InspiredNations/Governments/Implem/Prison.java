@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.PrisonLand;
 
@@ -18,7 +19,7 @@ public class Prison extends Facility {
 	private static final String typeName = "Prison";
 
 	@Override
-	public Class<? extends InspiredGov> getSuperGov() {
+	public Class<? extends OwnerGov> getSuperGov() {
 		return Country.class;
 	}
 

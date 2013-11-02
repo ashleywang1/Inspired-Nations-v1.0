@@ -2,7 +2,7 @@ package com.github.InspiredOne.InspiredNations.Governments;
 
 import java.util.HashSet;
 
-public abstract class Subjects extends NoSubjects {
+public abstract class OwnerSubjectGov extends OwnerGov {
 
 	/**
 	 * 
@@ -10,7 +10,7 @@ public abstract class Subjects extends NoSubjects {
 	private static final long serialVersionUID = 3448350609903588185L;
 	private int militarylevel = 0;
 
-	public Subjects() {
+	public OwnerSubjectGov() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

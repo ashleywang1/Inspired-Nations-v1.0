@@ -5,11 +5,8 @@ import java.util.LinkedHashSet;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Exceptions.IsDirectSuperGovException;
-import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
-import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
@@ -34,7 +31,7 @@ public class PickManageSuperGov extends PassByOptionMenu {
 	@Override
 	public Menu PreviousMenu() {
 		if(supergov.equals(InspiredNations.plugin.global)) {
-			return new PickManageSelfType(PDI, (Class<? extends NoSubjects>) GovType);
+			return new PickManageSelfType(PDI, (Class<? extends OwnerGov>) GovType);
 		}
 		else {
 			return new PickManageSuperGov(PDI, GovType, supergov.getSuperGovObj());
@@ -48,11 +45,11 @@ public class PickManageSuperGov extends PassByOptionMenu {
 
 	@Override
 	public void init() {
-		LinkedHashSet<InspiredGov> options = PDI.getAllSuperGovsBelow(this.GovType, supergov);
-		for(Iterator<InspiredGov> iter = options.iterator(); iter.hasNext();) {
-			InspiredGov gov = iter.next();
+		LinkedHashSet<OwnerGov> options = PDI.getAllSuperGovsBelow(this.GovType, supergov);
+		for(Iterator<OwnerGov> iter = options.iterator(); iter.hasNext();) {
+			OwnerGov gov = iter.next();
 			if(gov.getClass().equals(this.GovType)) {
-				this.options.add(new PromptOption(this, gov.getName(), new ManageGov(PDI, (NoSubjects) gov)));
+				this.options.add(new PromptOption(this, gov.getName(), new ManageGov(PDI, gov)));
 			}
 			else {
 				this.options.add(new PromptOption(this, gov.getName(), new PickManageSuperGov(PDI, this.GovType, gov)));

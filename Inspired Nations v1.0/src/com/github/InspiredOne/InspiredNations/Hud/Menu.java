@@ -20,6 +20,7 @@ public abstract class Menu extends MessagePrompt {
 	public InspiredNations plugin;
 	private boolean initialized = false;
 	
+	
 	public Menu(PlayerData PDI) {
 		this.PDI = PDI;
 		this.plugin = InspiredNations.plugin;
@@ -44,20 +45,14 @@ public abstract class Menu extends MessagePrompt {
 	}
 	
 	public final void Initialize() {
-		System.out.println("In Initialize 1: " + this.getHeader());
 		if(!initialized) {
-			System.out.println("In Initialize 2: " + this.getHeader());
 			this.init();
-			System.out.println("In Initialize 3: " + this.getHeader());
 			initialized = true;
-			System.out.println("In Initialize 4: " + this.getHeader());
 		}
 	}
 
 	public final boolean passBy() {
-		System.out.println("In passBy 1: " + this.getHeader());
 		this.Initialize();
-		System.out.println("In passBy 2: " + this.getHeader());
 		return this.getPassBy();
 	}
 	

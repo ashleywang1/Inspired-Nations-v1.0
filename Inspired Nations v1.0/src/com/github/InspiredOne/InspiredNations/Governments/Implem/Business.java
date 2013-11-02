@@ -6,11 +6,11 @@ import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.github.InspiredOne.InspiredNations.Governments.NoSubjects;
-import com.github.InspiredOne.InspiredNations.Governments.Subjects;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 
-public class Business extends Subjects {
+public class Business extends OwnerSubjectGov {
 
 	/**
 	 * 
@@ -19,13 +19,13 @@ public class Business extends Subjects {
 	private static final String typeName = "Business";
 
 	@Override
-	public List<Class<? extends NoSubjects>> getSubGovs() {
-		List<Class<? extends NoSubjects>> output = new ArrayList<Class<? extends NoSubjects>>();
+	public List<Class<? extends OwnerGov>> getSubGovs() {
+		List<Class<? extends OwnerGov>> output = new ArrayList<Class<? extends OwnerGov>>();
 		return output;
 	}
 
 	@Override
-	public Class<? extends InspiredGov> getSuperGov() {
+	public Class<? extends OwnerGov> getSuperGov() {
 		return Town.class;
 	}
 
