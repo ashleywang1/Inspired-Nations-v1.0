@@ -13,6 +13,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 
 import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 
 public class StartStop {
@@ -43,21 +44,21 @@ public class StartStop {
 			File regionfile = new File(plugin.getDataFolder(), "regiondata.yml");
 	        FileInputStream regionIn = new FileInputStream(regionfile);
 	        ObjectInputStream rin = new ObjectInputStream(regionIn);
-	        plugin.regiondata = (MultiGovMap) rin.readObject();
+	        InspiredNations.regiondata = (MultiGovMap) rin.readObject();
 	        rin.close();
 	        regionIn.close();
 	        
 	        File playerfile = new File(plugin.getDataFolder(), "playerdata.yml");
 	        FileInputStream playerIn = new FileInputStream(playerfile);
 	        ObjectInputStream pin = new ObjectInputStream(playerIn);
-	        plugin.playerdata = (HashMap<String, PlayerData>) pin.readObject();
+	        InspiredNations.playerdata = (HashMap<PlayerID, PlayerData>) pin.readObject();
 	        pin.close();
 	        playerIn.close();
 	        
 	        File econfile = new File(plugin.getDataFolder(), "econdata.yml");
 	        FileInputStream econIn = new FileInputStream(econfile);
 	        ObjectInputStream ein = new ObjectInputStream(econIn);
-	        plugin.Exchange = (MoneyExchange) ein.readObject();
+	        InspiredNations.Exchange = (MoneyExchange) ein.readObject();
 	        ein.close();
 	        econIn.close();
 		}
@@ -67,8 +68,8 @@ public class StartStop {
 		
 		// Handles online players
 		for(Player player:plugin.getServer().getOnlinePlayers()) {
-			if(!plugin.playerdata.containsKey(player.getName())) {
-				plugin.playerdata.put(player.getName(), new PlayerData(player.getName()));
+			if(!InspiredNations.playerdata.containsKey(player.getName())) {
+				InspiredNations.playerdata.put(new PlayerID(player), new PlayerData(player.getName()));
 			}
 		}
 		
@@ -81,8 +82,8 @@ public class StartStop {
 			for (int i = 0; i < online.length; i++) {
 				if (online[i].isConversing()) {
 					String name = online[i].getName();
-					online[i].abandonConversation(plugin.playerdata.get(name).getCon());
-					plugin.playerdata.get(name).setCon(null);
+					online[i].abandonConversation(InspiredNations.playerdata.get(name).getCon());
+					InspiredNations.playerdata.get(name).setCon(null);
 				}
 			}
 		}
@@ -94,21 +95,21 @@ public class StartStop {
 			File regionfile = new File(plugin.getDataFolder(), "regiondata.yml");
 	        FileOutputStream regionOut = new FileOutputStream(regionfile);
 	        ObjectOutputStream rout = new ObjectOutputStream(regionOut);
-	        rout.writeObject(plugin.regiondata);
+	        rout.writeObject(InspiredNations.regiondata);
 	        rout.close();
 	        regionOut.close();
 	        
 	        File playerfile = new File(plugin.getDataFolder(), "playerdata.yml");
 	        FileOutputStream playerOut = new FileOutputStream(playerfile);
 	        ObjectOutputStream pout = new ObjectOutputStream(playerOut);
-	        pout.writeObject(plugin.playerdata);
+	        pout.writeObject(InspiredNations.playerdata);
 			pout.close();
 			playerOut.close();
 			
 	        File econfile = new File(plugin.getDataFolder(), "econdata.yml");
 	        FileOutputStream econOut = new FileOutputStream(econfile);
 	        ObjectOutputStream eout = new ObjectOutputStream(econOut);
-	        eout.writeObject(plugin.Exchange);
+	        eout.writeObject(InspiredNations.Exchange);
 	        eout.close();
 	        econOut.close();
 		}

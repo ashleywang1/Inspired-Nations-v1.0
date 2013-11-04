@@ -1,32 +1,24 @@
-package com.github.InspiredOne.InspiredNations.Economy;
+package com.github.InspiredOne.InspiredNations.ToolBox;
 
 import java.io.Serializable;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.bukkit.entity.Player;
 
-import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 
-public class Currency implements Serializable, Nameable{
+public class PlayerID implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2855995345401677901L;
-	private String name = "Coin";
-	public static final Currency DEFAULT = new Currency("Coin");
-
-	public Currency(String name) {
-
+	private static final long serialVersionUID = 4523105693338266817L;
+	private String name;
+	
+	public PlayerID(Player player) {
+		this.name = player.getName();
 	}
-
-	@Override
+	
 	public String getName() {
-		return name;
-	}
-	@Override
-	public void setName(String name) {
-		this.name = name;
+		return this.name;
 	}
 	
 	@Override
@@ -46,11 +38,16 @@ public class Currency implements Serializable, Nameable{
         if (!(obj instanceof Currency))
             return false;
 
-        Currency rhs = (Currency) obj;
+        PlayerID rhs = (PlayerID) obj;
         return new EqualsBuilder().
             // if deriving: appendSuper(super.equals(obj)).
             append(name, rhs.getName()).
             isEquals();
+    }
+    
+    @Override
+    public String toString() {
+    	return name;
     }
 	
 }

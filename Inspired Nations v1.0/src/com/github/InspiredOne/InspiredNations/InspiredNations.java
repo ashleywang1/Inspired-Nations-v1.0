@@ -2,9 +2,11 @@
 package com.github.InspiredOne.InspiredNations;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -19,11 +21,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.InspiredOne.InspiredNations.Economy.MarketPlace;
 import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class InspiredNations extends JavaPlugin {
 
@@ -31,8 +35,9 @@ public class InspiredNations extends JavaPlugin {
 	public Logger logger = Logger.getLogger("Minecraft"); // Variable to communicate with console
 	private StartStop SS = new StartStop(this); // Deals with start-up and shut-down
 	public static MultiGovMap regiondata = new MultiGovMap(); 
-	public static HashMap<String, PlayerData> playerdata = new HashMap<String, PlayerData>();
+	public static HashMap<PlayerID, PlayerData> playerdata = new HashMap<PlayerID, PlayerData>();
 	public static MoneyExchange Exchange = new MoneyExchange();
+	public static List<MarketPlace> Markets = new ArrayList<MarketPlace>(); 
 	public static GlobalGov global = (GlobalGov) (new GovFactory(GlobalGov.class)).withMoneyname("Coin").withDiamondValue(new BigDecimal(1000)).getGov();
 	public TempCommandListener CM = new TempCommandListener(this);
 	public TempPlayerListener PL = new TempPlayerListener(this);
@@ -60,7 +65,7 @@ public class InspiredNations extends JavaPlugin {
 				System.out.println(gov.getName());
 			}
 		}
-		for(String player:playerdata.keySet()) {
+		for(PlayerID player:playerdata.keySet()) {
 			System.out.println(player);
 		}
 
@@ -80,8 +85,8 @@ public class InspiredNations extends JavaPlugin {
 		
 		@EventHandler
 		public void onPlayerJoin(PlayerJoinEvent event) {
-			if(!plugin.playerdata.containsKey(event.getPlayer().getName())) {
-				plugin.playerdata.put(event.getPlayer().getName(), new PlayerData(event.getPlayer().getName()));
+			if(!InspiredNations.playerdata.containsKey(event.getPlayer().getName())) {
+				InspiredNations.playerdata.put(new PlayerID(event.getPlayer()), new PlayerData(event.getPlayer().getName()));
 				System.out.println("Player has not been added to playerdata yet");
 			}
 		}
@@ -103,7 +108,7 @@ public class InspiredNations extends JavaPlugin {
 				return false;
 			}
 			
-			PlayerData PDI = plugin.playerdata.get(sender.getName());
+			PlayerData PDI = InspiredNations.playerdata.get(sender.getName());
 			if (CommandLable.equalsIgnoreCase("hud")) {
 				// Handles Commands
 				ConversationBuilder convo = new ConversationBuilder(PDI);
