@@ -58,8 +58,7 @@ public class PlayerData implements Serializable, Nameable {
 	}
 	
 	public boolean isSubjectOf(Class<? extends InspiredGov> govtype) {
-		InspiredNations plugin = InspiredNations.plugin;
-		for(InspiredGov gov:plugin.regiondata.get(govtype)) {
+		for(InspiredGov gov:InspiredNations.regiondata.get(govtype)) {
 			if(gov.getSubjects().contains(this.getName())) {
 				return true;
 			}

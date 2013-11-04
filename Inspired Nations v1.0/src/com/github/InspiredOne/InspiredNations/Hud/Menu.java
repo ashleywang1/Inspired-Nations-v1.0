@@ -53,16 +53,21 @@ public abstract class Menu extends MessagePrompt {
 
 	public final boolean passBy() {
 		this.Initialize();
-		return this.getPassBy();
+		return this.getPassBy() || !this.preRecsFilled();
 	}
 	
 	@Override
 	public final boolean blocksForInput(ConversationContext arg0) {
-		return !this.passBy();
+		return !this.passBy() && this.preRecsFilled();
 	}
 	@Override
 	public final Prompt getNextPrompt(ConversationContext arg0) {
-		return this.getPassTo();
+		if(!this.preRecsFilled()) {
+			return this.preRecRetrivalMenu();
+		}
+		else {
+			return this.getPassTo();
+		}
 	}
 	@Override
 	public final String getPromptText(ConversationContext arg0) {
@@ -72,7 +77,6 @@ public abstract class Menu extends MessagePrompt {
 	}
 	@Override
 	public final Prompt acceptInput(ConversationContext arg0, String arg) {
-		System.out.println("In AcceptInput() " + this.getHeader());
 		if(arg == null) {
 			return this.getNextPrompt(arg0);
 		}
@@ -145,18 +149,26 @@ public abstract class Menu extends MessagePrompt {
 	 * in the menu graph
 	 */
 	private final Menu checkNext(String input) {
-		System.out.println("In CheckNext 1: " + this.getHeader());
 		Menu next = this.getNextMenu(input);
-		System.out.println("In CheckNext 2: " + this.getHeader());
 		while(next.passBy()) {
-			System.out.println("In CheckNext 3: " + this.getHeader());
-			next = next.getPassTo();
-			System.out.println("In CheckNext 4: " + this.getHeader());
+			next = (Menu) next.getNextPrompt(PDI.getCon().getContext());
 		}
-		System.out.println("In CheckNext 5: " + this.getHeader());
 		return next;
 	}
-
+	/**
+	 * Used to make sure all the fields that this menu needs to run are set.
+	 * @return
+	 */
+	public boolean preRecsFilled() {
+		return true;
+	}
+	/**
+	 * Returns the menu that should be used to fill the PreRecs.
+	 * @return
+	 */
+	public Menu preRecRetrivalMenu() {
+		return null;
+	}
 	/**
 	 * 
 	 * @return	the <code>String</code> to be used for the header of the menu
@@ -199,8 +211,6 @@ public abstract class Menu extends MessagePrompt {
 	 */
 	public abstract void init();
 
-
-	
 	
 
 }

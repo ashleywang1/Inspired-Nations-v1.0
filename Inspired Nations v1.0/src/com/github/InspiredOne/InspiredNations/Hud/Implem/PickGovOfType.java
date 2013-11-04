@@ -59,7 +59,7 @@ public abstract class PickGovOfType extends PassByOptionMenu {
 			for(InspiredGov govToTest:InspiredNations.regiondata.get(subType)) {
 				if(govToTest.isSubOf(superGov)) {
 					if(check(govToTest)) {
-						this.options.add(new DataPassPromptOption(this, govToTest.getName(), next, govToTest));
+					//	this.options.add(new DataPassPromptOption(this, govToTest.getName(), next, govToTest));
 					}
 				}
 			}
