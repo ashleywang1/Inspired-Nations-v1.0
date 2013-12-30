@@ -10,7 +10,11 @@ import org.bukkit.Location;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-
+/**
+ * Includes Text Style and color enums and a fully generalized ascii Map drawer.
+ * @author Jedidiah Phillips
+ *
+ */
 public class Tools {
 	
 	InspiredNations plugin;

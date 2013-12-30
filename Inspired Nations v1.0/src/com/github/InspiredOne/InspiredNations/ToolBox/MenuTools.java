@@ -7,6 +7,12 @@ import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
+/**
+ * Formating for all the text in the menus. Methods in here control everything from
+ * the color of text to the spacing and the style.
+ * @author Jedidiah Phillips
+ *
+ */
 public class MenuTools {
 
 	public static InspiredNations plugin = InspiredNations.plugin;
@@ -19,7 +25,7 @@ public class MenuTools {
 	 * @return	the space required to clear the chat area for a menu
 	 */
 	public static String space() {
-		return Tools.repeat("\n", plugin.getConfig().getInt("hud_pre_message_space"));
+		return Tools.repeat("\n ", plugin.getConfig().getInt("hud_pre_message_space"));
 	}
 	
 	/**

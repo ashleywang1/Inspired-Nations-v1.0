@@ -9,7 +9,15 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
+/**
+ * My own implementation of a map that maps to a Set. If the key is not present, then
+ * the map adds a Set with a single entry. Every subsequent addition to the key
+ * is appened to the Set.
+ * @author Jedidiah Phillips
+ *
+ * @param <T>	Key
+ * @param <K>	Value
+ */
 public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable{
 
 	/**

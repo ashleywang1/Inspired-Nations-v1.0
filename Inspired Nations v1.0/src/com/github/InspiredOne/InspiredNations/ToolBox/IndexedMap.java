@@ -8,6 +8,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+/**
+ * Allows quick checks if something exists in the map, but when iterating over the map
+ * the items are always returned in a certain order. The order can be changed just
+ * as one would change the order of a list.
+ * @author Jedidiah Phillips
+ *
+ * @param <E>	the item used as the value
+ * @param <T>	the item used as the key 
+ */
 public class IndexedMap<E, T> implements Map<E, T>,Iterable<E>, Serializable {
 
 	/**

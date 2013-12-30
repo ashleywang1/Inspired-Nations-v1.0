@@ -26,9 +26,9 @@ public abstract class MarketPlace {
 		List<Sellable> output = new ArrayList<Sellable>();
 		
 		for(Sellable check:ForSale) {
-			if(check.getDescription().contains(searchPhrase)) {
-				output.add(check);
-			}
+//			if(check.getDescription().contains(searchPhrase)) {
+//				output.add(check);
+//			}
 		}
 		return output;
 	}

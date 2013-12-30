@@ -85,7 +85,8 @@ public class InspiredNations extends JavaPlugin {
 		
 		@EventHandler
 		public void onPlayerJoin(PlayerJoinEvent event) {
-			if(!InspiredNations.playerdata.containsKey(event.getPlayer().getName())) {
+			System.out.println(new PlayerID(event.getPlayer()).equals(new PlayerID(event.getPlayer())));
+			if(!InspiredNations.playerdata.containsKey(new PlayerID(event.getPlayer()))) {
 				InspiredNations.playerdata.put(new PlayerID(event.getPlayer()), new PlayerData(event.getPlayer().getName()));
 				System.out.println("Player has not been added to playerdata yet");
 			}
@@ -108,9 +109,12 @@ public class InspiredNations extends JavaPlugin {
 				return false;
 			}
 			
-			PlayerData PDI = InspiredNations.playerdata.get(sender.getName());
+			PlayerData PDI = InspiredNations.playerdata.get(new PlayerID((Player) sender));
 			if (CommandLable.equalsIgnoreCase("hud")) {
 				// Handles Commands
+				if(PDI.getPlayer().isConversing()) {
+					return false;
+				}
 				ConversationBuilder convo = new ConversationBuilder(PDI);
 				Conversation conversation = convo.HudConvo();
 				PDI.setCon(conversation);

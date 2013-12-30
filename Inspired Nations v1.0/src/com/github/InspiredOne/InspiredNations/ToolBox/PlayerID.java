@@ -7,7 +7,14 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
-
+/**
+ * My own implementation to make changes in the player identification simple to deal
+ * with. As of Minecraft 1.7.4 player names are unique and non-spoofable, however the 
+ * developers hint that this may not always be the case, so this class should be used
+ * when trying to make sure a Player is who he/she says they are. 
+ * @author Jedidiah Phillips
+ *
+ */
 public class PlayerID implements Serializable {
 
 	private static final long serialVersionUID = 4523105693338266817L;
@@ -35,7 +42,7 @@ public class PlayerID implements Serializable {
             return false;
         if (obj == this)
             return true;
-        if (!(obj instanceof Currency))
+        if (!(obj instanceof PlayerID))
             return false;
 
         PlayerID rhs = (PlayerID) obj;
