@@ -11,6 +11,6 @@ public interface Sellable {
 	 * on the ground around the buyer.
 	 * @param player
 	 */
-	public void buy(PlayerID player);
+	public void transferOwnership(PlayerID playerTo);
 	
 }

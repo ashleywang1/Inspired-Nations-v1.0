@@ -6,6 +6,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
+import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 
 public class ManageMoney extends OptionMenu {
 
@@ -24,7 +25,7 @@ public class ManageMoney extends OptionMenu {
 
 	@Override
 	public void init() {
-		
+		//this.options.add(new PromptOption(this, "Pay", new PickGovOfType(PDI, this, this, )));
 	}
 
 	@Override

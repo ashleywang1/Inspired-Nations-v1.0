@@ -14,6 +14,8 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 public abstract class TabSelectOptionMenu extends OptionMenu {
 
 	private int tabcnt = 0;
+	private int rangeBottom = maxLines;
+	private static final int maxLines = 9;
 	protected List<Nameable> taboptions = new ArrayList<Nameable>();	
 	public TabSelectOptionMenu(PlayerData PDI) {
 		super(PDI);
@@ -42,11 +44,10 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 	@Override
 	public final String getPreOptionText() {
 		String output = "";
-		if(!TabSelectOptionMenu.tabOptionsToText(taboptions, tabcnt).isEmpty()) {
-			output = output.concat(TabSelectOptionMenu.tabOptionsToText(taboptions, tabcnt));
+		if(!tabOptionsToText(taboptions, tabcnt).isEmpty()) {
+			output = output.concat(tabOptionsToText(taboptions, tabcnt));
 			output = MenuTools.addDivider(output);
-			output = output.concat(TextColor.INSTRUCTION + "Press '=' + TAB to cycle through the list, '+' + TAB to move selection up," +
-					" and '-' + TAB to move selection down.");
+			output = output.concat(TextColor.INSTRUCTION + "Press '=' + TAB to cycle through the list.");
 		}
 		if(!this.postTabListPreOptionsText().isEmpty()) {
 			output = MenuTools.addDivider(output.concat("\n"));
@@ -55,18 +56,34 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 		return output;
 	}
 	
-	public static String tabOptionsToText(List<Nameable> taboptions, int tabcnt) {
+	public String tabOptionsToText(List<Nameable> taboptions, int tabcnt) {
 		String output = "";
-		int iter = 0; // Used to identify which option to highlight
-		for(Nameable option:taboptions) {
+		//int iter = 0; // Used to identify which option to highlight
+
+		// loop to set range that is displayed
+		while(tabcnt >= rangeBottom || tabcnt < rangeBottom - maxLines) {
+			if(tabcnt >= rangeBottom) {
+				rangeBottom++;
+				continue;
+			}
+			if(tabcnt < rangeBottom - maxLines) {
+				rangeBottom--;
+				continue;
+			}
+		}
+		
+		// write the text
+		for(int iter = 0; iter<taboptions.size(); iter++) {
 			output = output.concat(ChatColor.RESET + "");
-			if(tabcnt == iter) {
-				output = output.concat(TextColor.LABEL.toString() + ChatColor.BOLD + option.getName() + "\n");
+			Nameable option = taboptions.get(iter); 
+			if(iter >= rangeBottom - maxLines && iter < rangeBottom) {
+				if(tabcnt == iter) {
+					output = output.concat(TextColor.LABEL.toString() + ChatColor.BOLD + option.getName() + "\n");
+				}
+				else {
+					output = output.concat(TextColor.LABEL + option.getName() + "\n");
+				}
 			}
-			else {
-				output = output.concat(TextColor.LABEL + option.getName() + "\n");
-			}
-			iter++;
 		}
 		return output;
 	}

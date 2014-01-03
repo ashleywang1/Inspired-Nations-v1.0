@@ -81,9 +81,9 @@ public class StartStop {
 			Player[] online = plugin.getServer().getOnlinePlayers();
 			for (int i = 0; i < online.length; i++) {
 				if (online[i].isConversing()) {
-					String name = online[i].getName();
-					online[i].abandonConversation(InspiredNations.playerdata.get(name).getCon());
-					InspiredNations.playerdata.get(name).setCon(null);
+					PlayerID onlineP = new PlayerID(online[i]);
+					InspiredNations.playerdata.get(onlineP).getCon().abandon();
+					InspiredNations.playerdata.get(onlineP).setCon(null);
 				}
 			}
 		}

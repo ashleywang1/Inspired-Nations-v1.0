@@ -30,9 +30,9 @@ public abstract class Menu extends MessagePrompt {
 	 * 
 	 * @return	the <code>String</code> of the prompt text as it would appear exactly
 	 */
-	public String getPromptText() {
+	public final String getPromptText() {
 		String space = MenuTools.space();
-		String main = MenuTools.header(getHeader());
+		String main = MenuTools.header(this.getHeader());
 		String filler = this.getFiller();
 		String end = footer;
 		String errmsg = this.getError();
@@ -40,7 +40,7 @@ public abstract class Menu extends MessagePrompt {
 		return space + main + filler + end + errmsg;
 	}
 	
-	public PlayerData getPlayerData() {
+	public final PlayerData getPlayerData() {
 		return this.PDI;
 	}
 	
