@@ -7,7 +7,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 
 public class InspiredListener implements Listener {
 
-	private ActionManager manager;
+	protected ActionManager manager;
 	
 	public InspiredListener(ActionManager manager) {
 		this.setManager(manager);

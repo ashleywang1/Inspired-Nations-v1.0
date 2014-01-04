@@ -9,6 +9,8 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.TabScrollManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public abstract class TabSelectOptionMenu extends OptionMenu {
@@ -17,6 +19,7 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 	private int rangeBottom = maxLines;
 	private static final int maxLines = 9;
 	protected List<Nameable> taboptions = new ArrayList<Nameable>();	
+	private List<Nameable> filteredoptions = new ArrayList<Nameable>();
 	public TabSelectOptionMenu(PlayerData PDI) {
 		super(PDI);
 	}
@@ -28,6 +31,7 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 	@Override
 	public final void init() {
 		this.managers.add(new TabScrollManager(this));
+		this.filteredoptions = this.taboptions;
 		this.Init();
 	}
 
@@ -47,7 +51,7 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 		if(!tabOptionsToText(taboptions, tabcnt).isEmpty()) {
 			output = output.concat(tabOptionsToText(taboptions, tabcnt));
 			output = MenuTools.addDivider(output);
-			output = output.concat(TextColor.INSTRUCTION + "Press '=' + TAB to cycle through the list.");
+			output = output.concat(TextColor.INSTRUCTION + "Press '+' + TAB or '-' + TAB to cycle through the list.");
 		}
 		if(!this.postTabListPreOptionsText().isEmpty()) {
 			output = MenuTools.addDivider(output.concat("\n"));
@@ -73,9 +77,9 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 		}
 		
 		// write the text
-		for(int iter = 0; iter<taboptions.size(); iter++) {
+		for(int iter = 0; iter<filteredoptions.size(); iter++) {
 			output = output.concat(ChatColor.RESET + "");
-			Nameable option = taboptions.get(iter); 
+			Nameable option = filteredoptions.get(iter); 
 			if(iter >= rangeBottom - maxLines && iter < rangeBottom) {
 				if(tabcnt == iter) {
 					output = output.concat(TextColor.LABEL.toString() + ChatColor.BOLD + option.getName() + "\n");
@@ -90,7 +94,22 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 
 	@Override
 	public void actionResponse() {
-		this.setTabcnt((this.getTabcnt() + 1) % this.getTabOptions().size());
+		TabScrollManager manager = ((TabScrollManager) this.managers.get(0));
+		int tabsize = this.filteredoptions.size();
+		this.setError(MenuError.NO_ERROR());
+		
+		if (manager.neither) {
+			this.filteredoptions = Tools.filter(manager.preTabEntry, this.taboptions);
+			this.setTabcnt(0);
+		}
+		else {
+			if(manager.scrollUp) {
+				this.setTabcnt(((this.getTabcnt() - 1) + tabsize) % tabsize);
+			}
+			else if(!manager.scrollUp) {
+				this.setTabcnt((this.getTabcnt() + 1) % tabsize);
+			}
+		}
 	}
 	
 	public int getTabcnt() {
@@ -106,6 +125,21 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 			this.tabcnt = tabcnt;
 		}
 	}
+	
+	public final Menu PreviousMenu() {
+		if(this.taboptions != this.filteredoptions) {
+			this.filteredoptions = this.taboptions;
+			return this.getSelf();
+		}
+		else {
+			return getPreviousPrompt();
+		}
+	}
+	/**
+	 * Gets the previous menu
+	 * @return	 the previous menu
+	 */
+	public abstract Menu getPreviousPrompt();
 	/**
 	 * Used to insert text between tab options and input options
 	 * @return	the text to be inserted

@@ -45,7 +45,7 @@ public abstract class PickGovOfType extends TabSelectOptionMenu {
 	}
 
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousPrompt() {
 		return previous;
 	}
 

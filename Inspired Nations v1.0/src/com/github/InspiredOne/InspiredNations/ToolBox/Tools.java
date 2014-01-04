@@ -1,8 +1,10 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -24,6 +26,16 @@ public class Tools {
 	}
 	public static BigDecimal cut(BigDecimal input) {
 		return input.divide(BigDecimal.ONE, 2, BigDecimal.ROUND_HALF_DOWN);
+	}
+	public static List<Nameable> filter(String key, List<Nameable> fulllist) {
+		List<Nameable> output = new ArrayList<Nameable>();
+		
+		for(Nameable test:fulllist) {
+			if(test.getName().toLowerCase().contains(key.toLowerCase())) {
+				output.add(test);
+			}
+		}
+		return output;
 	}
 	
 	public enum TextColor {

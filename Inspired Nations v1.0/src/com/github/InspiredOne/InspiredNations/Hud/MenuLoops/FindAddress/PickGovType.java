@@ -22,7 +22,7 @@ public class PickGovType extends TabSelectOptionMenu {
 	}
 
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousPrompt() {
 		// TODO Auto-generated method stub
 		return null;
 	}

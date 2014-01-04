@@ -1,10 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
-import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
-import com.github.InspiredOne.InspiredNations.Governments.Implem.House;
-import com.github.InspiredOne.InspiredNations.Governments.Implem.Town;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.TabTestNameable;
@@ -38,9 +34,6 @@ public class TestTabMenu extends TabSelectOptionMenu {
 
 	@Override
 	public void Init() {
-		Country country = GovFactory.getGovInstance(Country.class);
-		Town town = GovFactory.getGovInstance(Town.class);
-		House house = GovFactory.getGovInstance(House.class);
 		this.taboptions.add(new TabTestNameable("Option 1"));
 		this.taboptions.add(new TabTestNameable("Option 2"));
 		this.taboptions.add(new TabTestNameable("Option 3"));
@@ -53,10 +46,15 @@ public class TestTabMenu extends TabSelectOptionMenu {
 		this.taboptions.add(new TabTestNameable("Option 10"));
 		this.taboptions.add(new TabTestNameable("Option 11"));
 		this.taboptions.add(new TabTestNameable("Option 12"));
+		this.taboptions.add(new TabTestNameable("Option 13"));
+		this.taboptions.add(new TabTestNameable("Option 14"));
+		this.taboptions.add(new TabTestNameable("Option 15"));
+		this.taboptions.add(new TabTestNameable("Option 16"));
+		this.taboptions.add(new TabTestNameable("Option 17"));
 	}
 
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousPrompt() {
 		return new MainHud(PDI);
 	}
 
