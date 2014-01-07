@@ -26,6 +26,7 @@ import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
@@ -35,7 +36,7 @@ public class InspiredNations extends JavaPlugin {
 	public Logger logger = Logger.getLogger("Minecraft"); // Variable to communicate with console
 	private StartStop SS = new StartStop(this); // Deals with start-up and shut-down
 	public static MultiGovMap regiondata = new MultiGovMap(); 
-	public static HashMap<PlayerID, PlayerData> playerdata = new HashMap<PlayerID, PlayerData>();
+	public static IndexedMap<PlayerID, PlayerData> playerdata = new IndexedMap<PlayerID, PlayerData>();
 	public static MoneyExchange Exchange = new MoneyExchange();
 	public static List<MarketPlace> Markets = new ArrayList<MarketPlace>(); 
 	public static GlobalGov global = (GlobalGov) (new GovFactory(GlobalGov.class)).withMoneyname("Coin").withDiamondValue(new BigDecimal(1000)).getGov();

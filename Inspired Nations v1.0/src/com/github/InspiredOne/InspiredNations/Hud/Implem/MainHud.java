@@ -13,6 +13,7 @@ import com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.PickSelfType;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.WarningAlreadyOwnOne;
 import com.github.InspiredOne.InspiredNations.Hud.ManageGov.ManageGov;
 import com.github.InspiredOne.InspiredNations.Hud.ManageGov.PickManageSelfType;
+import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickGovGeneral;
 
 public class MainHud extends OptionMenu {
 	
@@ -49,8 +50,10 @@ public class MainHud extends OptionMenu {
 	@Override
 	public void init() {
 		this.options.add(new PromptOption(this, "Map", new Map(PDI)));
+		this.options.add(new PromptOption(this, "Player Directory", new PlayerDirectory(PDI)));
 		this.options.add(new PromptOption(this, "Manage Money", new ManageMoney(PDI)));
 		this.options.add(new PromptOption(this, "Test Tab Menu", new TestTabMenu(PDI)));
+		this.options.add(new PromptOption(this, "Test PickGovGeneral", new PickGovGeneral(PDI, this, this)));
 		List<Class<? extends OwnerGov>> array = plugin.global.getAllSubGovs();
 		array.remove(plugin.global.getClass());
 		

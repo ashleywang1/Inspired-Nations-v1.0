@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 
 import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
+import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
@@ -51,7 +52,7 @@ public class StartStop {
 	        File playerfile = new File(plugin.getDataFolder(), "playerdata.yml");
 	        FileInputStream playerIn = new FileInputStream(playerfile);
 	        ObjectInputStream pin = new ObjectInputStream(playerIn);
-	        InspiredNations.playerdata = (HashMap<PlayerID, PlayerData>) pin.readObject();
+	        InspiredNations.playerdata = (IndexedMap<PlayerID, PlayerData>) pin.readObject();
 	        pin.close();
 	        playerIn.close();
 	        

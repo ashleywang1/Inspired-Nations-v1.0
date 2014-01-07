@@ -9,18 +9,19 @@ import com.github.InspiredOne.InspiredNations.Hud.DataPassPromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.DataStorage;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
+import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 /**
  * Generalized find address menu system.
  * @author Jedidiah E. Phillips
  *
  */
-public abstract class PickGovOfType extends TabSelectOptionMenu {
+public class PickGovGeneral extends TabSelectOptionMenu {
 
 	Menu previous;
 	Menu next;
 	InspiredGov superGov;
-	Class<? extends InspiredGov> govTargetType;
+	
 	/**
 	 * 
 	 * @param PDI
@@ -29,19 +30,17 @@ public abstract class PickGovOfType extends TabSelectOptionMenu {
 	 * @param govTargetType
 	 * @param superGov
 	 */
-	public PickGovOfType(PlayerData PDI, Menu previous, Menu next, Class<? extends InspiredGov> govTargetType, InspiredGov superGov) {
+	public PickGovGeneral(PlayerData PDI, Menu previous, Menu next, InspiredGov superGov) {
 		super(PDI);
 		this.previous = previous;
 		this.next = next;
 		this.superGov = superGov;
-		this.govTargetType = govTargetType;
 	}
-	public PickGovOfType(PlayerData PDI, Menu previous, Menu next, Class<? extends InspiredGov> govTargetType) {
+	public PickGovGeneral(PlayerData PDI, Menu previous, Menu next) {
 		super(PDI);
 		this.previous = previous;
 		this.next = next;
 		this.superGov = InspiredNations.global;
-		this.govTargetType = govTargetType;
 	}
 
 	@Override
@@ -57,8 +56,8 @@ public abstract class PickGovOfType extends TabSelectOptionMenu {
 	@Override
 	public void Init() {
 
-		InspiredGov targetobj = GovFactory.getGovInstance(govTargetType);
-
+		this.taboptions.clear();
+		this.options.clear();
 		// Iterate over all the sub-gov types.
 		for(Class<? extends OwnerGov> subType:superGov.getSubGovs()) {
 			// Iterate over every government of that type
@@ -73,12 +72,22 @@ public abstract class PickGovOfType extends TabSelectOptionMenu {
 			}
 		}
 		
+		//Make the options
+		this.options.add(new PromptOption(this, "Search Under", new PickGovGeneral(PDI, this, next, (InspiredGov) this.getSelection())));
+		
+		
 	}
 	/**
-	 * if it returns true, then the gov it checked is added to the options list.
+	 * if it returns true, then the gov it checked is added to the tab-options list.
 	 * @param gov
 	 * @return
 	 */
-	public abstract boolean check(InspiredGov gov);
+	public boolean check(InspiredGov gov) {
+		return true;
+	}
+	@Override
+	public String postTabListPreOptionsText() {
+		return "";
+	}
 
 }

@@ -99,8 +99,16 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 		this.setError(MenuError.NO_ERROR());
 		
 		if (manager.neither) {
-			this.filteredoptions = Tools.filter(manager.preTabEntry, this.taboptions);
-			this.setTabcnt(0);
+			List<Nameable> tempOptions = Tools.filter(manager.preTabEntry, this.taboptions);
+			if(tempOptions.size() <= 0) {
+				this.setError(MenuError.NO_MATCHES_FOUND());
+				return;
+			}
+			else {
+				this.filteredoptions = tempOptions;
+				this.setTabcnt(0);
+			}
+			
 		}
 		else {
 			if(manager.scrollUp) {
@@ -134,6 +142,10 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 		else {
 			return getPreviousPrompt();
 		}
+	}
+	
+	public Nameable getSelection() {
+		return this.filteredoptions.get(tabcnt);
 	}
 	/**
 	 * Gets the previous menu

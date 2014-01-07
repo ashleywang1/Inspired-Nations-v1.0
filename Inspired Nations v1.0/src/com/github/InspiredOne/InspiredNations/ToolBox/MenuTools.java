@@ -93,6 +93,9 @@ public class MenuTools {
 		public static String MONEY_MULTIPLYER_TOO_SMALL() {
 			return makeMessage("Your currency is too valuable.");
 		}
+		public static String NO_MATCHES_FOUND() {
+			return makeMessage("There are no matches found.");
+		}
 		
 		private static final String getTypeName(Class<? extends InspiredGov> gov) {
 			String GovName = "";

@@ -15,7 +15,7 @@ import com.github.InspiredOne.InspiredNations.Economy.Currency;
  * @author Jedidiah Phillips
  *
  */
-public class PlayerID implements Serializable {
+public class PlayerID implements Serializable, Nameable {
 
 	private static final long serialVersionUID = 4523105693338266817L;
 	private String name;
@@ -56,5 +56,10 @@ public class PlayerID implements Serializable {
     public String toString() {
     	return name;
     }
+
+	@Override
+	public void setName(String Name) {
+		
+	}
 	
 }
