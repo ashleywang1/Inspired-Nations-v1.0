@@ -7,24 +7,35 @@ import org.bukkit.ChatColor;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.TabScrollManager;
+import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
-
-public abstract class TabSelectOptionMenu extends OptionMenu {
+/**
+ * A menu where the options are listed in plain font except the one that is selected (it's bold).
+ * The related options to the selection are listed in the options section of the menu. The data is null until after Init()
+ * is run, so in order to do anything with it in the subclass, Init() must be run. This is because Init() is used for
+ * putting options into the tab menu, and data is dependent on the list of tab options.
+ * 
+ * @author Jedidiah Phillips
+ *
+ * @param <E>
+ */
+public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu implements Datable<E> {
 
 	private int tabcnt = 0;
 	private int rangeBottom = maxLines;
 	private static final int maxLines = 9;
-	protected List<Nameable> taboptions = new ArrayList<Nameable>();	
-	private List<Nameable> filteredoptions = new ArrayList<Nameable>();
+	protected List<E> taboptions = new ArrayList<E>();
+	private List<E> filteredoptions = new ArrayList<E>();
+	private E data;
 	public TabSelectOptionMenu(PlayerData PDI) {
 		super(PDI);
 	}
 
-	public List<Nameable> getTabOptions() {
+	public List<E> getTabOptions() {
 		return this.taboptions;
 	}
 
@@ -32,7 +43,9 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 	public final void init() {
 		this.managers.add(new TabScrollManager(this));
 		this.filteredoptions = this.taboptions;
+		
 		this.Init();
+		this.data = this.filteredoptions.get(tabcnt);
 	}
 
 	@Override
@@ -60,7 +73,7 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 		return output;
 	}
 	
-	public String tabOptionsToText(List<Nameable> taboptions, int tabcnt) {
+	public String tabOptionsToText(List<? extends Nameable> taboptions, int tabcnt) {
 		String output = "";
 		//int iter = 0; // Used to identify which option to highlight
 
@@ -99,7 +112,7 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 		this.setError(MenuError.NO_ERROR());
 		
 		if (manager.neither) {
-			List<Nameable> tempOptions = Tools.filter(manager.preTabEntry, this.taboptions);
+			List<E> tempOptions = Tools.filter(manager.preTabEntry, this.taboptions);
 			if(tempOptions.size() <= 0) {
 				this.setError(MenuError.NO_MATCHES_FOUND());
 				return;
@@ -118,6 +131,8 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 				this.setTabcnt((this.getTabcnt() + 1) % tabsize);
 			}
 		}
+		this.setData(this.filteredoptions.get(tabcnt));
+		System.out.println(this.getData().getName());
 	}
 	
 	public int getTabcnt() {
@@ -146,6 +161,14 @@ public abstract class TabSelectOptionMenu extends OptionMenu {
 	
 	public Nameable getSelection() {
 		return this.filteredoptions.get(tabcnt);
+	}
+	
+	public void setData(E data) {
+		this.data = data;
+	}
+	
+	public E getData() {
+		return this.data;
 	}
 	/**
 	 * Gets the previous menu

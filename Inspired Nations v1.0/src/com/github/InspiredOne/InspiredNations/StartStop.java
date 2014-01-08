@@ -70,7 +70,8 @@ public class StartStop {
 		// Handles online players
 		for(Player player:plugin.getServer().getOnlinePlayers()) {
 			if(!InspiredNations.playerdata.containsKey(player.getName())) {
-				InspiredNations.playerdata.put(new PlayerID(player), new PlayerData(player.getName()));
+				PlayerID ID = new PlayerID(player);
+				InspiredNations.playerdata.put(ID, new PlayerData(ID));
 			}
 		}
 		

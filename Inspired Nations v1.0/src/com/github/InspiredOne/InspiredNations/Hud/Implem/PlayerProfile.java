@@ -2,27 +2,29 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class PlayerProfile extends Menu {
 
 	PlayerData PDITarget;
+	Datable<PlayerID> data;
 	
-	public PlayerProfile(PlayerData PDI, PlayerData PDITarget) {
+	public <T extends Datable<PlayerID>> PlayerProfile(PlayerData PDI, T PDITarget) {
 		super(PDI);
-		this.PDITarget = PDITarget;
-		// TODO Auto-generated constructor stub
+		this.data = PDITarget;
 	}
 
 	@Override
 	public String getHeader() {
-		return "Profile: " + PDI.getName();
+		return "Profile: " + PDITarget.getName();
 	}
 
 	@Override
 	public String getFiller() {
 		IndexedMap<String, String> Citizenship;
-		return null;
+		return "";
 	}
 
 	@Override
@@ -32,31 +34,27 @@ public class PlayerProfile extends Menu {
 
 	@Override
 	public Menu getPreviousMenu() {
-		// TODO Auto-generated method stub
-		return null;
+		return new PlayerDirectory(PDI);
 	}
 
 	@Override
 	public Menu getNextMenu(String input) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean getPassBy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public Menu getPassTo() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
+		this.PDITarget = this.data.getData().getPDI();
 
 	}
 

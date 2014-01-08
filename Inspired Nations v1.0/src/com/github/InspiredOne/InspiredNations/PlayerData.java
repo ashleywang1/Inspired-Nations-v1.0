@@ -17,6 +17,7 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 
 public class PlayerData implements Serializable, Nameable {
@@ -31,8 +32,8 @@ public class PlayerData implements Serializable, Nameable {
 	private IndexedMap<Account, String> accounts = new IndexedMap<Account, String>();
 	private Currency currency = Currency.DEFAULT;
 	
-	public PlayerData(String name) {
-		this.setName(name);
+	public PlayerData(PlayerID id) {
+		this.setName(id.getName());
 		con = null;
 	}
 

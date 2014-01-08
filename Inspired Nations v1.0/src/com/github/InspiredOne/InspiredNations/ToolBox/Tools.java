@@ -27,10 +27,10 @@ public class Tools {
 	public static BigDecimal cut(BigDecimal input) {
 		return input.divide(BigDecimal.ONE, 2, BigDecimal.ROUND_HALF_DOWN);
 	}
-	public static List<Nameable> filter(String key, List<Nameable> fulllist) {
-		List<Nameable> output = new ArrayList<Nameable>();
+	public static <T extends Nameable> List<T> filter(String key, List<T> fulllist) {
+		List<T> output = new ArrayList<T>();
 		
-		for(Nameable test:fulllist) {
+		for(T test:fulllist) {
 			if(test.getName().toLowerCase().contains(key.toLowerCase())) {
 				output.add(test);
 			}

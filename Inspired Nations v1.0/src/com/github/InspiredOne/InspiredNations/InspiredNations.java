@@ -88,7 +88,8 @@ public class InspiredNations extends JavaPlugin {
 		public void onPlayerJoin(PlayerJoinEvent event) {
 			System.out.println(new PlayerID(event.getPlayer()).equals(new PlayerID(event.getPlayer())));
 			if(!InspiredNations.playerdata.containsKey(new PlayerID(event.getPlayer()))) {
-				InspiredNations.playerdata.put(new PlayerID(event.getPlayer()), new PlayerData(event.getPlayer().getName()));
+				PlayerID ID = new PlayerID(event.getPlayer());
+				InspiredNations.playerdata.put(ID, new PlayerData(ID));
 				System.out.println("Player has not been added to playerdata yet");
 			}
 		}

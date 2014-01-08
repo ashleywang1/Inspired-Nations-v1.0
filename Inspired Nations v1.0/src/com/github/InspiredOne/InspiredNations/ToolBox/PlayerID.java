@@ -6,6 +6,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.bukkit.entity.Player;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 /**
  * My own implementation to make changes in the player identification simple to deal
@@ -60,6 +62,10 @@ public class PlayerID implements Serializable, Nameable {
 	@Override
 	public void setName(String Name) {
 		
+	}
+	
+	public PlayerData getPDI() {
+		return InspiredNations.playerdata.get(this);
 	}
 	
 }
