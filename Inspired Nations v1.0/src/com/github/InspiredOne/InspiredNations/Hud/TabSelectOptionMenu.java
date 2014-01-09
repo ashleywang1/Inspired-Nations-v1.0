@@ -43,9 +43,17 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	public final void init() {
 		this.managers.add(new TabScrollManager(this));
 		this.filteredoptions = this.taboptions;
-		
+		System.out.println("Inside init() of tabselectoptionmenu1");
 		this.Init();
-		this.data = this.filteredoptions.get(tabcnt);
+		System.out.println("Inside init() of tabselectoptionmenu2");
+		if(this.filteredoptions.size() == 0) {
+			this.setError(MenuError.NO_MATCHES_FOUND());
+			return;
+		}
+		else {
+			this.data = this.filteredoptions.get(tabcnt);
+		}
+		System.out.println("Inside init() of tabselectoptionmenu3");
 	}
 
 	@Override
@@ -130,9 +138,12 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			else if(!manager.scrollUp) {
 				this.setTabcnt((this.getTabcnt() + 1) % tabsize);
 			}
-		}
+		} 
+		this.options.clear();
+		this.taboptions.clear();
+		Init();
 		this.setData(this.filteredoptions.get(tabcnt));
-		System.out.println(this.getData().getName());
+
 	}
 	
 	public int getTabcnt() {
@@ -142,7 +153,8 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	public void setTabcnt(int tabcnt) {
 		if(this.tabcnt > 1024) {
 			// Because trolls and memory leaks t(<.<)t
-			this.tabcnt = 0;
+			//this.tabcnt = 0;
+			this.tabcnt = tabcnt; // delete this and use the top one if you think it's correct
 		}
 		else {
 			this.tabcnt = tabcnt;
@@ -159,7 +171,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		}
 	}
 	
-	public Nameable getSelection() {
+	public E getSelection() {
 		return this.filteredoptions.get(tabcnt);
 	}
 	
@@ -168,6 +180,9 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	}
 	
 	public E getData() {
+		if(data == null) {
+			this.data = this.filteredoptions.get(tabcnt);
+		}
 		return this.data;
 	}
 	/**

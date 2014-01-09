@@ -15,6 +15,7 @@ import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
+import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 
@@ -27,7 +28,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
  * @author InspiredOne
  *
  */
-public abstract class InspiredGov implements Serializable, Nameable {
+public abstract class InspiredGov implements Serializable, Nameable, Datable<InspiredGov> {
 
 	/**
 	 * 
@@ -117,7 +118,7 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	 * @param key	the Class of InspiredGovs to find
 	 * @return		a List of InspiredGovs of the type 
 	 */
-	public List<OwnerGov> getAllSubGovs(InspiredNations plugin, Class<? extends OwnerGov> key) {
+	public List<OwnerGov> getAllSubGovs(Class<? extends OwnerGov> key) {
 		List<OwnerGov> output = new ArrayList<OwnerGov>();
 		for(Iterator<InspiredGov> iter = InspiredNations.regiondata.get(key).iterator(); iter.hasNext(); ) {
 			InspiredGov gov = iter.next();
@@ -208,6 +209,31 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	 */
 	public void setFacilities(List<InspiredGov> facilities) {
 		this.facilities = facilities;
+	}
+	/**
+	 * Sifts through all the InspiredGovs and coalesces all the governments that are one level below this
+	 * government. Includes Facilities.
+	 * @return
+	 */
+	public List<InspiredGov> getAllSubGovsAndFacilitiesJustBelow() {
+		List<InspiredGov> output = new ArrayList<InspiredGov>();
+		System.out.println("Inside getallsubgovsandfacilities 1");
+		// Iterate over all the sub-gov types.
+		for(Class<? extends OwnerGov> subType:this.getData().getSubGovs()) {
+			System.out.println("Inside getallsubgovsandfacilities 2");
+			// Iterate over every government of that type
+			for(InspiredGov govToTest:InspiredNations.regiondata.get(subType)) {
+				System.out.println("Inside getallsubgovsandfacilities 3");
+				// Check if the government is under the particular superGov
+				if(govToTest.isSubOf(this.getData())) {
+					System.out.println("Inside getallsubgovsandfacilities 4");
+					output.add(govToTest);
+				}
+			}
+		}
+		System.out.println("Inside getallsubgovsandfacilities");
+		output.addAll(this.getFacilities());
+		return output;
 	}
 	/**
 	 * 
@@ -371,5 +397,10 @@ public abstract class InspiredGov implements Serializable, Nameable {
 	}
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
+	}
+	public void setData(InspiredGov datatemp) {
+	}
+	public InspiredGov getData() {
+		return this;
 	}
 }

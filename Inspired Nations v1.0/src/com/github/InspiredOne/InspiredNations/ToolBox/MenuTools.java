@@ -96,6 +96,9 @@ public class MenuTools {
 		public static String NO_MATCHES_FOUND() {
 			return makeMessage("There are no matches found.");
 		}
+		public static String NO_SUB_GOVS_UNDER_THIS_GOV() {
+			return makeMessage("There are no governments under the control of this government.");
+		}
 		
 		private static final String getTypeName(Class<? extends InspiredGov> gov) {
 			String GovName = "";

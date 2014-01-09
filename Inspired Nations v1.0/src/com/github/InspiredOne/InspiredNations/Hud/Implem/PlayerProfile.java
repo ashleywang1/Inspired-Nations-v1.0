@@ -39,7 +39,7 @@ public class PlayerProfile extends Menu {
 
 	@Override
 	public Menu getNextMenu(String input) {
-		return null;
+		return this.getSelf();
 	}
 
 	@Override

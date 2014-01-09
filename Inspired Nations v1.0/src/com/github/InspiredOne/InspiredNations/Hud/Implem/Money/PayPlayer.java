@@ -1,22 +1,26 @@
-package com.github.InspiredOne.InspiredNations.Hud.Implem;
+package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
+
+import java.util.List;
+import java.util.Set;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
-public class PlayerDirectory extends TabSelectOptionMenu<PlayerID> {
+public class PayPlayer extends TabSelectOptionMenu<PlayerID> {
 
-	public PlayerDirectory(PlayerData PDI) {
+	Set<Account> accounts;
+	public PayPlayer(PlayerData PDI, Set<Account> accounts) {
 		super(PDI);
-		System.out.println("In PlayerDirectory Constructor");
+		this.accounts = accounts;
 	}
 
 	@Override
 	public Menu getPreviousPrompt() {
-		return new MainHud(PDI);
+		return new PayNav(PDI, accounts);
 	}
 
 	@Override
@@ -29,13 +33,12 @@ public class PlayerDirectory extends TabSelectOptionMenu<PlayerID> {
 		for(PlayerID player:InspiredNations.playerdata.keySet()) {
 			this.taboptions.add(player);
 		}
-		
-		options.add(new PromptOption(this, "Profile", new PlayerProfile(PDI,this)));
+		this.options.add(e)
 	}
 
 	@Override
 	public String getHeader() {
-		return "Player Directory";
+		return "Select a player to pay";
 	}
 
 }
