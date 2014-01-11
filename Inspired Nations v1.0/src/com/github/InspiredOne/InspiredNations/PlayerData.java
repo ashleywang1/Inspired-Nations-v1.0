@@ -1,7 +1,6 @@
 package com.github.InspiredOne.InspiredNations;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -57,9 +56,6 @@ public class PlayerData implements Serializable, Nameable {
 	
 	public Player getPlayer() {
 		InspiredNations plugin = InspiredNations.plugin;
-		System.out.println("Inside Get Player " + (plugin == null) );
-		System.out.println(name);
-		System.out.println(plugin.getServer());
 		return plugin.getServer().getPlayer(name);
 	}
 	
@@ -113,8 +109,6 @@ public class PlayerData implements Serializable, Nameable {
 				}
 			}
 		}
-		System.out.println("In get Ownership. Size = " + output.size());
-		System.out.println(govType.getName());
 		
 		return output;
 	}
@@ -133,7 +127,6 @@ public class PlayerData implements Serializable, Nameable {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("In get AllSuperGovsBelow. Size = " + output.size());
 		return output;
 	}
 

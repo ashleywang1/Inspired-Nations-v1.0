@@ -46,8 +46,8 @@ public class GovFactory {
 	}
 
 	public void registerGov() {
-		InspiredNations.plugin.regiondata.put(gov.getClass(), gov);
-		InspiredNations.plugin.Exchange.registerCurrency(this.getGov().getCurrency(), diamondvalue);
+		InspiredNations.regiondata.put(gov.getClass(), gov);
+		InspiredNations.Exchange.registerCurrency(this.getGov().getCurrency(), diamondvalue);
 		//TODO change BigDecimal.ONE to whatever you're going to use for default values for exchanger
 	}
 	

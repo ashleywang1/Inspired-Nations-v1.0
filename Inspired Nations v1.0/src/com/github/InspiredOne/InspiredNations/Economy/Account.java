@@ -2,8 +2,6 @@ package com.github.InspiredOne.InspiredNations.Economy;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
@@ -72,14 +70,9 @@ public class Account implements Serializable, Nameable, Payable {
 		if(this.money.isEmpty()) {
 			this.money.put(Currency.DEFAULT, BigDecimal.ZERO);
 		}
-		System.out.println("Amount to add to account " + mon.toString());
+		
 		if(this.AutoExchange) {
 			Currency exTo = money.getIndex(0);
-			
-			if(money.get(exTo) == null) {
-				money.put(exTo, BigDecimal.ZERO);
-			}
-			System.out.println("Amount that is to be set for the account " + money.get(exTo).add(exch.exchange(mon, monType, exTo)).toString());
 			money.put(exTo, money.get(exTo).add(exch.exchange(mon, monType, exTo)));
 		}
 		else if(money.containsKey(monType)) {

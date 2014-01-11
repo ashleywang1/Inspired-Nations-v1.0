@@ -216,21 +216,16 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public List<InspiredGov> getAllSubGovsAndFacilitiesJustBelow() {
 		List<InspiredGov> output = new ArrayList<InspiredGov>();
-		System.out.println("Inside getallsubgovsandfacilities 1");
 		// Iterate over all the sub-gov types.
 		for(Class<? extends OwnerGov> subType:this.getData().getSubGovs()) {
-			System.out.println("Inside getallsubgovsandfacilities 2");
 			// Iterate over every government of that type
 			for(InspiredGov govToTest:InspiredNations.regiondata.get(subType)) {
-				System.out.println("Inside getallsubgovsandfacilities 3");
 				// Check if the government is under the particular superGov
 				if(govToTest.isSubOf(this.getData())) {
-					System.out.println("Inside getallsubgovsandfacilities 4");
 					output.add(govToTest);
 				}
 			}
 		}
-		System.out.println("Inside getallsubgovsandfacilities");
 		output.addAll(this.getFacilities());
 		return output;
 	}

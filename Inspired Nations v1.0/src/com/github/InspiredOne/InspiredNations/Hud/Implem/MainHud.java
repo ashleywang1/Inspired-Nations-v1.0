@@ -2,8 +2,8 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -11,10 +11,7 @@ import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Money.ManageMoney;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.PickSelfType;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.WarningAlreadyOwnOne;
-import com.github.InspiredOne.InspiredNations.Hud.ManageGov.ManageGov;
 import com.github.InspiredOne.InspiredNations.Hud.ManageGov.PickManageSelfType;
-import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickGovGeneral;
 
 public class MainHud extends OptionMenu {
 	
@@ -55,14 +52,12 @@ public class MainHud extends OptionMenu {
 		this.options.add(new PromptOption(this, "Manage Money", new ManageMoney(PDI)));
 		this.options.add(new PromptOption(this, "Test Tab Menu", new TestTabMenu(PDI)));
 		this.options.add(new getMoneyOption(this, "Get 1000 Coins", PDI));
-		List<Class<? extends OwnerGov>> array = plugin.global.getAllSubGovs();
-		array.remove(plugin.global.getClass());
+		List<Class<? extends OwnerGov>> array = InspiredNations.global.getAllSubGovs();
+		array.remove(InspiredNations.global.getClass());
 		
 		for(Class<? extends OwnerGov> gov:array) {
 			OwnerGov govobj = (OwnerGov) GovFactory.getGovInstance(gov);
-			System.out.println("govobj is null: " + (govobj == null));
 			if(!PDI.getOwnership(gov).isEmpty()) {
-				System.out.println(govobj.getTypeName());
 				this.options.add(new PromptOption(this, "Manage " + govobj.getTypeName(), new PickManageSelfType(PDI, gov)));
 			}
 		}

@@ -48,8 +48,7 @@ public class AccountCollection extends ArrayList<Account> implements Payable {
 		if(this.isEmpty()) {
 			this.add(new Account());
 		}
-		System.out.println("Amount added to AccountCollection " + amount.toString());
-		this.get(0).addMoney(amount, monType);
+		this.get(0).addMoney(amount, monType); 
 	}
 	
 	

@@ -27,18 +27,20 @@ public class MoneyExchange implements Serializable{
 	}
 	
 	public final BigDecimal getValue(BigDecimal mon, Currency monType, Currency valueType) {
-		BigDecimal valueAmount = Exchange.get(valueType);
-		BigDecimal monAmount = Exchange.get(monType);
-
-		BigDecimal monSum = monAmount.add(mon);
-		BigDecimal division = valueAmount.divide(monSum, mcup);
-		BigDecimal output = mon.multiply(division);
-		//BigDecimal output = mon.multiply(Exchange.get(valueType).divide(Exchange.get(monType).add(mon), mcdown));
-		
+		BigDecimal output;
 		//Remove this when you figure it out
-		if(monType == valueType) {
-			System.out.println("The value of funds to be released from the exchanger: " + mon.toString());
-			return mon;
+		if(monType.equals(valueType)) {
+			output = mon;
+		}
+		else {
+			
+			BigDecimal valueAmount = Exchange.get(valueType);
+			BigDecimal monAmount = Exchange.get(monType);
+	
+			BigDecimal monSum = monAmount.add(mon);
+			BigDecimal division = valueAmount.divide(monSum, mcup);
+			output = mon.multiply(division);
+			//BigDecimal output = mon.multiply(Exchange.get(valueType).divide(Exchange.get(monType).add(mon), mcdown));
 		}
 		
 		return output;
@@ -48,7 +50,7 @@ public class MoneyExchange implements Serializable{
 		BigDecimal output = this.getValue(mon, monType, valueType);
 		Exchange.put(monType, Exchange.get(monType).add(mon));
 		Exchange.put(valueType, Exchange.get(valueType).subtract(output));
-		return this.getValue(mon, monType, valueType);
+		return output;
 	}
 	
 	@SuppressWarnings("unchecked")

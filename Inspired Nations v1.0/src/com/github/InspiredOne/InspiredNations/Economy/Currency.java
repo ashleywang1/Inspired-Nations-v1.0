@@ -23,7 +23,7 @@ public class Currency implements Serializable, Nameable{
 		//TODO Remove later, figure out when to add a currency to the exchange
 		this.setName(name);
 		InspiredNations.Exchange.registerCurrency(this, new BigDecimal(500));
-
+		
 	}
 
 	@Override
@@ -54,8 +54,13 @@ public class Currency implements Serializable, Nameable{
 
         Currency rhs = (Currency) obj;
         return new EqualsBuilder().
-            // if deriving: appendSuper(super.equals(obj)).
+            // if deriving: appendSuper(super.equals(obj)).3
             append(name, rhs.getName()).
             isEquals();
+    }
+    
+    @Override
+    public String toString() {
+    	return this.getName();
     }
 }

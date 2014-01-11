@@ -55,13 +55,22 @@ public class IndexedMap<E, T> implements Map<E, T>,Iterable<E>, Serializable {
 
 	@Override
 	public T put(E arg0, T arg1) {
-		indexes.add(arg0);
-		return map.put(arg0, arg1);
+		if(map.containsKey(arg0)) {
+			return map.put(arg0, arg1);
+		}
+		else {
+			indexes.add(arg0);
+			return map.put(arg0, arg1);
+		}
 	}
 
 	@Override
 	public void putAll(Map<? extends E, ? extends T> arg0) {
-		indexes.addAll(arg0.keySet());
+		for(E thing:arg0.keySet()) {
+			if(!indexes.contains(thing)) {
+				indexes.add(thing);
+			}
+		}
 		map.putAll(arg0);
 	}
 
@@ -100,7 +109,13 @@ public class IndexedMap<E, T> implements Map<E, T>,Iterable<E>, Serializable {
 		if(index > indexes.size()) {
 			throw new ArrayIndexOutOfBoundsException();
 		}
-		indexes.insertElementAt(arg0, index);
+		if(!indexes.contains(arg0)) {
+			indexes.insertElementAt(arg0, index);
+		}
+		else {
+			indexes.remove(arg0);
+			indexes.insertElementAt(arg0, index);
+		}
 		map.put(arg0, arg1);
 	}
 	

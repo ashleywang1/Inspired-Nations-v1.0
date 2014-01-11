@@ -1,9 +1,7 @@
 
 package com.github.InspiredOne.InspiredNations;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -21,8 +19,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.InspiredOne.InspiredNations.Economy.Account;
-import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.MarketPlace;
 import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
