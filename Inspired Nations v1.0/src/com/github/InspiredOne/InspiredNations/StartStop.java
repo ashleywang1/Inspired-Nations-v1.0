@@ -24,7 +24,6 @@ public class StartStop {
 	
 	public StartStop(InspiredNations instance) {
 		plugin = instance;
-		System.out.println("Inside Start Stop");
 	}
 	
 	// Handles Start-up of plugin
@@ -70,8 +69,8 @@ public class StartStop {
 		
 		// Handles online players
 		for(Player player:plugin.getServer().getOnlinePlayers()) {
-			if(!InspiredNations.playerdata.containsKey(player.getName())) {
-				PlayerID ID = new PlayerID(player);
+			PlayerID ID = new PlayerID(player);
+			if(!InspiredNations.playerdata.containsKey(ID)) {
 				InspiredNations.playerdata.put(ID, new PlayerData(ID));
 			}
 		}

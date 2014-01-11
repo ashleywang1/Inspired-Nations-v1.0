@@ -45,14 +45,11 @@ public class AccountCollection extends ArrayList<Account> implements Payable {
 	}
 	@Override
 	public void addMoney(BigDecimal amount, Currency monType) {
-		System.out.println(this.isEmpty());
 		if(this.isEmpty()) {
 			this.add(new Account());
-			this.addMoney(amount, monType);
 		}
-		System.out.println("Just before add money 1");
+		System.out.println("Amount added to AccountCollection " + amount.toString());
 		this.get(0).addMoney(amount, monType);
-		System.out.println("Just before add money 2");
 	}
 	
 	

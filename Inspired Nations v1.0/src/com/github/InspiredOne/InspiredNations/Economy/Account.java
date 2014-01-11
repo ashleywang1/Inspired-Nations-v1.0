@@ -22,8 +22,7 @@ public class Account implements Serializable, Nameable, Payable {
 	private String name = "Money";
 	private IndexedMap<Currency, BigDecimal> money = new IndexedMap<Currency, BigDecimal>();
 	private boolean AutoExchange = true;
-	private MathContext mcup = new MathContext(100, RoundingMode.UP);
-	private MathContext mcdown = new MathContext(100, RoundingMode.DOWN);
+
 	
 	public Account() {
 		//TODO remove these for later. figure out how to handle when a player is first joining a server with no
@@ -49,7 +48,7 @@ public class Account implements Serializable, Nameable, Payable {
 	}
 
 	public final BigDecimal getMoney(Currency getType, Currency valueType) {
-		MoneyExchange exch = InspiredNations.plugin.Exchange;
+		MoneyExchange exch = InspiredNations.Exchange;
 		if(money.containsKey(getType)) {
 			return exch.getValue(money.get(getType), getType, valueType);
 		}
@@ -60,49 +59,40 @@ public class Account implements Serializable, Nameable, Payable {
 	}
 	
 	public final BigDecimal getTotalMoney(Currency valueType) {
-		MoneyExchange exch = InspiredNations.plugin.Exchange;
+		MoneyExchange exch = InspiredNations.Exchange;
 		BigDecimal output = BigDecimal.ZERO;
 		for(Currency curren:money) {
-			output.add(exch.getValue(money.get(curren), curren, valueType));
+			output = output.add(exch.getValue(money.get(curren), curren, valueType));
 		}
 		return output;
 	}
 	
 	public final void addMoney(BigDecimal mon, Currency monType) {
-		System.out.println("Inside Account addMoney 1");
-		MoneyExchange exch = InspiredNations.plugin.Exchange;
-		System.out.println("Inside Account addMoney 2");
+		MoneyExchange exch = InspiredNations.Exchange;
 		if(this.money.isEmpty()) {
 			this.money.put(Currency.DEFAULT, BigDecimal.ZERO);
 		}
-		
+		System.out.println("Amount to add to account " + mon.toString());
 		if(this.AutoExchange) {
-			System.out.println("Inside Account addMoney 3");
 			Currency exTo = money.getIndex(0);
-			System.out.println("Inside Account addMoney 5");
-			System.out.println(exch == null);
-			System.out.println(money.containsKey(exTo));
 			
 			if(money.get(exTo) == null) {
 				money.put(exTo, BigDecimal.ZERO);
 			}
-			
+			System.out.println("Amount that is to be set for the account " + money.get(exTo).add(exch.exchange(mon, monType, exTo)).toString());
 			money.put(exTo, money.get(exTo).add(exch.exchange(mon, monType, exTo)));
-			System.out.println("Inside Account addMoney 4");
 		}
 		else if(money.containsKey(monType)) {
-			System.out.println("Inside Account addMoney 7");
 			money.put(monType, money.get(monType).add(mon));
 		}
 		else {
-			System.out.println("Inside Account addMoney 6");
 			money.put(monType, BigDecimal.ZERO);
 			this.addMoney(mon, monType);
 		}
 	}
 	
 	public final void transferMoney(BigDecimal mon, Currency monType, Payable accountTo) throws BalanceOutOfBoundsException {
-		MoneyExchange exch = InspiredNations.plugin.Exchange;
+		MoneyExchange exch = InspiredNations.Exchange;
 		if(getTotalMoney(monType).compareTo(mon) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}

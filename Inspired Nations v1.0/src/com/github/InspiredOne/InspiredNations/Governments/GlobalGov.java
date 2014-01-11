@@ -20,7 +20,6 @@ public class GlobalGov extends OwnerSubjectGov {
 	private static final String typeName = "Global Government"; 
 
 	public GlobalGov() {
-		System.out.println("Inside Global Gov constructor");
 	}
 	
 	@Override

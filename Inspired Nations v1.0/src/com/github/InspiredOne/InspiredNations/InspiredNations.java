@@ -52,8 +52,10 @@ public class InspiredNations extends JavaPlugin {
 		PluginManager pm = this.getServer().getPluginManager();
 		SS.Start();
 		pm.registerEvents(PL, this);
-		global = (GlobalGov) (new GovFactory(GlobalGov.class)).withMoneyname("Coin").withDiamondValue(new BigDecimal(1000)).getGov();
+		global = (GlobalGov) (new GovFactory(GlobalGov.class)).getGov();
 		global.register();
+		// if this is first time running plugin, then add the default globalgov to the regiondata
+		// else, put the global gov loaded in the region data back into the global variable.
 		if(regiondata.get(global.getClass()).isEmpty()) {
 			regiondata.put(global.getClass(), global);
 		}

@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Governments;
 import java.math.BigDecimal;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 
 public class GovFactory {
 
@@ -32,6 +33,11 @@ public class GovFactory {
 	
 	public GovFactory withDiamondValue(BigDecimal multiplyer) {
 		this.diamondvalue = multiplyer;
+		return this;
+	}
+	
+	public GovFactory withCurrency(Currency currency) {
+		this.gov.setCurrency(currency);
 		return this;
 	}
 	

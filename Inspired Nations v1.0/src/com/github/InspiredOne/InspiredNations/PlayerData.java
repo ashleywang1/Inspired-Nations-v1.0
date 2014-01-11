@@ -29,12 +29,14 @@ public class PlayerData implements Serializable, Nameable {
 	
 	private transient Conversation con;
 	private String name;
-	private AccountCollection accounts = new AccountCollection();
-	private Currency currency = Currency.DEFAULT;
+	private AccountCollection accounts;
+	private Currency currency;
 	
 	public PlayerData(PlayerID id) {
 		this.setName(id.getName());
 		con = null;
+		currency = Currency.DEFAULT;
+		accounts = new AccountCollection();
 	}
 
 	public Conversation getCon() {
