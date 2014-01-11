@@ -1,19 +1,16 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 
-import java.util.List;
-import java.util.Set;
-
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
+import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class PayPlayer extends TabSelectOptionMenu<PlayerID> {
 
-	Set<Account> accounts;
-	public PayPlayer(PlayerData PDI, Set<Account> accounts) {
+	Payable accounts;
+	public PayPlayer(PlayerData PDI, Payable accounts) {
 		super(PDI);
 		this.accounts = accounts;
 	}
@@ -33,7 +30,7 @@ public class PayPlayer extends TabSelectOptionMenu<PlayerID> {
 		for(PlayerID player:InspiredNations.playerdata.keySet()) {
 			this.taboptions.add(player);
 		}
-		this.options.add(e)
+		this.options.add(new PayAccountOption(PDI, this, "Pay Player <amount>", accounts, this.getData().getPDI().getAccounts()));
 	}
 
 	@Override

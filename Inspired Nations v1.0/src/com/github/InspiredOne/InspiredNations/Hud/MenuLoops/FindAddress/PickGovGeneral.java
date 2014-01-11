@@ -15,8 +15,8 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
  */
 public abstract class PickGovGeneral extends TabSelectOptionMenu<InspiredGov> {
 
-	Menu previous;
-	Menu next;
+	public Menu previous;
+	public Menu next;
 	Datable<InspiredGov> superGov;
 	
 	/**

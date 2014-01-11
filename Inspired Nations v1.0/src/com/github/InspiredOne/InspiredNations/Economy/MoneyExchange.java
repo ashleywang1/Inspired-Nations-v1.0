@@ -12,10 +12,16 @@ public class MoneyExchange implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -3674609233229292913L;
+	
 
 	private HashMap<Currency, BigDecimal> Exchange = new HashMap<Currency, BigDecimal>();
 	
 	public void registerCurrency(Currency currency, BigDecimal diamondValue) {
+		
+		System.out.println("plugin is null " + (InspiredNations.plugin == null));
+		System.out.println("config is null " + (InspiredNations.plugin.getConfig() == null));
+		System.out.println("Exchange multiplyer = " + InspiredNations.plugin.getConfig().getString("exchange_multiplyer"));
+		
 		
 		BigDecimal amount = new BigDecimal(InspiredNations.plugin.getConfig().getString("exchange_multiplyer"));
 		

@@ -21,6 +21,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.InspiredOne.InspiredNations.Economy.Account;
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.MarketPlace;
 import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
@@ -39,27 +41,27 @@ public class InspiredNations extends JavaPlugin {
 	public static IndexedMap<PlayerID, PlayerData> playerdata = new IndexedMap<PlayerID, PlayerData>();
 	public static MoneyExchange Exchange = new MoneyExchange();
 	public static List<MarketPlace> Markets = new ArrayList<MarketPlace>(); 
-	public static GlobalGov global = (GlobalGov) (new GovFactory(GlobalGov.class)).withMoneyname("Coin").withDiamondValue(new BigDecimal(1000)).getGov();
+	public static GlobalGov global;
 	public TempCommandListener CM = new TempCommandListener(this);
 	public TempPlayerListener PL = new TempPlayerListener(this);
 	
 	public void onEnable() {
+		System.out.println(Bukkit.getPluginManager().getPlugins()[0].getName());
+
 		InspiredNations.plugin = this;
 		PluginManager pm = this.getServer().getPluginManager();
 		SS.Start();
 		pm.registerEvents(PL, this);
+		global = (GlobalGov) (new GovFactory(GlobalGov.class)).withMoneyname("Coin").withDiamondValue(new BigDecimal(1000)).getGov();
 		global.register();
-
 		if(regiondata.get(global.getClass()).isEmpty()) {
 			regiondata.put(global.getClass(), global);
 		}
 		else {
 			global = (GlobalGov) regiondata.get(global.getClass()).iterator().next();
 		}
-
 		this.getCommand("hud").setExecutor(CM);
 		this.getCommand("map").setExecutor(CM);
-		
 		for(HashSet<InspiredGov> set:regiondata.values()) {
 			for(Iterator<InspiredGov> iter = set.iterator(); iter.hasNext();){
 				InspiredGov gov = iter.next();

@@ -125,8 +125,9 @@ public abstract class Menu extends MessagePrompt {
 	 * 
 	 * @param error	the <code>MenuError</code> to be used as the error
 	 */
-	public final void setError(String error) {
+	public final Menu setError(String error) {
 		this.getContext().setSessionData(ContextData.Error, error);
+		return this;
 	}
 	/**
 	 * Looks at previous menu and determines if it should be skipped or not

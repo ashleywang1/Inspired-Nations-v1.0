@@ -54,6 +54,7 @@ public class MainHud extends OptionMenu {
 		this.options.add(new PromptOption(this, "Player Directory", new PlayerDirectory(PDI)));
 		this.options.add(new PromptOption(this, "Manage Money", new ManageMoney(PDI)));
 		this.options.add(new PromptOption(this, "Test Tab Menu", new TestTabMenu(PDI)));
+		this.options.add(new getMoneyOption(this, "Get 1000 Coins", PDI));
 		List<Class<? extends OwnerGov>> array = plugin.global.getAllSubGovs();
 		array.remove(plugin.global.getClass());
 		

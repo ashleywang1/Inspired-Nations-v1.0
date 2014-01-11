@@ -24,6 +24,7 @@ public class StartStop {
 	
 	public StartStop(InspiredNations instance) {
 		plugin = instance;
+		System.out.println("Inside Start Stop");
 	}
 	
 	// Handles Start-up of plugin

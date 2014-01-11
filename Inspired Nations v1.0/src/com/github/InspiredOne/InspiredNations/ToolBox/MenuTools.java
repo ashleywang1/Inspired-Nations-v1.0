@@ -99,7 +99,9 @@ public class MenuTools {
 		public static String NO_SUB_GOVS_UNDER_THIS_GOV() {
 			return makeMessage("There are no governments under the control of this government.");
 		}
-		
+		public static String NOT_ENOUGH_MONEY() {
+			return makeMessage("There is not enough money.");
+		}
 		private static final String getTypeName(Class<? extends InspiredGov> gov) {
 			String GovName = "";
 			GovName = GovFactory.getGovInstance(gov).getTypeName();

@@ -1,22 +1,28 @@
 package com.github.InspiredOne.InspiredNations.Economy;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
-
+	
 public class Currency implements Serializable, Nameable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2855995345401677901L;
-	private String name = "Coin";
+	private String name;
 	public static final Currency DEFAULT = new Currency("Coin");
+	
 
-	public Currency(String name) {
+	private Currency(String name) {
+		//TODO Remove later, figure out when to add a currency to the exchange
+		this.setName(name);
+		InspiredNations.Exchange.registerCurrency(this, new BigDecimal(500));
 
 	}
 
@@ -52,5 +58,4 @@ public class Currency implements Serializable, Nameable{
             append(name, rhs.getName()).
             isEquals();
     }
-	
 }

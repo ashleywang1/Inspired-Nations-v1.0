@@ -9,8 +9,9 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 
-public class Account implements Serializable, Nameable {
+public class Account implements Serializable, Nameable, Payable {
 
 	
 	/**
@@ -25,6 +26,8 @@ public class Account implements Serializable, Nameable {
 	private MathContext mcdown = new MathContext(100, RoundingMode.DOWN);
 	
 	public Account() {
+		//TODO remove these for later. figure out how to handle when a player is first joining a server with no
+		// currencies already
 	}
 
 	public String getTypeName() {
@@ -65,22 +68,40 @@ public class Account implements Serializable, Nameable {
 		return output;
 	}
 	
-	private final void addMoney(BigDecimal mon, Currency monType) {
+	public final void addMoney(BigDecimal mon, Currency monType) {
+		System.out.println("Inside Account addMoney 1");
 		MoneyExchange exch = InspiredNations.plugin.Exchange;
+		System.out.println("Inside Account addMoney 2");
+		if(this.money.isEmpty()) {
+			this.money.put(Currency.DEFAULT, BigDecimal.ZERO);
+		}
+		
 		if(this.AutoExchange) {
+			System.out.println("Inside Account addMoney 3");
 			Currency exTo = money.getIndex(0);
+			System.out.println("Inside Account addMoney 5");
+			System.out.println(exch == null);
+			System.out.println(money.containsKey(exTo));
+			
+			if(money.get(exTo) == null) {
+				money.put(exTo, BigDecimal.ZERO);
+			}
+			
 			money.put(exTo, money.get(exTo).add(exch.exchange(mon, monType, exTo)));
+			System.out.println("Inside Account addMoney 4");
 		}
 		else if(money.containsKey(monType)) {
+			System.out.println("Inside Account addMoney 7");
 			money.put(monType, money.get(monType).add(mon));
 		}
 		else {
+			System.out.println("Inside Account addMoney 6");
 			money.put(monType, BigDecimal.ZERO);
 			this.addMoney(mon, monType);
 		}
 	}
 	
-	public final void transferMoney(BigDecimal mon, Currency monType, Account accountTo) throws BalanceOutOfBoundsException {
+	public final void transferMoney(BigDecimal mon, Currency monType, Payable accountTo) throws BalanceOutOfBoundsException {
 		MoneyExchange exch = InspiredNations.plugin.Exchange;
 		if(getTotalMoney(monType).compareTo(mon) < 0) {
 			throw new BalanceOutOfBoundsException();
@@ -129,5 +150,5 @@ public class Account implements Serializable, Nameable {
 	@Override
 	public void setName(String name) {
 		this.name = name;
-	} 
+	}
 }

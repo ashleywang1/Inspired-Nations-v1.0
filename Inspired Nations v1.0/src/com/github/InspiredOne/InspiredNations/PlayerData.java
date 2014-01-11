@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -9,13 +10,12 @@ import java.util.List;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
 
-import com.github.InspiredOne.InspiredNations.Economy.Account;
+import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
-import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
@@ -29,7 +29,7 @@ public class PlayerData implements Serializable, Nameable {
 	
 	private transient Conversation con;
 	private String name;
-	private IndexedMap<Account, String> accounts = new IndexedMap<Account, String>();
+	private AccountCollection accounts = new AccountCollection();
 	private Currency currency = Currency.DEFAULT;
 	
 	public PlayerData(PlayerID id) {
@@ -55,6 +55,9 @@ public class PlayerData implements Serializable, Nameable {
 	
 	public Player getPlayer() {
 		InspiredNations plugin = InspiredNations.plugin;
+		System.out.println("Inside Get Player " + (plugin == null) );
+		System.out.println(name);
+		System.out.println(plugin.getServer());
 		return plugin.getServer().getPlayer(name);
 	}
 	
@@ -132,11 +135,11 @@ public class PlayerData implements Serializable, Nameable {
 		return output;
 	}
 
-	public IndexedMap<Account, String> getAccounts() {
+	public AccountCollection getAccounts() {
 		return accounts;
 	}
 
-	public void setAccounts(IndexedMap<Account, String> accounts) {
+	public void setAccounts(AccountCollection accounts) {
 		this.accounts = accounts;
 	}
 

@@ -11,12 +11,11 @@ import java.util.List;
 import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
-import com.github.InspiredOne.InspiredNations.Economy.Account;
+import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
-import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 
 /**
@@ -35,7 +34,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	private static final long serialVersionUID = 5014430464149332251L;
 	
-	private IndexedMap<Account, String> accounts = new IndexedMap<Account, String>();
+	private AccountCollection accounts = new AccountCollection();
 	private InspiredRegion region;
 	private List<InspiredGov> facilities = new ArrayList<InspiredGov>();
 	private HashMap<Class<? extends InspiredGov>, Double> taxrates = new HashMap<Class<? extends InspiredGov>, Double>();
@@ -386,10 +385,10 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	public int getMilitaryLevel() {
 		return this.getSuperGovObj().getMilitaryLevel();
 	}
-	public IndexedMap<Account, String> getAccounts() {
+	public AccountCollection getAccounts() {
 		return accounts;
 	}
-	public void setAccounts(IndexedMap<Account, String> accounts) {
+	public void setAccounts(AccountCollection accounts) {
 		this.accounts = accounts;
 	}
 	public Currency getCurrency() {

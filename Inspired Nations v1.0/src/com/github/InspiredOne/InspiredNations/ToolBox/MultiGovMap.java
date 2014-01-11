@@ -18,6 +18,9 @@ public class MultiGovMap extends MultiMap<Class<? extends InspiredGov>, Inspired
 	 */
 	private static final long serialVersionUID = -3307693156378400946L;
 
+	public MultiGovMap() {
+	}
+	
 	@Override
 	public HashSet<InspiredGov> get(Object key) {
 		@SuppressWarnings("unchecked")

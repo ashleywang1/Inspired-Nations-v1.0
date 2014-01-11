@@ -33,7 +33,8 @@ public abstract class OptionMenu extends ActionMenu {
 	public final Menu NextMenu(String arg) {
 		int answer;
 		try {
-			answer = Integer.parseInt(arg);
+			String[] args = arg.split(" ");
+			answer = Integer.parseInt(args[0]);
 			if(answer > options.size()) {
 				this.setError(MenuError.OUT_OF_RANGE_NUMBER_INPUT());
 				return this.getSelf();

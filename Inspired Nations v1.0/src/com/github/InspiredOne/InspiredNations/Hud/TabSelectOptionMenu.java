@@ -43,9 +43,9 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	public final void init() {
 		this.managers.add(new TabScrollManager(this));
 		this.filteredoptions = this.taboptions;
-		System.out.println("Inside init() of tabselectoptionmenu1");
+		System.out.println("Inside init() of tabselectoptionmenu 1");
 		this.Init();
-		System.out.println("Inside init() of tabselectoptionmenu2");
+		System.out.println("Inside init() of tabselectoptionmenu 2");
 		if(this.filteredoptions.size() == 0) {
 			this.setError(MenuError.NO_MATCHES_FOUND());
 			return;
@@ -53,7 +53,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		else {
 			this.data = this.filteredoptions.get(tabcnt);
 		}
-		System.out.println("Inside init() of tabselectoptionmenu3");
+		System.out.println("Inside init() of tabselectoptionmenu 3");
 	}
 
 	@Override
