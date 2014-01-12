@@ -10,14 +10,16 @@ import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 public class PayPlayer extends TabSelectOptionMenu<PlayerID> {
 
 	Payable accounts;
-	public PayPlayer(PlayerData PDI, Payable accounts) {
+	Menu back;
+	public PayPlayer(PlayerData PDI, Payable accounts, Menu back) {
 		super(PDI);
 		this.accounts = accounts;
+		this.back = back;
 	}
 
 	@Override
 	public Menu getPreviousPrompt() {
-		return new PayNav(PDI, accounts);
+		return new PayNav(PDI, accounts, back);
 	}
 
 	@Override

@@ -5,31 +5,29 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Money.PayNav;
 
-public class ManageGov extends OptionMenu {
+public class ManageGovMoney extends OptionMenu {
 
 	OwnerGov gov;
-	public ManageGov(PlayerData PDI, OwnerGov gov) {
+	public ManageGovMoney(PlayerData PDI, OwnerGov gov) {
 		super(PDI);
 		this.gov = gov;
-
 	}
 
 	@Override
 	public String getPreOptionText() {
-		return "";
+		return gov.getAccounts().getTotalMoney(PDI.getCurrency()).toString() + " " + PDI.getCurrency();
 	}
 
 	@Override
 	public Menu PreviousMenu() {
-		return new PickManageSuperGov(PDI, gov.getClass(), gov.getSuperGovObj());
+		return new ManageGov(PDI, gov);
 	}
 
 	@Override
 	public String getHeader() {
-		// TODO Auto-generated method stub
-		return "";
+		return "Manage Gov Money";
 	}
 
 	@Override
@@ -44,8 +42,7 @@ public class ManageGov extends OptionMenu {
 
 	@Override
 	public void init() {
-		this.options.add(new PromptOption(this, "Manage Money", new ManageGovMoney(PDI, gov)));
-		this.options.add(new PromptOption(this, "option 1", new MainHud(PDI)));
+		this.options.add(new PromptOption(this, "Pay", new PayNav(PDI, gov.getAccounts(), this)));
 	}
 
 }

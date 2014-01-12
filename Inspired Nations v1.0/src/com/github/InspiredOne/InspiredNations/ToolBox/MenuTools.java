@@ -1,5 +1,7 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
+import java.math.BigDecimal;
+
 import org.bukkit.ChatColor;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
@@ -102,15 +104,16 @@ public class MenuTools {
 		public static String NOT_ENOUGH_MONEY() {
 			return makeMessage("There is not enough money.");
 		}
+		public static String NEGATIVE_AMOUNTS_NOT_ALLOWED(BigDecimal useInstead) {
+			return makeMessage("You can't use negative values here. Use " + useInstead.abs() + " instead.");
+		}
 		private static final String getTypeName(Class<? extends InspiredGov> gov) {
 			String GovName = "";
 			GovName = GovFactory.getGovInstance(gov).getTypeName();
 			return GovName;
 		}
-		
-		private static final String makeMessage(String msg) {
-			return "\n" + TextColor.ALERT + msg;
+		private static final String makeMessage(Object msg) {
+			return "\n" + TextColor.ALERT + msg.toString();
 		}
 	}
-	
 }

@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 
 import java.math.BigDecimal;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
@@ -25,10 +26,16 @@ public class PayAccountOption extends Option {
 	@Override
 	public Menu response(String input) {
 		try{
+			
 			String[] args = input.split(" ");
+			Debug.print("Inside PayAccountOption.response");
 			BigDecimal amount = new BigDecimal(args[1]);
+
 			if(amount.compareTo(accountsFrom.getTotalMoney(PDI.getCurrency())) > 0) {
 				menu.setError(MenuError.NOT_ENOUGH_MONEY());
+			}
+			else if(amount.compareTo(BigDecimal.ZERO) < 0) {
+				menu.setError(MenuError.NEGATIVE_AMOUNTS_NOT_ALLOWED(amount));
 			}
 			else {
 				accountsFrom.transferMoney(amount, PDI.getCurrency(), accountTo);
@@ -38,6 +45,7 @@ public class PayAccountOption extends Option {
 			return menu.getSelf();
 		}
 		catch(Exception ex) {
+			ex.printStackTrace();
 			return menu.getSelf().setError(MenuError.INVALID_NUMBER_INPUT());
 		}
 	}

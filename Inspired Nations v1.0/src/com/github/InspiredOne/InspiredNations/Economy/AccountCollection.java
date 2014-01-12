@@ -25,7 +25,7 @@ public class AccountCollection extends ArrayList<Account> implements Payable {
 	}
 
 	public void transferMoney(BigDecimal amount, Currency monType, Payable accountTo) throws BalanceOutOfBoundsException {
-		boolean done = true;
+		boolean done = false;
 		int iter = 0;
 		if(this.getTotalMoney(monType).compareTo(amount) < 0) {
 			throw new BalanceOutOfBoundsException();
@@ -40,15 +40,17 @@ public class AccountCollection extends ArrayList<Account> implements Payable {
 				else {
 					handle.transferMoney(handle.getTotalMoney(monType), monType, accountTo);
 				}
+				iter++;
 			}
 		}
 	}
+
 	@Override
 	public void addMoney(BigDecimal amount, Currency monType) {
 		if(this.isEmpty()) {
 			this.add(new Account());
 		}
-		this.get(0).addMoney(amount, monType); 
+		this.get(0).addMoney(amount, monType);
 	}
 	
 	

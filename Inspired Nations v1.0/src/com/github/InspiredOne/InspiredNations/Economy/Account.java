@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Economy;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
@@ -86,6 +87,7 @@ public class Account implements Serializable, Nameable, Payable {
 	
 	public final void transferMoney(BigDecimal mon, Currency monType, Payable accountTo) throws BalanceOutOfBoundsException {
 		MoneyExchange exch = InspiredNations.Exchange;
+		Debug.print("Inside Account.transferMoney");
 		if(getTotalMoney(monType).compareTo(mon) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}
@@ -96,7 +98,7 @@ public class Account implements Serializable, Nameable, Payable {
 				Currency curren = money.getIndex(iter);
 				BigDecimal amount = money.get(curren);
 				if(amount.compareTo(exch.getValue(mon, monType, curren)) < 0) {
-					mon.subtract(exch.getValue(amount, curren, monType));
+					mon = mon.subtract(exch.getValue(amount, curren, monType));
 					money.put(curren, BigDecimal.ZERO);
 					accountTo.addMoney(amount, curren);
 				}
