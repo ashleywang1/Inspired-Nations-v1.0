@@ -31,7 +31,7 @@ public class PickGovToPay extends PickGovGeneral {
 		if(this.getData().getAllSubGovsAndFacilitiesJustBelow().size() > 0) {
 			this.options.add(new PromptOption(this, "Search Under", new PickGovToPay(PDI, accounts, this, this.next, this.getData())));
 		}
-		this.options.add(new PayAccountOption(PDI, this, "Pay " + this.getData().getTypeName() + " <amount>",PDI.getAccounts(), this.getData().getAccounts()));
+		this.options.add(new PayAccountOption(PDI, this, "Pay " + this.getData().getTypeName() + " <amount>", accounts, this.getData().getAccounts()));
 	}
 
 }

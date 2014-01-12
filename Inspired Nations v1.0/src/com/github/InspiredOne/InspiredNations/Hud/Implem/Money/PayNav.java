@@ -42,7 +42,7 @@ public class PayNav extends PassByOptionMenu {
 	public void init() {
 		this.options.add(new PromptOption(this, "Pay Player", new PayPlayer(PDI, accounts, back)));
 		if(!InspiredNations.global.getData().getAllSubGovsAndFacilitiesJustBelow().isEmpty()) {
-			this.options.add(new PromptOption(this, "Pay Government", new PickGovToPay(PDI, PDI.getAccounts(), this, this)));
+			this.options.add(new PromptOption(this, "Pay Government", new PickGovToPay(PDI, accounts, this, this)));
 		}
 	}
 
