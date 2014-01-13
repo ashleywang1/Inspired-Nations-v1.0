@@ -2,7 +2,9 @@ package com.github.InspiredOne.InspiredNations.Regions.Implem;
 
 import org.bukkit.Location;
 
+import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
+import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
 
 public class PolygonPrism extends Region {
@@ -56,7 +58,7 @@ public class PolygonPrism extends Region {
 	}
 
 	@Override
-	public Class<? extends ActionMenu> getClaimConvo() {
+	public Menu getClaimMenu(PlayerData PDI, Menu previous) {
 		// TODO Auto-generated method stub
 		return null;
 	}
