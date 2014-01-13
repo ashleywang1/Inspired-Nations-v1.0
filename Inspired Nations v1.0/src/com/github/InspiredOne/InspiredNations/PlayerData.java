@@ -32,7 +32,7 @@ public class PlayerData implements Serializable, Nameable {
 	private Currency currency;
 	
 	public PlayerData(PlayerID id) {
-		this.setName(id.getName());
+		this.name = id.getName();
 		con = null;
 		currency = Currency.DEFAULT;
 		accounts = new AccountCollection();
@@ -48,10 +48,6 @@ public class PlayerData implements Serializable, Nameable {
 	@Override
 	public String getName() {
 		return name;
-	}
-	@Override
-	public void setName(String name) {
-		this.name = name;
 	}
 	
 	public Player getPlayer() {
@@ -139,10 +135,12 @@ public class PlayerData implements Serializable, Nameable {
 	}
 
 	public Currency getCurrency() {
+		Debug.print("Inside getCurrency: "  + currency);
 		return currency;
 	}
 
 	public void setCurrency(Currency currency) {
+		Debug.print("Inside setCurrency: "  + currency);
 		this.currency = currency;
 	}
 }

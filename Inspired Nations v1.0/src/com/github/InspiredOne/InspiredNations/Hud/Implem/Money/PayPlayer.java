@@ -24,7 +24,7 @@ public class PayPlayer extends TabSelectOptionMenu<PlayerID> {
 
 	@Override
 	public String postTabListPreOptionsText() {
-		return "";
+		return "Money: " + accounts.getTotalMoney(PDI.getCurrency()) + " " + PDI.getCurrency();
 	}
 
 	@Override
@@ -34,7 +34,6 @@ public class PayPlayer extends TabSelectOptionMenu<PlayerID> {
 		}
 		this.options.add(new PayAccountOption(PDI, this, "Pay Player <amount>", accounts, this.getData().getPDI().getAccounts()));
 	}
-
 	@Override
 	public String getHeader() {
 		return "Select a player to pay";

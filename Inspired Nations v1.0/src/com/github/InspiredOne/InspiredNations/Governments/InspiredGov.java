@@ -241,7 +241,6 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * 
 	 * @param name	the <code>String</code> to be used for the name of this government
 	 */
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}

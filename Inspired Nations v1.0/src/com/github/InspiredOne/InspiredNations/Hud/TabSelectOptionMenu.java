@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.TabScrollManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
@@ -43,9 +44,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	public final void init() {
 		this.managers.add(new TabScrollManager(this));
 		this.filteredoptions = this.taboptions;
-		System.out.println("Inside init() of tabselectoptionmenu 1");
 		this.Init();
-		System.out.println("Inside init() of tabselectoptionmenu 2");
 		if(this.filteredoptions.size() == 0) {
 			this.setError(MenuError.NO_MATCHES_FOUND());
 			return;
@@ -53,7 +52,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		else {
 			this.data = this.filteredoptions.get(tabcnt);
 		}
-		System.out.println("Inside init() of tabselectoptionmenu 3");
+		Debug.print(data.getName());
 	}
 
 	@Override
@@ -139,10 +138,13 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 				this.setTabcnt((this.getTabcnt() + 1) % tabsize);
 			}
 		} 
+
+		this.setData(this.filteredoptions.get(tabcnt));
 		this.options.clear();
 		this.taboptions.clear();
 		Init();
-		this.setData(this.filteredoptions.get(tabcnt));
+
+		Debug.print(data.getName());
 
 	}
 	

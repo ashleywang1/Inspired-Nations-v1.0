@@ -19,7 +19,7 @@ public class Currency implements Serializable, Nameable{
 	public static final Currency DEFAULT = new Currency("Coin");
 	
 
-	private Currency(String name) {
+	public Currency(String name) {
 		//TODO Remove later, figure out when to add a currency to the exchange
 		this.setName(name);
 		InspiredNations.Exchange.registerCurrency(this, new BigDecimal(500));
@@ -30,8 +30,8 @@ public class Currency implements Serializable, Nameable{
 	public String getName() {
 		return name;
 	}
-	@Override
-	public void setName(String name) {
+	
+	private void setName(String name) {
 		this.name = name;
 	}
 	

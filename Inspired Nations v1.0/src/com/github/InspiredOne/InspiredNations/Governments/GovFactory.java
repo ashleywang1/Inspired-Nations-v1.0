@@ -27,7 +27,7 @@ public class GovFactory {
 	}
 	
 	public GovFactory withMoneyname(String name) {
-		this.gov.getCurrency().setName(name);
+		this.gov.setCurrency(new Currency(name));
 		return this;
 	}
 	

@@ -60,9 +60,17 @@ public class Account implements Serializable, Nameable, Payable {
 	public final BigDecimal getTotalMoney(Currency valueType) {
 		MoneyExchange exch = InspiredNations.Exchange;
 		BigDecimal output = BigDecimal.ZERO;
-		for(Currency curren:money) {
+		Debug.print("Inside Account.getTotalMoney 1");
+		Debug.print(money.size());
+		Debug.print(money.iterator().next());
+		Debug.print(money.iterator().next());
+		for(Currency curren:money.keySet()) {
+			Debug.print("Inside Account.getTotalMoney 2");
+			Debug.print("total of " + curren + " : " + money.get(curren));
+			Debug.print("Does money have " + curren + " In it ? " + money.containsKey(curren));
 			output = output.add(exch.getValue(money.get(curren), curren, valueType));
 		}
+		Debug.print("Inside Account.getTotalMoney 3");
 		return output;
 	}
 	
@@ -132,7 +140,6 @@ public class Account implements Serializable, Nameable, Payable {
 		return name;
 	}
 
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}

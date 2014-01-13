@@ -33,5 +33,9 @@ public class PickGovToPay extends PickGovGeneral {
 		}
 		this.options.add(new PayAccountOption(PDI, this, "Pay " + this.getData().getTypeName() + " <amount>", accounts, this.getData().getAccounts()));
 	}
+	@Override
+	public String postTabListPreOptionsText() {
+		return "Money: " + accounts.getTotalMoney(PDI.getCurrency()) + " " + PDI.getCurrency();
+	}
 
 }

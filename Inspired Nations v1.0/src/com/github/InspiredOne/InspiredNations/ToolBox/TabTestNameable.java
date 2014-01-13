@@ -9,17 +9,12 @@ public class TabTestNameable implements Nameable {
 
 	private String name;
 	public TabTestNameable(String name) {
-		this.setName(name);
+		this.name = name;
 	}
 	
 	@Override
 	public String getName() {
 		return name;
-	}
-
-	@Override
-	public void setName(String Name) {
-		this.name = Name;
 	}
 
 }

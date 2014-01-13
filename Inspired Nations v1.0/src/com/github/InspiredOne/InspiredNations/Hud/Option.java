@@ -51,10 +51,6 @@ public abstract class Option implements Nameable {
 		return this.label;
 	}
 	
-	@Override
-	public void setName(String label) {
-	}
-	
 	public boolean isAvailable() {
 		switch(reason) {
 		case NOT_UNAVAILABLE:

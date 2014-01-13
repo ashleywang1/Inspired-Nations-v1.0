@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
@@ -25,7 +26,7 @@ public class PickMoneyName extends InputMenu{
 
 	@Override
 	public String validate(String input) {
-		for(Currency currency:plugin.Exchange.getExchangeMap().keySet()) {
+		for(Currency currency:InspiredNations.Exchange.getExchangeMap().keySet()) {
 			if(currency.getName().equalsIgnoreCase(input)) {
 				return MenuError.MONEY_NAME_ALREADY_TAKEN();
 			}

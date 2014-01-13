@@ -84,9 +84,4 @@ public abstract class PickGovGeneral extends TabSelectOptionMenu<InspiredGov> {
 	 * Use to insert options
 	 */
 	public abstract void insertOptions();
-	@Override
-	public String postTabListPreOptionsText() {
-		return "";
-	}
-
 }

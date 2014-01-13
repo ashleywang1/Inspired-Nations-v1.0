@@ -8,6 +8,7 @@ import org.bukkit.conversations.Prompt;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
@@ -15,7 +16,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public abstract class Menu extends MessagePrompt {
 
-	private static final String footer = MenuTools.addDivider("") + TextColor.ENDINSTRU + "Type 'exit' to leave, 'say' to chat, or 'back' to go back.";
+	private static final String footer = MenuTools.addDivider("") + TextColor.ENDINSTRU + "Type 'exit' to leave, 'say' to chat, or 'back'/'hud' to go back.";
 	public PlayerData PDI;
 	public InspiredNations plugin;
 	private boolean initialized = false;
@@ -85,6 +86,9 @@ public abstract class Menu extends MessagePrompt {
 		}
 		if (arg.equalsIgnoreCase("back")) {
 			return this.checkBack();
+		}
+		if (arg.equalsIgnoreCase("hud")) {
+			return new MainHud(PDI);
 		}
 		String[] args = arg.split(" ");
 		if (args[0].equalsIgnoreCase("say"))  {
