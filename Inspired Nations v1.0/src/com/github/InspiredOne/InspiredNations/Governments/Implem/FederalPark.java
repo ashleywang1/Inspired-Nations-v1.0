@@ -20,7 +20,6 @@ public class FederalPark extends Facility {
 
 	public FederalPark() {
 		super();
-		this.setRegion(new FederalParkLand());
 	}
 
 	private static final String typeName = "Federal Park";
@@ -62,6 +61,11 @@ public class FederalPark extends Facility {
 	@Override
 	public Class<? extends InspiredGov> getCommonEcon() {
 		return Country.class;
+	}
+
+	@Override
+	public Class<? extends InspiredRegion> getInspiredRegion() {
+		return FederalParkLand.class;
 	}
 
 }

@@ -21,7 +21,6 @@ public class LocalPark extends Facility {
 	
 	public LocalPark() {
 		super();
-		this.setRegion(new LocalParkLand());
 	}
 	@Override
 	public Class<? extends InspiredRegion> getSelfRegionType() {
@@ -61,6 +60,10 @@ public class LocalPark extends Facility {
 	public Class<? extends InspiredGov> getCommonEcon() {
 
 		return Town.class;
+	}
+	@Override
+	public Class<? extends InspiredRegion> getInspiredRegion() {
+		return LocalParkLand.class;
 	}
 
 }

@@ -6,6 +6,7 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
@@ -81,8 +82,11 @@ public abstract class Menu extends MessagePrompt {
 		if(arg == null) {
 			return this.getNextPrompt(arg0);
 		}
+		Debug.print(arg);
 		if (arg.startsWith("/")) {
+			Debug.print("Inside Menu.acceptInput");
 			arg = arg.substring(1);
+			Debug.print(arg);
 		}
 		if (arg.equalsIgnoreCase("back")) {
 			return this.checkBack();

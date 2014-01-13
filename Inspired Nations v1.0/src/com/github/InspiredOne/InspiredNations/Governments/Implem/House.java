@@ -20,7 +20,6 @@ public class House extends OwnerGov {
 	
 	public House() {
 		super();
-		this.setRegion(new HouseLand());
 	}
 	
 	@Override
@@ -71,6 +70,11 @@ public class House extends OwnerGov {
 	@Override
 	public Class<? extends InspiredGov> getCommonEcon() {
 		return Country.class;
+	}
+
+	@Override
+	public Class<? extends InspiredRegion> getInspiredRegion() {
+		return HouseLand.class;
 	}
 
 }

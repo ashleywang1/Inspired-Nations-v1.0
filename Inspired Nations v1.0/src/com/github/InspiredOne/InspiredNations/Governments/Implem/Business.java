@@ -68,4 +68,9 @@ public class Business extends OwnerSubjectGov {
 		List<Class<? extends Facility>> output = new ArrayList<Class<? extends Facility>>();
 		return output;
 	}
+
+	@Override
+	public Class<? extends InspiredRegion> getInspiredRegion() {
+		return null;
+	}
 }

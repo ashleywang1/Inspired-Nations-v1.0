@@ -17,6 +17,7 @@ import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 /**
  * Used as the base class to build governments. Each level
@@ -72,6 +73,9 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @return	the <code>InspiredRegion</code> associated with this government
 	 */
 	public InspiredRegion getRegion() {
+		if(region == null) {
+			region = Tools.getInstance(this.getInspiredRegion());
+		}
 		return region;
 	}
 	/**
@@ -129,6 +133,11 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		return output;
 		
 	}
+	/**
+	 * Gets the class of the InspiredRegion for this government
+	 * @return
+	 */
+	public abstract Class<? extends InspiredRegion> getInspiredRegion();
 	/**
 	 * Dictates which super government this government synchronizes it's economy with.
 	 * The values of the economy fluctuate relative to other governments. The return must be either a government
@@ -229,6 +238,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		output.addAll(this.getFacilities());
 		return output;
 	}
+	
 	/**
 	 * 
 	 * @return	the <code>String</code> to be used for this government's name

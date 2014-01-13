@@ -84,4 +84,9 @@ public class GlobalGov extends OwnerSubjectGov {
 		return this.getClass();
 	}
 
+	@Override
+	public Class<? extends InspiredRegion> getInspiredRegion() {
+		return null;
+	}
+
 }

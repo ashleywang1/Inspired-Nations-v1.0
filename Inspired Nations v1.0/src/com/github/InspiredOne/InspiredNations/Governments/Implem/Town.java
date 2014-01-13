@@ -20,7 +20,6 @@ public class Town extends OwnerSubjectGov {
 
 	public Town() {
 		super();
-		this.setRegion(new TownLand());
 	}
 
 	private static final String typeName = "Town";
@@ -78,5 +77,10 @@ public class Town extends OwnerSubjectGov {
 	@Override
 	public Class<? extends InspiredGov> getCommonEcon() {
 		return Country.class;
+	}
+
+	@Override
+	public Class<? extends InspiredRegion> getInspiredRegion() {
+		return TownLand.class;
 	}
 }

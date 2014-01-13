@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
-
+/**
+ * This is the interface between the social construct of a government and the physical construct
+ * of the world. 
+ * @author Jedidiah Phillips
+ *
+ */
 public abstract class InspiredRegion implements Serializable {
 
 	/**

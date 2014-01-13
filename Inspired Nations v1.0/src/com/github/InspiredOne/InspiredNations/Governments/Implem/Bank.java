@@ -19,7 +19,6 @@ public class Bank extends Facility {
 
 	public Bank() {
 		super();
-		this.setRegion(new BankLand());
 	}
 
 	private static final String typeName = "Bank";
@@ -61,6 +60,11 @@ public class Bank extends Facility {
 	@Override
 	public Class<? extends InspiredGov> getCommonEcon() {
 		return Town.class;
+	}
+
+	@Override
+	public Class<? extends InspiredRegion> getInspiredRegion() {
+		return BankLand.class;
 	}
 
 }

@@ -24,6 +24,19 @@ public class Tools {
 	public Tools(InspiredNations instance) {
 		this.plugin = instance;
 	}
+	
+	public static <T> T getInstance(Class<T> gov) {
+		try {
+			return gov.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public static BigDecimal cut(BigDecimal input) {
 		return input.divide(BigDecimal.ONE, 2, BigDecimal.ROUND_HALF_DOWN);
 	}

@@ -21,8 +21,6 @@ public class Country extends OwnerSubjectGov {
 
 	public Country() {
 		super();
-		this.setRegion(new CountryLand());
-		// TODO Auto-generated constructor stub
 	}
 
 	private static final String typeName = "Country";
@@ -78,6 +76,11 @@ public class Country extends OwnerSubjectGov {
 	@Override
 	public Class<? extends InspiredGov> getCommonEcon() {
 		return this.getClass();
+	}
+
+	@Override
+	public Class<? extends InspiredRegion> getInspiredRegion() {
+		return CountryLand.class;
 	}
 
 }

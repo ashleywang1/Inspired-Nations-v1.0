@@ -20,7 +20,6 @@ public class Prison extends Facility {
 
 	public Prison() {
 		super();
-		this.setRegion(new PrisonLand());
 	}
 	
 	@Override
@@ -60,6 +59,11 @@ public class Prison extends Facility {
 	@Override
 	public Class<? extends InspiredGov> getCommonEcon() {
 		return Town.class;
+	}
+
+	@Override
+	public Class<? extends InspiredRegion> getInspiredRegion() {
+		return PrisonLand.class;
 	}
 
 }

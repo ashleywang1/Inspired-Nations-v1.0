@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 public class GovFactory {
 
@@ -11,6 +12,7 @@ public class GovFactory {
 	BigDecimal diamondvalue = BigDecimal.ONE;
 	public GovFactory(Class<? extends InspiredGov> gov) {
 		this.gov = GovFactory.getGovInstance(gov);
+		//this.gov.setRegion(Tools.getInstance(this.gov.getInspiredRegion()));
 	}
 	
 	public GovFactory withName(String name) {
@@ -52,15 +54,7 @@ public class GovFactory {
 	}
 	
 	public static <T extends InspiredGov> T getGovInstance(Class<T> gov) {
-		try {
-			return gov.newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-			return null;
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return Tools.getInstance(gov);
 	}
 	
 	

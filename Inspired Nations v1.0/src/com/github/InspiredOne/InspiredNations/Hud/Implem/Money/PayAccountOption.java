@@ -46,6 +46,7 @@ public class PayAccountOption extends Option {
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
+			Debug.print("inside PayAccountOption error thing");
 			return menu.getSelf().setError(MenuError.INVALID_NUMBER_INPUT());
 		}
 	}
