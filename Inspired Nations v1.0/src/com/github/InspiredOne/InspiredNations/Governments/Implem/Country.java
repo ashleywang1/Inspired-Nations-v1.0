@@ -21,6 +21,7 @@ public class Country extends OwnerSubjectGov {
 
 	public Country() {
 		super();
+		this.setRegion(new CountryLand());
 		// TODO Auto-generated constructor stub
 	}
 

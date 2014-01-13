@@ -45,6 +45,7 @@ public class ManageGov extends OptionMenu {
 	@Override
 	public void init() {
 		this.options.add(new PromptOption(this, "Manage Money", new ManageGovMoney(PDI, gov)));
+		this.options.add(new PromptOption(this, "Claim Land", new PickClaimType(PDI, gov, this)));
 		this.options.add(new PromptOption(this, "option 1", new MainHud(PDI)));
 	}
 

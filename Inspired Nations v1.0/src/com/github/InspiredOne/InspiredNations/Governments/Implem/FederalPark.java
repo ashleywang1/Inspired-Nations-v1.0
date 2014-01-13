@@ -20,6 +20,7 @@ public class FederalPark extends Facility {
 
 	public FederalPark() {
 		super();
+		this.setRegion(new FederalParkLand());
 	}
 
 	private static final String typeName = "Federal Park";

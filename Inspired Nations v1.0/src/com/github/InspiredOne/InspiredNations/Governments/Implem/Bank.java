@@ -19,7 +19,7 @@ public class Bank extends Facility {
 
 	public Bank() {
 		super();
-		// TODO Auto-generated constructor stub
+		this.setRegion(new BankLand());
 	}
 
 	private static final String typeName = "Bank";

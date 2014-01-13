@@ -18,6 +18,11 @@ public class House extends OwnerGov {
 	private static final long serialVersionUID = -1683829601317933069L;
 	private static final String typeName = "House";
 	
+	public House() {
+		super();
+		this.setRegion(new HouseLand());
+	}
+	
 	@Override
 	public List<Class<? extends OwnerGov>> getSubGovs() {
 		List<Class<? extends OwnerGov>> output = new ArrayList<Class<? extends OwnerGov>>();

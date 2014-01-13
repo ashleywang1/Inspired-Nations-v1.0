@@ -19,6 +19,10 @@ public class LocalPark extends Facility {
 
 	private static final String typeName = "Local Park";
 	
+	public LocalPark() {
+		super();
+		this.setRegion(new LocalParkLand());
+	}
 	@Override
 	public Class<? extends InspiredRegion> getSelfRegionType() {
 		return LocalParkLand.class;

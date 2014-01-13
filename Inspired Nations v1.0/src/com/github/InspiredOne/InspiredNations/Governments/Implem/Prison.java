@@ -18,6 +18,11 @@ public class Prison extends Facility {
 	private static final long serialVersionUID = -3660969970048913227L;
 	private static final String typeName = "Prison";
 
+	public Prison() {
+		super();
+		this.setRegion(new PrisonLand());
+	}
+	
 	@Override
 	public Class<? extends OwnerGov> getSuperGov() {
 		return Country.class;

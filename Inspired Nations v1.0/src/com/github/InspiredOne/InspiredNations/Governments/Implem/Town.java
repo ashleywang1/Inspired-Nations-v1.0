@@ -20,7 +20,7 @@ public class Town extends OwnerSubjectGov {
 
 	public Town() {
 		super();
-		// TODO Auto-generated constructor stub
+		this.setRegion(new TownLand());
 	}
 
 	private static final String typeName = "Town";

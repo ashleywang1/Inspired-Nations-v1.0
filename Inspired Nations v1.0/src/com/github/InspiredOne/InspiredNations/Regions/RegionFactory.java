@@ -19,4 +19,16 @@ public class RegionFactory {
 			return null;
 		}
 	}
+	
+	public static <T extends InspiredRegion> T getInspiredRegionInstance(Class<T> region) {
+		try {
+			return region.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
