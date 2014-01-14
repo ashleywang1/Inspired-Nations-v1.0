@@ -4,31 +4,31 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.bukkit.Location;
+import org.bukkit.World;
 
-public class Point3D implements Serializable {
-
+/**
+ * This is a class to encapsulate worlds so that I have an easy method of comparing worlds without
+ * having to fuss about with strings and world names.
+ * @author Jedidiah Phillips
+ *
+ */
+public class WorldID implements Serializable {
+ 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4281467022721428865L;
-	public int x;
-	public int y;
-	public int z;
+	private static final long serialVersionUID = -2025799081947713318L;
+	private String worldname;
 	
-	public Point3D(Location location) {
-		this.x = location.getBlockX();
-		this.y = location.getBlockY();
-		this.z = location.getBlockZ();
+	public WorldID(World world) {
+		worldname = world.getName();
 	}
 	
 	@Override
     public int hashCode() {
         return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
             // if deriving: appendSuper(super.hashCode()).
-            append(x).
-            append(y).
-            append(z).
+            append(worldname).
             toHashCode();
     }
 
@@ -38,15 +38,14 @@ public class Point3D implements Serializable {
             return false;
         if (obj == this)
             return true;
-        if (!(obj instanceof Point3D))
+        if (!(obj instanceof WorldID))
             return false;
 
-        Point3D rhs = (Point3D) obj;
+        WorldID rhs = (WorldID) obj;
         return new EqualsBuilder().
             // if deriving: appendSuper(super.equals(obj)).
-            append(x, rhs.x).
-            append(y, rhs.y).
-            append(z, rhs.z).
+            append(worldname, rhs.worldname).
             isEquals();
     }
+	
 }
