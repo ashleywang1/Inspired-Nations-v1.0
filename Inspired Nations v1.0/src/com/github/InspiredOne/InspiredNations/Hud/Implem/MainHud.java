@@ -9,9 +9,9 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.PickManageSelfType;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Money.ManageMoney;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.PickSelfType;
-import com.github.InspiredOne.InspiredNations.Hud.ManageGov.PickManageSelfType;
 
 public class MainHud extends OptionMenu {
 	

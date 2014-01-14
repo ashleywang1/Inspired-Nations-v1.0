@@ -16,7 +16,7 @@ public class Map extends ActionMenu {
 
 	@Override
 	public String getFiller() {
-		return Tools.drawMap(plugin, PDI, 16, Country.class);
+		return Tools.drawMap(PDI, 16, Country.class);
 	}
 
 	@Override

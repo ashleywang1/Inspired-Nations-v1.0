@@ -1,4 +1,4 @@
-package com.github.InspiredOne.InspiredNations.Hud.ManageGov;
+package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;

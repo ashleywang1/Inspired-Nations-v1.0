@@ -102,10 +102,11 @@ public class Tools {
 	 * @param gov		the highest government that will be shown on the map
 	 * @return			the <code>String</code> that includes the map
 	 */
-	public static String drawMap(InspiredNations plugin, PlayerData PDI, int res, Class<? extends InspiredGov> gov) {
+	public static String drawMap(PlayerData PDI, int res, Class<? extends InspiredGov> gov) {
 		
 		String output = "";
 		Location location = PDI.getPlayer().getLocation();
+		InspiredNations plugin = InspiredNations.plugin;
 
 		
 		HashMap<InspiredGov, ChatColor> superGov = new HashMap<InspiredGov, ChatColor>();

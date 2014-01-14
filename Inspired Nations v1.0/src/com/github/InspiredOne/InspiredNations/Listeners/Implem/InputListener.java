@@ -19,5 +19,5 @@ public class InputListener extends InspiredListener {
 			this.getManager().Update();
 		}
 	}
-
+	
 }
