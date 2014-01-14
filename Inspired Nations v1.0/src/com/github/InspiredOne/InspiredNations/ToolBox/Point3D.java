@@ -1,33 +1,18 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 
-public class Point2D implements Serializable {
+public class Point3D {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2001604739255193950L;
 	public int x;
+	public int y;
 	public int z;
 	
-	public Point2D(int x, int z) {
-		this.x = x;
-		this.z = z;
-	}
-	
-	public Point2D(Chunk chunk) {
-		this.x = chunk.getX();
-		this.z = chunk.getZ();
-	}
-	
-	public Point2D(Location location) {
+	public Point3D(Location location) {
 		this.x = location.getBlockX();
+		this.y = location.getBlockY();
 		this.z = location.getBlockZ();
 	}
 	
@@ -36,6 +21,7 @@ public class Point2D implements Serializable {
         return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
             // if deriving: appendSuper(super.hashCode()).
             append(x).
+            append(y).
             append(z).
             toHashCode();
     }
@@ -46,15 +32,15 @@ public class Point2D implements Serializable {
             return false;
         if (obj == this)
             return true;
-        if (!(obj instanceof Point2D))
+        if (!(obj instanceof Point3D))
             return false;
 
-        Point2D rhs = (Point2D) obj;
+        Point3D rhs = (Point3D) obj;
         return new EqualsBuilder().
             // if deriving: appendSuper(super.equals(obj)).
             append(x, rhs.x).
+            append(y, rhs.y).
             append(z, rhs.z).
             isEquals();
     }
-	
 }

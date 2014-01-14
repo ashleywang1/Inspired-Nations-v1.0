@@ -6,6 +6,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
+import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
 public class Cuboid extends Region {
 
@@ -15,6 +16,8 @@ public class Cuboid extends Region {
 	private static final long serialVersionUID = 6074456272514021954L;
 	private static final String typeName = "Cuboid";
 	private static final String description = "";
+	private Point3D point1;
+	private Point3D point2;
 	
 	@Override
 	public boolean isIn(Region region) {
@@ -24,13 +27,17 @@ public class Cuboid extends Region {
 
 	@Override
 	public double volume() {
-		// TODO Auto-generated method stub
+		if(point1 == null || point2 == null) {
+			return 0;
+		}
 		return 0;
 	}
 
 	@Override
 	public double area() {
-		// TODO Auto-generated method stub
+		if(point1 == null || point2 == null) {
+			return 0;
+		}
 		return 0;
 	}
 

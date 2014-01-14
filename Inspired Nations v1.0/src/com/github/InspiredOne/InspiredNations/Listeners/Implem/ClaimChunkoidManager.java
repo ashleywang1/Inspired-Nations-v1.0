@@ -6,7 +6,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 
 public class ClaimChunkoidManager extends ActionManager {
 
-	Point2D position;
+	public Point2D position;
 	
 	public ClaimChunkoidManager(ActionMenu menu) {
 		super(menu);
