@@ -1,15 +1,22 @@
 package com.github.InspiredOne.InspiredNations.Regions;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
 
 import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.ToolBox.Point3DWorld;
 
-public abstract class Region implements Serializable {
+public abstract class Region implements Serializable{
 
+	/**
+	 * Gets a set of all the blocks in the volume of the region
+	 * @return
+	 */
+	public abstract HashSet<Point3DWorld> getBlocks();
 	
 	/**
 	 * 
@@ -20,8 +27,9 @@ public abstract class Region implements Serializable {
 	 * @param region
 	 * @return	
 	 */
-	public abstract boolean isIn(Region region);
-	
+	public boolean isIn(Region region) {
+		return region.getBlocks().containsAll(this.getBlocks());
+	}
 	/**
 	 * Returns the volume in cubic meters
 	 * @return
@@ -43,7 +51,9 @@ public abstract class Region implements Serializable {
 	 * @param region
 	 * @return
 	 */
-	public abstract boolean intersects(Region region);
+	public boolean intersects(Region region) {
+		return !Collections.disjoint(this.getBlocks(), region.getBlocks());
+	}
 	/**
 	 * Returns the type name to be used in menus
 	 * @return

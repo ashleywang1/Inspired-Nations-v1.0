@@ -1,12 +1,14 @@
 package com.github.InspiredOne.InspiredNations.Regions.Implem;
 
+
+import java.util.HashSet;
+
 import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
-import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
+import com.github.InspiredOne.InspiredNations.ToolBox.Point3DWorld;
 import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
 public class Cuboid extends Region {
@@ -17,16 +19,10 @@ public class Cuboid extends Region {
 	private static final long serialVersionUID = 6074456272514021954L;
 	private static final String typeName = "Cuboid";
 	private static final String description = "";
-	private Point3D pointmin;
-	private Point3D pointmax;
-	private WorldID world;
+	private Point3DWorld pointmin;
+	private Point3DWorld pointmax;
+	private HashSet<Point3DWorld> blocks;
 	
-	@Override
-	public boolean isIn(Region region) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	@Override
 	public double volume() {
 		if(pointmin == null || pointmax == null) {
@@ -49,7 +45,7 @@ public class Cuboid extends Region {
 
 	@Override
 	public boolean contains(Location location) {
-		if(!this.world.equals(new WorldID(location.getWorld()))) {
+		if(!this.pointmin.world.equals(new WorldID(location.getWorld()))) {
 			return false;
 		}
 		if(location.getBlockY() >= this.pointmin.y && location.getBlockY() <= this.pointmax.y) {
@@ -64,11 +60,7 @@ public class Cuboid extends Region {
 		return true;
 	}
 
-	@Override
-	public boolean intersects(Region region) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 	@Override
 	public String getTypeName() {
@@ -86,4 +78,21 @@ public class Cuboid extends Region {
 		return null;
 	}
 
+	@Override
+	public HashSet<Point3DWorld> getBlocks() {
+		if(blocks != null) {
+			return blocks;
+		}
+		else {
+			HashSet<Point3DWorld> output = new HashSet<Point3DWorld>();
+			for(int x = pointmin.x; x <= pointmax.x; x++) {
+				for(int y = pointmin.y; y <= pointmax.y; y++) {
+					for(int z = pointmin.z; z <= pointmax.z; z++) {
+						output.add(new Point3DWorld(x,y,z,pointmin.world));
+					}
+				}
+			}
+			return output;
+		}
+	}
 }

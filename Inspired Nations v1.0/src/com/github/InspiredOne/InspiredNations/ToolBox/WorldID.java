@@ -47,5 +47,10 @@ public class WorldID implements Serializable {
             append(worldname, rhs.worldname).
             isEquals();
     }
+    
+    @Override
+    public String toString() {
+    	return this.worldname;
+    }
 	
 }

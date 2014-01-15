@@ -6,7 +6,9 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.bukkit.Location;
 
-public class Point3D implements Serializable {
+import com.github.InspiredOne.InspiredNations.InspiredNations;
+
+public class Point3DWorld implements Serializable {
 
 	/**
 	 * 
@@ -15,11 +17,19 @@ public class Point3D implements Serializable {
 	public int x;
 	public int y;
 	public int z;
+	public WorldID world;
 	
-	public Point3D(Location location) {
+	public Point3DWorld(Location location) {
 		this.x = location.getBlockX();
 		this.y = location.getBlockY();
 		this.z = location.getBlockZ();
+		this.world = new WorldID(location.getWorld());
+	}
+	public Point3DWorld(int x, int y, int z, WorldID world) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		this.world = world;
 	}
 	
 	@Override
@@ -29,6 +39,7 @@ public class Point3D implements Serializable {
             append(x).
             append(y).
             append(z).
+            append(world).
             toHashCode();
     }
 
@@ -38,15 +49,21 @@ public class Point3D implements Serializable {
             return false;
         if (obj == this)
             return true;
-        if (!(obj instanceof Point3D))
+        if (!(obj instanceof Point3DWorld))
             return false;
 
-        Point3D rhs = (Point3D) obj;
+        Point3DWorld rhs = (Point3DWorld) obj;
         return new EqualsBuilder().
             // if deriving: appendSuper(super.equals(obj)).
             append(x, rhs.x).
             append(y, rhs.y).
             append(z, rhs.z).
+            append(world, rhs.world).
             isEquals();
+    }
+    
+    public Location getLocation() {
+    
+    	return new Location(InspiredNations.plugin.getServer().getWorld(this.world.toString()), x, y, z);
     }
 }
