@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Regions.Implem;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.bukkit.Location;
@@ -10,7 +11,8 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
-import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
+import com.github.InspiredOne.InspiredNations.ToolBox.Point2DWorld;
+import com.github.InspiredOne.InspiredNations.ToolBox.Point3DWorld;
 
 public class Chunkoid extends Region {
 
@@ -20,7 +22,8 @@ public class Chunkoid extends Region {
 	private static final long serialVersionUID = 4821199291297874395L;
 	private static final String typeName = "Chunkoid";
 	private static final String description = "";
-	private List<Point2D> chunks = new ArrayList<Point2D>();
+	private List<Point2DWorld> chunks = new ArrayList<Point2DWorld>();
+	private List<Point3DWorld> blocks = new ArrayList<Point3DWorld>();
 	
 	@Override
 	public boolean isIn(Region region) {
@@ -41,12 +44,12 @@ public class Chunkoid extends Region {
 
 	@Override
 	public boolean contains(Location location) {
-		return chunks.contains(new Point2D(location.getChunk()));
+		return chunks.contains(new Point2DWorld(location.getChunk()));
 	}
 
 	@Override
 	public boolean intersects(Region region) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
@@ -66,10 +69,42 @@ public class Chunkoid extends Region {
 		return null;
 	}
 	
-	public void addChunk(Point2D position) {
+	public void addChunk(Point2DWorld position) {
 		if(!this.chunks.contains(position)) {
 			this.chunks.add(position);
 		}
+		for(int y = 0; y <= 256; y++) {
+			for (int x = position.x*16; x < (position.x + 1)*16; x++) {
+				for (int z = position.z*16; z < (position.z + 1)*16; y++) {
+					this.blocks.add(new Point3DWorld(x,y,z,position.world));
+				}
+			}
+		}
+	}
+
+	@Override
+	public HashSet<Point3DWorld> getBlocks() {
+		HashSet<Point3DWorld> output = new HashSet<Point3DWorld>();
+		for(int y = 0; y <=256; y++) {
+			for(Point2DWorld chunk:this.chunks) {
+				for(int x = chunk.x*16; x < (chunk.x+1)*16; x++) {
+					for(int z = chunk.z*16; z < (chunk.z+1)*16; z++) {
+						output.add(new Point3DWorld(x,y,z,chunk.world));
+					}
+				}
+			}
+		}
+		
+		return output;
+	}
+
+	@Override
+	public HashSet<Point2DWorld> getChunks() {
+		HashSet<Point2DWorld> output = new HashSet<Point2DWorld>();
+		for(Point2DWorld chunk:this.chunks) {
+			output.add(chunk);
+		}
+		return output;
 	}
 
 }

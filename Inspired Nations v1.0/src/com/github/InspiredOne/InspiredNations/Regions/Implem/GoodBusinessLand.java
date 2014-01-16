@@ -12,6 +12,7 @@ public class GoodBusinessLand extends InspiredRegion {
 	 * 
 	 */
 	private static final long serialVersionUID = 7256618677030098681L;
+	private static final String name = "Good Business";
 
 	@Override
 	public List<Class<? extends Region>> getAllowedForms() {
@@ -30,14 +31,14 @@ public class GoodBusinessLand extends InspiredRegion {
 
 	@Override
 	public List<Class<? extends InspiredRegion>> getAllowedOverlap() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Class<? extends InspiredRegion>> output = new ArrayList<Class<? extends InspiredRegion>>();
+		output.add(LocalParkLand.class);
+		return output;
 	}
 
 	@Override
 	public String getTypeName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 }

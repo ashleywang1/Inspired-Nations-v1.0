@@ -8,6 +8,7 @@ import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.ToolBox.Point2DWorld;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3DWorld;
 
 public abstract class Region implements Serializable{
@@ -17,7 +18,11 @@ public abstract class Region implements Serializable{
 	 * @return
 	 */
 	public abstract HashSet<Point3DWorld> getBlocks();
-	
+	 /**
+	  * Gets a set of all the chunks that the region goes into
+	  * @return
+	  */
+	public abstract HashSet<Point2DWorld> getChunks();
 	/**
 	 * 
 	 */

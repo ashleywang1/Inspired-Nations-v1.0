@@ -12,6 +12,7 @@ public class HouseLand extends InspiredRegion {
 	 * 
 	 */
 	private static final long serialVersionUID = 6239544142858856703L;
+	private static final String name = "House";
 
 	@Override
 	public List<Class<? extends Region>> getAllowedForms() {
@@ -23,20 +24,21 @@ public class HouseLand extends InspiredRegion {
 
 	@Override
 	public List<Class<? extends InspiredRegion>> getEncapsulatingRegions() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Class<? extends InspiredRegion>> output = new ArrayList<Class<? extends InspiredRegion>>();
+		output.add(TownLand.class);
+		return output;
 	}
 
 	@Override
 	public List<Class<? extends InspiredRegion>> getAllowedOverlap() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Class<? extends InspiredRegion>> output = new ArrayList<Class<? extends InspiredRegion>>();
+		output.add(LocalParkLand.class);
+		return output;
 	}
 
 	@Override
 	public String getTypeName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 }

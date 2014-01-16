@@ -12,7 +12,7 @@ public class ServiceBusinessLand extends InspiredRegion {
 	 * 
 	 */
 	private static final long serialVersionUID = -8873679947090177106L;
-	private static final String typeName = "Service Busienss";
+	private static final String typeName = "Service Business";
 
 	@Override
 	public List<Class<? extends Region>> getAllowedForms() {

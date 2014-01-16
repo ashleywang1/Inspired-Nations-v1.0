@@ -26,9 +26,11 @@ public abstract class InspiredRegion implements Serializable {
 	public void setRegion(Region region) {
 		this.region = region;
 	}
-	
+	/**
+	 * Returns all the regions that this InspiredRegion is allowed to be made of
+	 * @return
+	 */
 	public abstract List<Class<? extends Region>> getAllowedForms();
-	/**Returns all the regions that this InspiredRegion is allowed to be made of*/
 	
 	/**
 	 * Gets all the regions that this region must be completely within. Only considers the immediate
@@ -36,16 +38,17 @@ public abstract class InspiredRegion implements Serializable {
 	 * @return
 	 */
 	public abstract List<Class<? extends InspiredRegion>> getEncapsulatingRegions();
+
 	/**
-	 * Gets all the regions that can overlap this region. Only considers the immediate regions that
-	 * overlap it. Not the region that overlaps the encapsulating region.
+	 * Returns all the InspiredRegions that this can overlap
 	 * @return
 	 */
 	protected abstract List<Class<? extends InspiredRegion>> getAllowedOverlap();
-	/**Returns all the InspiredRegions that this can overlap*/
-	
+	/**
+	 * Returns the type name to be used in menus
+	 * @return
+	 */
 	public abstract String getTypeName();
-	/**Returns the type name to be used in menus*/
 	/**
 	 * Gets all the overlap regions for this region that includes all the Encapsulating regions
 	 * and the encapsulating regions overlap regions... and so on.
