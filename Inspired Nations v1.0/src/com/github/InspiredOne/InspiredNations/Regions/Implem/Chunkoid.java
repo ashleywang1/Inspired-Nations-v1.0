@@ -11,10 +11,9 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
-import com.github.InspiredOne.InspiredNations.ToolBox.Point2DWorld;
-import com.github.InspiredOne.InspiredNations.ToolBox.Point3DWorld;
+import com.github.InspiredOne.InspiredNations.Regions.SelectionMode;
 
-public class Chunkoid extends Region {
+public class Chunkoid extends SelectionMode {
 
 	/**
 	 * 
@@ -22,22 +21,14 @@ public class Chunkoid extends Region {
 	private static final long serialVersionUID = 4821199291297874395L;
 	private static final String typeName = "Chunkoid";
 	private static final String description = "";
-	private List<Point2DWorld> chunks = new ArrayList<Point2DWorld>();
-	private List<Point3DWorld> blocks = new ArrayList<Point3DWorld>();
-	
-	@Override
-	public boolean isIn(Region region) {
-		
-		return false;
-	}
+
 
 	@Override
-	public double volume() {
+	public int getVolume() {
 		
 		return this.area() * 256;
 	}
 
-	@Override
 	public double area() {
 		return chunks.size() * 256;
 	}
@@ -105,6 +96,12 @@ public class Chunkoid extends Region {
 			output.add(chunk);
 		}
 		return output;
+	}
+
+	@Override
+	public int getVolume() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -8,10 +8,11 @@ import org.bukkit.Location;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
-import com.github.InspiredOne.InspiredNations.ToolBox.Point3DWorld;
+import com.github.InspiredOne.InspiredNations.Regions.SelectionMode;
+import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
-public class Cuboid extends Region {
+public class Cuboid extends SelectionMode {
 
 	/**
 	 * 
@@ -19,9 +20,9 @@ public class Cuboid extends Region {
 	private static final long serialVersionUID = 6074456272514021954L;
 	private static final String typeName = "Cuboid";
 	private static final String description = "";
-	private Point3DWorld pointmin;
-	private Point3DWorld pointmax;
-	private HashSet<Point3DWorld> blocks;
+	private Point3D pointmin;
+	private Point3D pointmax;
+	private HashSet<Point3D> blocks;
 	
 	@Override
 	public double volume() {
@@ -94,5 +95,11 @@ public class Cuboid extends Region {
 			}
 			return output;
 		}
+	}
+
+	@Override
+	public int getVolume() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

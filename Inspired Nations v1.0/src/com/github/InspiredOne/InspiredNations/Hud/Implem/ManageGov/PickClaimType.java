@@ -7,8 +7,8 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.getMoneyOption;
-import com.github.InspiredOne.InspiredNations.Regions.Region;
-import com.github.InspiredOne.InspiredNations.Regions.RegionFactory;
+import com.github.InspiredOne.InspiredNations.Regions.SelectionMode;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 public class PickClaimType extends PassByOptionMenu {
 
@@ -40,14 +40,11 @@ public class PickClaimType extends PassByOptionMenu {
 	@Override
 	public void init() {
 		Debug.print("Inside PickClaimType.init");
-		Region temp;
+		SelectionMode temp;
 		this.options.add(new getMoneyOption(this, "get money", PDI));
-		for(Class<? extends Region> regiontype:gov.getRegion().getAllowedForms()) {
-			Debug.print("Inside PickClaimType.init 2");
-			temp = RegionFactory.getRegionInstance(regiontype);
-			Debug.print("Inside PickClaimType.init 3");
+		for(Class<? extends SelectionMode> regiontype:gov.getRegion().getAllowedForms()) {
+			temp = Tools.getInstance(regiontype);
 			this.options.add(new PromptOption(this, temp.getTypeName() + ": " + temp.getDescription(), temp.getClaimMenu(PDI, previous) ));
-			Debug.print("Inside PickClaimType.init 4");
 		}
 		Debug.print("Outside of loop");
 	}

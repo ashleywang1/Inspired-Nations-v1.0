@@ -5,8 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.instrument.Instrumentation;
 import java.util.HashMap;
 
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -21,6 +23,7 @@ public class StartStop {
 
 	// Grabbing the instance of the plugin
 	InspiredNations plugin;
+	static Instrumentation inst ;
 	
 	public StartStop(InspiredNations instance) {
 		plugin = instance;
@@ -29,6 +32,7 @@ public class StartStop {
 	// Handles Start-up of plugin
 	@SuppressWarnings("unchecked")
 	public void Start() {
+
 		PluginDescriptionFile pdf = plugin.getDescription();
 		plugin.getLogger().info(pdf.getName() + " version " + pdf.getVersion() + " has been enabled.");
 		
@@ -38,7 +42,9 @@ public class StartStop {
 		if (!(new File(plugin.getDataFolder() + config.getName()).exists())) {
 			plugin.saveDefaultConfig();
 		}
-		
+		Location test = new Location(plugin.getServer().getWorlds().get(0),1,1,1);
+		Long size = inst.getObjectSize(test);
+		Debug.print("Size of a location is: " + size);
 		
 		// Loads Data
 		try {

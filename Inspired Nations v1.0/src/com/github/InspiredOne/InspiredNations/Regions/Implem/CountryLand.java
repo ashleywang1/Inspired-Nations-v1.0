@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
-import com.github.InspiredOne.InspiredNations.Regions.Region;
+import com.github.InspiredOne.InspiredNations.Regions.SelectionMode;
 
 public class CountryLand extends InspiredRegion {
 
@@ -15,8 +15,8 @@ public class CountryLand extends InspiredRegion {
 	private static final String typeName = "Country";
 	
 	@Override
-	public List<Class<? extends Region>> getAllowedForms() {
-		List<Class<? extends Region>> output = new ArrayList<Class<? extends Region>>();
+	public List<Class<? extends SelectionMode>> getAllowedForms() {
+		List<Class<? extends SelectionMode>> output = new ArrayList<Class<? extends SelectionMode>>();
 		output.add(Chunkoid.class);
 		return output;
 	}

@@ -27,10 +27,10 @@ public abstract class InspiredRegion implements Serializable {
 		this.region = region;
 	}
 	/**
-	 * Returns all the regions that this InspiredRegion is allowed to be made of
+	 * Returns all the SelectionModes that this InspiredRegion is allowed to be made of
 	 * @return
 	 */
-	public abstract List<Class<? extends Region>> getAllowedForms();
+	public abstract List<Class<? extends SelectionMode>> getAllowedForms();
 	
 	/**
 	 * Gets all the regions that this region must be completely within. Only considers the immediate

@@ -13,10 +13,11 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
-import com.github.InspiredOne.InspiredNations.ToolBox.Point3DWorld;
+import com.github.InspiredOne.InspiredNations.Regions.SelectionMode;
+import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
-public class PolygonPrism extends Region {
+public class PolygonPrism extends SelectionMode {
 
 	/**
 	 * 
@@ -24,7 +25,7 @@ public class PolygonPrism extends Region {
 	private static final long serialVersionUID = 6427556511666509346L;
 	private static final String typeName = "Polygon Prism";
 	private static final String description = "";
-	private HashSet<Point3DWorld> blocks;
+	private HashSet<Point3D> blocks;
 	private int ymin;
 	private int ymax;
 	private WorldID world;
@@ -112,7 +113,7 @@ public class PolygonPrism extends Region {
 	}
 
 	@Override
-	public HashSet<Point3DWorld> getBlocks() {
+	public HashSet<Point3D> getBlocks() {
 		
 		
 		return null;
@@ -143,6 +144,12 @@ public class PolygonPrism extends Region {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public int getVolume() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
