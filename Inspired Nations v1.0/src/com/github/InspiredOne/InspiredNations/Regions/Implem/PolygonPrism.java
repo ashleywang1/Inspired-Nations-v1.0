@@ -2,17 +2,17 @@ package com.github.InspiredOne.InspiredNations.Regions.Implem;
 
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.util.HashSet;
 import java.util.Vector;
 
-import org.bukkit.Location;
-import org.bukkit.World;
-
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
+import com.github.InspiredOne.InspiredNations.Exceptions.NotSimplePolygonException;
+import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldException;
+import com.github.InspiredOne.InspiredNations.Exceptions.SelectionNotMadeException;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.Regions.SelectionMode;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
@@ -25,50 +25,38 @@ public class PolygonPrism extends SelectionMode {
 	private static final long serialVersionUID = 6427556511666509346L;
 	private static final String typeName = "Polygon Prism";
 	private static final String description = "";
-	private HashSet<Point3D> blocks;
 	private int ymin;
 	private int ymax;
 	private WorldID world;
 	private Polygon polygon = new Polygon();
 	
-	public PolygonPrism(Point[] points, World world) {
+	public PolygonPrism(Point3D[] points) throws NotSimplePolygonException, PointsInDifferentWorldException{
 		polygon.reset();
-		ymin = 0;
-		ymax = 256;
-		this.world = new WorldID(world);
+		ymin = points[0].y;
+		ymax = ymin;
+		this.world = points[0].world;
 		for (int i = 0; i < points.length; i++) {
-			polygon.addPoint(points[i].x, points[i].y);
+			if(!this.world.equals(points[i].world)) {
+				throw new PointsInDifferentWorldException();
+			}
+			polygon.addPoint(points[i].x, points[i].z);
+			if(points[i].y > ymax) {
+				ymax = points[i].y;
+			}
+			else if(points[i].y < ymin) {
+				ymin = points[i].y;
+			}
+		}
+		if(!this.isSimple()) {
+			throw new NotSimplePolygonException();
 		}
 	}
 	
-	public PolygonPrism(Location[] points) {
-		int[] x = new int[points.length];
-		int[] z = new int[points.length];
-		polygon.reset();
-		world = new WorldID(points[0].getWorld());
-		ymin = points[0].getBlockY();
-		ymax = ymin;
-		for (int i = 0; i < points.length; i++) {
-			if (points[i].getBlockY() < ymin) {
-				ymin = points[i].getBlockY();
-			}
-			if (points[i].getBlockY() > ymax) {
-				ymax = points[i].getBlockY();
-			}
-			x[i] = points[i].getBlockX();
-			z[i] = points[i].getBlockZ();
-		}
-		polygon = new Polygon(x, z, points.length);
+	public int getVolume() {
+		return this.area()*(ymax - ymin + 1);
 	}
-
-	@Override
-	public double volume() {
-		
-		return this.area()*(ymax-ymin + 1);
-	}
-
-	@Override
-	public double area() {
+	
+	public int area() {
     	double sum = 0.0;
     	for (int i = 0; i < polygon.npoints; i++) {
     		if (!((i + 1) < polygon.npoints)) {
@@ -82,21 +70,6 @@ public class PolygonPrism extends SelectionMode {
 	}
 
 	@Override
-	public boolean contains(Location location) {
-		location.getBlockX();
-		if (this.world.equals(new WorldID(location.getWorld()))) {
-			if (polygon.contains(location.getBlockX(), location.getBlockZ())) {
-				if (location.getBlockY() <= ymax && location.getBlockY() >= ymin) {
-					return true;
-				}
-				else return false;
-			}
-			else return false;
-		}
-		else return false;
-	}
-
-	@Override
 	public String getTypeName() {
 		return typeName;
 	}
@@ -107,16 +80,26 @@ public class PolygonPrism extends SelectionMode {
 	}
 
 	@Override
-	public Menu getClaimMenu(PlayerData PDI, Menu previous) {
+	public Menu getClaimMenu(PlayerData PDI, Menu previous, InspiredGov gov) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public HashSet<Point3D> getBlocks() {
-		
-		
-		return null;
+	public HashSet<Point3D> getBlocks() throws SelectionNotMadeException {
+		HashSet<Point3D> output = new HashSet<Point3D>();
+		Rectangle rect = this.polygon.getBounds();
+		for(int x = rect.x; x >= rect.x - rect.width; x--) {
+			for(int z = rect.y; z >= rect.y - rect.height; z--) {
+				for(int y = this.ymax; y >= this.ymin; y--) {
+					Point3D test = new Point3D(x,y,z,this.world);
+					if(this.contains(test)) {
+						output.add(test);
+					}
+				}
+			}
+		}
+		return output;
 	}
 	
 	// A method to determine if a polygon is simple
@@ -145,11 +128,18 @@ public class PolygonPrism extends SelectionMode {
 		}
 		return true;
 	}
-
-	@Override
-	public int getVolume() {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	// Determines if a location is inside of the polygon
+	public boolean contains(Point3D tile) {
+		if (tile.world.equals(this.world)) {
+			if (polygon.contains(tile.x, tile.z)) {// || polygon.contains(tile.getBlockX() + .5, tile.getBlockZ() + .5) || polygon.contains(tile.getBlockX() - .5, tile.getBlockZ() + .5) || polygon.contains(tile.getBlockX() + .5, tile.getBlockZ() - .5)) {
+				if (tile.y <= ymax && tile.y >= ymin) {
+					return true;
+				}
+				else return false;
+			}
+			else return false;
+		}
+		else return false;
 	}
-
 }

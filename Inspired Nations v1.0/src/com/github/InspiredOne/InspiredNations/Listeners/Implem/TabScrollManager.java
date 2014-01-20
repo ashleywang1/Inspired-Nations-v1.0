@@ -1,17 +1,16 @@
 package com.github.InspiredOne.InspiredNations.Listeners.Implem;
 
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
-import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.TabManager;
 
-public class TabScrollManager extends TabManager {
+public class TabScrollManager<T extends ActionMenu> extends TabManager<T> {
 	
 	public boolean scrollUp = false;
 	public boolean neither = false; // true if tabbed with something other than + or -
 	
-	public TabScrollManager(ActionMenu menu) {
+	public TabScrollManager(T menu) {
 		super(menu);
-		listeners.add(new TabListener(this));
+		listeners.add(new TabListener<TabScrollManager<T>>(this));
 	}
 
 	@Override

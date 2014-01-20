@@ -3,12 +3,11 @@ package com.github.InspiredOne.InspiredNations.Listeners.Implem;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.InspiredListener;
 
-public class MapListener extends InspiredListener {
+public class MapListener<T extends MapManager<?>> extends InspiredListener<T> {
 
-	public MapListener(ActionManager manager) {
+	public MapListener(T manager) {
 		super(manager);
 	}
 	

@@ -2,14 +2,13 @@ package com.github.InspiredOne.InspiredNations.Listeners;
 
 import org.bukkit.event.Listener;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 
-public class InspiredListener implements Listener {
+public class InspiredListener<T extends ActionManager<?>> implements Listener {
 
-	protected ActionManager manager;
+	protected T manager;
 	
-	public InspiredListener(ActionManager manager) {
+	public InspiredListener(T manager) {
 		this.setManager(manager);
 	}
 	
@@ -17,11 +16,11 @@ public class InspiredListener implements Listener {
 		return this.manager.getPlayerData();
 	}
 
-	public ActionManager getManager() {
+	public T getManager() {
 		return manager;
 	}
 
-	public void setManager(ActionManager manager) {
+	public void setManager(T manager) {
 		this.manager = manager;
 	}
 

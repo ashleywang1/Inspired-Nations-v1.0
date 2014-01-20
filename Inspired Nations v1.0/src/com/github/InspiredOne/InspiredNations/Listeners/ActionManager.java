@@ -16,19 +16,19 @@ import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
  * @author Jedidiah E. Phillips
  *
  */
-public abstract class ActionManager {
+public abstract class ActionManager<T extends ActionMenu> {
 
-	private ActionMenu menu;
-	protected List<InspiredListener> listeners = new ArrayList<InspiredListener>();
+	private T menu;
+	protected List<InspiredListener<?>> listeners = new ArrayList<InspiredListener<?>>();
 
-	public ActionManager(ActionMenu menu)	 {
+	public ActionManager(T menu)	 {
 		this.menu = menu;
 	}
 	/**
 	 * Starts the PlayerListener associated with this operation.
 	 */
 	public void startListening() {
-		for(InspiredListener listener:this.getPlayerListener()) {
+		for(InspiredListener<?> listener:this.getPlayerListener()) {
 			InspiredNations.plugin.getServer().getPluginManager().registerEvents(listener, InspiredNations.plugin);
 		}
 	}
@@ -36,7 +36,7 @@ public abstract class ActionManager {
 	 * Shuts down the PlayerListener associated with this operation.
 	 */
 	public void stopListening() {
-		for(InspiredListener listener:this.getPlayerListener()) {
+		for(InspiredListener<?> listener:this.getPlayerListener()) {
 			HandlerList.unregisterAll(listener);
 		}
 	}
@@ -45,11 +45,11 @@ public abstract class ActionManager {
 	 * 
 	 * @return	a <code>List</code> of <code>InspiredPlayerListener</code>s used by this manager
 	 */
-	public List<InspiredListener> getPlayerListener() {
+	public List<InspiredListener<?>> getPlayerListener() {
 		return listeners;
 	}
 	
-	public ActionMenu getActionMenu() {
+	public T getActionMenu() {
 		return menu;
 	}
 	

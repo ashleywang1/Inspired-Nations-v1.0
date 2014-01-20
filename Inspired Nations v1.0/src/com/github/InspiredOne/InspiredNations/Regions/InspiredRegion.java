@@ -18,7 +18,7 @@ public abstract class InspiredRegion implements Serializable {
 	 */
 	private static final long serialVersionUID = -3476603574063579787L;
 	
-	private Region region;
+	private Region region = new Region();
 	
 	public Region getRegion() {
 		return region;

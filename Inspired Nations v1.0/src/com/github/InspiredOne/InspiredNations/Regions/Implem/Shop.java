@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Regions.Implem;
 import java.util.HashSet;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Regions.SelectionMode;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
@@ -28,7 +29,7 @@ public class Shop extends SelectionMode {
 	}
 
 	@Override
-	public Menu getClaimMenu(PlayerData PDI, Menu previous) {
+	public Menu getClaimMenu(PlayerData PDI, Menu previous, InspiredGov gov) {
 		// TODO Auto-generated method stub
 		return null;
 	}

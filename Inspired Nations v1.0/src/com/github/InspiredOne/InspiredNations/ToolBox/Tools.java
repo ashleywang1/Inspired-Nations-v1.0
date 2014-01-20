@@ -106,7 +106,6 @@ public class Tools {
 		
 		String output = "";
 		Location location = PDI.getPlayer().getLocation();
-		InspiredNations plugin = InspiredNations.plugin;
 
 		
 		HashMap<InspiredGov, ChatColor> superGov = new HashMap<InspiredGov, ChatColor>();
@@ -131,10 +130,11 @@ public class Tools {
 			loctest.setZ(location.getBlockZ() + z*res);
 			for (int x = -26; x < 27; x++) {
 				character = "/";
+				color = ChatColor.GRAY;
 				loctest.setX(location.getBlockX() + x*res);
 				
 				//Loop through the superGovs to see if any of them contain loctest
-				for(Iterator<InspiredGov> iter1 = plugin.regiondata.get(gov).iterator(); iter1.hasNext();) {
+				for(Iterator<InspiredGov> iter1 = InspiredNations.regiondata.get(gov).iterator(); iter1.hasNext();) {
 					InspiredGov govtest = iter1.next();
 					if(govtest.contains(loctest)) {
 						if(!superGov.containsKey(govtest)) {
@@ -144,12 +144,12 @@ public class Tools {
 								superIter = 0;
 							}
 						}
-						//Color is know, so append that to map string
+						//Color is known, so append that to map string
 						color = superGov.get(govtest);
 						
 						//Loop through the subGovs to see if any of them contain loctest
 						for(Class<? extends InspiredGov> subgovclass: govtest.getSubGovs()) {
-							for(Iterator<InspiredGov> iter2 = plugin.regiondata.get(subgovclass).iterator(); iter2.hasNext();) {
+							for(Iterator<InspiredGov> iter2 = InspiredNations.regiondata.get(subgovclass).iterator(); iter2.hasNext();) {
 								InspiredGov subtest = iter2.next();
 								if(subtest.contains(loctest)) {
 									if(!subGov.containsKey(subtest)) {

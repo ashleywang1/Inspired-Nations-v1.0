@@ -44,7 +44,7 @@ public class PickClaimType extends PassByOptionMenu {
 		this.options.add(new getMoneyOption(this, "get money", PDI));
 		for(Class<? extends SelectionMode> regiontype:gov.getRegion().getAllowedForms()) {
 			temp = Tools.getInstance(regiontype);
-			this.options.add(new PromptOption(this, temp.getTypeName() + ": " + temp.getDescription(), temp.getClaimMenu(PDI, previous) ));
+			this.options.add(new PromptOption(this, temp.getTypeName() + ": " + temp.getDescription(), temp.getClaimMenu(PDI, previous, gov) ));
 		}
 		Debug.print("Outside of loop");
 	}

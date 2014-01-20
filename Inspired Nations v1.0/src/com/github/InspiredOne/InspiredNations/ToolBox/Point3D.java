@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.bukkit.Location;
+import org.bukkit.World;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 
@@ -32,6 +33,9 @@ public class Point3D implements Serializable {
 		this.world = world;
 	}
 	
+	public Point3D(int x, int y, int z, World world) {
+		this(x, y, z, new WorldID(world));
+	}
 	@Override
     public int hashCode() {
         return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers

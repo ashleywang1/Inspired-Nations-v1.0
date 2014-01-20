@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.SelectionNotMadeException;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
@@ -30,14 +32,20 @@ public abstract class SelectionMode implements Serializable {
 	 * @param previous	the menu to go to after everything is done.
 	 * @return
 	 */
-	public abstract Menu getClaimMenu(PlayerData PDI, Menu previous);
+	public abstract Menu getClaimMenu(PlayerData PDI, Menu previous, InspiredGov gov);
 	
 	/**
 	 * Gets all the blocks that the selection currently holds
 	 * @return
 	 */
-	public abstract HashSet<Point3D> getBlocks();
+	public abstract HashSet<Point3D> getBlocks() throws SelectionNotMadeException;
 	
-	public abstract int getVolume();
+	public int getVolume() {
+		try {
+			return this.getBlocks().size();
+		} catch (SelectionNotMadeException e) {
+			return 0;
+		}
+	}
 	
 }

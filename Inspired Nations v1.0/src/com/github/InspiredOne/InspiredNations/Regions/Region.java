@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import org.bukkit.Location;
 
+import com.github.InspiredOne.InspiredNations.Exceptions.SelectionNotMadeException;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
 public class Region implements Serializable {
@@ -17,16 +18,26 @@ public class Region implements Serializable {
 	
 	HashSet<Point3D> blocks = new HashSet<Point3D>();
 	
-	public Region(SelectionMode selection) {
+	public Region() {
 		
 	}
 	
 	public void addBlocks(SelectionMode select) {
-		this.getBlocks().addAll(select.getBlocks());
+		try {
+			this.getBlocks().addAll(select.getBlocks());
+		} catch (SelectionNotMadeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void removeBlocks(SelectionMode select) {
-		this.getBlocks().removeAll(select.getBlocks());
+		try {
+			this.getBlocks().removeAll(select.getBlocks());
+		} catch (SelectionNotMadeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

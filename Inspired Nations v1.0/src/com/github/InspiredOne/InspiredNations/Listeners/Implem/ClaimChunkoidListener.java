@@ -6,9 +6,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import com.github.InspiredOne.InspiredNations.Listeners.InspiredListener;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 
-public class ClaimChunkoidListener extends InspiredListener {
+public class ClaimChunkoidListener<T extends ClaimChunkoidManager<?>> extends InspiredListener<T> {
 
-	public ClaimChunkoidListener(ClaimChunkoidManager manager) {
+	public ClaimChunkoidListener(T manager) {
 		super(manager);
 	}
 	
@@ -17,10 +17,10 @@ public class ClaimChunkoidListener extends InspiredListener {
 		if(this.getPlayerData().getPlayer() != event.getPlayer()) {
 			return;
 		}
-		Point2D from = new Point2D(event.getFrom().getChunk());
+		Point2D from = this.manager.getPosition();
 		Point2D to = new Point2D(event.getTo().getChunk());
 		if(!from.equals(to)) {
-			((ClaimChunkoidManager) manager).setPosition(to);
+			this.manager.setPosition(to);
 			this.manager.Update();
 		}
 	}

@@ -42,9 +42,6 @@ public class StartStop {
 		if (!(new File(plugin.getDataFolder() + config.getName()).exists())) {
 			plugin.saveDefaultConfig();
 		}
-		Location test = new Location(plugin.getServer().getWorlds().get(0),1,1,1);
-		Long size = inst.getObjectSize(test);
-		Debug.print("Size of a location is: " + size);
 		
 		// Loads Data
 		try {
