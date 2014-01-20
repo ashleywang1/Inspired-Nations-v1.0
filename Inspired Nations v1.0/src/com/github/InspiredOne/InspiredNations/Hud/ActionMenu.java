@@ -12,7 +12,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 public abstract class ActionMenu extends Menu {
 
 	private String current = "";
-	protected List<ActionManager> managers = new ArrayList<ActionManager>();
+	protected List<ActionManager<?>> managers = new ArrayList<ActionManager<?>>();
 	
 	public ActionMenu(PlayerData PDI) {
 		super(PDI);
@@ -28,10 +28,10 @@ public abstract class ActionMenu extends Menu {
 	}
 	
 	public void register() {
-		for(ActionManager manager:this.getActionManager()) {
+		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
-		for(ActionManager manager:this.getActionManager()) {
+		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.startListening();
 		}
 	}
@@ -45,7 +45,7 @@ public abstract class ActionMenu extends Menu {
 	@Override
 	public final Menu getPreviousMenu() {
 		this.setError(MenuError.NO_ERROR());
-		for(ActionManager manager:this.getActionManager()) {
+		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
 		return PreviousMenu();
@@ -54,7 +54,7 @@ public abstract class ActionMenu extends Menu {
 	@Override
 	public final Menu getNextMenu(String input) {
 		this.setError(MenuError.NO_ERROR());
-		for(ActionManager manager:this.getActionManager()) {
+		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
 		return this.NextMenu(input);
@@ -64,7 +64,7 @@ public abstract class ActionMenu extends Menu {
 	 * Gets all the action managers for this menu.
 	 * @return	an <code>ArrayList</code> of all the action managers
 	 */
-	public final List<ActionManager> getActionManager() {
+	public final List<ActionManager<?>> getActionManager() {
 		return managers;
 	}
 	

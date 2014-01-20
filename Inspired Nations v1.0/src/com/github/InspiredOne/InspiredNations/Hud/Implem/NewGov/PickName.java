@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
@@ -24,7 +25,7 @@ public class PickName extends InputMenu {
 		
 		boolean allowed = true;
 		
-		for(InspiredGov gov: plugin.regiondata.get(Govf.getGov().getClass())) {
+		for(InspiredGov gov: InspiredNations.regiondata.get(Govf.getGov().getClass())) {
 			if(gov.getSuperGovObj().equals(Govf.getGov().getSuperGovObj()) && gov.getName().equalsIgnoreCase(input)) {
 				allowed = false;
 			}

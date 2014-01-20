@@ -44,7 +44,7 @@ public abstract class InputMenu extends ActionMenu {
 	@Override
 	public final void init() {
 		this.Init();
-		managers.add(new InputManager(this, this.getTabOptions()));
+		managers.add(new InputManager<InputMenu>(this, this.getTabOptions()));
 	}
 	/**
 	 * 

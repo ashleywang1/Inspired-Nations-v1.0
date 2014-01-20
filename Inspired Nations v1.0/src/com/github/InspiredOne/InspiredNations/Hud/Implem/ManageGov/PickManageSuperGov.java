@@ -30,7 +30,7 @@ public class PickManageSuperGov extends PassByOptionMenu {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Menu PreviousMenu() {
-		if(supergov.equals(InspiredNations.plugin.global)) {
+		if(supergov.equals(InspiredNations.global)) {
 			return new PickManageSelfType(PDI, (Class<? extends OwnerGov>) GovType);
 		}
 		else {

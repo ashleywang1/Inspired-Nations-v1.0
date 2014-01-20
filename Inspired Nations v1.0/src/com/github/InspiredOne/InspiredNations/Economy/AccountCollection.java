@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations.Economy;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 

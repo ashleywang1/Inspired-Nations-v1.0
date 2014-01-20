@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
-import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class PlayerProfile extends Menu {
@@ -23,7 +22,6 @@ public class PlayerProfile extends Menu {
 
 	@Override
 	public String getFiller() {
-		IndexedMap<String, String> Citizenship;
 		return "";
 	}
 

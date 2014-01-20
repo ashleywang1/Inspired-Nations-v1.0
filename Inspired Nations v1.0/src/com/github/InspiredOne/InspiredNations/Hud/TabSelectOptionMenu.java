@@ -32,6 +32,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	protected List<E> taboptions = new ArrayList<E>();
 	private List<E> filteredoptions = new ArrayList<E>();
 	private E data;
+	private TabScrollManager<TabSelectOptionMenu<E>> manager;
 	public TabSelectOptionMenu(PlayerData PDI) {
 		super(PDI);
 	}
@@ -42,7 +43,8 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 
 	@Override
 	public final void init() {
-		this.managers.add(new TabScrollManager(this));
+		manager = new TabScrollManager<TabSelectOptionMenu<E>>(this);
+		this.managers.add(manager);
 		this.filteredoptions = this.taboptions;
 		this.Init();
 		if(this.filteredoptions.size() == 0) {
@@ -114,7 +116,6 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 
 	@Override
 	public void actionResponse() {
-		TabScrollManager manager = ((TabScrollManager) this.managers.get(0));
 		int tabsize = this.filteredoptions.size();
 		this.setError(MenuError.NO_ERROR());
 		

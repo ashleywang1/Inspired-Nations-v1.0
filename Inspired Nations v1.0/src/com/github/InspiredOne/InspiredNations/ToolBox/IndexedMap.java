@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import com.github.InspiredOne.InspiredNations.Debug;
-
 /**
  * Allows quick checks if something exists in the map, but when iterating over the map
  * the items are always returned in a certain order. The order can be changed just

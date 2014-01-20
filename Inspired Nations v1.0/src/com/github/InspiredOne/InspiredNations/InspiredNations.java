@@ -42,7 +42,6 @@ public class InspiredNations extends JavaPlugin {
 	public TempPlayerListener PL = new TempPlayerListener(this);
 	
 	public void onEnable() {
-		System.out.println(Bukkit.getPluginManager().getPlugins()[0].getName());
 
 		InspiredNations.plugin = this;
 		PluginManager pm = this.getServer().getPluginManager();

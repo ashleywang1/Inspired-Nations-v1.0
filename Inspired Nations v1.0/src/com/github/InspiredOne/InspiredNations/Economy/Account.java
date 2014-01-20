@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations.Economy;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;

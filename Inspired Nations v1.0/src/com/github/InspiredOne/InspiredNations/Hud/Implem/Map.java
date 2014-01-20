@@ -47,7 +47,7 @@ public class Map extends ActionMenu {
 
 	@Override
 	public void init() {
-		managers.add(new MapManager(this));
+		managers.add(new MapManager<Map>(this));
 	}
 
 	@Override

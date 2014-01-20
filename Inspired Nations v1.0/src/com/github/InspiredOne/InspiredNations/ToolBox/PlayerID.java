@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Economy.Currency;
 /**
  * My own implementation to make changes in the player identification simple to deal
  * with. As of Minecraft 1.7.4 player names are unique and non-spoofable, however the 

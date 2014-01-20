@@ -49,7 +49,7 @@ public class PickManageSelfType extends PassByOptionMenu {
 			((OwnerGov) govf.getGov()).getOwners().add(PDI.getName());
 			if(govf.getGov().getSelfGovs().size() == 1) {
 				if(govf.getGov().getSelfGovs().get(0).equals(govf.getGov().getClass()) && !PDI.getOwnership(govf.getGov().getClass()).isEmpty()) {
-					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickManageSuperGov(PDI, govf.getGov().getClass(), InspiredNations.plugin.global)));
+					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickManageSuperGov(PDI, govf.getGov().getClass(), InspiredNations.global)));
 				}
 				else  if(!PDI.getOwnership(govf.getGov().getClass()).isEmpty()){
 					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickManageSelfType(PDI, ((OwnerGov) govf.getGov()).getClass())));
