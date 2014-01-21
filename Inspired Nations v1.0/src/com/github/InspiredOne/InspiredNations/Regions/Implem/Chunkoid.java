@@ -20,7 +20,7 @@ public class Chunkoid extends SelectionMode {
 	private static final long serialVersionUID = 4821199291297874395L;
 	private static final String typeName = "Chunkoid";
 	private static final String description = "";
-	private HashSet<Point3D> blocks = new HashSet<Point3D>();
+	private HashSet<Integer> blocks = new HashSet<Integer>();
 
 	@Override
 	public String getTypeName() {
@@ -47,14 +47,14 @@ public class Chunkoid extends SelectionMode {
 		for(int y = 0; y <= 256; y++) {
 			for (int x = position.x*16; x < (position.x + 1)*16; x++) {
 				for (int z = position.z*16; z < (position.z + 1)*16; z++) {
-					this.blocks.add(new Point3D(x,y,z,position.world));
+					this.blocks.add((new Point3D(x,y,z,position.world)).hashCode());
 				}
 			}
 		}
 	}
 
 	@Override
-	public HashSet<Point3D> getBlocks() {
+	public HashSet<Integer> getBlocks() {
 		return blocks;
 	}
 }

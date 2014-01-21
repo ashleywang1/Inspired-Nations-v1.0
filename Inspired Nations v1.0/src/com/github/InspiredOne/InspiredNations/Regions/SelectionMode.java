@@ -7,7 +7,6 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.SelectionNotMadeException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
 public abstract class SelectionMode implements Serializable {
 
@@ -38,7 +37,7 @@ public abstract class SelectionMode implements Serializable {
 	 * Gets all the blocks that the selection currently holds
 	 * @return
 	 */
-	public abstract HashSet<Point3D> getBlocks() throws SelectionNotMadeException;
+	public abstract HashSet<Integer> getBlocks() throws SelectionNotMadeException;
 	
 	public int getVolume() {
 		try {

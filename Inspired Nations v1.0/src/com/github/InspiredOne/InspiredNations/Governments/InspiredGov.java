@@ -15,6 +15,7 @@ import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
+import com.github.InspiredOne.InspiredNations.Regions.SelectionMode;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
@@ -405,5 +406,10 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	}
 	public InspiredGov getData() {
 		return this;
+	}
+	public void removeLand(InspiredGov gov, SelectionMode select) {
+		if((this.getProtectionlevel() - gov.getMilitaryLevel()) < 1 || this == gov) {
+			this.region.getRegion().removeBlocks(select);
+		}
 	}
 }

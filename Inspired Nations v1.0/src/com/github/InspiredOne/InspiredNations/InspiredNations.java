@@ -21,6 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.InspiredOne.InspiredNations.Economy.MarketPlace;
 import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
+import com.github.InspiredOne.InspiredNations.Economy.TaxTimer;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
@@ -38,12 +39,14 @@ public class InspiredNations extends JavaPlugin {
 	public static MoneyExchange Exchange = new MoneyExchange();
 	public static List<MarketPlace> Markets = new ArrayList<MarketPlace>(); 
 	public static GlobalGov global;
+	public static TaxTimer taxTimer;
 	public TempCommandListener CM = new TempCommandListener(this);
 	public TempPlayerListener PL = new TempPlayerListener(this);
 	
 	public void onEnable() {
 
 		InspiredNations.plugin = this;
+		taxTimer = new TaxTimer();
 		PluginManager pm = this.getServer().getPluginManager();
 		SS.Start();
 		pm.registerEvents(PL, this);

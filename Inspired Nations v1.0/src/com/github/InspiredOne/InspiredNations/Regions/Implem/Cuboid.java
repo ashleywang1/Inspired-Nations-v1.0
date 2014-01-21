@@ -20,7 +20,7 @@ public class Cuboid extends SelectionMode {
 	private static final String description = "";
 	private Point3D pointmin;
 	private Point3D pointmax;
-	private HashSet<Point3D> blocks = new HashSet<Point3D>();
+	private HashSet<Integer> blocks = new HashSet<Integer>();
 	
 	public void setPoints(Point3D pointone, Point3D pointtwo) {
 		pointmin = pointone;
@@ -41,7 +41,7 @@ public class Cuboid extends SelectionMode {
 		for(int x = pointmin.x; x <= pointmax.x; x++) {
 			for(int y = pointmin.y; y <= pointmax.y; y++) {
 				for(int z = pointmin.z; z <= pointmax.z; z++) {
-					blocks.add(new Point3D(x,y,z,pointmin.world));
+					blocks.add((new Point3D(x,y,z,pointmin.world)).hashCode());
 				}
 			}
 		}
@@ -63,7 +63,7 @@ public class Cuboid extends SelectionMode {
 	}
 
 	@Override
-	public HashSet<Point3D> getBlocks() throws SelectionNotMadeException {
+	public HashSet<Integer> getBlocks() throws SelectionNotMadeException {
 		return blocks;
 	}
 

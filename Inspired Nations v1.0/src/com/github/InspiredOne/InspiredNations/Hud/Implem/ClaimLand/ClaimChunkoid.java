@@ -46,7 +46,7 @@ public class ClaimChunkoid extends InputMenu {
 
 	@Override
 	public String getFiller() {
-		return Tools.drawMap(PDI, 16, gov.getClass());
+		return Tools.drawMap(PDI, 16, gov.getClass()) + region.volume();
 	}
 
 	@Override

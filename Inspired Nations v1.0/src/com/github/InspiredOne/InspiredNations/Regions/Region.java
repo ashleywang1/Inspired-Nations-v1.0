@@ -16,7 +16,7 @@ public class Region implements Serializable {
 	 */
 	private static final long serialVersionUID = -330203131653502896L;
 	
-	HashSet<Point3D> blocks = new HashSet<Point3D>();
+	HashSet<Integer> blocks = new HashSet<Integer>();
 	
 	public Region() {
 		
@@ -45,7 +45,7 @@ public class Region implements Serializable {
 	 * Gets a set of all the blocks in the volume of the region
 	 * @return
 	 */
-	public HashSet<Point3D> getBlocks() {
+	public HashSet<Integer> getBlocks() {
 		return blocks;
 	}
 
@@ -70,7 +70,7 @@ public class Region implements Serializable {
 	 * @return
 	 */
 	public boolean contains(Location location) {
-		return this.getBlocks().contains(new Point3D(location));
+		return this.getBlocks().contains((new Point3D(location)).hashCode());
 	}
 	/**
 	 * Returns true if the regions overlap

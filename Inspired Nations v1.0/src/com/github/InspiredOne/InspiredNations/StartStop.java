@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 
 import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
+import com.github.InspiredOne.InspiredNations.Economy.TaxTimer;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
@@ -63,6 +64,13 @@ public class StartStop {
 	        InspiredNations.Exchange = (MoneyExchange) ein.readObject();
 	        ein.close();
 	        econIn.close();
+	        
+	        File taxfile = new File(plugin.getDataFolder(), "tax.yml");
+	        FileInputStream taxIn = new FileInputStream(taxfile);
+	        ObjectInputStream tin = new ObjectInputStream(taxIn);
+	        InspiredNations.taxTimer = (TaxTimer) tin.readObject();
+	        tin.close();
+	        taxIn.close();
 		}
 		catch(Exception ex) {
 			
@@ -75,6 +83,9 @@ public class StartStop {
 				InspiredNations.playerdata.put(ID, new PlayerData(ID));
 			}
 		}
+		
+		// Starts up the TaxTimer
+		InspiredNations.taxTimer.startTimer();
 		
 	}
 	
@@ -115,6 +126,13 @@ public class StartStop {
 	        eout.writeObject(InspiredNations.Exchange);
 	        eout.close();
 	        econOut.close();
+	        
+	        File taxfile = new File(plugin.getDataFolder(), "tax.yml");
+	        FileOutputStream taxOut = new FileOutputStream(taxfile);
+	        ObjectOutputStream tout = new ObjectOutputStream(taxOut);
+	        tout.writeObject(InspiredNations.taxTimer);
+	        tout.close();
+	        taxOut.close();
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
