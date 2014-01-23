@@ -3,16 +3,19 @@ package com.github.InspiredOne.InspiredNations.Regions.Implem;
 import java.util.HashSet;
 
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimLand.ClaimChunkoid;
+import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.SelectionMode;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
-public class Chunkoid extends SelectionMode {
+public class Chunkoid extends CummulativeRegion {
 
 	/**
 	 * 
@@ -54,7 +57,8 @@ public class Chunkoid extends SelectionMode {
 	}
 
 	@Override
-	public HashSet<Integer> getBlocks() {
-		return blocks;
+	public boolean contains(Point3D location) {
+		Location spot = new Location(location.world.getWorld(), location.y, location.z, location.x);
+		return true;
 	}
 }

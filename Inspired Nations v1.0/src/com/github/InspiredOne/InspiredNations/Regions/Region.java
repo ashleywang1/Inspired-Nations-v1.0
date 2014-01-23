@@ -1,84 +1,89 @@
 package com.github.InspiredOne.InspiredNations.Regions;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashSet;
 
 import org.bukkit.Location;
 
-import com.github.InspiredOne.InspiredNations.Exceptions.SelectionNotMadeException;
+import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.IncorrectUnitOfTheCummulativeRegion;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Regions.Implem.Cuboid;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
+import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
-public class Region implements Serializable {
+public abstract class Region implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -330203131653502896L;
 	
-	HashSet<Integer> blocks = new HashSet<Integer>();
-	
 	public Region() {
 		
 	}
 	
-	public void addBlocks(SelectionMode select) {
-		try {
-			this.getBlocks().addAll(select.getBlocks());
-		} catch (SelectionNotMadeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public void removeBlocks(SelectionMode select) {
-		try {
-			this.getBlocks().removeAll(select.getBlocks());
-		} catch (SelectionNotMadeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	
-	/**
-	 * Gets a set of all the blocks in the volume of the region
-	 * @return
-	 */
-	public HashSet<Integer> getBlocks() {
-		return blocks;
-	}
-
 	/**
 	 * Returns true if the entire region is within the input region
 	 * @param region
 	 * @return	
 	 */
-	public boolean isIn(Region region) {
-		return region.getBlocks().containsAll(this.getBlocks());
-	}
+	protected abstract boolean IsIn(NonCummulativeRegion region);
+	/**
+	 * Returns true if the entire region is within the input region
+	 * @param region
+	 * @return	
+	 * @throws IncorrectUnitOfTheCummulativeRegion 
+	 */
+	protected abstract boolean IsIn(CummulativeRegion region) throws IncorrectUnitOfTheCummulativeRegion;
+
 	/**
 	 * Returns the volume in cubic meters
 	 * @return
 	 */
-	public double volume() {
-		return this.getBlocks().size();
-	}
+	public abstract double volume();
 	/**
 	 * Returns true if the location is within the region
 	 * @param location	the location to test
 	 * @return
 	 */
 	public boolean contains(Location location) {
-		return this.getBlocks().contains((new Point3D(location)).hashCode());
+		return this.contains(new Point3D(location));
 	}
 	/**
-	 * Returns true if the regions overlap
+	 * Returns true if the location is within the region
+	 * @param location	the location to test
+	 * @return
+	 */
+	public abstract boolean contains(Point3D location);
+	/**
+	 * Returns true if this region overlaps the input region
 	 * @param region
 	 * @return
 	 */
-	public boolean intersects(Region region) {
-		return !Collections.disjoint(this.getBlocks(), region.getBlocks());
-	}
+	public abstract boolean Intersects(NonCummulativeRegion region);
+	/**
+	 * Returns true if this region overlaps the input region
+	 * @param region
+	 * @return
+	 */
+	public abstract boolean Intersects(CummulativeRegion region);
+	/**
+	 * Returns the type name to be used in menus
+	 * @return
+	 */
+	public abstract String getTypeName();
+	/**
+	 * Returns the description to be used in menus
+	 * @return 
+	 */
+	public abstract String getDescription();
+	/**
+	 * Returns the first of the chain of menus used to claim it.
+	 * @param PDI	The player that is claiming land.
+	 * @param previous	the menu to go to after everything is done.
+	 * @return
+	 */
+	public abstract Menu getClaimMenu(PlayerData PDI, Menu previous, InspiredGov gov);
 
 }

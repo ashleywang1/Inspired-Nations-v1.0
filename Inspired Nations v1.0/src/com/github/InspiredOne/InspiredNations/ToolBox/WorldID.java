@@ -6,6 +6,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.bukkit.World;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
+
 /**
  * This is a class to encapsulate worlds so that I have an easy method of comparing worlds without
  * having to fuss about with strings and world names.
@@ -52,5 +54,8 @@ public class WorldID implements Serializable {
     public String toString() {
     	return this.worldname;
     }
-	
+
+    public World getWorld() {
+    	return InspiredNations.plugin.getServer().getWorld(this.worldname);
+    }
 }
