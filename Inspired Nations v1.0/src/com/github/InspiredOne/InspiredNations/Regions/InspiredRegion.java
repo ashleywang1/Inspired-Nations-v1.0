@@ -18,7 +18,7 @@ public abstract class InspiredRegion implements Serializable {
 	 */
 	private static final long serialVersionUID = -3476603574063579787L;
 	
-	private Region region = new Region();
+	private Region region;
 	
 	public Region getRegion() {
 		return region;
@@ -30,7 +30,7 @@ public abstract class InspiredRegion implements Serializable {
 	 * Returns all the SelectionModes that this InspiredRegion is allowed to be made of
 	 * @return
 	 */
-	public abstract List<Class<? extends SelectionMode>> getAllowedForms();
+	public abstract List<Class<? extends Region>> getAllowedForms();
 	
 	/**
 	 * Gets all the regions that this region must be completely within. Only considers the immediate

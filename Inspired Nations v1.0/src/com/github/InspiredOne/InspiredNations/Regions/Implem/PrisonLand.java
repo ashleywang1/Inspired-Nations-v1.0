@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
-import com.github.InspiredOne.InspiredNations.Regions.SelectionMode;
+import com.github.InspiredOne.InspiredNations.Regions.Region;
 
 public class PrisonLand extends InspiredRegion {
 
@@ -14,8 +14,8 @@ public class PrisonLand extends InspiredRegion {
 	private static final long serialVersionUID = 3296089018726780952L;
 	private static final String typeName = "Prison";
 	@Override
-	public List<Class<? extends SelectionMode>> getAllowedForms() {
-		List<Class<? extends SelectionMode>> output = new ArrayList<Class<? extends SelectionMode>>();
+	public List<Class<? extends Region>> getAllowedForms() {
+		List<Class<? extends Region>> output = new ArrayList<Class<? extends Region>>();
 		output.add(Cuboid.class);
 		output.add(PolygonPrism.class);
 		return output;

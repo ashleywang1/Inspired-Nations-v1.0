@@ -46,7 +46,9 @@ public class Chunkoid extends CummulativeRegion {
 	}
 	
 	public void addChunk(ChunkRegion region) {
-		this.getRegions().add(region);
+		if(!this.getRegions().contains(region)) {
+			this.getRegions().add(region);	
+		}
 	}
 
 	@Override

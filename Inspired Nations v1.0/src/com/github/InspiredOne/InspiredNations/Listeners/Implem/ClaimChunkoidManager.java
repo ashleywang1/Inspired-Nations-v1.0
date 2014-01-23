@@ -8,8 +8,8 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 public class ClaimChunkoidManager<T extends ClaimChunkoid> extends ActionManager<T> {
 
 	private Point2D position;
-	public Chunkoid selection = new Chunkoid();
 	private boolean claiming = false;
+	private Chunkoid region = new Chunkoid();
 	
 	public ClaimChunkoidManager(T menu, Point2D initialChunk) {
 		super(menu);
@@ -29,9 +29,7 @@ public class ClaimChunkoidManager<T extends ClaimChunkoid> extends ActionManager
 	public void setPosition(Point2D position) {
 		this.position = position;
 		if(claiming) {
-			this.selection.addChunk(position);
-			this.getActionMenu().region.addBlocks(selection);
-			this.selection = new Chunkoid();
+			region.addChunk(position);
 		}
 
 	}
