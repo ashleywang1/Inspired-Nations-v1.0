@@ -43,7 +43,7 @@ public abstract class InspiredRegion implements Serializable {
 	 * Returns all the InspiredRegions that this can overlap
 	 * @return
 	 */
-	protected abstract List<Class<? extends InspiredRegion>> getAllowedOverlap();
+	public abstract List<Class<? extends InspiredRegion>> getAllowedOverlap();
 	/**
 	 * Returns the type name to be used in menus
 	 * @return

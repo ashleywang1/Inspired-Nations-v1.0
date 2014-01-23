@@ -13,11 +13,13 @@ import org.bukkit.Location;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 /**
@@ -406,6 +408,57 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	}
 	public InspiredGov getData() {
 		return this;
+	}
+	/**
+	 * Returns the amount of 
+	 * @param region
+	 * @param curren
+	 * @return
+	 */
+	public BigDecimal taxValue(Region region, double taxfrac,int protect, Currency curren) {
+		BigDecimal output = BigDecimal.ZERO;
+		
+		// Basically... multiply them all together and it gets you the value in Defualt currency
+		//TODO come up with some kind of war money function
+		output = (new BigDecimal(region.volume()).multiply(new BigDecimal(taxfrac)));
+		output = output.multiply(new BigDecimal(protect)).add(this.getAdditionalCost());
+		output = InspiredNations.Exchange.getValue(output, Currency.DEFAULT, curren);
+		
+		return output;
+	}
+	 
+	/**
+	 * Used to get additional tax cost that is to be added to the total tax amount.
+	 * Use it to insert the cost of war into the tax amount.
+	 * @return
+	 */
+	public abstract BigDecimal getAdditionalCost();
+	/**
+	 * The function that should be used to add land.
+	 * @param region
+	 * @throws BalanceOutOfBoundsException 
+	 */
+	public void setLand(Region region, Currency curren) throws BalanceOutOfBoundsException {
+		BigDecimal holdings = this.accounts.getTotalMoney(curren);
+		BigDecimal reemburce = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
+		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
+		
+		if(holdings.compareTo(cost.subtract(reemburce)) < 0) {
+			throw new BalanceOutOfBoundsException();
+		}
+		for(InspiredGov gov:this.getSuperGovObj().getAllSubGovsAndFacilitiesJustBelow()) {
+			if(gov != this) {
+				if(gov.getRegion().getRegion().Intersects(region)) {
+					// now check if the gov is allowed to change the land of the region
+					if(!gov.getRegion().getAllowedOverlap().contains(this.getClass())) {
+						if(gov.getProtectionlevel() >= ProtectionLevels.CLAIM_PROTECTION) {
+							
+						}
+					}
+				}
+			}
+		}
+		
 	}
 	public void removeLand(InspiredGov gov, Region select) {
 		if((this.getProtectionlevel() - gov.getMilitaryLevel()) < 1 || this == gov) {

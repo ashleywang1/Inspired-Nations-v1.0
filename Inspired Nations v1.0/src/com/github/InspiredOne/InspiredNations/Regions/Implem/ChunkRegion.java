@@ -79,7 +79,7 @@ public class ChunkRegion extends NonCummulativeRegion {
 
 	@Override
 	public boolean contains(Point3D location) {
-		return this.equals(new ChunkRegion(location.getLocation().getChunk()));
+		return this.equals(new ChunkRegion(new Point2D((int) Math.floor(location.x/16.),(int) Math.floor(location.z/16.), location.world)));
 	}
 
 	@Override

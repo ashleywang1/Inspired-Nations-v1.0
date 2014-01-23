@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Regions.Implem;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -32,6 +33,7 @@ public class Chunkoid extends CummulativeRegion {
 
 	@Override
 	public Menu getClaimMenu(PlayerData PDI, Menu previous, InspiredGov gov) {
+		Debug.print("Inside Chunkoid getClaimMenu");
 		return new ClaimChunkoid(PDI, previous, gov);
 	}
 	
@@ -49,11 +51,5 @@ public class Chunkoid extends CummulativeRegion {
 		if(!this.getRegions().contains(region)) {
 			this.getRegions().add(region);	
 		}
-	}
-
-	@Override
-	public boolean contains(Point3D location) {
-		Location spot = location.getLocation();
-		return this.getRegions().contains(new ChunkRegion(spot.getChunk()));
 	}
 }

@@ -15,6 +15,10 @@ public class Point2D extends Point3D {
 		super(x, 0, z, world);
 	}
 	
+	public Point2D(int x, int z, WorldID world) {
+		super(x, 0, z, world);
+	}
+	
 	public Point2D(Location location) {
 		super(location);
 		this.y = 0;

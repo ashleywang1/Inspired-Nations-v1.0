@@ -20,11 +20,16 @@ public abstract class Region implements Serializable {
 	public Region() {
 		
 	}
-	
 	/**
 	 * Returns true if the entire region is within the input region
 	 * @param region
 	 * @return	
+	 */
+	public abstract boolean IsIn(Region region);
+	/**
+	 * Returns true if the entire region is within the input region
+	 * @param region
+	 * @return
 	 */
 	public abstract boolean IsIn(NonCummulativeRegion region);
 	/**
@@ -54,6 +59,12 @@ public abstract class Region implements Serializable {
 	 * @return
 	 */
 	public abstract boolean contains(Point3D location);
+	/**
+	 * Returns true if this region overlaps the input region
+	 * @param region
+	 * @return
+	 */
+	public abstract boolean Intersects(Region region);
 	/**
 	 * Returns true if this region overlaps the input region
 	 * @param region

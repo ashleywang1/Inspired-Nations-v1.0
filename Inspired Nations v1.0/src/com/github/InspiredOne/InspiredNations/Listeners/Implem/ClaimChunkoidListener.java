@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Listeners.Implem;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Listeners.InspiredListener;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 
@@ -10,6 +11,7 @@ public class ClaimChunkoidListener<T extends ClaimChunkoidManager<?>> extends In
 
 	public ClaimChunkoidListener(T manager) {
 		super(manager);
+		Debug.print("Inside ClaimChunkoidListener");
 	}
 	
 	@EventHandler

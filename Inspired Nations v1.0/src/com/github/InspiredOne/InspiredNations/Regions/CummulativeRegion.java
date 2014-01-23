@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.Exceptions.IncorrectUnitOfTheCummulativeRegion;
+import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
 public abstract class CummulativeRegion extends Region {
 
@@ -13,6 +14,16 @@ public abstract class CummulativeRegion extends Region {
 	private static final long serialVersionUID = -8489617455582075095L;
 
 	private List<NonCummulativeRegion> regions = new ArrayList<NonCummulativeRegion>();
+	
+	@Override
+	public boolean contains(Point3D spot) {
+		for(NonCummulativeRegion test:regions) {
+			if(test.contains(spot)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	@Override
 	public boolean IsIn(NonCummulativeRegion region) {

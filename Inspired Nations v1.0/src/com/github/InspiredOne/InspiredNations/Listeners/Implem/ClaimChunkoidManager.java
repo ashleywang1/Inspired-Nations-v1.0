@@ -9,10 +9,11 @@ public class ClaimChunkoidManager<T extends ClaimChunkoid> extends ActionManager
 
 	private Point2D position;
 	private boolean claiming = false;
-	private Chunkoid region = new Chunkoid();
+	private Chunkoid region;
 	
-	public ClaimChunkoidManager(T menu, Point2D initialChunk) {
+	public ClaimChunkoidManager(T menu, Point2D initialChunk, Chunkoid region) {
 		super(menu);
+		this.region = region;
 		this.listeners.add(new ClaimChunkoidListener<ClaimChunkoidManager<T>>(this));
 		this.position = initialChunk;
 	}
@@ -29,6 +30,8 @@ public class ClaimChunkoidManager<T extends ClaimChunkoid> extends ActionManager
 	public void setPosition(Point2D position) {
 		this.position = position;
 		if(claiming) {
+			// Check if allowed to
+			
 			region.addChunk(position);
 		}
 

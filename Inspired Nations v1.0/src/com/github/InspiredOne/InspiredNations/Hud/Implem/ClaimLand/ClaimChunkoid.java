@@ -9,7 +9,7 @@ import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.ClaimChunkoidManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MapManager;
-import com.github.InspiredOne.InspiredNations.Regions.Region;
+import com.github.InspiredOne.InspiredNations.Regions.Implem.Chunkoid;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
@@ -18,14 +18,20 @@ public class ClaimChunkoid extends InputMenu {
 
 	public Menu previous;
 	public InspiredGov gov;
-	public Region region;
+	public Chunkoid region;
 	public ClaimChunkoidManager<ClaimChunkoid> manager;
 
 	public ClaimChunkoid(PlayerData PDI, Menu previous, InspiredGov gov) {
 		super(PDI);
 		this.previous = previous;
 		this.gov = gov;
-		this.region = gov.getRegion().getRegion();
+		if(gov.getRegion().getRegion() == null ) {
+			gov.getRegion().setRegion(new Chunkoid());
+		}
+		if(!(gov.getRegion().getRegion() instanceof Chunkoid)) {
+			gov.getRegion().setRegion(new Chunkoid());
+		}
+		this.region = (Chunkoid) gov.getRegion().getRegion();
 	}
 
 	@Override
@@ -98,7 +104,7 @@ public class ClaimChunkoid extends InputMenu {
 
 	@Override
 	public void Init() {
-		this.manager = new ClaimChunkoidManager<ClaimChunkoid>(this, new Point2D(PDI.getPlayer().getLocation().getChunk()));
+		this.manager = new ClaimChunkoidManager<ClaimChunkoid>(this, new Point2D(PDI.getPlayer().getLocation().getChunk()), region);
 		this.managers.add(manager);
 		this.managers.add(new MapManager<ClaimChunkoid>(this));
 	}

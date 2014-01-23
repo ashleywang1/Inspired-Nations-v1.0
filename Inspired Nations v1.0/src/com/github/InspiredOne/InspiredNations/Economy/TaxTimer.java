@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 
 public class TaxTimer implements Serializable {
@@ -31,6 +32,7 @@ public class TaxTimer implements Serializable {
 			public void run() {
 				countdown--;
 				if(countdown == 0) {
+					Debug.print("Tax Timer Reset");
 					countdown = cycleLength;
 				}
 			}
