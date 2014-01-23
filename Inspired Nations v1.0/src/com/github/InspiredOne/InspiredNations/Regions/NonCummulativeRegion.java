@@ -16,12 +16,6 @@ public abstract class NonCummulativeRegion extends Region {
 	 */
 	private static final long serialVersionUID = 3055862542770765137L;
 
-	@Override
-	public WorldID getWorld() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/**
 	 * Gets the bounding cuboid for the purposes of making selection
 	 * verification speedy. 
@@ -54,25 +48,7 @@ public abstract class NonCummulativeRegion extends Region {
 		}
 	}
 
-	@Override
-	public double volume() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean contains(Location location) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean contains(Point3D location) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	protected abstract boolean intersects(Region region);
+	protected abstract boolean intersects(NonCummulativeRegion region);
 
 	@Override
 	public final boolean Intersects(NonCummulativeRegion region) {
@@ -85,23 +61,4 @@ public abstract class NonCummulativeRegion extends Region {
 			return false;
 		}
 	}
-
-	@Override
-	public String getTypeName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Menu getClaimMenu(PlayerData PDI, Menu previous, InspiredGov gov) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

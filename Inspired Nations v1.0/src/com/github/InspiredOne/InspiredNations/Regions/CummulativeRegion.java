@@ -3,6 +3,8 @@ package com.github.InspiredOne.InspiredNations.Regions;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Exceptions.IncorrectUnitOfTheCummulativeRegion;
+
 public abstract class CummulativeRegion extends Region {
 
 	/**
@@ -25,8 +27,12 @@ public abstract class CummulativeRegion extends Region {
 	@Override
 	public boolean IsIn(CummulativeRegion region) {
 		for(NonCummulativeRegion test:this.getRegions()) {
-			if(!test.IsIn(region)) {
-				return false;
+			try {
+				if(!test.IsIn(region)) {
+					return false;
+				}
+			} catch (IncorrectUnitOfTheCummulativeRegion e) {
+				e.printStackTrace();
 			}
 		}
 		return true;
@@ -37,8 +43,8 @@ public abstract class CummulativeRegion extends Region {
 	}
 
 	@Override
-	public double volume() {
-		double output = 0;
+	public int volume() {
+		int output = 0;
 		for(NonCummulativeRegion sum:regions) {
 			output = output + sum.volume();
 		}
@@ -58,8 +64,13 @@ public abstract class CummulativeRegion extends Region {
 	@Override
 	public boolean Intersects(CummulativeRegion region) {
 		for(NonCummulativeRegion test:this.getRegions()) {
-			if(test.Intersects(region)) {
-				return true;
+			try {
+				if(test.Intersects(region)) {
+					return true;
+				}
+			} catch (IncorrectUnitOfTheCummulativeRegion e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		return false;

@@ -9,7 +9,7 @@ import org.bukkit.World;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 
-public class Point3D implements Serializable {
+public class Point3D implements Serializable, Cloneable {
 
 	/**
 	 * 
@@ -64,6 +64,11 @@ public class Point3D implements Serializable {
             append(z, rhs.z).
             append(world, rhs.world).
             isEquals();
+    }
+    
+    @Override
+    public Point3D clone() {
+    	return new Point3D(this.x, this.y, this.z, this.world);
     }
     
     public Location getLocation() {

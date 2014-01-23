@@ -1,15 +1,16 @@
 package com.github.InspiredOne.InspiredNations.Regions.Implem;
 
 
-import org.bukkit.Location;
-
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.IncorrectUnitOfTheCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Regions.Region;
+import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
+import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
+import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
-public class Cuboid extends Region {
+public class Cuboid extends NonCummulativeRegion {
 
 	/**
 	 * 
@@ -19,6 +20,14 @@ public class Cuboid extends Region {
 	private static final String description = "";
 	private Point3D pointmin;
 	private Point3D pointmax;
+	
+	public Cuboid() {
+		
+	}
+	
+	public Cuboid(Point3D one, Point3D two) {
+		setPoints(one,two);
+	}
 	
 	public void setPoints(Point3D pointone, Point3D pointtwo) {
 		pointmin = pointone;
@@ -66,24 +75,41 @@ public class Cuboid extends Region {
 	}
 
 	@Override
-	public boolean isIn(Region region) {
+	public int volume() {
+		int length = this.pointmax.x - this.pointmin.x + 1;
+		int height = this.pointmax.y - this.pointmin.y + 1;
+		int width = this.pointmax.z - this.pointmin.z + 1;
+		return length*height*width;
+	}
+
+	@Override
+	public boolean contains(Point3D location) {
+		int x = location.x;
+		int y = location.y;
+		int z = location.z;
+		
+		if (x >= this.pointmin.x && x <= this.pointmax.x && location.world.equals(this.getWorld())) {
+			if (y >= this.pointmin.y && y <= this.pointmax.y) {
+				if (z >= this.pointmin.z && z <= this.pointmax.z) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
-
+	
 	@Override
-	public double volume() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean contains(Location location) {
-		// TODO Auto-generated method stub
+	public boolean Intersects(CummulativeRegion region) {
+		for(NonCummulativeRegion test:region.getRegions()) {
+			if(this.Intersects(test)) {
+				return true;
+			}
+		}
 		return false;
 	}
-
+	
 	@Override
-	public boolean intersects(Region region) {
+	public boolean intersects(NonCummulativeRegion region) {
 		Cuboid other = region.getBoundingCuboid();
 		if(this.getWorld().equals(region.getWorld())) {
 			if(this.pointmax.y > other.pointmin.y && this.pointmin.y < other.pointmax.y) {
@@ -98,9 +124,41 @@ public class Cuboid extends Region {
 	}
 
 	@Override
-	public boolean contains(Point3D location) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean IsIn(CummulativeRegion region)
+			throws IncorrectUnitOfTheCummulativeRegion {
+		Point3D point;
+		for(int x = this.pointmin.x; x <= this.pointmax.x; x++) {
+			for(int y = this.pointmin.y; y <= this.pointmax.y; y++) {
+				for(int z = this.pointmin.z; z <= this.pointmax.z; z++) {
+					point = new Point3D(x, y, z, this.pointmax.world);
+					if(!region.contains(point)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean isIn(NonCummulativeRegion region) {
+		Point3D point;
+		for(int x = this.pointmin.x; x <= this.pointmax.x; x++) {
+			for(int y = this.pointmin.y; y <= this.pointmax.y; y++) {
+				for(int z = this.pointmin.z; z <= this.pointmax.z; z++) {
+					point = new Point3D(x, y, z, this.pointmax.world);
+					if(!region.contains(point)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public WorldID getWorld() {
+		return this.pointmax.world;
 	}
 
 

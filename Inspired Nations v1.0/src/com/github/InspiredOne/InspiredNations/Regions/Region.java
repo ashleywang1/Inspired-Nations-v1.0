@@ -8,9 +8,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.IncorrectUnitOfTheCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Regions.Implem.Cuboid;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
-import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
 public abstract class Region implements Serializable {
 
@@ -28,20 +26,20 @@ public abstract class Region implements Serializable {
 	 * @param region
 	 * @return	
 	 */
-	protected abstract boolean IsIn(NonCummulativeRegion region);
+	public abstract boolean IsIn(NonCummulativeRegion region);
 	/**
 	 * Returns true if the entire region is within the input region
 	 * @param region
 	 * @return	
 	 * @throws IncorrectUnitOfTheCummulativeRegion 
 	 */
-	protected abstract boolean IsIn(CummulativeRegion region) throws IncorrectUnitOfTheCummulativeRegion;
+	public abstract boolean IsIn(CummulativeRegion region) throws IncorrectUnitOfTheCummulativeRegion;
 
 	/**
 	 * Returns the volume in cubic meters
 	 * @return
 	 */
-	public abstract double volume();
+	public abstract int volume();
 	/**
 	 * Returns true if the location is within the region
 	 * @param location	the location to test
@@ -66,8 +64,9 @@ public abstract class Region implements Serializable {
 	 * Returns true if this region overlaps the input region
 	 * @param region
 	 * @return
+	 * @throws IncorrectUnitOfTheCummulativeRegion 
 	 */
-	public abstract boolean Intersects(CummulativeRegion region);
+	public abstract boolean Intersects(CummulativeRegion region) throws IncorrectUnitOfTheCummulativeRegion;
 	/**
 	 * Returns the type name to be used in menus
 	 * @return

@@ -4,20 +4,20 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
-import java.util.HashSet;
 import java.util.Vector;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.IncorrectUnitOfTheCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotSimplePolygonException;
 import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldException;
-import com.github.InspiredOne.InspiredNations.Exceptions.SelectionNotMadeException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Regions.SelectionMode;
+import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
+import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
-public class PolygonPrism extends SelectionMode {
+public class PolygonPrism extends NonCummulativeRegion {
 
 	/**
 	 * 
@@ -52,7 +52,8 @@ public class PolygonPrism extends SelectionMode {
 		}
 	}
 	
-	public int getVolume() {
+	@Override
+	public int volume() {
 		return this.area()*(ymax - ymin + 1);
 	}
 	
@@ -85,24 +86,11 @@ public class PolygonPrism extends SelectionMode {
 		return null;
 	}
 
-	@Override
-	public HashSet<Point3D> getBlocks() throws SelectionNotMadeException {
-		HashSet<Point3D> output = new HashSet<Point3D>();
-		Rectangle rect = this.polygon.getBounds();
-		for(int x = rect.x; x >= rect.x - rect.width; x--) {
-			for(int z = rect.y; z >= rect.y - rect.height; z--) {
-				for(int y = this.ymax; y >= this.ymin; y--) {
-					Point3D test = new Point3D(x,y,z,this.world);
-					if(this.contains(test)) {
-						output.add(test);
-					}
-				}
-			}
-		}
-		return output;
-	}
-	
-	// A method to determine if a polygon is simple
+	/**
+	 * A method to determine if a polygon is simple. It checks to make sure that
+	 * the sides do not cross.
+	 * @return	<code>true</code> if the polygon is simple.
+	 */
 	public boolean isSimple() {
 		Polygon poly = this.polygon;
 		Vector<Line2D> lines = new Vector<Line2D>();
@@ -129,7 +117,9 @@ public class PolygonPrism extends SelectionMode {
 		return true;
 	}
 	
-	// Determines if a location is inside of the polygon
+	/**
+	 * Determines if a location is inside of the polygon
+	 */
 	public boolean contains(Point3D tile) {
 		if (tile.world.equals(this.world)) {
 			if (polygon.contains(tile.x, tile.z)) {// || polygon.contains(tile.getBlockX() + .5, tile.getBlockZ() + .5) || polygon.contains(tile.getBlockX() - .5, tile.getBlockZ() + .5) || polygon.contains(tile.getBlockX() + .5, tile.getBlockZ() - .5)) {
@@ -141,5 +131,85 @@ public class PolygonPrism extends SelectionMode {
 			else return false;
 		}
 		else return false;
+	}
+
+	@Override
+	public Cuboid getBoundingCuboid() {
+		Rectangle rect = this.polygon.getBounds();
+		//TODO have to test this to make sure rect.x is actually x
+		Point3D one = new Point3D(rect.x, this.ymin, rect.y, this.world);
+		Point3D two = new Point3D(rect.x + rect.width, this.ymax, rect.y + rect.height, this.world);
+		return new Cuboid(one, two);
+	}
+
+	@Override
+	public WorldID getWorld() {
+		return world;
+	}
+
+	@Override
+	public boolean isIn(NonCummulativeRegion region) {
+		Rectangle rect = this.polygon.getBounds();
+		for(int x = rect.x; x >= rect.x - rect.width; x--) {
+			for(int z = rect.y; z >= rect.y - rect.height; z--) {
+				for(int y = this.ymax; y >= this.ymin; y--) {
+					Point3D test = new Point3D(x,y,z,this.world);
+					if(this.contains(test) && !region.contains(test)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean IsIn(CummulativeRegion region)
+			throws IncorrectUnitOfTheCummulativeRegion {
+		Rectangle rect = this.polygon.getBounds();
+		for(int x = rect.x; x >= rect.x - rect.width; x--) {
+			for(int z = rect.y; z >= rect.y - rect.height; z--) {
+				for(int y = this.ymax; y >= this.ymin; y--) {
+					Point3D test = new Point3D(x,y,z,this.world);
+					if(this.contains(test) && !region.contains(test)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	@Override
+	protected boolean intersects(NonCummulativeRegion region) {
+		Rectangle rect = this.polygon.getBounds();
+		for(int x = rect.x; x >= rect.x - rect.width; x--) {
+			for(int z = rect.y; z >= rect.y - rect.height; z--) {
+				for(int y = this.ymax; y >= this.ymin; y--) {
+					Point3D test = new Point3D(x,y,z,this.world);
+					if(this.contains(test) && region.contains(test)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean Intersects(CummulativeRegion region)
+			throws IncorrectUnitOfTheCummulativeRegion {
+		Rectangle rect = this.polygon.getBounds();
+		for(int x = rect.x; x >= rect.x - rect.width; x--) {
+			for(int z = rect.y; z >= rect.y - rect.height; z--) {
+				for(int y = this.ymax; y >= this.ymin; y--) {
+					Point3D test = new Point3D(x,y,z,this.world);
+					if(this.contains(test) && region.contains(test)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }
