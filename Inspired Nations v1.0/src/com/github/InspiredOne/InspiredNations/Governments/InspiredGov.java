@@ -432,7 +432,9 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * Use it to insert the cost of war into the tax amount.
 	 * @return
 	 */
-	public abstract BigDecimal getAdditionalCost();
+	public BigDecimal getAdditionalCost() {
+		return BigDecimal.ZERO;
+	}
 	/**
 	 * The function that should be used to add land.
 	 * @param region

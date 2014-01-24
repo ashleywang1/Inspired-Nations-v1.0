@@ -8,13 +8,12 @@ public abstract class OwnerGov extends InspiredGov {
 	 * 
 	 */
 	private static final long serialVersionUID = 2000613785185838007L;
-
+	private HashSet<String> owners = new HashSet<String>();
+	
 	public OwnerGov() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	private HashSet<String> owners = new HashSet<String>();
 
 	public HashSet<String> getOwners() {
 		return owners;
