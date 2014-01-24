@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 /**
  * Facilities cannot have subgovs
@@ -35,11 +37,4 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public void paySuper(BigDecimal amount) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

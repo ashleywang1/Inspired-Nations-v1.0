@@ -30,12 +30,6 @@ public class Business extends OwnerSubjectGov {
 	}
 
 	@Override
-	public void paySuper(BigDecimal amount) {
-		// TODO Auto-generated method stub
-
-	}
-	
-	@Override
 	public String getTypeName() {
 		return typeName;
 	}

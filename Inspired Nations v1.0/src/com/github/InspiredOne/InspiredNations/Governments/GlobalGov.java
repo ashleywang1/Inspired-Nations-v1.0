@@ -8,6 +8,8 @@ import java.util.List;
 import org.bukkit.OfflinePlayer;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 
@@ -59,12 +61,6 @@ public class GlobalGov extends OwnerSubjectGov {
 	@Override
 	public String getTypeName() {
 		return typeName;
-	}
-
-	@Override
-	public void paySuper(BigDecimal amount) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

@@ -51,12 +51,6 @@ public class LocalPark extends Facility {
 	}
 
 	@Override
-	public void paySuper(BigDecimal amount) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public Class<? extends InspiredGov> getCommonEcon() {
 
 		return Town.class;

@@ -276,8 +276,11 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	/**
 	 * 
 	 * @param amount	the <code>BigDecimal</code> amount to be paid up to the supergov
+	 * @throws BalanceOutOfBoundsException 
 	 */
-	public abstract void paySuper(BigDecimal amount);
+	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException {
+		this.accounts.transferMoney(amount, curren, this.getSuperGovObj().accounts);
+	}
 	/**
 	 * Gets a list of all the governments that are below this government (including itself)
 	 * @return	A list of all the subgovs
@@ -475,9 +478,9 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				}
 			}
 		}
-		//this.accounts.transferMoney(reemburce, curren, accountTo);
-		//this.region = region;
-		//this.accounts.transferMoney(cost, monType, accountTo);
+		this.getSuperGovObj().accounts.transferMoney(reemburce, curren, this.accounts);
+		this.region.setRegion(region);
+		this.paySuper(cost, curren);
 	}
 	public void removeLand(InspiredGov gov, Region select) {
 		if((this.getProtectionlevel() - gov.getMilitaryLevel()) < 1 || this == gov) {

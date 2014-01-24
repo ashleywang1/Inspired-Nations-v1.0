@@ -39,12 +39,6 @@ public class House extends OwnerGov {
 	}
 
 	@Override
-	public void paySuper(BigDecimal amount) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public List<Class<? extends InspiredGov>> getSelfGovs() {
 		List<Class<? extends InspiredGov>> output = new ArrayList<Class<? extends InspiredGov>>();
 		output.add(this.getClass());
