@@ -1,7 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Regions;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 import com.github.InspiredOne.InspiredNations.Exceptions.IncorrectUnitOfTheCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
@@ -13,7 +12,7 @@ public abstract class CummulativeRegion extends Region {
 	 */
 	private static final long serialVersionUID = -8489617455582075095L;
 
-	private List<NonCummulativeRegion> regions = new ArrayList<NonCummulativeRegion>();
+	private HashSet<NonCummulativeRegion> regions = new HashSet<NonCummulativeRegion>();
 	
 	@Override
 	public boolean contains(Point3D spot) {
@@ -24,7 +23,40 @@ public abstract class CummulativeRegion extends Region {
 		}
 		return false;
 	}
+	@Override
+	public boolean Intersects(Region region) {
+		for(NonCummulativeRegion test:this.getRegions()) {
+			if(test.Intersects(region)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
+	@Override
+	public boolean Intersects(NonCummulativeRegion region) {
+		for(NonCummulativeRegion test:this.getRegions()) {
+			if(test.Intersects(region)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean Intersects(CummulativeRegion region) {
+		return this.Intersects((Region) region);
+	}
+	
+	@Override
+	public boolean IsIn(Region region) {
+		for(NonCummulativeRegion test:this.getRegions()) {
+			if(!test.IsIn(region)) {
+				return false;
+			}
+		}
+		return true;
+	}
 	@Override
 	public boolean IsIn(NonCummulativeRegion region) {
 		for(NonCummulativeRegion test:regions) {
@@ -37,19 +69,10 @@ public abstract class CummulativeRegion extends Region {
 	
 	@Override
 	public boolean IsIn(CummulativeRegion region) {
-		for(NonCummulativeRegion test:this.getRegions()) {
-			try {
-				if(!test.IsIn(region)) {
-					return false;
-				}
-			} catch (IncorrectUnitOfTheCummulativeRegion e) {
-				e.printStackTrace();
-			}
-		}
-		return true;
+		return IsIn((Region) region);
 	}
 	
-	public List<NonCummulativeRegion> getRegions() {
+	public HashSet<NonCummulativeRegion> getRegions() {
 		return regions;
 	}
 
@@ -62,28 +85,5 @@ public abstract class CummulativeRegion extends Region {
 		return output;
 	}
 
-	@Override
-	public boolean Intersects(NonCummulativeRegion region) {
-		for(NonCummulativeRegion test:this.getRegions()) {
-			if(test.Intersects(region)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean Intersects(CummulativeRegion region) {
-		for(NonCummulativeRegion test:this.getRegions()) {
-			try {
-				if(test.Intersects(region)) {
-					return true;
-				}
-			} catch (IncorrectUnitOfTheCummulativeRegion e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return false;
-	}
+
 }

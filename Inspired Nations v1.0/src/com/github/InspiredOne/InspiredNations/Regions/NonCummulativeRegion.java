@@ -5,7 +5,6 @@ import org.bukkit.Location;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Regions.Implem.Cuboid;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
@@ -30,7 +29,8 @@ public abstract class NonCummulativeRegion extends Region {
 	 */
 	public abstract WorldID getWorld();
 
-	public abstract boolean isIn(NonCummulativeRegion region);
+	
+	protected abstract boolean isIn(NonCummulativeRegion region);
 
 	/**
 	 * Returns true if the entire region is within the input region

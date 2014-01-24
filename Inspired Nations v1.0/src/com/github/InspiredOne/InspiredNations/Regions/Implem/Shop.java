@@ -67,8 +67,19 @@ public class Shop extends Region {
 	}
 
 	@Override
-	public boolean Intersects(CummulativeRegion region)
-			throws IncorrectUnitOfTheCummulativeRegion {
+	public boolean Intersects(CummulativeRegion region) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean IsIn(Region region) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean Intersects(Region region) {
 		// TODO Auto-generated method stub
 		return false;
 	}

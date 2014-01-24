@@ -1,12 +1,9 @@
-package com.github.InspiredOne.InspiredNations.Regions.Implem;
+package com.github.InspiredOne.InspiredNations.Regions;
 
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Exceptions.IncorrectUnitOfTheCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
-import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
@@ -99,6 +96,22 @@ public class Cuboid extends NonCummulativeRegion {
 	}
 	
 	@Override
+	public boolean Intersects(Region region) {
+		Point3D point;
+		for(int x = this.pointmin.x; x <= this.pointmax.x; x++) {
+			for(int y = this.pointmin.y; y <= this.pointmax.y; y++) {
+				for(int z = this.pointmin.z; z <= this.pointmax.z; z++) {
+					point = new Point3D(x, y, z, this.pointmax.world);
+					if(region.contains(point)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	@Override
 	public boolean Intersects(CummulativeRegion region) {
 		for(NonCummulativeRegion test:region.getRegions()) {
 			if(this.Intersects(test)) {
@@ -109,7 +122,7 @@ public class Cuboid extends NonCummulativeRegion {
 	}
 	
 	@Override
-	public boolean intersects(NonCummulativeRegion region) {
+	protected boolean intersects(NonCummulativeRegion region) {
 		Cuboid other = region.getBoundingCuboid();
 		if(this.getWorld().equals(region.getWorld())) {
 			if(this.pointmax.y > other.pointmin.y && this.pointmin.y < other.pointmax.y) {
@@ -124,8 +137,7 @@ public class Cuboid extends NonCummulativeRegion {
 	}
 
 	@Override
-	public boolean IsIn(CummulativeRegion region)
-			throws IncorrectUnitOfTheCummulativeRegion {
+	public boolean IsIn(Region region) {
 		Point3D point;
 		for(int x = this.pointmin.x; x <= this.pointmax.x; x++) {
 			for(int y = this.pointmin.y; y <= this.pointmax.y; y++) {
@@ -141,25 +153,18 @@ public class Cuboid extends NonCummulativeRegion {
 	}
 	
 	@Override
-	public boolean isIn(NonCummulativeRegion region) {
-		Point3D point;
-		for(int x = this.pointmin.x; x <= this.pointmax.x; x++) {
-			for(int y = this.pointmin.y; y <= this.pointmax.y; y++) {
-				for(int z = this.pointmin.z; z <= this.pointmax.z; z++) {
-					point = new Point3D(x, y, z, this.pointmax.world);
-					if(!region.contains(point)) {
-						return false;
-					}
-				}
-			}
-		}
-		return true;
+	public boolean IsIn(CummulativeRegion region) {
+		return IsIn((Region) region);
+	}
+	
+	@Override
+	protected boolean isIn(NonCummulativeRegion region) {
+		return IsIn((Region) region);
 	}
 
 	@Override
 	public WorldID getWorld() {
 		return this.pointmax.world;
 	}
-
 
 }

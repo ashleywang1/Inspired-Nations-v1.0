@@ -77,7 +77,7 @@ public abstract class Region implements Serializable {
 	 * @return
 	 * @throws IncorrectUnitOfTheCummulativeRegion 
 	 */
-	public abstract boolean Intersects(CummulativeRegion region) throws IncorrectUnitOfTheCummulativeRegion;
+	public abstract boolean Intersects(CummulativeRegion region);
 	/**
 	 * Returns the type name to be used in menus
 	 * @return

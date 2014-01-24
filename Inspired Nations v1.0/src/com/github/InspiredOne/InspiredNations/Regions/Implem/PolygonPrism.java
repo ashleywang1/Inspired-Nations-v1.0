@@ -7,13 +7,14 @@ import java.awt.geom.Line2D;
 import java.util.Vector;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Exceptions.IncorrectUnitOfTheCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotSimplePolygonException;
 import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
+import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
@@ -148,7 +149,7 @@ public class PolygonPrism extends NonCummulativeRegion {
 	}
 
 	@Override
-	public boolean isIn(NonCummulativeRegion region) {
+	public boolean IsIn(Region region) {
 		Rectangle rect = this.polygon.getBounds();
 		for(int x = rect.x; x >= rect.x - rect.width; x--) {
 			for(int z = rect.y; z >= rect.y - rect.height; z--) {
@@ -164,52 +165,38 @@ public class PolygonPrism extends NonCummulativeRegion {
 	}
 	
 	@Override
-	public boolean IsIn(CummulativeRegion region)
-			throws IncorrectUnitOfTheCummulativeRegion {
+	public boolean isIn(NonCummulativeRegion region) {
+		return IsIn((Region) region);
+	}
+	
+	@Override
+	public boolean IsIn(CummulativeRegion region) {
+		return IsIn((Region) region);
+	}
+
+	@Override
+	public boolean Intersects(Region region) {
 		Rectangle rect = this.polygon.getBounds();
 		for(int x = rect.x; x >= rect.x - rect.width; x--) {
 			for(int z = rect.y; z >= rect.y - rect.height; z--) {
 				for(int y = this.ymax; y >= this.ymin; y--) {
 					Point3D test = new Point3D(x,y,z,this.world);
-					if(this.contains(test) && !region.contains(test)) {
-						return false;
+					if(this.contains(test) && region.contains(test)) {
+						return true;
 					}
 				}
 			}
 		}
-		return true;
+		return false;
 	}
-
+	
 	@Override
 	protected boolean intersects(NonCummulativeRegion region) {
-		Rectangle rect = this.polygon.getBounds();
-		for(int x = rect.x; x >= rect.x - rect.width; x--) {
-			for(int z = rect.y; z >= rect.y - rect.height; z--) {
-				for(int y = this.ymax; y >= this.ymin; y--) {
-					Point3D test = new Point3D(x,y,z,this.world);
-					if(this.contains(test) && region.contains(test)) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
+		return Intersects((Region) region);
 	}
 
 	@Override
-	public boolean Intersects(CummulativeRegion region)
-			throws IncorrectUnitOfTheCummulativeRegion {
-		Rectangle rect = this.polygon.getBounds();
-		for(int x = rect.x; x >= rect.x - rect.width; x--) {
-			for(int z = rect.y; z >= rect.y - rect.height; z--) {
-				for(int y = this.ymax; y >= this.ymin; y--) {
-					Point3D test = new Point3D(x,y,z,this.world);
-					if(this.contains(test) && region.contains(test)) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
+	public boolean Intersects(CummulativeRegion region) {
+		return Intersects((Region) region);
 	}
 }

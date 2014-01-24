@@ -446,14 +446,17 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		if(holdings.compareTo(cost.subtract(reemburce)) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}
+		this.getRegion().getEncapsulatingRegions();
+		
 		for(InspiredGov gov:this.getSuperGovObj().getAllSubGovsAndFacilitiesJustBelow()) {
 			if(gov != this) {
 				if(gov.getRegion().getRegion().Intersects(region)) {
 					// now check if the gov is allowed to change the land of the region
-					if(!gov.getRegion().getAllowedOverlap().contains(this.getClass())) {
+					if(!gov.getRegion().getAllowedOverlap().contains(this.getRegion().getClass())) {
 						if(gov.getProtectionlevel() >= ProtectionLevels.CLAIM_PROTECTION) {
 							
 						}
+						
 					}
 				}
 			}

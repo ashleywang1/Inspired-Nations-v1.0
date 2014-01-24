@@ -5,11 +5,12 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.bukkit.Chunk;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Exceptions.IncorrectUnitOfTheCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
+import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
@@ -39,31 +40,46 @@ public class ChunkRegion extends NonCummulativeRegion {
 		
 		return new Cuboid(one, two);
 	}
-
+	
 	@Override
-	public boolean IsIn(CummulativeRegion region) throws IncorrectUnitOfTheCummulativeRegion {
+	protected boolean isIn(NonCummulativeRegion region) {
+		return this.getBoundingCuboid().IsIn(region);
+	}
+	
+	@Override
+	public boolean IsIn(Region region) {
+		return this.getBoundingCuboid().IsIn(region);
+	}
+	
+	@Override
+	public boolean IsIn(CummulativeRegion region) {
 		if(region instanceof Chunkoid) {
 			return region.getRegions().contains(this);
 		}
 		else {
-			throw new IncorrectUnitOfTheCummulativeRegion();
+			return IsIn((Region) region);
 		}
 	}
-
+	
 	@Override
-	public boolean Intersects(CummulativeRegion region) throws IncorrectUnitOfTheCummulativeRegion {
+	public boolean Intersects(Region region) {
+		return this.getBoundingCuboid().Intersects(region);
+	}
+	
+	@Override
+	protected boolean intersects(NonCummulativeRegion region) {
+		return this.getBoundingCuboid().Intersects(region);
+	}
+	
+	@Override
+	public boolean Intersects(CummulativeRegion region) {
 		if(region instanceof Chunkoid) {
 			return region.getRegions().contains(this);	
 		}
 		else {
-			throw new IncorrectUnitOfTheCummulativeRegion();
+			return this.Intersects((Region) region);
 		}
 		
-	}
-
-	@Override
-	public boolean isIn(NonCummulativeRegion region) {
-		return this.getBoundingCuboid().IsIn(region);
 	}
 
 	@Override
@@ -99,11 +115,6 @@ public class ChunkRegion extends NonCummulativeRegion {
 	}
 	
 	@Override
-	protected boolean intersects(NonCummulativeRegion region) {
-		return this.getBoundingCuboid().Intersects(region);
-	}
-	
-	@Override
     public int hashCode() {
         return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
             // if deriving: appendSuper(super.hashCode()).
@@ -126,5 +137,4 @@ public class ChunkRegion extends NonCummulativeRegion {
             append(coordinate, rhs.coordinate).
             isEquals();
     }
-
 }
