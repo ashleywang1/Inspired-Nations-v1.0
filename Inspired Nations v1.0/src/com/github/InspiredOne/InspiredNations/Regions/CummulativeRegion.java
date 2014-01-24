@@ -2,7 +2,6 @@ package com.github.InspiredOne.InspiredNations.Regions;
 
 import java.util.HashSet;
 
-import com.github.InspiredOne.InspiredNations.Exceptions.IncorrectUnitOfTheCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
 public abstract class CummulativeRegion extends Region {

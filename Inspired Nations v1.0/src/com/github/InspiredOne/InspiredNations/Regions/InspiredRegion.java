@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
+
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 /**
  * This is the interface between the social construct of a government and the physical construct
  * of the world. 
@@ -26,6 +28,7 @@ public abstract class InspiredRegion implements Serializable {
 	public void setRegion(Region region) {
 		this.region = region;
 	}
+	public abstract Class<? extends InspiredGov> getRelatedGov();
 	/**
 	 * Returns all the SelectionModes that this InspiredRegion is allowed to be made of
 	 * @return

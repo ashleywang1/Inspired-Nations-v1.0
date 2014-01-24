@@ -1,7 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Regions.Implem;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Exceptions.IncorrectUnitOfTheCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
@@ -42,8 +41,7 @@ public class Shop extends Region {
 	}
 
 	@Override
-	public boolean IsIn(CummulativeRegion region)
-			throws IncorrectUnitOfTheCummulativeRegion {
+	public boolean IsIn(CummulativeRegion region) {
 		// TODO Auto-generated method stub
 		return false;
 	}

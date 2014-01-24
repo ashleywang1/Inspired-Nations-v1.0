@@ -3,6 +3,8 @@ package com.github.InspiredOne.InspiredNations.Regions.Implem;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.Implem.House;
 import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
@@ -40,6 +42,11 @@ public class HouseLand extends InspiredRegion {
 	@Override
 	public String getTypeName() {
 		return name;
+	}
+
+	@Override
+	public Class<? extends InspiredGov> getRelatedGov() {
+		return House.class;
 	}
 
 }

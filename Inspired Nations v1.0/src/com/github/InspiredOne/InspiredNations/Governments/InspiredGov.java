@@ -14,7 +14,9 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
+import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
+import com.github.InspiredOne.InspiredNations.Exceptions.RegionOutOfEncapsulationBoundsException;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
@@ -439,31 +441,43 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * The function that should be used to add land.
 	 * @param region
 	 * @throws BalanceOutOfBoundsException 
+	 * @throws InspiredGovTooStrongException
+	 * @throws RegionOutOfEncapsulationBoundsException 
 	 */
-	public void setLand(Region region, Currency curren) throws BalanceOutOfBoundsException {
+	public void setLand(Region region, Currency curren) throws BalanceOutOfBoundsException, InspiredGovTooStrongException, RegionOutOfEncapsulationBoundsException {
 		BigDecimal holdings = this.accounts.getTotalMoney(curren);
 		BigDecimal reemburce = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		
+		// Can they afford it?
 		if(holdings.compareTo(cost.subtract(reemburce)) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}
-		this.getRegion().getEncapsulatingRegions();
-		
+		// Is it inside all the regions it's supposed to be in?
+		for(Class<? extends InspiredRegion> regionType:this.getRegion().getEncapsulatingRegions()) {
+			InspiredRegion check = Tools.getInstance(regionType);
+			for(InspiredGov gov:InspiredNations.regiondata.get(check.getRelatedGov())) {
+				if(this.isSubOf(gov) && !this.getRegion().getRegion().IsIn(gov.getRegion().getRegion())) {
+					throw new RegionOutOfEncapsulationBoundsException();
+				}
+			}
+		}
+		// Does it cross over any regions that it can't be over?
 		for(InspiredGov gov:this.getSuperGovObj().getAllSubGovsAndFacilitiesJustBelow()) {
 			if(gov != this) {
 				if(gov.getRegion().getRegion().Intersects(region)) {
 					// now check if the gov is allowed to change the land of the region
-					if(!gov.getRegion().getAllowedOverlap().contains(this.getRegion().getClass())) {
-						if(gov.getProtectionlevel() >= ProtectionLevels.CLAIM_PROTECTION) {
-							
+					if(!gov.getRegion().getOverlap().contains(this.getRegion().getClass())) {
+						if(gov.getProtectionlevel() >= this.getMilitaryLevel()-gov.getMilitaryLevel() + ProtectionLevels.CLAIM_PROTECTION) {
+							throw new InspiredGovTooStrongException();
 						}
-						
 					}
 				}
 			}
 		}
-		
+		//this.accounts.transferMoney(reemburce, curren, accountTo);
+		//this.region = region;
+		//this.accounts.transferMoney(cost, monType, accountTo);
 	}
 	public void removeLand(InspiredGov gov, Region select) {
 		if((this.getProtectionlevel() - gov.getMilitaryLevel()) < 1 || this == gov) {

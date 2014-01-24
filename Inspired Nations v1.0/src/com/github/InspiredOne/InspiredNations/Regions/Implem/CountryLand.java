@@ -3,6 +3,8 @@ package com.github.InspiredOne.InspiredNations.Regions.Implem;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
 
@@ -36,6 +38,11 @@ public class CountryLand extends InspiredRegion {
 	@Override
 	public String getTypeName() {
 		return typeName;
+	}
+
+	@Override
+	public Class<? extends InspiredGov> getRelatedGov() {
+		return Country.class;
 	}
 
 }

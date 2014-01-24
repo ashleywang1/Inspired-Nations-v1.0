@@ -5,7 +5,6 @@ import java.io.Serializable;
 import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Exceptions.IncorrectUnitOfTheCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
@@ -38,7 +37,7 @@ public abstract class Region implements Serializable {
 	 * @return	
 	 * @throws IncorrectUnitOfTheCummulativeRegion 
 	 */
-	public abstract boolean IsIn(CummulativeRegion region) throws IncorrectUnitOfTheCummulativeRegion;
+	public abstract boolean IsIn(CummulativeRegion region);
 
 	/**
 	 * Returns the volume in cubic meters
