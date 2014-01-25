@@ -94,10 +94,7 @@ public class Account implements Serializable, Nameable, Payable {
 			throw new BalanceOutOfBoundsException();
 		}
 		else {
-			boolean done = false;
-			int iter = 0;
-			while(!done) {
-				Currency curren = money.getIndex(iter);
+			for(Currency curren:money) {
 				BigDecimal amount = money.get(curren);
 				if(amount.compareTo(exch.getValue(mon, monType, curren)) < 0) {
 					mon = mon.subtract(exch.getValue(amount, curren, monType));
@@ -107,9 +104,8 @@ public class Account implements Serializable, Nameable, Payable {
 				else {
 					money.put(curren, money.get(curren).subtract(exch.getValue(mon, monType, curren)));
 					accountTo.addMoney(exch.getValue(mon, monType, curren), curren);
-					done = true;
+					break;
 				}
-				iter++;
 			}
 		}
 	}

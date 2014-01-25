@@ -289,6 +289,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
 		this.accounts.transferMoney(amount, curren, this.getSuperGovObj().accounts);
+		Debug.print("in paySuper of Inspiredgov 1");
 	}
 	/**
 	 * 

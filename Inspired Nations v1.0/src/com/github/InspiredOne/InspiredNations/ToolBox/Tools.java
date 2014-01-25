@@ -117,11 +117,13 @@ public class Tools {
 		int subIter = 0;// for iterating through subGov Char choices
 		String[] subChars = {"#", "$", "%", "&", "S"};
 
-		ChatColor color = ChatColor.GRAY;
-		String character = "/";
+		ChatColor colorInit = ChatColor.DARK_GRAY;
+		String characterInit = "/";
+		ChatColor selfcolor = ChatColor.GRAY;
+		String selfchar = "@";
 		
-		int above = 9;
-		int below = 4;
+		int above = 7;
+		int below = 8;
 		
 		int[] remove = {160*above+240,160*above+77,160*above-80,160*above+83};
 		
@@ -129,9 +131,14 @@ public class Tools {
 			Location loctest = location.clone();
 			loctest.setZ(location.getBlockZ() + z*res);
 			for (int x = -26; x < 27; x++) {
-				character = "/";
-				color = ChatColor.GRAY;
+				String character = characterInit;
+				ChatColor color = colorInit;
 				loctest.setX(location.getBlockX() + x*res);
+				
+				//Check if self
+				if(x == 0 && z == 0) {
+					color = selfcolor;
+				}
 				
 				//Loop through the superGovs to see if any of them contain loctest
 				for(Iterator<InspiredGov> iter1 = InspiredNations.regiondata.get(gov).iterator(); iter1.hasNext();) {
@@ -169,13 +176,27 @@ public class Tools {
 				}
 				//Check if self
 				if(x == 0 && z == 0) {
-					character = "@";
+					//character = selfchar;
+					if ((-45 < location.getYaw() && 45 >= location.getYaw()) || (315 < location.getYaw() && 360 >= location.getYaw())
+							|| (-360 < location.getYaw() && -315 >= location.getYaw())) {
+						character = "V";
+					}
+					if ((45 < location.getYaw() && 135 >= location.getYaw()) || (-315 < location.getYaw() && -225 >= location.getYaw())) {
+						character = "<";
+					} 
+					if ((135 < location.getYaw() && 225 >= location.getYaw()) || (-225 < location.getYaw() && -135 >= location.getYaw())) {
+						character = "^";
+
+					}
+					if ((225 < location.getYaw() && 315 >= location.getYaw()) || (-135 < location.getYaw() && -45 >= location.getYaw())) {
+						character = ">";
+					}
 				}
 				output = output.concat(color + character);
 			}
 			output = output.concat("\n");
 		}
-		
+/*		
 		// Direction Icon
 		if ((-45 < location.getYaw() && 45 >= location.getYaw()) || (315 < location.getYaw() && 360 >= location.getYaw())
 				|| (-360 < location.getYaw() && -315 >= location.getYaw())) {
@@ -191,7 +212,7 @@ public class Tools {
 		if ((225 < location.getYaw() && 315 >= location.getYaw()) || (-135 < location.getYaw() && -45 >= location.getYaw())) {
 			output = output.substring(0, remove[3]).concat("-").concat(output.substring(remove[3] + 1));
 		}
-		
+*/
 		//Key
 		for(InspiredGov key:superGov.keySet()) {
 			output = output.concat(superGov.get(key) + key.getName() + ", ");
@@ -199,7 +220,7 @@ public class Tools {
 		for(InspiredGov key:subGov.keySet()) {
 			output = output.concat(superGov.get(key.getSuperGovObj()) + subGov.get(key) + "=" + key.getName() + ", ");
 		}
-		output = output.concat(ChatColor.GRAY + "/ = Unclaimed Land, @ = You.\n");
+		output = output.concat(ChatColor.DARK_GRAY + "/" + ChatColor.GRAY + "= Unclaimed Land, @ = You.\n");
 		
 		return output;
 		
