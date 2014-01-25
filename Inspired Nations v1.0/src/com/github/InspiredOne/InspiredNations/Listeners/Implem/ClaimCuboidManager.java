@@ -2,8 +2,8 @@ package com.github.InspiredOne.InspiredNations.Listeners.Implem;
 
 import org.bukkit.Location;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Exceptions.CuboidNotCompletedException;
+import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldException;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimLand.ClaimCuboid;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
@@ -22,21 +22,25 @@ public class ClaimCuboidManager<T extends ClaimCuboid> extends ActionManager<T> 
 	
 	public void setPoint1(Location local) {
 		point1 = new Point3D(local);
-		Debug.print(point1.y);
 		if(point2 != null) {
-			temp = new Cuboid(point1, point2);
-			Debug.print(temp.getPointMax().y);
-			Debug.print(temp.getPointMin().y);
+			try {
+				temp = new Cuboid(point1, point2);
+			} catch (PointsInDifferentWorldException e) {
+				this.reset();
+				this.getActionMenu().setError(MenuError.POINTS_IN_DIFFERENT_WORLDS());
+			}
 		}
 	}
 	
 	public void setPoint2(Location local) {
 		point2 = new Point3D(local);
-		Debug.print(point2.y);
 		if(point1 != null) {
-			temp = new Cuboid(point1, point2);
-			Debug.print(temp.getPointMax().y);
-			Debug.print(temp.getPointMin().y);
+			try {
+				temp = new Cuboid(point1, point2);
+			} catch (PointsInDifferentWorldException e) {
+				this.reset();
+				this.getActionMenu().setError(MenuError.POINTS_IN_DIFFERENT_WORLDS());
+			}
 		}
 	}
 	

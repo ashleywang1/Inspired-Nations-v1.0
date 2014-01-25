@@ -5,6 +5,7 @@ import org.bukkit.Material;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimLand.ClaimCuboid;
@@ -26,13 +27,13 @@ public class Cuboid extends NonCummulativeRegion {
 		
 	}
 	
-	public Cuboid(Point3D one, Point3D two) {
+	public Cuboid(Point3D one, Point3D two) throws PointsInDifferentWorldException {
 		setPoints(one,two);
 	}
 	
-	public void setPoints(Point3D pointone, Point3D pointtwo) {
+	public void setPoints(Point3D pointone, Point3D pointtwo) throws PointsInDifferentWorldException {
 		if(!pointone.world.equals(pointtwo.world)) {
-			
+			throw new PointsInDifferentWorldException();
 		}
 		int xmin = Math.min(pointone.x, pointtwo.x);
 		int ymin = Math.min(pointone.y, pointtwo.y);

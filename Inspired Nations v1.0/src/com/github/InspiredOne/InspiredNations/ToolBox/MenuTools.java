@@ -116,6 +116,9 @@ public class MenuTools {
 		public static String CUBOID_NOT_FULLY_SELECTED() {
 			return makeMessage("You have not selected both points of the cuboid.");
 		}
+		public static String POINTS_IN_DIFFERENT_WORLDS() {
+			return makeMessage("Your selected points were in different worlds.");
+		}
 		private static final String getTypeName(Class<? extends InspiredGov> gov) {
 			String GovName = "";
 			GovName = GovFactory.getGovInstance(gov).getTypeName();

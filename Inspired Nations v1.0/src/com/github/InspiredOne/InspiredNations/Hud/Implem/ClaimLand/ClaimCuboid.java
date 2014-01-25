@@ -14,6 +14,7 @@ import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.ManageGov;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.ClaimCuboidManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MapManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
@@ -80,7 +81,6 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public void Init() {
-		Debug.print("Inside Init() of ClaimCuboid)");
 		this.mapmanager = new MapManager<ClaimCuboid>(this);
 		this.manager = new ClaimCuboidManager<ClaimCuboid>(this);
 		this.managers.add(mapmanager);
@@ -89,7 +89,8 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public Menu nextMenu() {
-		return this;
+		this.manager.reset();
+		return previous;
 	}
 
 	@Override
@@ -106,7 +107,6 @@ public class ClaimCuboid extends InputMenu {
 	public void useInput(String input) {
 		try {
 			gov.setLand(this.manager.getCuboid());
-			this.manager.getCuboid().fill();
 			
 		} catch (BalanceOutOfBoundsException e) {
 			this.manager.reset();

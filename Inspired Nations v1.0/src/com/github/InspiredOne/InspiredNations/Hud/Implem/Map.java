@@ -56,10 +56,10 @@ public class Map extends ActionMenu {
 
 	@Override
 	public void actionResponse() {
-		if(this.manager.preTabEntry.equalsIgnoreCase("+") && Zoom < 8) {
+		if(this.manager.preTabEntry.equalsIgnoreCase("+") && Zoom > 0) {
 			Zoom--;
 		}
-		else if(this.manager.preTabEntry.equalsIgnoreCase("-") && Zoom > 0) {
+		else if(this.manager.preTabEntry.equalsIgnoreCase("-") && Zoom < 8) {
 			Zoom++;
 		}
 	}

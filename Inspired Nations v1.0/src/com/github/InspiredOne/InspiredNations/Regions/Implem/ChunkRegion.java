@@ -5,6 +5,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.bukkit.Chunk;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
@@ -38,7 +39,12 @@ public class ChunkRegion extends NonCummulativeRegion {
 		Point3D one = new Point3D(coordinate.x*16, 0, coordinate.z*16, coordinate.world);
 		Point3D two = new Point3D((coordinate.x+1)*16 - 1, 256, (coordinate.z+1)*16 - 1, coordinate.world);
 		
-		return new Cuboid(one, two);
+		try {
+			return new Cuboid(one, two);
+		} catch (PointsInDifferentWorldException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@Override

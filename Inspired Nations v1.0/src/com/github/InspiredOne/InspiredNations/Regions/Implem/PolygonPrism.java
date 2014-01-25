@@ -145,7 +145,12 @@ public class PolygonPrism extends NonCummulativeRegion {
 		//TODO have to test this to make sure rect.x is actually x
 		Point3D one = new Point3D(rect.x, this.ymin, rect.y, this.world);
 		Point3D two = new Point3D(rect.x + rect.width, this.ymax, rect.y + rect.height, this.world);
-		return new Cuboid(one, two);
+		try {
+			return new Cuboid(one, two);
+		} catch (PointsInDifferentWorldException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
