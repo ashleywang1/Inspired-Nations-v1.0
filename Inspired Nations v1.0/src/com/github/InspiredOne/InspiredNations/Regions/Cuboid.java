@@ -1,6 +1,8 @@
 package com.github.InspiredOne.InspiredNations.Regions;
 
 
+import org.bukkit.Material;
+
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
@@ -29,9 +31,19 @@ public class Cuboid extends NonCummulativeRegion {
 	}
 	
 	public void setPoints(Point3D pointone, Point3D pointtwo) {
-		pointmin = pointone;
-		pointmax = pointtwo;
-		if(pointtwo.x < pointmin.x) {
+		if(!pointone.world.equals(pointtwo.world)) {
+			
+		}
+		int xmin = Math.min(pointone.x, pointtwo.x);
+		int ymin = Math.min(pointone.y, pointtwo.y);
+		int zmin = Math.min(pointone.z, pointtwo.z);
+		int xmax = Math.max(pointone.x, pointtwo.x);
+		int ymax = Math.max(pointone.y, pointtwo.y);
+		int zmax = Math.max(pointone.z, pointtwo.z);
+		
+		pointmin = new Point3D(xmin, ymin, zmin, pointone.world);
+		pointmax = new Point3D(xmax, ymax, zmax, pointone.world);
+/*		if(pointtwo.x < pointmin.x) {
 			pointmin.x = pointtwo.x;
 			pointmax.x = pointone.x;
 		}
@@ -42,7 +54,7 @@ public class Cuboid extends NonCummulativeRegion {
 		if(pointtwo.z < pointmin.z) {
 			pointmin.z = pointtwo.z;
 			pointmax.z = pointone.z;
-		}
+		}*/
 	}
 	
 	public Point3D getPointMin() {
@@ -155,6 +167,18 @@ public class Cuboid extends NonCummulativeRegion {
 		return true;
 	}
 	
+	public void fill() {
+		Point3D point;
+		for(int x = this.pointmin.x; x <= this.pointmax.x; x++) {
+			for(int y = this.pointmin.y; y <= this.pointmax.y; y++) {
+				for(int z = this.pointmin.z; z <= this.pointmax.z; z++) {
+					point = new Point3D(x, y, z, this.pointmax.world);
+					point.getLocation().getBlock().setType(Material.BEDROCK);
+				}
+			}
+		}
+	}
+	
 	@Override
 	public boolean IsIn(CummulativeRegion<?> region) {
 		Debug.print("in Cuboid.IsIn(CummulativeRegion)");
@@ -175,5 +199,10 @@ public class Cuboid extends NonCummulativeRegion {
 	@Override
 	protected boolean instantiated() {
 		return !(this.pointmax == null || this.pointmin == null);
+	}
+	
+	@Override
+	public String toString() {
+		return this.pointmax + ", " + this.pointmin;
 	}
 }

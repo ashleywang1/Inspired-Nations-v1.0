@@ -46,7 +46,11 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public String getHeader() {
-		return "Claim Cuboid " + this.manager.getVolume();
+		// {
+			return "Claim Cuboid " + this.manager.getVolume();// + this.manager.getCuboid();
+//		} catch (CuboidNotCompletedException e) {
+//			return "Claim Cuboid " + this.manager.getVolume();
+//		}
 	}
 
 	@Override
@@ -102,6 +106,7 @@ public class ClaimCuboid extends InputMenu {
 	public void useInput(String input) {
 		try {
 			gov.setLand(this.manager.getCuboid());
+			this.manager.getCuboid().fill();
 			
 		} catch (BalanceOutOfBoundsException e) {
 			this.manager.reset();
