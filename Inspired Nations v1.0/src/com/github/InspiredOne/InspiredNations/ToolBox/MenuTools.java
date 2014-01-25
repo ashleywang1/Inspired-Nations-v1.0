@@ -113,6 +113,9 @@ public class MenuTools {
 		public static String NEGATIVE_AMOUNTS_NOT_ALLOWED(BigDecimal useInstead) {
 			return makeMessage("You can't use negative values here. Use " + useInstead.abs() + " instead.");
 		}
+		public static String CUBOID_NOT_FULLY_SELECTED() {
+			return makeMessage("You have not selected both points of the cuboid.");
+		}
 		private static final String getTypeName(Class<? extends InspiredGov> gov) {
 			String GovName = "";
 			GovName = GovFactory.getGovInstance(gov).getTypeName();

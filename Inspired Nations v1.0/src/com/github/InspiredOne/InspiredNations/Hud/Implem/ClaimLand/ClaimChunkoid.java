@@ -36,10 +36,10 @@ public class ClaimChunkoid extends InputMenu {
 
 	@Override
 	public void actionResponse() {
-		if(mapmanager.preTabEntry.equalsIgnoreCase("+") && Zoom < 8) {
+		if(mapmanager.preTabEntry.equalsIgnoreCase("+") && Zoom > 0) {
 			Zoom--;
 		}
-		else if(mapmanager.preTabEntry.equalsIgnoreCase("-") && Zoom > 0) {
+		else if(mapmanager.preTabEntry.equalsIgnoreCase("-") && Zoom < 8) {
 			Zoom++;
 		}
 	}
@@ -60,7 +60,7 @@ public class ClaimChunkoid extends InputMenu {
 			return Tools.drawMap(PDI, (int) Math.pow(2, Zoom), gov.getClass());
 		}
 		else {
-			return Tools.drawMap(PDI, 8, gov.getSuperGov());
+			return Tools.drawMap(PDI, (int) Math.pow(2, Zoom), gov.getSuperGov());
 		}
 	}
 

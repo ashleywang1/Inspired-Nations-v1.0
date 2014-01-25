@@ -19,10 +19,17 @@ public class ClaimCuboidListener<T extends ClaimCuboidManager<?>> extends Inspir
 		}
 		if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
 			this.manager.setPoint1(event.getClickedBlock().getLocation());
+			if(event.getPlayer().getItemInHand() != null) {
+				event.setCancelled(true);
+			}
 		}
 		else if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			this.manager.setPoint2(event.getClickedBlock().getLocation());
+			if(event.getPlayer().getItemInHand() != null) {
+				event.setCancelled(true);
+			}
 		}
+		this.manager.Update();
 	}
 
 }

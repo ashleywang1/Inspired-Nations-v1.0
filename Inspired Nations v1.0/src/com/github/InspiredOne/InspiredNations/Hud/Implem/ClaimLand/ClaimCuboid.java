@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimLand;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.CuboidNotCompletedException;
@@ -11,7 +12,6 @@ import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccou
 import com.github.InspiredOne.InspiredNations.Exceptions.RegionOutOfEncapsulationBoundsException;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.ClaimCuboidManager;
@@ -36,17 +36,17 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public void actionResponse() {
-		if(mapmanager.preTabEntry.equalsIgnoreCase("+") && Zoom < 8) {
+		if(mapmanager.preTabEntry.equalsIgnoreCase("+") && Zoom > 0) {
 			Zoom--;
 		}
-		else if(mapmanager.preTabEntry.equalsIgnoreCase("-") && Zoom > 0) {
+		else if(mapmanager.preTabEntry.equalsIgnoreCase("-") && Zoom < 8) {
 			Zoom++;
 		}
 	}
 
 	@Override
 	public String getHeader() {
-		return "Claim Cuboid";
+		return "Claim Cuboid " + this.manager.getVolume();
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class ClaimCuboid extends InputMenu {
 			return Tools.drawMap(PDI, (int) Math.pow(2, Zoom), gov.getClass());
 		}
 		else {
-			return Tools.drawMap(PDI, 8, gov.getSuperGov());
+			return Tools.drawMap(PDI,(int) Math.pow(2, Zoom), gov.getSuperGov());
 		}
 	}
 
@@ -76,6 +76,7 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public void Init() {
+		Debug.print("Inside Init() of ClaimCuboid)");
 		this.mapmanager = new MapManager<ClaimCuboid>(this);
 		this.manager = new ClaimCuboidManager<ClaimCuboid>(this);
 		this.managers.add(mapmanager);
@@ -103,20 +104,18 @@ public class ClaimCuboid extends InputMenu {
 			gov.setLand(this.manager.getCuboid());
 			
 		} catch (BalanceOutOfBoundsException e) {
-			
-			e.printStackTrace();
+			this.manager.reset();
+			this.setError(MenuError.NOT_ENOUGH_MONEY());
 		} catch (InspiredGovTooStrongException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.manager.reset();
+			this.setError(MenuError.GOV_TOO_STRONG(e.gov));
 		} catch (RegionOutOfEncapsulationBoundsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.manager.reset();
+			this.setError(MenuError.CLAIM_OUT_OF_BOUNDS(e.gov));
 		} catch (InsufficientRefundAccountBalanceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// TODO figure out what to do here.
 		} catch (CuboidNotCompletedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.setError(MenuError.CUBOID_NOT_FULLY_SELECTED());
 		}
 	}
 

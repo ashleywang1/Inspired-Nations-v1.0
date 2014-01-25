@@ -15,6 +15,7 @@ public class ClaimCuboidManager<T extends ClaimCuboid> extends ActionManager<T> 
 	private Cuboid temp;
 	public ClaimCuboidManager(T menu) {
 		super(menu);
+		this.listeners.add(new ClaimCuboidListener<ClaimCuboidManager<?>>(this));
 	}
 	
 	public void setPoint1(Location local) {

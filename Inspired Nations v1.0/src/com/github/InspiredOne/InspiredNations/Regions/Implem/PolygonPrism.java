@@ -32,6 +32,10 @@ public class PolygonPrism extends NonCummulativeRegion {
 	private WorldID world;
 	private Polygon polygon = new Polygon();
 	
+	public PolygonPrism() {
+		
+	}
+	
 	public PolygonPrism(Point3D[] points) throws NotSimplePolygonException, PointsInDifferentWorldException{
 		polygon.reset();
 		ymin = points[0].y;
@@ -173,7 +177,7 @@ public class PolygonPrism extends NonCummulativeRegion {
 	}
 	
 	@Override
-	public boolean IsIn(CummulativeRegion region) {
+	public boolean IsIn(CummulativeRegion<?> region) {
 		Debug.print("Inside PolygonPrism(CummulativeRegion)");
 		return IsIn((Region) region);
 	}
@@ -200,7 +204,7 @@ public class PolygonPrism extends NonCummulativeRegion {
 	}
 
 	@Override
-	public boolean Intersects(CummulativeRegion region) {
+	public boolean Intersects(CummulativeRegion<?> region) {
 		return Intersects((Region) region);
 	}
 

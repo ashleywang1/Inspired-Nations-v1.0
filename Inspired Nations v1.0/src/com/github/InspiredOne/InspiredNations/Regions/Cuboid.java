@@ -5,6 +5,7 @@ import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimLand.ClaimCuboid;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
@@ -64,7 +65,7 @@ public class Cuboid extends NonCummulativeRegion {
 
 	@Override
 	public Menu getClaimMenu(PlayerData PDI, Menu previous, InspiredGov gov) {
-		return null;
+		return new ClaimCuboid(PDI, previous, gov);
 	}
 
 	@Override
@@ -155,7 +156,7 @@ public class Cuboid extends NonCummulativeRegion {
 	}
 	
 	@Override
-	public boolean IsIn(CummulativeRegion region) {
+	public boolean IsIn(CummulativeRegion<?> region) {
 		Debug.print("in Cuboid.IsIn(CummulativeRegion)");
 		return IsIn((Region) region);
 	}
