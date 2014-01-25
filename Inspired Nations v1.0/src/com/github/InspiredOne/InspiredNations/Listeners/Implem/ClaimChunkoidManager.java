@@ -21,7 +21,6 @@ public class ClaimChunkoidManager<T extends ClaimChunkoid> extends ActionManager
 		this.listeners.add(new ClaimChunkoidListener<ClaimChunkoidManager<T>>(this));
 		this.position = initialChunk;
 		region = (Chunkoid) menu.region.clone();
-	
 	}
 	
 	public Point2D getPosition() {

@@ -1,6 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Governments;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -8,8 +7,6 @@ import java.util.List;
 import org.bukkit.OfflinePlayer;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
-import com.github.InspiredOne.InspiredNations.Economy.Currency;
-import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 

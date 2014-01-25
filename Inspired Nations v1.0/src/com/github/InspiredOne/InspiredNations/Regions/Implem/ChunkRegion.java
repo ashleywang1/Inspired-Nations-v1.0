@@ -36,7 +36,7 @@ public class ChunkRegion extends NonCummulativeRegion {
 	@Override
 	public Cuboid getBoundingCuboid() {
 		Point3D one = new Point3D(coordinate.x*16, 0, coordinate.z*16, coordinate.world);
-		Point3D two = new Point3D((coordinate.x+1)*16, 256, (coordinate.z+1)*16, coordinate.world);
+		Point3D two = new Point3D((coordinate.x+1)*16 - 1, 256, (coordinate.z+1)*16 - 1, coordinate.world);
 		
 		return new Cuboid(one, two);
 	}

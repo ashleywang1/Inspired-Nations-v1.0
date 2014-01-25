@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Economy;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
@@ -28,6 +29,10 @@ public class AccountCollection extends ArrayList<Account> implements Payable {
 	public void transferMoney(BigDecimal amount, Currency monType, Payable accountTo) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
 		boolean done = false;
 		int iter = 0;
+		Debug.print("Inside TransferMoney of accountCollection");
+		Debug.print(this.getTotalMoney(monType));
+		Debug.print(amount);
+		
 		if(this.getTotalMoney(monType).compareTo(amount) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}

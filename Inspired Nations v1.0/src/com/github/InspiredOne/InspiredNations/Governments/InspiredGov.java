@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
@@ -473,11 +474,12 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		BigDecimal reimburse = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal difference = cost.subtract(reimburse);// positive if own country money, negative if country ows money
-		
+		Debug.print("Inside SetLand 1");
 		// Can they afford it?
 		if(holdings.compareTo(difference) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}
+		Debug.print("Inside SetLand 2");
 		// Is it inside all the regions it's supposed to be in?
 		for(Class<? extends InspiredRegion > regionType:this.getRegion().getEncapsulatingRegions()) {
 			InspiredRegion check = Tools.getInstance(regionType);
@@ -487,6 +489,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				}
 			}
 		}
+		Debug.print("Inside SetLand 3");
 		// Does it cross over any regions that it can't be over?
 		for(InspiredGov gov:this.getSuperGovObj().getAllSubGovsAndFacilitiesJustBelow()) {
 			if(gov != this) {
@@ -503,9 +506,10 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				}
 			}
 		}
-
+		Debug.print("Inside SetLand 5");
 		
 		if(difference.compareTo(BigDecimal.ZERO) < 0) {
+			Debug.print("Inside SetLand 6");
 			try{
 				this.pullFromSuper(reimburse.negate(), curren);
 			}
@@ -517,13 +521,16 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			}
 		}
 		else {
+			Debug.print("Inside SetLand 7");
 			try {
 				this.paySuper(cost, curren);
 			} catch (NegativeMoneyTransferException e) {
 				e.printStackTrace();
 			}
 		}
+		Debug.print("Inside SetLand 8");
 		this.region.setRegion(region);
+		Debug.print("Inside SetLand 9");
 
 	}
 	public void removeLand(Region select) {
