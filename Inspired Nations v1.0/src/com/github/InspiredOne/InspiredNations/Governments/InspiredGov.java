@@ -485,7 +485,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		for(Class<? extends InspiredRegion > regionType:this.getRegion().getEncapsulatingRegions()) {
 			InspiredRegion check = Tools.getInstance(regionType);
 			for(InspiredGov gov:InspiredNations.regiondata.get(check.getRelatedGov())) {
-				if(this.isSubOf(gov) && !this.getRegion().getRegion().IsIn(gov.getRegion().getRegion())) {
+				if(this.isSubOf(gov) && !region.IsIn(gov.getRegion().getRegion())) {
 					throw new RegionOutOfEncapsulationBoundsException(gov);
 				}
 			}
@@ -530,16 +530,17 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			}
 		}
 		Debug.print("Inside SetLand 8");
-		this.region.setRegion(region);
+		this.getRegion().addLand(region);
 		Debug.print("Inside SetLand 9");
 
 	}
+
 	public void removeLand(Region select) {
 		Region regionfrom = this.getRegion().getRegion();
-		if(regionfrom instanceof CummulativeRegion) {
-			for(NonCummulativeRegion region:((CummulativeRegion) regionfrom).getRegions()) {
+		if(regionfrom instanceof CummulativeRegion<?>) {
+			for(NonCummulativeRegion region:((CummulativeRegion<?>) regionfrom).getRegions()) {
 				if(region.Intersects(select)) {
-					((CummulativeRegion) regionfrom).getRegions().remove(region);
+					((CummulativeRegion<?>) regionfrom).getRegions().remove(region);
 				}
 			}
 		}
@@ -547,4 +548,5 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			regionfrom = new nullRegion();
 		}
 	}
+	
 }

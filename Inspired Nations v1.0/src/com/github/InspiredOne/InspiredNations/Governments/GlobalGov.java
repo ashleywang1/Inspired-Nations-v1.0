@@ -9,6 +9,7 @@ import org.bukkit.OfflinePlayer;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
+import com.github.InspiredOne.InspiredNations.Regions.Region;
 
 public class GlobalGov extends OwnerSubjectGov {
 	

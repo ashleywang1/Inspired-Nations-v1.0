@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Regions;
 
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -112,7 +113,7 @@ public class Cuboid extends NonCummulativeRegion {
 	}
 	
 	@Override
-	public boolean Intersects(CummulativeRegion region) {
+	public boolean Intersects(CummulativeRegion<?> region) {
 		for(NonCummulativeRegion test:region.getRegions()) {
 			if(this.Intersects(test)) {
 				return true;
@@ -138,6 +139,7 @@ public class Cuboid extends NonCummulativeRegion {
 
 	@Override
 	public boolean IsIn(Region region) {
+		Debug.print("in Cuboid.IsIn(Region)");
 		Point3D point;
 		for(int x = this.pointmin.x; x <= this.pointmax.x; x++) {
 			for(int y = this.pointmin.y; y <= this.pointmax.y; y++) {
@@ -154,11 +156,13 @@ public class Cuboid extends NonCummulativeRegion {
 	
 	@Override
 	public boolean IsIn(CummulativeRegion region) {
+		Debug.print("in Cuboid.IsIn(CummulativeRegion)");
 		return IsIn((Region) region);
 	}
 	
 	@Override
 	protected boolean isIn(NonCummulativeRegion region) {
+		Debug.print("in Cuboid.IsIn(NonCummulativeRegion)");
 		return IsIn((Region) region);
 	}
 

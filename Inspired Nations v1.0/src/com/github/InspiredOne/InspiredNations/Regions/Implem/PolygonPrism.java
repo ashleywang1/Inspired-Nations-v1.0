@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.util.Vector;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotSimplePolygonException;
 import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldException;
@@ -150,6 +151,7 @@ public class PolygonPrism extends NonCummulativeRegion {
 
 	@Override
 	public boolean IsIn(Region region) {
+		Debug.print("Inside polygonPrism(Region)");
 		Rectangle rect = this.polygon.getBounds();
 		for(int x = rect.x; x >= rect.x - rect.width; x--) {
 			for(int z = rect.y; z >= rect.y - rect.height; z--) {
@@ -166,11 +168,13 @@ public class PolygonPrism extends NonCummulativeRegion {
 	
 	@Override
 	public boolean isIn(NonCummulativeRegion region) {
+		Debug.print("Inside PolygonPrism(NonCummulativeRegion)");
 		return IsIn((Region) region);
 	}
 	
 	@Override
 	public boolean IsIn(CummulativeRegion region) {
+		Debug.print("Inside PolygonPrism(CummulativeRegion)");
 		return IsIn((Region) region);
 	}
 

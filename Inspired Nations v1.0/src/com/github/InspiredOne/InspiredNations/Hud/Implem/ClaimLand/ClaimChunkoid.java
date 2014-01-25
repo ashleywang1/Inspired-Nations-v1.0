@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -48,7 +49,12 @@ public class ClaimChunkoid extends InputMenu {
 
 	@Override
 	public String getFiller() {
-		return Tools.drawMap(PDI, 16, gov.getClass()) + region.volume();
+		if(gov.getSuperGov().equals(GlobalGov.class)) {
+			return Tools.drawMap(PDI, 8, gov.getClass());
+		}
+		else {
+			return Tools.drawMap(PDI, 8, gov.getSuperGov());
+		}
 	}
 
 	@Override

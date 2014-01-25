@@ -7,6 +7,8 @@ import java.util.List;
 import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Regions.Implem.ChunkRegion;
+import com.github.InspiredOne.InspiredNations.Regions.Implem.Chunkoid;
 /**
  * This is the interface between the social construct of a government and the physical construct
  * of the world. 
@@ -83,6 +85,19 @@ public abstract class InspiredRegion implements Serializable {
 		}
 		else {
 			return region.contains(location);
+		}
+	}
+	/**
+	 * The method used to update the land with this new land. For NonCummulativeRegions it will
+	 * replace the whole thing, if CummulativeRegion then it will add it to the existing.
+	 * @param select
+	 */
+	public void addLand(Region select) {
+		if((this.region instanceof Chunkoid) && (select instanceof ChunkRegion)) {
+			((Chunkoid) region).addChunk((ChunkRegion) select);
+		}
+		else {
+			region = select;
 		}
 	}
 }

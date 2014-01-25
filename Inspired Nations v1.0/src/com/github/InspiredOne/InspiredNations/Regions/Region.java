@@ -47,7 +47,7 @@ public abstract class Region implements Serializable, Cloneable {
 	 * @return	
 	 * @throws IncorrectUnitOfTheCummulativeRegion 
 	 */
-	public abstract boolean IsIn(CummulativeRegion region);
+	public abstract boolean IsIn(CummulativeRegion<?> region);
 
 	/**
 	 * Returns the volume in cubic meters
@@ -86,7 +86,7 @@ public abstract class Region implements Serializable, Cloneable {
 	 * @return
 	 * @throws IncorrectUnitOfTheCummulativeRegion 
 	 */
-	public abstract boolean Intersects(CummulativeRegion region);
+	public abstract boolean Intersects(CummulativeRegion<?> region);
 	/**
 	 * Returns the type name to be used in menus
 	 * @return

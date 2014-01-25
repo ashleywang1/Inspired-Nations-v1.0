@@ -8,6 +8,8 @@ import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimLand.ClaimChunkoid;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
+import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
+import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 
 public class Chunkoid extends CummulativeRegion {
@@ -17,7 +19,7 @@ public class Chunkoid extends CummulativeRegion {
 	 */
 	private static final long serialVersionUID = 4821199291297874395L;
 	private static final String typeName = "Chunkoid";
-	private static final String description = "";
+	private static final String description = "A region made up by chunks going from bedrock to world height.";
 	
 	@Override
 	public String getTypeName() {
@@ -31,8 +33,17 @@ public class Chunkoid extends CummulativeRegion {
 
 	@Override
 	public Menu getClaimMenu(PlayerData PDI, Menu previous, InspiredGov gov) {
-		Debug.print("Inside Chunkoid getClaimMenu");
 		return new ClaimChunkoid(PDI, previous, gov);
+	}
+	
+	@Override
+	public boolean IsIn(Region region) {
+		if(region instanceof NonCummulativeRegion){
+			return this.IsIn((NonCummulativeRegion) region);
+		}
+		else {
+			return this.IsIn((CummulativeRegion) region);
+		}
 	}
 	
 	public void addChunk(Chunk chunk) {

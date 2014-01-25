@@ -191,6 +191,7 @@ public class Tools {
 					if ((225 < location.getYaw() && 315 >= location.getYaw()) || (-135 < location.getYaw() && -45 >= location.getYaw())) {
 						character = ">";
 					}
+					selfchar = character;
 				}
 				output = output.concat(color + character);
 			}
@@ -220,7 +221,7 @@ public class Tools {
 		for(InspiredGov key:subGov.keySet()) {
 			output = output.concat(superGov.get(key.getSuperGovObj()) + subGov.get(key) + "=" + key.getName() + ", ");
 		}
-		output = output.concat(ChatColor.DARK_GRAY + "/" + ChatColor.GRAY + "= Unclaimed Land, @ = You.\n");
+		output = output.concat(ChatColor.DARK_GRAY + "/" + ChatColor.GRAY + "= Unclaimed Land, "+ selfchar +" = You.\n");
 		
 		return output;
 		

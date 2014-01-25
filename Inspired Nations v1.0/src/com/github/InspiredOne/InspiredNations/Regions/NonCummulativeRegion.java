@@ -1,11 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Regions;
 
-import org.bukkit.Location;
 
-import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
 public abstract class NonCummulativeRegion extends Region {
@@ -39,6 +35,7 @@ public abstract class NonCummulativeRegion extends Region {
 	 */
 	@Override
 	public final boolean IsIn(NonCummulativeRegion region) {
+		Debug.print("Inside NonCummulativeRegion(NonCummulativeRegion)");
 		Cuboid cube = this.getBoundingCuboid();
 		if(region.contains(cube.getPointMax()) && region.contains(cube.getPointMin())) {
 			return isIn(region);

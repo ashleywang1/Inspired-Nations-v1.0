@@ -12,6 +12,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 public abstract class ActionMenu extends Menu {
 
 	private String current = "";
+	private boolean registered = false;
 	protected List<ActionManager<?>> managers = new ArrayList<ActionManager<?>>();
 	
 	public ActionMenu(PlayerData PDI) {
@@ -28,11 +29,14 @@ public abstract class ActionMenu extends Menu {
 	}
 	
 	public void register() {
-		for(ActionManager<?> manager:this.getActionManager()) {
-			manager.stopListening();
-		}
-		for(ActionManager<?> manager:this.getActionManager()) {
-			manager.startListening();
+		if(!registered) {
+			for(ActionManager<?> manager:this.getActionManager()) {
+				manager.stopListening();
+			}
+			for(ActionManager<?> manager:this.getActionManager()) {
+				manager.startListening();
+			}
+			registered = true;
 		}
 	}
 	public void unregister() {
@@ -40,6 +44,7 @@ public abstract class ActionMenu extends Menu {
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
+		registered = false;
 	}
 	
 	@Override
