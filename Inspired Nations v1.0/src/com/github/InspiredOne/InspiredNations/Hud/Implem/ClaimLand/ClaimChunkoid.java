@@ -21,6 +21,8 @@ public class ClaimChunkoid extends InputMenu {
 	public InspiredGov gov;
 	public Chunkoid region;
 	public ClaimChunkoidManager<ClaimChunkoid> manager;
+	private MapManager<ClaimChunkoid> mapmanager;
+	private int Zoom = 4;
 
 	public ClaimChunkoid(PlayerData PDI, Menu previous, InspiredGov gov) {
 		super(PDI);
@@ -34,7 +36,12 @@ public class ClaimChunkoid extends InputMenu {
 
 	@Override
 	public void actionResponse() {
-		
+		if(mapmanager.preTabEntry.equalsIgnoreCase("+") && Zoom < 8) {
+			Zoom--;
+		}
+		else if(mapmanager.preTabEntry.equalsIgnoreCase("-") && Zoom > 0) {
+			Zoom++;
+		}
 	}
 	
 	@Override
@@ -50,7 +57,7 @@ public class ClaimChunkoid extends InputMenu {
 	@Override
 	public String getFiller() {
 		if(gov.getSuperGov().equals(GlobalGov.class)) {
-			return Tools.drawMap(PDI, 8, gov.getClass());
+			return Tools.drawMap(PDI, (int) Math.pow(2, Zoom), gov.getClass());
 		}
 		else {
 			return Tools.drawMap(PDI, 8, gov.getSuperGov());
@@ -107,8 +114,9 @@ public class ClaimChunkoid extends InputMenu {
 	@Override
 	public void Init() {
 		this.manager = new ClaimChunkoidManager<ClaimChunkoid>(this, new Point2D(PDI.getPlayer().getLocation().getChunk()));
+		this.mapmanager = new MapManager<ClaimChunkoid>(this);
 		this.managers.add(manager);
-		this.managers.add(new MapManager<ClaimChunkoid>(this));
+		this.managers.add(mapmanager);
 	}
 
 }

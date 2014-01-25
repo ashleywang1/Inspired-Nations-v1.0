@@ -10,18 +10,21 @@ import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class Map extends ActionMenu {
 
+	private int Zoom = 4;
+	private MapManager<Map> manager;
+	
 	public Map(PlayerData PDI) {
 		super(PDI);
 	}
 
 	@Override
 	public String getFiller() {
-		return Tools.drawMap(PDI, 16, Country.class);
+		return Tools.drawMap(PDI, (int) Math.pow(2, Zoom), Country.class);
 	}
 
 	@Override
 	public String getHeader() {
-		return "Map";
+		return "Map: Scale 1:" + (int) Math.pow(2, Zoom);
 	}
 
 	@Override
@@ -47,10 +50,17 @@ public class Map extends ActionMenu {
 
 	@Override
 	public void init() {
-		managers.add(new MapManager<Map>(this));
+		manager = new MapManager<Map>(this);
+		managers.add(manager);
 	}
 
 	@Override
 	public void actionResponse() {
+		if(this.manager.preTabEntry.equalsIgnoreCase("+") && Zoom < 8) {
+			Zoom--;
+		}
+		else if(this.manager.preTabEntry.equalsIgnoreCase("-") && Zoom > 0) {
+			Zoom++;
+		}
 	}
 }
