@@ -46,9 +46,19 @@ public class Chunkoid extends CummulativeRegion {
 	}
 	
 	public void addChunk(ChunkRegion region) {
-		if(!this.getRegions().contains(region)) {
-			this.getRegions().add(region);	
-		}
+		this.getRegions().add(region);	
+	}
+	
+	public void removeChunk(Chunk chunk) {
+		Point2D position = new Point2D(chunk);
+		removeChunk(position);
+	}
+	public void removeChunk(Point2D position) {
+		ChunkRegion chunk = new ChunkRegion(position);
+		removeChunk(chunk);
+	}
+	public void removeChunk(ChunkRegion chunk) {
+		this.getRegions().remove(chunk);
 	}
 
 	@Override

@@ -467,11 +467,13 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @throws RegionOutOfEncapsulationBoundsException 
 	 * @throws InsufficientRefundAccountBalanceException 
 	 */
-	public void setLand(Region region, Currency curren) throws BalanceOutOfBoundsException, InspiredGovTooStrongException, RegionOutOfEncapsulationBoundsException, InsufficientRefundAccountBalanceException {
+	public void setLand(Region region) throws BalanceOutOfBoundsException, InspiredGovTooStrongException, RegionOutOfEncapsulationBoundsException, InsufficientRefundAccountBalanceException {
+		Currency curren = Currency.DEFAULT;
 		BigDecimal holdings = this.accounts.getTotalMoney(curren);
 		BigDecimal reimburse = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal difference = cost.subtract(reimburse);// positive if own country money, negative if country ows money
+		
 		// Can they afford it?
 		if(holdings.compareTo(difference) < 0) {
 			throw new BalanceOutOfBoundsException();
@@ -481,7 +483,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			InspiredRegion check = Tools.getInstance(regionType);
 			for(InspiredGov gov:InspiredNations.regiondata.get(check.getRelatedGov())) {
 				if(this.isSubOf(gov) && !this.getRegion().getRegion().IsIn(gov.getRegion().getRegion())) {
-					throw new RegionOutOfEncapsulationBoundsException();
+					throw new RegionOutOfEncapsulationBoundsException(gov);
 				}
 			}
 		}
@@ -492,7 +494,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 					// now check if the gov is allowed to change the land of the region
 					if(!gov.getRegion().getOverlap().contains(this.getRegion().getClass())) {
 						if(gov.getProtectionlevel() >= this.getMilitaryLevel()-gov.getMilitaryLevel() + ProtectionLevels.CLAIM_PROTECTION) {
-							throw new InspiredGovTooStrongException();
+							throw new InspiredGovTooStrongException(gov);
 						}
 						else {
 							gov.removeLand(region);
@@ -518,7 +520,6 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			try {
 				this.paySuper(cost, curren);
 			} catch (NegativeMoneyTransferException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -104,6 +104,12 @@ public class MenuTools {
 		public static String NOT_ENOUGH_MONEY() {
 			return makeMessage("There is not enough money.");
 		}
+		public static String GOV_TOO_STRONG(InspiredGov gov) {
+			return makeMessage("The "+gov.getTypeName()+", " +gov.getName()+", is in the way.");
+		}
+		public static String CLAIM_OUT_OF_BOUNDS(InspiredGov gov) {
+			return makeMessage("Your claim goes outside of the " + gov.getTypeName() +", " + gov.getName() + ".");
+		}
 		public static String NEGATIVE_AMOUNTS_NOT_ALLOWED(BigDecimal useInstead) {
 			return makeMessage("You can't use negative values here. Use " + useInstead.abs() + " instead.");
 		}

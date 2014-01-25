@@ -9,7 +9,7 @@ import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
-public abstract class Region implements Serializable {
+public abstract class Region implements Serializable, Cloneable {
 
 	/**
 	 * 
@@ -19,6 +19,10 @@ public abstract class Region implements Serializable {
 	public Region() {
 		
 	} 
+	@Override
+	public Object clone() {
+		return this;
+	}
 	/**
 	 * Returns true if the region is ready to be used. Use in other methods to
 	 * make sure that null pointers are avoided.

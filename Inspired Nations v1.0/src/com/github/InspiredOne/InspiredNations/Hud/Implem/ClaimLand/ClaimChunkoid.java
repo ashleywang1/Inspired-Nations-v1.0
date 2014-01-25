@@ -25,9 +25,6 @@ public class ClaimChunkoid extends InputMenu {
 		super(PDI);
 		this.previous = previous;
 		this.gov = gov;
-		if(gov.getRegion().getRegion() == null ) {
-			gov.getRegion().setRegion(new Chunkoid());
-		}
 		if(!(gov.getRegion().getRegion() instanceof Chunkoid)) {
 			gov.getRegion().setRegion(new Chunkoid());
 		}
@@ -84,10 +81,10 @@ public class ClaimChunkoid extends InputMenu {
 	@Override
 	public void useInput(String input) {
 		if(input.equalsIgnoreCase("begin")) {
-			manager.setClaiming(true);;
+			manager.setClaiming(true);
 		}
 		else if (input.equalsIgnoreCase("stop")) {
-			manager.setClaiming(false);;
+			manager.setClaiming(false);
 		}
 	}
 
@@ -104,7 +101,7 @@ public class ClaimChunkoid extends InputMenu {
 
 	@Override
 	public void Init() {
-		this.manager = new ClaimChunkoidManager<ClaimChunkoid>(this, new Point2D(PDI.getPlayer().getLocation().getChunk()), region);
+		this.manager = new ClaimChunkoidManager<ClaimChunkoid>(this, new Point2D(PDI.getPlayer().getLocation().getChunk()));
 		this.managers.add(manager);
 		this.managers.add(new MapManager<ClaimChunkoid>(this));
 	}
