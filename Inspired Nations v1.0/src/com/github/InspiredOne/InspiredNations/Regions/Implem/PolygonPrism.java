@@ -12,6 +12,7 @@ import com.github.InspiredOne.InspiredNations.Exceptions.NotSimplePolygonExcepti
 import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimLand.ClaimPolygonPrism;
 import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
@@ -88,8 +89,7 @@ public class PolygonPrism extends NonCummulativeRegion {
 
 	@Override
 	public Menu getClaimMenu(PlayerData PDI, Menu previous, InspiredGov gov) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ClaimPolygonPrism(PDI, previous, gov);
 	}
 
 	/**

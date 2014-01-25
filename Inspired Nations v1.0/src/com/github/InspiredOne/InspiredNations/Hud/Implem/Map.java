@@ -5,12 +5,10 @@ import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MapManager;
-import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class Map extends ActionMenu {
 
-	private int Zoom = 4;
 	private MapManager<Map> manager;
 	
 	public Map(PlayerData PDI) {
@@ -19,12 +17,12 @@ public class Map extends ActionMenu {
 
 	@Override
 	public String getFiller() {
-		return Tools.drawMap(PDI, (int) Math.pow(2, Zoom), Country.class);
+		return manager.drawMap(Country.class);
 	}
 
 	@Override
 	public String getHeader() {
-		return "Map: Scale 1:" + (int) Math.pow(2, Zoom);
+		return "Map 1:" + (int) Math.pow(2, manager.zoom);
 	}
 
 	@Override
@@ -56,11 +54,5 @@ public class Map extends ActionMenu {
 
 	@Override
 	public void actionResponse() {
-		if(this.manager.preTabEntry.equalsIgnoreCase("+") && Zoom > 0) {
-			Zoom--;
-		}
-		else if(this.manager.preTabEntry.equalsIgnoreCase("-") && Zoom < 8) {
-			Zoom++;
-		}
 	}
 }

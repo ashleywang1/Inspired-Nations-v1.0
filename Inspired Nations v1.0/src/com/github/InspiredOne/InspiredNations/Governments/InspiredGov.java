@@ -493,14 +493,20 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		Debug.print("Inside SetLand 3");
 		// Does it cross over any regions that it can't be over?
 		for(InspiredGov gov:this.getSuperGovObj().getAllSubGovsAndFacilitiesJustBelow()) {
+			Debug.print(gov.getName());
 			if(gov != this) {
+				Debug.print("Here 1");
 				if(gov.getRegion().getRegion().Intersects(region)) {
+					Debug.print("Here 2");
 					// now check if the gov is allowed to change the land of the region
 					if(!gov.getRegion().getOverlap().contains(this.getRegion().getClass())) {
+						Debug.print("Here 3");
 						if(gov.getProtectionlevel() >= this.getMilitaryLevel()-gov.getMilitaryLevel() + ProtectionLevels.CLAIM_PROTECTION) {
+							Debug.print("Here 4");
 							throw new InspiredGovTooStrongException(gov);
 						}
 						else {
+							Debug.print("Here 5");
 							gov.removeLand(region);
 						}
 					}
@@ -545,7 +551,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			}
 		}
 		else {
-			regionfrom = new nullRegion();
+			this.getRegion().setRegion(new nullRegion());
 		}
 	}
 	

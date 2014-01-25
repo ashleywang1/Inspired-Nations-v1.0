@@ -3,21 +3,17 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimLand;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.CuboidNotCompletedException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
 import com.github.InspiredOne.InspiredNations.Exceptions.RegionOutOfEncapsulationBoundsException;
-import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.ManageGov;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.ClaimCuboidManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MapManager;
-import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class ClaimCuboid extends InputMenu {
@@ -26,7 +22,6 @@ public class ClaimCuboid extends InputMenu {
 	public Menu previous;
 	private MapManager<ClaimCuboid> mapmanager;
 	private ClaimCuboidManager<ClaimCuboid> manager;
-	private int Zoom = 4;
 	
 	
 	public ClaimCuboid(PlayerData PDI, Menu previous, InspiredGov gov) {
@@ -37,31 +32,16 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public void actionResponse() {
-		if(mapmanager.preTabEntry.equalsIgnoreCase("+") && Zoom > 0) {
-			Zoom--;
-		}
-		else if(mapmanager.preTabEntry.equalsIgnoreCase("-") && Zoom < 8) {
-			Zoom++;
-		}
 	}
 
 	@Override
 	public String getHeader() {
-		// {
-			return "Claim Cuboid " + this.manager.getVolume();// + this.manager.getCuboid();
-//		} catch (CuboidNotCompletedException e) {
-//			return "Claim Cuboid " + this.manager.getVolume();
-//		}
+			return "Claim Cuboid " + this.manager.getVolume();
 	}
 
 	@Override
 	public String getFiller() {
-		if(gov.getSuperGov().equals(GlobalGov.class)) {
-			return Tools.drawMap(PDI, (int) Math.pow(2, Zoom), gov.getClass());
-		}
-		else {
-			return Tools.drawMap(PDI,(int) Math.pow(2, Zoom), gov.getSuperGov());
-		}
+		return this.mapmanager.drawMap(gov);
 	}
 
 	@Override
