@@ -199,4 +199,9 @@ public class PolygonPrism extends NonCummulativeRegion {
 	public boolean Intersects(CummulativeRegion region) {
 		return Intersects((Region) region);
 	}
+
+	@Override
+	protected boolean instantiated() {
+		return !(this.world == null);
+	}
 }

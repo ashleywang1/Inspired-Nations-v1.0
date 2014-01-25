@@ -82,4 +82,10 @@ public class Shop extends Region {
 		return false;
 	}
 
+	@Override
+	protected boolean instantiated() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

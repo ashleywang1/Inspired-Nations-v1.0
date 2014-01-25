@@ -31,6 +31,11 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 		List<Class<? extends OwnerGov>> output = new ArrayList<Class<? extends OwnerGov>>();
 		return output;
 	}
+	
+	@Override
+	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException {
+		this.getAccounts().transferMoney(amount, curren, this.getSuperGovObj().getSuperGovObj().getAccounts());
+	}
 
 	@Override
 	public Class<? extends OwnerGov> getSuperGov() {

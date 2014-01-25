@@ -137,4 +137,8 @@ public class ChunkRegion extends NonCummulativeRegion {
             append(coordinate, rhs.coordinate).
             isEquals();
     }
+	@Override
+	protected boolean instantiated() {
+		return !(this.coordinate == null);
+	}
 }

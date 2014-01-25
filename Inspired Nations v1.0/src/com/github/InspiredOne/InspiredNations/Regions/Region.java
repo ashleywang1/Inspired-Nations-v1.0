@@ -18,7 +18,13 @@ public abstract class Region implements Serializable {
 	
 	public Region() {
 		
-	}
+	} 
+	/**
+	 * Returns true if the region is ready to be used. Use in other methods to
+	 * make sure that null pointers are avoided.
+	 * @return
+	 */
+	protected abstract boolean instantiated();
 	/**
 	 * Returns true if the entire region is within the input region
 	 * @param region

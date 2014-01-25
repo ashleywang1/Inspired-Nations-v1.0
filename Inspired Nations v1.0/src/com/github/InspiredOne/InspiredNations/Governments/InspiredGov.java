@@ -15,9 +15,12 @@ import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
+import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Exceptions.RegionOutOfEncapsulationBoundsException;
+import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
+import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
@@ -46,6 +49,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	private HashMap<Class<? extends InspiredGov>, Double> taxrates = new HashMap<Class<? extends InspiredGov>, Double>();
 	private InspiredGov supergov;
 	private String name;
+	private double taxedrate = 0; // the last tax rate used on this gov.
 	private int protectionlevel = 0;
 	private Currency currency = Currency.DEFAULT;
 	
@@ -415,7 +419,8 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		return this;
 	}
 	/**
-	 * Returns the amount of 
+	 * Returns the amount of money that the the parameters would
+	 * cost.
 	 * @param region
 	 * @param curren
 	 * @return
@@ -425,7 +430,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		
 		// Basically... multiply them all together and it gets you the value in Defualt currency
 		//TODO come up with some kind of war money function
-		output = (new BigDecimal(region.volume()).multiply(new BigDecimal(taxfrac)));
+		output = (new BigDecimal(region.volume()).multiply(new BigDecimal(taxfrac))).multiply(new BigDecimal(this.taxedrate));
 		output = output.multiply(new BigDecimal(protect)).add(this.getAdditionalCost());
 		output = InspiredNations.Exchange.getValue(output, Currency.DEFAULT, curren);
 		
@@ -446,8 +451,9 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @throws BalanceOutOfBoundsException 
 	 * @throws InspiredGovTooStrongException
 	 * @throws RegionOutOfEncapsulationBoundsException 
+	 * @throws InsufficientRefundAccountBalanceException 
 	 */
-	public void setLand(Region region, Currency curren) throws BalanceOutOfBoundsException, InspiredGovTooStrongException, RegionOutOfEncapsulationBoundsException {
+	public void setLand(Region region, Currency curren) throws BalanceOutOfBoundsException, InspiredGovTooStrongException, RegionOutOfEncapsulationBoundsException, InsufficientRefundAccountBalanceException {
 		BigDecimal holdings = this.accounts.getTotalMoney(curren);
 		BigDecimal reemburce = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
@@ -474,17 +480,33 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 						if(gov.getProtectionlevel() >= this.getMilitaryLevel()-gov.getMilitaryLevel() + ProtectionLevels.CLAIM_PROTECTION) {
 							throw new InspiredGovTooStrongException();
 						}
+						else {
+							gov.removeLand(region);
+						}
 					}
 				}
 			}
 		}
-		this.getSuperGovObj().accounts.transferMoney(reemburce, curren, this.accounts);
+		try{
+			this.getSuperGovObj().accounts.transferMoney(reemburce, curren, this.accounts);
+		}
+		catch (BalanceOutOfBoundsException ex) {
+			throw new InsufficientRefundAccountBalanceException();
+		}
 		this.region.setRegion(region);
 		this.paySuper(cost, curren);
 	}
-	public void removeLand(InspiredGov gov, Region select) {
-		if((this.getProtectionlevel() - gov.getMilitaryLevel()) < 1 || this == gov) {
-			//TODO Do something with this function
+	public void removeLand(Region select) {
+		Region regionfrom = this.getRegion().getRegion();
+		if(regionfrom instanceof CummulativeRegion) {
+			for(NonCummulativeRegion region:((CummulativeRegion) regionfrom).getRegions()) {
+				if(region.Intersects(select)) {
+					((CummulativeRegion) regionfrom).getRegions().remove(region);
+				}
+			}
+		}
+		else {
+			regionfrom = null;
 		}
 	}
 }

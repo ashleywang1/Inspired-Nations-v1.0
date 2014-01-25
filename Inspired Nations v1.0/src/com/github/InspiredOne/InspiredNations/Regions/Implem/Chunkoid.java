@@ -1,7 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Regions.Implem;
 
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
@@ -10,7 +9,6 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimLand.ClaimChunkoid;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
-import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
 public class Chunkoid extends CummulativeRegion {
 
@@ -51,5 +49,10 @@ public class Chunkoid extends CummulativeRegion {
 		if(!this.getRegions().contains(region)) {
 			this.getRegions().add(region);	
 		}
+	}
+
+	@Override
+	protected boolean instantiated() {
+		return true;
 	}
 }

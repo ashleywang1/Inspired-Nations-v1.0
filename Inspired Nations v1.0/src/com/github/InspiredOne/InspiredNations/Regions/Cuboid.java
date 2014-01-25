@@ -165,6 +165,10 @@ public class Cuboid extends NonCummulativeRegion {
 	@Override
 	public WorldID getWorld() {
 		return this.pointmax.world;
-	}
+		}
 
+	@Override
+	protected boolean instantiated() {
+		return !(this.pointmax == null || this.pointmin == null);
+	}
 }
