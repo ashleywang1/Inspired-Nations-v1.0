@@ -56,4 +56,10 @@ public class PlayerProfile extends Menu {
 
 	}
 
+	@Override
+	public void unregister() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

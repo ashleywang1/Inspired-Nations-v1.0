@@ -163,8 +163,8 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			this.tabcnt = tabcnt;
 		}
 	}
-	
-	public final Menu PreviousMenu() {
+	@Override
+	public final Menu getPreviousMenu() {
 		if(this.taboptions != this.filteredoptions) {
 			this.filteredoptions = this.taboptions;
 			return this.getSelf();

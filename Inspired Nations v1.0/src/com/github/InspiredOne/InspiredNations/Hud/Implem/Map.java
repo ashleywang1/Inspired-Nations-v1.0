@@ -25,12 +25,12 @@ public class Map extends ActionMenu {
 	}
 
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousMenu() {
 		return new MainHud(PDI);
 	}
 
 	@Override
-	public Menu NextMenu(String input) {
+	public Menu getNextMenu(String input) {
 		this.setError(MenuError.NOT_AN_OPTION());
 		return this.getSelf();
 	}

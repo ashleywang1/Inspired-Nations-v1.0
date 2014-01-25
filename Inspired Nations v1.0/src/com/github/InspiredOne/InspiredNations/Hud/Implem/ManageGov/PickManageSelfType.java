@@ -26,7 +26,7 @@ public class PickManageSelfType extends PassByOptionMenu {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousMenu() {
 		GovFactory govf = new GovFactory(GovType);
 		if(govf.getGov().getGeneralGovType().equals(GovType)) {
 			return new MainHud(PDI);

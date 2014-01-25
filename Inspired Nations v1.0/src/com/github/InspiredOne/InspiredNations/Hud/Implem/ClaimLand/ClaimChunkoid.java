@@ -34,11 +34,10 @@ public class ClaimChunkoid extends InputMenu {
 	@Override
 	public void actionResponse() {
 		
-		//region.addBlocks(manager.selection);
 	}
 	
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousMenu() {
 		return previous;
 	}
 

@@ -31,7 +31,7 @@ public class MainHud extends OptionMenu {
 	}
 
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousMenu() {
 		return this.getSelf();
 	}
 

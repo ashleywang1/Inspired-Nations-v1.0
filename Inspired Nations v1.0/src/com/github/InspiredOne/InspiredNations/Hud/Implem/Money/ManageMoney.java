@@ -51,7 +51,7 @@ public class ManageMoney extends OptionMenu {
 	}
 
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousMenu() {
 		return new MainHud(PDI);
 	}
 

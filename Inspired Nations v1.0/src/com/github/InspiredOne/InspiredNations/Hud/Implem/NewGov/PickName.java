@@ -65,7 +65,7 @@ public class PickName extends InputMenu {
 	}
 
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousMenu() {
 		return new PickSuperGov(PDI, Govf);
 	}
 

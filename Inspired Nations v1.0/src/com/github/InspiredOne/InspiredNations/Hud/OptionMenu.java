@@ -30,7 +30,7 @@ public abstract class OptionMenu extends ActionMenu {
 	}
 	
 	@Override
-	public final Menu NextMenu(String arg) {
+	public final Menu getNextMenu(String arg) {
 		int answer;
 		try {
 			String[] args = arg.split(" ");

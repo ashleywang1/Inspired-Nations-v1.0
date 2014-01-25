@@ -29,7 +29,7 @@ public class PayNav extends PassByOptionMenu {
 	}
 
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousMenu() {
 		return back;
 	}
 

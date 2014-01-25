@@ -6,7 +6,6 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
@@ -47,6 +46,7 @@ public abstract class Menu extends MessagePrompt {
 	}
 	
 	public final void Initialize() {
+
 		if(!initialized) {
 			this.init();
 			initialized = true;
@@ -79,20 +79,21 @@ public abstract class Menu extends MessagePrompt {
 	}
 	@Override
 	public final Prompt acceptInput(ConversationContext arg0, String arg) {
+		this.unregister();
 		if(arg == null) {
 			return this.getNextPrompt(arg0);
 		}
-		Debug.print(arg);
 		if (arg.startsWith("/")) {
-			Debug.print("Inside Menu.acceptInput");
 			arg = arg.substring(1);
-			Debug.print(arg);
 		}
 		if (arg.equalsIgnoreCase("back")) {
 			return this.checkBack();
 		}
 		if (arg.equalsIgnoreCase("hud")) {
 			return new MainHud(PDI);
+		}
+		if (arg.equalsIgnoreCase("exit")) {
+			return Menu.END_OF_CONVERSATION;
 		}
 		String[] args = arg.split(" ");
 		if (args[0].equalsIgnoreCase("say"))  {
@@ -193,6 +194,10 @@ public abstract class Menu extends MessagePrompt {
 	 */
 	public abstract void register();
 	/**
+	 * A method that allows events to be unregistered by a superclass;
+	 */
+	public abstract void unregister();
+	/**
 	 * Returns the prompt to go to when player uses "back"
 	 * @return the <code>Prompt</code> that lead to this menu
 	 * 
@@ -220,6 +225,5 @@ public abstract class Menu extends MessagePrompt {
 	 */
 	public abstract void init();
 
-	
 
 }

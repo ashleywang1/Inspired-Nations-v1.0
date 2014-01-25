@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.event.HandlerList;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
@@ -21,7 +22,7 @@ public abstract class ActionManager<T extends ActionMenu> {
 	private T menu;
 	protected List<InspiredListener<?>> listeners = new ArrayList<InspiredListener<?>>();
 
-	public ActionManager(T menu)	 {
+	public ActionManager(T menu) {
 		this.menu = menu;
 	}
 	/**
@@ -36,6 +37,7 @@ public abstract class ActionManager<T extends ActionMenu> {
 	 * Shuts down the PlayerListener associated with this operation.
 	 */
 	public void stopListening() {
+		Debug.print("Inside Stop Listening");
 		for(InspiredListener<?> listener:this.getPlayerListener()) {
 			HandlerList.unregisterAll(listener);
 		}

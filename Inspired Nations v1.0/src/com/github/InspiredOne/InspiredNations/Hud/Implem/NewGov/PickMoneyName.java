@@ -46,7 +46,7 @@ public class PickMoneyName extends InputMenu{
 	}
 
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousMenu() {
 		return new PickName(PDI, Govf);
 	}
 

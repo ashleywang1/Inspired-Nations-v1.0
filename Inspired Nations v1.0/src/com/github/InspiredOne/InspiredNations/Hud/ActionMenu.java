@@ -35,6 +35,12 @@ public abstract class ActionMenu extends Menu {
 			manager.startListening();
 		}
 	}
+	public void unregister() {
+		this.setError(MenuError.NO_ERROR());
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
+	}
 	
 	@Override
 	protected String getError() {
@@ -42,23 +48,6 @@ public abstract class ActionMenu extends Menu {
 		return output;
 	}
 	
-	@Override
-	public final Menu getPreviousMenu() {
-		this.setError(MenuError.NO_ERROR());
-		for(ActionManager<?> manager:this.getActionManager()) {
-			manager.stopListening();
-		}
-		return PreviousMenu();
-	}
-	
-	@Override
-	public final Menu getNextMenu(String input) {
-		this.setError(MenuError.NO_ERROR());
-		for(ActionManager<?> manager:this.getActionManager()) {
-			manager.stopListening();
-		}
-		return this.NextMenu(input);
-	}
 	
 	/**
 	 * Gets all the action managers for this menu.
@@ -67,17 +56,10 @@ public abstract class ActionMenu extends Menu {
 	public final List<ActionManager<?>> getActionManager() {
 		return managers;
 	}
-	
-	/**
-	 * Used to return a prompt based on the input
-	 * @param input	the player's input
-	 * @return	the next <code>Menu</code>
-	 */
-	public abstract Menu NextMenu(String input);
+
 	/**
 	 * Called whenever the menu is updated.
 	 */
 	public abstract void actionResponse();
 
-	public abstract Menu PreviousMenu();
 }

@@ -40,7 +40,6 @@ public class ConversationBuilder {
 		Menu hud = new MainHud(PDI);
 		ConversationFactory HudConvo = new ConversationFactory(plugin)
 		.withModality(true)
-		.withEscapeSequence("exit")
 		.withFirstPrompt(hud)
 		.withLocalEcho(false)
 		.withInitialSessionData(this.initSessionData);
@@ -51,7 +50,6 @@ public class ConversationBuilder {
 	public Conversation MapConvo() {
 		ConversationFactory MapConvo = new ConversationFactory(plugin)
 		.withModality(true)
-		.withEscapeSequence("exit")
 		.withFirstPrompt(new Map(PDI))
 		.withLocalEcho(false)
 		.withInitialSessionData(initSessionData);

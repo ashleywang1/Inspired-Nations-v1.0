@@ -21,7 +21,7 @@ public class ManageGovMoney extends OptionMenu {
 	}
 
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousMenu() {
 		return new ManageGov(PDI, gov);
 	}
 

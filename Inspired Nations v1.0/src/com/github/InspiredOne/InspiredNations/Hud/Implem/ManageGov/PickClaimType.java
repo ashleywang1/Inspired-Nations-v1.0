@@ -28,7 +28,7 @@ public class PickClaimType extends PassByOptionMenu {
 	}
 
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousMenu() {
 		return previous;
 	}
 

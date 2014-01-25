@@ -56,7 +56,7 @@ public class PickEconomy extends InputMenu{
 	}
 
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousMenu() {
 		return new PickMoneyName(PDI, Govf);
 	}
 

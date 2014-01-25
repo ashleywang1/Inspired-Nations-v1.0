@@ -29,7 +29,7 @@ public class PickManageSuperGov extends PassByOptionMenu {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Menu PreviousMenu() {
+	public Menu getPreviousMenu() {
 		if(supergov.equals(InspiredNations.global)) {
 			return new PickManageSelfType(PDI, (Class<? extends OwnerGov>) GovType);
 		}
