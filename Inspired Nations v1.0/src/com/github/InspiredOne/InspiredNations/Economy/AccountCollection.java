@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 
 
@@ -24,7 +25,7 @@ public class AccountCollection extends ArrayList<Account> implements Payable {
 		return output;
 	}
 
-	public void transferMoney(BigDecimal amount, Currency monType, Payable accountTo) throws BalanceOutOfBoundsException {
+	public void transferMoney(BigDecimal amount, Currency monType, Payable accountTo) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
 		boolean done = false;
 		int iter = 0;
 		if(this.getTotalMoney(monType).compareTo(amount) < 0) {
@@ -46,7 +47,7 @@ public class AccountCollection extends ArrayList<Account> implements Payable {
 	}
 
 	@Override
-	public void addMoney(BigDecimal amount, Currency monType) {
+	public void addMoney(BigDecimal amount, Currency monType) throws NegativeMoneyTransferException {
 		if(this.isEmpty()) {
 			this.add(new Account());
 		}

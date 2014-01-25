@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
@@ -19,7 +20,11 @@ public class getMoneyOption extends Option {
 
 	@Override
 	public Menu response(String input) {
-		PDI.getAccounts().addMoney(new BigDecimal(1000), Currency.DEFAULT);
+		try {
+			PDI.getAccounts().addMoney(new BigDecimal(1000), Currency.DEFAULT);
+		} catch (NegativeMoneyTransferException e) {
+			e.printStackTrace();
+		}
 		return menu;
 	}
 

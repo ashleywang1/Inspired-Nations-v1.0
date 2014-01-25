@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 /**
  * Facilities cannot have subgovs
@@ -33,10 +34,15 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 	}
 	
 	@Override
-	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException {
+	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
 		this.getAccounts().transferMoney(amount, curren, this.getSuperGovObj().getSuperGovObj().getAccounts());
 	}
 
+	@Override
+	public void pullFromSuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
+		this.getAccounts().transferMoney(amount, curren, this.getSuperGovObj().getSuperGovObj().getAccounts());
+	}
+	
 	@Override
 	public Class<? extends OwnerGov> getSuperGov() {
 		// TODO Auto-generated method stub

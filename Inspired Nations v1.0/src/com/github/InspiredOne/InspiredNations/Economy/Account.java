@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
@@ -65,7 +66,10 @@ public class Account implements Serializable, Nameable, Payable {
 		return output;
 	}
 	
-	public final void addMoney(BigDecimal mon, Currency monType) {
+	public final void addMoney(BigDecimal mon, Currency monType) throws NegativeMoneyTransferException {
+		if(mon.compareTo(BigDecimal.ZERO) < 0) {
+			throw new NegativeMoneyTransferException();
+		}
 		MoneyExchange exch = InspiredNations.Exchange;
 		if(this.money.isEmpty()) {
 			this.money.put(Currency.DEFAULT, BigDecimal.ZERO);
@@ -84,7 +88,7 @@ public class Account implements Serializable, Nameable, Payable {
 		}
 	}
 	
-	public final void transferMoney(BigDecimal mon, Currency monType, Payable accountTo) throws BalanceOutOfBoundsException {
+	public final void transferMoney(BigDecimal mon, Currency monType, Payable accountTo) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
 		MoneyExchange exch = InspiredNations.Exchange;
 		if(getTotalMoney(monType).compareTo(mon) < 0) {
 			throw new BalanceOutOfBoundsException();

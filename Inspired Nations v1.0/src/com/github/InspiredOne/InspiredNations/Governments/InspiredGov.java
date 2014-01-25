@@ -16,12 +16,14 @@ import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Exceptions.RegionOutOfEncapsulationBoundsException;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
+import com.github.InspiredOne.InspiredNations.Regions.nullRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
@@ -280,10 +282,22 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	/**
 	 * 
 	 * @param amount	the <code>BigDecimal</code> amount to be paid up to the supergov
+	 * @param curren	the amount of money to transfer
 	 * @throws BalanceOutOfBoundsException 
+	 * @throws NegativeMoneyTransferException 
 	 */
-	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException {
+	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
 		this.accounts.transferMoney(amount, curren, this.getSuperGovObj().accounts);
+	}
+	/**
+	 * 
+	 * @param amount
+	 * @param curren
+	 * @throws BalanceOutOfBoundsException
+	 * @throws NegativeMoneyTransferException 
+	 */
+	public void pullFromSuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
+		this.getSuperGovObj().getAccounts().transferMoney(amount, curren, this.accounts);
 	}
 	/**
 	 * Gets a list of all the governments that are below this government (including itself)
@@ -455,15 +469,15 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public void setLand(Region region, Currency curren) throws BalanceOutOfBoundsException, InspiredGovTooStrongException, RegionOutOfEncapsulationBoundsException, InsufficientRefundAccountBalanceException {
 		BigDecimal holdings = this.accounts.getTotalMoney(curren);
-		BigDecimal reemburce = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
+		BigDecimal reimburse = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
-		
+		BigDecimal difference = cost.subtract(reimburse);// positive if own country money, negative if country ows money
 		// Can they afford it?
-		if(holdings.compareTo(cost.subtract(reemburce)) < 0) {
+		if(holdings.compareTo(difference) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}
 		// Is it inside all the regions it's supposed to be in?
-		for(Class<? extends InspiredRegion> regionType:this.getRegion().getEncapsulatingRegions()) {
+		for(Class<? extends InspiredRegion > regionType:this.getRegion().getEncapsulatingRegions()) {
 			InspiredRegion check = Tools.getInstance(regionType);
 			for(InspiredGov gov:InspiredNations.regiondata.get(check.getRelatedGov())) {
 				if(this.isSubOf(gov) && !this.getRegion().getRegion().IsIn(gov.getRegion().getRegion())) {
@@ -487,14 +501,29 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				}
 			}
 		}
-		try{
-			this.getSuperGovObj().accounts.transferMoney(reemburce, curren, this.accounts);
+
+		
+		if(difference.compareTo(BigDecimal.ZERO) < 0) {
+			try{
+				this.pullFromSuper(reimburse.negate(), curren);
+			}
+			catch (BalanceOutOfBoundsException ex) {
+				throw new InsufficientRefundAccountBalanceException();
+			} 
+			catch (NegativeMoneyTransferException e) {
+				e.printStackTrace();
+			}
 		}
-		catch (BalanceOutOfBoundsException ex) {
-			throw new InsufficientRefundAccountBalanceException();
+		else {
+			try {
+				this.paySuper(cost, curren);
+			} catch (NegativeMoneyTransferException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		this.region.setRegion(region);
-		this.paySuper(cost, curren);
+
 	}
 	public void removeLand(Region select) {
 		Region regionfrom = this.getRegion().getRegion();
@@ -506,7 +535,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			}
 		}
 		else {
-			regionfrom = null;
+			regionfrom = new nullRegion();
 		}
 	}
 }
