@@ -6,21 +6,21 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
-public class GovFactory {
+public class GovFactory<T extends InspiredGov> {
 
-	InspiredGov gov;
+	T gov;
 	BigDecimal diamondvalue = BigDecimal.ONE;
-	public GovFactory(Class<? extends InspiredGov> gov) {
+	public GovFactory(Class<T> gov) {
 		this.gov = GovFactory.getGovInstance(gov);
 		//this.gov.setRegion(Tools.getInstance(this.gov.getInspiredRegion()));
 	}
 	
-	public GovFactory withName(String name) {
+	public GovFactory<T> withName(String name) {
 		this.gov.setName(name);
 		return this;
 	}
 	
-	public GovFactory withSuperGov(InspiredGov gov) {
+	public GovFactory<T> withSuperGov(InspiredGov gov) {
 		this.gov.setSuperGovObj(gov);
 		if(!this.gov.getCommonEcon().equals(this.gov.getClass())) {
 			this.gov.setCurrency(gov.getCurrency());
@@ -28,22 +28,22 @@ public class GovFactory {
 		return this;
 	}
 	
-	public GovFactory withMoneyname(String name) {
+	public GovFactory<T> withMoneyname(String name) {
 		this.gov.setCurrency(new Currency(name));
 		return this;
 	}
 	
-	public GovFactory withDiamondValue(BigDecimal multiplyer) {
+	public GovFactory<T> withDiamondValue(BigDecimal multiplyer) {
 		this.diamondvalue = multiplyer;
 		return this;
 	}
 	
-	public GovFactory withCurrency(Currency currency) {
+	public GovFactory<T> withCurrency(Currency currency) {
 		this.gov.setCurrency(currency);
 		return this;
 	}
 	
-	public InspiredGov getGov() {
+	public T getGov() {
 		return this.gov;
 	}
 
@@ -53,7 +53,7 @@ public class GovFactory {
 		//TODO change BigDecimal.ONE to whatever you're going to use for default values for exchanger
 	}
 	
-	public static <T extends InspiredGov> T getGovInstance(Class<T> gov) {
+	public static <E extends InspiredGov> E getGovInstance(Class<E> gov) {
 		return Tools.getInstance(gov);
 	}
 	

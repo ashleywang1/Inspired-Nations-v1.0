@@ -10,12 +10,12 @@ import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 
-public class PickSelfType extends PassByOptionMenu {
+public class PickSelfType<T extends OwnerGov> extends PassByOptionMenu {
 
-	Class<? extends OwnerGov> GovType;
+	Class<T> GovType;
 	
 	
-	public PickSelfType(PlayerData PDI, Class<? extends OwnerGov> GovType) {
+	public PickSelfType(PlayerData PDI, Class<T> GovType) {
 		super(PDI);
 		this.GovType = GovType;
 	}
@@ -33,30 +33,31 @@ public class PickSelfType extends PassByOptionMenu {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Menu getPreviousMenu() {
-		GovFactory govf = new GovFactory(GovType);
+		GovFactory<T> govf = new GovFactory<T>(GovType);
 		if(govf.getGov().getGeneralGovType().equals(GovType)) {
 			return new MainHud(PDI);
 		}
 		else {
-			return new PickSelfType(PDI, (Class<? extends OwnerGov>) ((OwnerGov) govf.getGov()).getGeneralGovType());
+			return new PickSelfType<T>(PDI, (Class<T>) govf.getGov().getGeneralGovType());
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void init() {
 		for(Class<? extends InspiredGov> gov:GovFactory.getGovInstance(GovType).getSelfGovs()) {
-			GovFactory govf = new GovFactory(gov);
-			((OwnerGov) govf.getGov()).getOwners().add(PDI.getName());
+			GovFactory<T> govf = new GovFactory<T>((Class<T>) gov);
+			govf.getGov().getOwners().add(PDI.getName());
 			if(govf.getGov().getSelfGovs().size() == 1) {
 				if(govf.getGov().getSelfGovs().get(0).equals(govf.getGov().getClass())) {
-					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickSuperGov(PDI, govf)));
+					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickSuperGov<T>(PDI, govf)));
 				}
 				else {
-					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickSelfType(PDI, ((OwnerGov) govf.getGov()).getClass())));
+					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickSelfType<T>(PDI, (Class<T>) govf.getGov().getClass())));
 				}
 			}
 			else {
-				this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickSelfType(PDI, ((OwnerGov) govf.getGov()).getClass())));
+				this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickSelfType<T>(PDI, (Class<T>) govf.getGov().getClass())));
 			}
 		}
 	}

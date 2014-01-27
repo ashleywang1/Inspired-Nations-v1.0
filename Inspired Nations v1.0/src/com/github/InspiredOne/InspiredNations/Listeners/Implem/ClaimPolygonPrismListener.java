@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Listeners.Implem;
 
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;

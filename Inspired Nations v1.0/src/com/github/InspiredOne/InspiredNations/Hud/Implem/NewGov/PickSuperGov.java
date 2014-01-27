@@ -10,18 +10,18 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 
-public class PickSuperGov extends PassByOptionMenu {
+public class PickSuperGov<T extends OwnerGov> extends PassByOptionMenu {
 
-	GovFactory Govf;
+	GovFactory<T> Govf;
 	Class<? extends OwnerGov> superGov;
 	
-	public PickSuperGov(PlayerData PDI, GovFactory Govf, Class<? extends OwnerGov> superGov) {
+	public PickSuperGov(PlayerData PDI, GovFactory<T> Govf, Class<? extends OwnerGov> superGov) {
 		super(PDI);
 		this.Govf = Govf;
 		this.superGov = superGov;
 	}
 	
-	public PickSuperGov(PlayerData PDI, GovFactory Govf) {
+	public PickSuperGov(PlayerData PDI, GovFactory<T> Govf) {
 		super(PDI);
 		this.Govf = Govf;
 		this.superGov = InspiredNations.global.getClass();
@@ -41,7 +41,7 @@ public class PickSuperGov extends PassByOptionMenu {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Menu getPreviousMenu() {
-		return new PickSelfType(PDI, (Class<? extends OwnerGov>) Govf.getGov().getGeneralGovType());
+		return new PickSelfType<T>(PDI, (Class<T>) Govf.getGov().getGeneralGovType());
 	}
 
 	@Override
@@ -52,10 +52,10 @@ public class PickSuperGov extends PassByOptionMenu {
 			if(Govf.getGov().isSubOfClass(govCheck)) {
 				for(OwnerSubjectGov gov:PDI.getCitizenship(govCheck)) {
 					if(govCheck.equals(Govf.getGov().getSuperGov())) {
-						this.options.add(new PromptOption(this, gov.getName(), new WarningAlreadyOwnOne(PDI, Govf.withSuperGov(gov))));
+						this.options.add(new PromptOption(this, gov.getName(), new WarningAlreadyOwnOne<T>(PDI, Govf.withSuperGov(gov))));
 					}
 					else {
-						this.options.add(new PromptOption(this, gov.getName(), new PickSuperGov(PDI, Govf, superGov)));
+						this.options.add(new PromptOption(this, gov.getName(), new PickSuperGov<T>(PDI, Govf, superGov)));
 					}
 				}
 			}
@@ -63,7 +63,7 @@ public class PickSuperGov extends PassByOptionMenu {
 		
 		
 		for(InspiredGov gov:PDI.getCitizenship(Govf.getGov().getSuperGov())) {
-			this.options.add(new PromptOption(this, gov.getName(), new WarningAlreadyOwnOne(PDI, Govf.withSuperGov(gov))));
+			this.options.add(new PromptOption(this, gov.getName(), new WarningAlreadyOwnOne<T>(PDI, Govf.withSuperGov(gov))));
 		}
 	}
 }

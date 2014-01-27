@@ -7,21 +7,22 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
-public class PickMoneyName extends InputMenu{
+public class PickMoneyName<T extends OwnerGov> extends InputMenu{
 
-	GovFactory Govf;
-	public PickMoneyName(PlayerData PDI, GovFactory Govf) {
+	GovFactory<T> Govf;
+	public PickMoneyName(PlayerData PDI, GovFactory<T> Govf) {
 		super(PDI);
 		this.Govf = Govf;
 	}
 
 	@Override
 	public Menu nextMenu() {
-		return new PickEconomy(PDI, Govf);
+		return new PickEconomy<T>(PDI, Govf);
 	}
 
 	@Override
@@ -47,7 +48,7 @@ public class PickMoneyName extends InputMenu{
 
 	@Override
 	public Menu getPreviousMenu() {
-		return new PickName(PDI, Govf);
+		return new PickName<T>(PDI, Govf);
 	}
 
 	@Override

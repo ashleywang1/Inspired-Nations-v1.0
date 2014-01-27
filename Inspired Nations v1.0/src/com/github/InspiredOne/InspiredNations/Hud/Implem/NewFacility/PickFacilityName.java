@@ -1,23 +1,29 @@
-package com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov;
+package com.github.InspiredOne.InspiredNations.Hud.Implem.NewFacility;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.GovernmentRegions;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.PickMoneyName;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.PickSuperGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
-public class PickName<T extends OwnerGov> extends InputMenu {
+public class PickFacilityName extends InputMenu {
 
-	GovFactory<T> Govf;
-	public PickName(PlayerData PDI, GovFactory<T> Govf) {
+	OwnerGov gov;
+	GovFactory Govf;
+	
+	public PickFacilityName(PlayerData PDI, OwnerGov gov, GovFactory Govf) {
 		super(PDI);
-		System.out.println("Made it here! 3");
+		this.gov = gov;
 		this.Govf = Govf;
 	}
 
@@ -42,6 +48,7 @@ public class PickName<T extends OwnerGov> extends InputMenu {
 	@Override
 	public void useInput(String input) {
 		Govf = Govf.withName(input);
+		this.gov.getFacilities().add((Facility) Govf.getGov());
 	}
 
 	@Override
@@ -62,12 +69,12 @@ public class PickName<T extends OwnerGov> extends InputMenu {
 
 	@Override
 	public Menu nextMenu() {
-		return new PickMoneyName<T>(PDI, Govf);
+		return new GovernmentRegions(PDI, gov);
 	}
 
 	@Override
 	public Menu getPreviousMenu() {
-		return new PickSuperGov<T>(PDI, Govf);
+		return new PickFacilityType(PDI, gov, Govf.getGov().getClass());
 	}
 
 	@Override
@@ -79,4 +86,5 @@ public class PickName<T extends OwnerGov> extends InputMenu {
 	public void Init() {
 		
 	}
+
 }

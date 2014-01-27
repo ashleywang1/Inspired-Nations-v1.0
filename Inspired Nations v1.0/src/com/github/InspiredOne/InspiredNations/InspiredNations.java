@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -93,6 +94,14 @@ public class InspiredNations extends JavaPlugin {
 				PlayerID ID = new PlayerID(event.getPlayer());
 				InspiredNations.playerdata.put(ID, new PlayerData(ID));
 				System.out.println("Player has not been added to playerdata yet");
+			}
+		}
+		
+		@EventHandler
+		public void onPlayerLeave(PlayerQuitEvent event) {
+			PlayerData PDI = InspiredNations.playerdata.get(new PlayerID(event.getPlayer()));
+			if(event.getPlayer().isConversing()) {
+				
 			}
 		}
 	}

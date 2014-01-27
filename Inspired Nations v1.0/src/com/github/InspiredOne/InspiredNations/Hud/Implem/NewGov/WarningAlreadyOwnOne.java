@@ -8,11 +8,11 @@ import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 
-public class WarningAlreadyOwnOne extends OptionMenu {
+public class WarningAlreadyOwnOne<T extends OwnerGov> extends OptionMenu {
 
-	GovFactory Govf;
+	GovFactory<T> Govf;
 	
-	public WarningAlreadyOwnOne(PlayerData PDI, GovFactory Govf) {
+	public  WarningAlreadyOwnOne(PlayerData PDI, GovFactory<T> Govf) {
 		super(PDI);
 		this.Govf = Govf;
 	}
@@ -30,12 +30,12 @@ public class WarningAlreadyOwnOne extends OptionMenu {
 
 	@Override
 	public Menu getPreviousMenu() {
-		return new PickSuperGov(PDI, Govf);
+		return new PickSuperGov<T>(PDI, Govf);
 	}
 
 	@Override
 	public boolean getPassBy() {
-		OwnerGov gov = ((OwnerGov) Govf.getGov());
+		OwnerGov gov = Govf.getGov();
 		if(!PDI.getCitizenship(gov.getCommonGov()).isEmpty()) {
 			if(gov.getCommonGovObj() != PDI.getCitizenship(gov.getCommonGov()).get(0)) {
 				return false;
@@ -49,13 +49,12 @@ public class WarningAlreadyOwnOne extends OptionMenu {
 
 	@Override
 	public Menu getPassTo() {
-		return new PickName(PDI, Govf);
+		return new PickName<T>(PDI, Govf);
 	}
 
 	@Override
 	public void init() {
-		System.out.println("Inside init of 1: " + this.getHeader());
-		options.add(new PromptOption(this, "Yes", new PickName(PDI, Govf)));
+		options.add(new PromptOption(this, "Yes", new PickName<T>(PDI, Govf)));
 		options.add(new PromptOption(this, "No", new MainHud(PDI)));
 	}
 

@@ -6,16 +6,17 @@ import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
-public class PickEconomy extends InputMenu{
+public class PickEconomy<T extends OwnerGov> extends InputMenu{
 
-	public GovFactory Govf;
+	public GovFactory<T> Govf;
 	
-	public PickEconomy(PlayerData PDI, GovFactory Govf) {
+	public PickEconomy(PlayerData PDI, GovFactory<T> Govf) {
 		super(PDI);
 		this.Govf = Govf;
 	}
@@ -57,7 +58,7 @@ public class PickEconomy extends InputMenu{
 
 	@Override
 	public Menu getPreviousMenu() {
-		return new PickMoneyName(PDI, Govf);
+		return new PickMoneyName<T>(PDI, Govf);
 	}
 
 	@Override
