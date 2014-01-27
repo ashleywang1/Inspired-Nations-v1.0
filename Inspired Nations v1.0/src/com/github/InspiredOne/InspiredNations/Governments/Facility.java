@@ -48,4 +48,9 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 		// TODO Auto-generated method stub
 		return null;
 	}
+	/**
+	 * Is there only allowed to be one of these? 
+	 * @return
+	 */
+	public abstract boolean isUnique();
 }

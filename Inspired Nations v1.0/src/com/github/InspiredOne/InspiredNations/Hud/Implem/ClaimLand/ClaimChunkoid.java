@@ -46,11 +46,6 @@ public class ClaimChunkoid extends InputMenu {
 	}
 
 	@Override
-	public String getFiller() {
-		return this.mapmanager.drawMap(gov);
-	}
-
-	@Override
 	public boolean getPassBy() {
 		return false;
 	}
@@ -94,7 +89,7 @@ public class ClaimChunkoid extends InputMenu {
 
 	@Override
 	public String getInstructions() {
-		return "";
+		return this.mapmanager.drawMap(gov);
 	}
 
 	@Override

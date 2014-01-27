@@ -48,7 +48,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	
 	private AccountCollection accounts = new AccountCollection();
 	private InspiredRegion region;
-	private List<InspiredGov> facilities = new ArrayList<InspiredGov>();
+	private List<Facility> facilities = new ArrayList<Facility>();
 	private HashMap<Class<? extends InspiredGov>, Double> taxrates = new HashMap<Class<? extends InspiredGov>, Double>();
 	private InspiredGov supergov;
 	private String name;
@@ -220,14 +220,14 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * 
 	 * @return a <code>List</code> of the <code>InspiredGov</code>s that are used as facilities
 	 */
-	public List<InspiredGov> getFacilities() {
+	public List<Facility> getFacilities() {
 		return facilities;
 	}
 	/**
 	 * 
 	 * @param facilities	the new <code>List</code> of the facilities
 	 */
-	public void setFacilities(List<InspiredGov> facilities) {
+	public void setFacilities(List<Facility> facilities) {
 		this.facilities = facilities;
 	}
 	/**

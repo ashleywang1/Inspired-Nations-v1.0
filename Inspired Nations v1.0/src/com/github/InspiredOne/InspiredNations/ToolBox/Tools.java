@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
@@ -23,6 +25,12 @@ public class Tools {
 	
 	public Tools(InspiredNations instance) {
 		this.plugin = instance;
+	}
+	
+	public Location getCursorLocation(Player player, Block clickedBlock) {
+		Location eyes = player.getEyeLocation();
+		return eyes;
+		
 	}
 	
 	public static <T> T getInstance(Class<T> gov) {

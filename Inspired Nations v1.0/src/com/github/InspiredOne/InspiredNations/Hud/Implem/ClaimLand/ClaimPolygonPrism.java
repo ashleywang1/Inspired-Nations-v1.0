@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
+import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
+import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
+import com.github.InspiredOne.InspiredNations.Exceptions.RegionOutOfEncapsulationBoundsException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.ClaimPolygonPrismManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MapManager;
+import com.github.InspiredOne.InspiredNations.Regions.Implem.PolygonPrism;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class ClaimPolygonPrism extends InputMenu {
@@ -29,14 +34,27 @@ public class ClaimPolygonPrism extends InputMenu {
 	}
 	
 	@Override
-	public String getFiller() {
-		return this.mapmanager.drawMap(gov);
-	}
-
-	@Override
 	public String validate(String input) {
+		PolygonPrism prism = (PolygonPrism) manager.prism.clone();
+		manager.prism = new PolygonPrism();
 		if(input.equalsIgnoreCase("finish")) {
-			return MenuError.NO_ERROR();
+			try {
+				if(prism.isSimple()) {
+					gov.setLand(prism);
+					return MenuError.NO_ERROR();
+				}
+				else {
+					return (MenuError.POLYGON_NOT_SIMPLE_SHAPE());
+				}
+			} catch (BalanceOutOfBoundsException e) {
+				return (MenuError.NOT_ENOUGH_MONEY());
+			} catch (InspiredGovTooStrongException e) {
+				return (MenuError.GOV_TOO_STRONG(e.gov));
+			} catch (RegionOutOfEncapsulationBoundsException e) {
+				return (MenuError.CLAIM_OUT_OF_BOUNDS(e.gov));
+			} catch (InsufficientRefundAccountBalanceException e) {
+				//TODO do something with this.
+			}
 		}
 		return MenuError.NOT_AN_OPTION();
 	}
@@ -54,8 +72,7 @@ public class ClaimPolygonPrism extends InputMenu {
 
 	@Override
 	public String getInstructions() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.mapmanager.drawMap(gov);
 	}
 
 	@Override
@@ -68,19 +85,16 @@ public class ClaimPolygonPrism extends InputMenu {
 
 	@Override
 	public String getHeader() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Claim Polygon Prism " + manager.prism.volume();
 	}
 
 	@Override
 	public Menu getPreviousMenu() {
-		// TODO Auto-generated method stub
-		return null;
+		return previous;
 	}
 
 	@Override
 	public boolean getPassBy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -119,6 +119,10 @@ public class MenuTools {
 		public static String POINTS_IN_DIFFERENT_WORLDS() {
 			return makeMessage("Your selected points were in different worlds.");
 		}
+		public static String POLYGON_NOT_SIMPLE_SHAPE() {
+			return makeMessage("The polygon you selected is not simple. This means that some of the sides"
+					+ " cross. Make sure you select each corner in order.");
+		}
 		private static final String getTypeName(Class<? extends InspiredGov> gov) {
 			String GovName = "";
 			GovName = GovFactory.getGovInstance(gov).getTypeName();

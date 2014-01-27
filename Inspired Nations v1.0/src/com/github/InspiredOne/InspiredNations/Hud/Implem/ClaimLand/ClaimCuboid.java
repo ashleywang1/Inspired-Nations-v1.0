@@ -40,11 +40,6 @@ public class ClaimCuboid extends InputMenu {
 	}
 
 	@Override
-	public String getFiller() {
-		return this.mapmanager.drawMap(gov);
-	}
-
-	@Override
 	public Menu getPreviousMenu() {
 		return previous;
 	}
@@ -76,7 +71,26 @@ public class ClaimCuboid extends InputMenu {
 	@Override
 	public String validate(String input) {
 		if(input.equalsIgnoreCase("finish")) {
-			return MenuError.NO_ERROR();
+			try {
+				gov.setLand(this.manager.getCuboid());
+				this.manager.reset();
+				return MenuError.NO_ERROR();
+				
+			} catch (BalanceOutOfBoundsException e) {
+				this.manager.reset();
+				return MenuError.NOT_ENOUGH_MONEY();
+			} catch (InspiredGovTooStrongException e) {
+				this.manager.reset();
+				return MenuError.GOV_TOO_STRONG(e.gov);
+			} catch (RegionOutOfEncapsulationBoundsException e) {
+				this.manager.reset();
+				return MenuError.CLAIM_OUT_OF_BOUNDS(e.gov);
+			} catch (InsufficientRefundAccountBalanceException e) {
+				// TODO figure out what to do here.
+				return MenuError.MONEY_NAME_ALREADY_TAKEN();
+			} catch (CuboidNotCompletedException e) {
+				return MenuError.CUBOID_NOT_FULLY_SELECTED();
+			}
 		}
 		else {
 			return MenuError.NOT_AN_OPTION();
@@ -85,23 +99,7 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public void useInput(String input) {
-		try {
-			gov.setLand(this.manager.getCuboid());
-			
-		} catch (BalanceOutOfBoundsException e) {
-			this.manager.reset();
-			this.setError(MenuError.NOT_ENOUGH_MONEY());
-		} catch (InspiredGovTooStrongException e) {
-			this.manager.reset();
-			this.setError(MenuError.GOV_TOO_STRONG(e.gov));
-		} catch (RegionOutOfEncapsulationBoundsException e) {
-			this.manager.reset();
-			this.setError(MenuError.CLAIM_OUT_OF_BOUNDS(e.gov));
-		} catch (InsufficientRefundAccountBalanceException e) {
-			// TODO figure out what to do here.
-		} catch (CuboidNotCompletedException e) {
-			this.setError(MenuError.CUBOID_NOT_FULLY_SELECTED());
-		}
+
 	}
 
 	@Override
@@ -112,6 +110,7 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public String getInstructions() {
-		return "Left Click for one corner of the cuboid and Right Click for the other corner.";
+		return this.mapmanager.drawMap(gov) + 
+				"Left Click for one corner of the cuboid and Right Click for the other corner.";
 	}
 }

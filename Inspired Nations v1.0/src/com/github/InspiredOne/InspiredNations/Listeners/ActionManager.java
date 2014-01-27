@@ -29,7 +29,9 @@ public abstract class ActionManager<T extends ActionMenu> {
 	 * Starts the PlayerListener associated with this operation.
 	 */
 	public void startListening() {
+		Debug.print("Inside StartLitening");
 		for(InspiredListener<?> listener:this.getPlayerListener()) {
+			Debug.print("Inside StartLitening for loop.");
 			InspiredNations.plugin.getServer().getPluginManager().registerEvents(listener, InspiredNations.plugin);
 		}
 	}

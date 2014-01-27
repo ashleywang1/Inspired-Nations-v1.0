@@ -25,7 +25,7 @@ public abstract class InputMenu extends ActionMenu {
 			return this.getSelf();
 		}
 	}
-	
+
 	@Override
 	public Menu getPassTo() {
 		return this.nextMenu();

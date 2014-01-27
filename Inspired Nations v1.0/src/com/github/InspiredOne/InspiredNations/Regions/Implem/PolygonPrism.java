@@ -37,6 +37,13 @@ public class PolygonPrism extends NonCummulativeRegion {
 		
 	}
 	
+	public PolygonPrism(PolygonPrism prism) {
+		this.ymax = prism.ymax;
+		this.ymin = prism.ymin;
+		this.world = prism.world;
+		this.polygon = prism.polygon;
+	}
+	
 	public PolygonPrism(Point3D[] points) throws NotSimplePolygonException, PointsInDifferentWorldException{
 		polygon.reset();
 		ymin = points[0].y;
@@ -75,6 +82,24 @@ public class PolygonPrism extends NonCummulativeRegion {
     		}
     	}
     	return (int) Math.abs(.5 * sum);
+	}
+	
+	public void addVertex(Point3D point) throws PointsInDifferentWorldException {
+		if(!this.instantiated()) {
+			this.world = point.world;
+			this.ymax = point.y;
+			this.ymin = point.y - 1;
+		}
+		else if(!point.world.equals(this.world)) {
+			throw new PointsInDifferentWorldException();
+		}
+		if(point.y > ymax ) {
+			ymax = point.y;
+		}
+		if(point.y - 1 < ymin) {
+			ymin = point.y - 1;
+		}
+		this.polygon.addPoint(point.x, point.z);
 	}
 
 	@Override
@@ -143,8 +168,8 @@ public class PolygonPrism extends NonCummulativeRegion {
 	public Cuboid getBoundingCuboid() {
 		Rectangle rect = this.polygon.getBounds();
 		//TODO have to test this to make sure rect.x is actually x
-		Point3D one = new Point3D(rect.x, this.ymin, rect.y, this.world);
-		Point3D two = new Point3D(rect.x + rect.width, this.ymax, rect.y + rect.height, this.world);
+		Point3D one = new Point3D(rect.x - rect.width, this.ymin, rect.y - rect.height, this.world);
+		Point3D two = new Point3D(rect.x, this.ymax, rect.y, this.world);
 		try {
 			return new Cuboid(one, two);
 		} catch (PointsInDifferentWorldException e) {
@@ -160,36 +185,42 @@ public class PolygonPrism extends NonCummulativeRegion {
 
 	@Override
 	public boolean IsIn(Region region) {
-		Debug.print("Inside polygonPrism(Region)");
+		Debug.print("Inside polygonPrism IsIn(Region)");
 		Rectangle rect = this.polygon.getBounds();
+		Debug.print(rect.width);
+		Debug.print(rect.height);
 		for(int x = rect.x; x >= rect.x - rect.width; x--) {
 			for(int z = rect.y; z >= rect.y - rect.height; z--) {
 				for(int y = this.ymax; y >= this.ymin; y--) {
 					Point3D test = new Point3D(x,y,z,this.world);
 					if(this.contains(test) && !region.contains(test)) {
+						Debug.print("is not inside the region");
 						return false;
 					}
 				}
 			}
 		}
+		Debug.print("is inside the region");
 		return true;
 	}
 	
 	@Override
 	public boolean isIn(NonCummulativeRegion region) {
-		Debug.print("Inside PolygonPrism(NonCummulativeRegion)");
+		Debug.print("Inside PolygonPrism isIn(NonCummulativeRegion)");
 		return IsIn((Region) region);
 	}
 	
 	@Override
 	public boolean IsIn(CummulativeRegion<?> region) {
-		Debug.print("Inside PolygonPrism(CummulativeRegion)");
+		Debug.print("Inside PolygonPrism IsIn(CummulativeRegion)");
 		return IsIn((Region) region);
 	}
 
 	@Override
 	public boolean Intersects(Region region) {
 		Rectangle rect = this.polygon.getBounds();
+		Debug.print(rect.x);
+		Debug.print(rect.y);
 		for(int x = rect.x; x >= rect.x - rect.width; x--) {
 			for(int z = rect.y; z >= rect.y - rect.height; z--) {
 				for(int y = this.ymax; y >= this.ymin; y--) {
@@ -216,5 +247,10 @@ public class PolygonPrism extends NonCummulativeRegion {
 	@Override
 	protected boolean instantiated() {
 		return !(this.world == null);
+	}
+	
+	@Override
+	public Object clone() {
+		return new PolygonPrism(this);
 	}
 }

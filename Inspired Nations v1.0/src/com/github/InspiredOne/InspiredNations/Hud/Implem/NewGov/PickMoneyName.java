@@ -57,7 +57,7 @@ public class PickMoneyName extends InputMenu{
 
 	@Override
 	public String getInstructions() {
-		return "Type the name of your currency.";
+		return "Type the name of your currency in plural form.";
 	}
 
 	@Override

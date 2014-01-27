@@ -6,6 +6,7 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
@@ -46,7 +47,7 @@ public abstract class Menu extends MessagePrompt {
 	}
 	
 	public final void Initialize() {
-
+		Debug.print("inside initialize");
 		if(!initialized) {
 			this.init();
 			initialized = true;
@@ -73,8 +74,8 @@ public abstract class Menu extends MessagePrompt {
 	}
 	@Override
 	public final String getPromptText(ConversationContext arg0) {
-		this.register();
 		this.Initialize();
+		this.register();
 		return this.getPromptText();
 	}
 	@Override
