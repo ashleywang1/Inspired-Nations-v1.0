@@ -25,7 +25,7 @@ public class FederalPark extends Facility {
 
 	@Override
 	public Class<? extends OwnerGov> getSuperGov() {
-		return GlobalGov.class;
+		return Country.class;
 	}
 
 	@Override

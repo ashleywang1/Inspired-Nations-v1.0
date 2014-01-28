@@ -23,7 +23,7 @@ public class Prison extends Facility {
 	
 	@Override
 	public Class<? extends OwnerGov> getSuperGov() {
-		return Country.class;
+		return Town.class;
 	}
 
 	@Override

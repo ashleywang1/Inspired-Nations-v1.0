@@ -55,7 +55,7 @@ public class ManageGov extends OptionMenu {
 			for(Class<? extends Facility> factype:gov.getGovFacilities()) {
 				Facility facgov = GovFactory.getGovInstance(factype);
 				if(gov.getFacilities().size() == 0 || !facgov.isUnique()) {
-					this.options.add(new PromptOption(this, "New " + facgov.getTypeName(), new PickFacilityType<>(PDI, gov, factype)));
+					this.options.add(new PromptOption(this, "New " + facgov.getTypeName(), new PickFacilityType<>(PDI, this, gov, factype)));
 				}
 				if(gov.getFacilities().size() > 0) {
 					this.options.add(new PromptOption(this, "Manage " + facgov.getTypeName(), new PickFacilityToManage<>(PDI, this, gov, factype)));

@@ -11,18 +11,20 @@ import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.GovernmentRegions;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.ManageGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class PickFacilityName extends InputMenu {
 
 	OwnerGov gov;
 	GovFactory<? extends Facility> Govf;
+	Menu previous;
 	
-	public PickFacilityName(PlayerData PDI, OwnerGov gov, GovFactory<? extends Facility> Govf) {
+	public PickFacilityName(PlayerData PDI, Menu previous, OwnerGov gov, GovFactory<? extends Facility> Govf) {
 		super(PDI);
 		this.gov = gov;
 		this.Govf = Govf;
+		this.previous = previous;
 	}
 
 	@Override
@@ -45,7 +47,7 @@ public class PickFacilityName extends InputMenu {
 
 	@Override
 	public void useInput(String input) {
-		Govf = Govf.withName(input);
+		Govf = Govf.withName(input).withSuperGov(gov);
 		this.gov.getFacilities().add(Govf.getGov());
 	}
 
@@ -67,12 +69,12 @@ public class PickFacilityName extends InputMenu {
 
 	@Override
 	public Menu nextMenu() {
-		return new GovernmentRegions(PDI, gov);
+		return new ManageGov(PDI, gov);
 	}
 
 	@Override
 	public Menu getPreviousMenu() {
-		return new PickFacilityType<>(PDI, gov, Govf.getGov().getClass());
+		return new PickFacilityType<>(PDI, previous, gov, Govf.getGov().getClass());
 	}
 
 	@Override

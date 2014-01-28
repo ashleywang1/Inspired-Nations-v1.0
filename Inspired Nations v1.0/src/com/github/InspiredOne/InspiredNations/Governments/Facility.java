@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
@@ -45,7 +46,7 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 	
 	@Override
 	public Class<? extends OwnerGov> getSuperGov() {
-		// TODO Auto-generated method stub
+		Debug.print("in getSuperGov of Facility");
 		return null;
 	}
 	/**

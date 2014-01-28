@@ -103,10 +103,13 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @return the <code>InspiredGov</code> instance above this government
 	 */
 	public InspiredGov getSuperGovObj() {
+		Debug.print("Inside getSuperGovObj of Inspiredgov 1");
 		if(supergov == null) {
+			Debug.print("Inside getSuperGovObj of Inspiredgov 2");
 			return GovFactory.getGovInstance(this.getSuperGov());
 		}
 		else {
+			Debug.print("Inside getSuperGovObj of Inspiredgov 3");
 			return supergov;
 		}
 	}
@@ -408,6 +411,8 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			return true;
 		}
 		else {
+			Debug.print("in isSubOf just before getSuperGovObj");
+			Debug.print(this.getSuperGovObj() == null);
 			return this.getSuperGovObj().isSubOf(gov);
 		}
 	}
@@ -448,7 +453,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public BigDecimal taxValue(Region region, double taxfrac,int protect, Currency curren) {
 		BigDecimal output = BigDecimal.ZERO;
-		
+		Debug.print("In taxValue()");
 		// Basically... multiply them all together and it gets you the value in Defualt currency
 		//TODO come up with some kind of war money function
 		output = (new BigDecimal(region.volume()).multiply(new BigDecimal(taxfrac))).multiply(new BigDecimal(this.taxedrate));
@@ -475,6 +480,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @throws InsufficientRefundAccountBalanceException 
 	 */
 	public void setLand(Region region) throws BalanceOutOfBoundsException, InspiredGovTooStrongException, RegionOutOfEncapsulationBoundsException, InsufficientRefundAccountBalanceException {
+		Debug.print("In setLand()");
 		Currency curren = Currency.DEFAULT;
 		BigDecimal holdings = this.accounts.getTotalMoney(curren);
 		BigDecimal reimburse = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
@@ -488,11 +494,17 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		Debug.print("Inside SetLand 2");
 		// Is it inside all the regions it's supposed to be in?
 		for(Class<? extends InspiredRegion > regionType:this.getRegion().getEncapsulatingRegions()) {
+			Debug.print("Inside SetLand 2loop 1");
 			InspiredRegion check = Tools.getInstance(regionType);
+			Debug.print("Inside SetLand 2loop 2");
 			for(InspiredGov gov:InspiredNations.regiondata.get(check.getRelatedGov())) {
+				Debug.print("before test");
+				Debug.print(this.isSubOf(gov));
+				Debug.print("Inside SetLand 2loop 3");
 				if(this.isSubOf(gov) && !region.IsIn(gov.getRegion().getRegion())) {
 					throw new RegionOutOfEncapsulationBoundsException(gov);
 				}
+				Debug.print("Inside SetLand 2loop 4");
 			}
 		}
 		Debug.print("Inside SetLand 3");

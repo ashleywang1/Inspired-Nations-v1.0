@@ -50,7 +50,7 @@ public class GovernmentRegions extends PassByOptionMenu {
 				}
 			}
 			if(!facil.isUnique() || allowed) {
-				this.options.add(new PromptOption(this, "New "+facil.getTypeName(), new PickFacilityType<>(PDI, gov, fac)));
+				this.options.add(new PromptOption(this, "New "+facil.getTypeName(), new PickFacilityType<>(PDI, this,  gov, fac)));
 			}
 		}
 		for(Facility fac: gov.getFacilities()) {
