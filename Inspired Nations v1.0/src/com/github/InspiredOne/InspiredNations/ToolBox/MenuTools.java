@@ -50,7 +50,8 @@ public class MenuTools {
 
 	public class ContextData {
 		public static final String Error = "Error";
-		public static final String PromptData = "PromptData";
+		public static final String Alert = "Alert";
+	//	public static final String PromptData = "PromptData";
 	}
 	
 	public enum OptionUnavail {
@@ -65,6 +66,16 @@ public class MenuTools {
         public String toString() {
         	return reason;
         }
+	}
+	
+	public static class MenuAlert {
+		public static String NO_ALERT() {
+			return "";
+		}
+		
+		public static String makeMessage(Object input) {
+			return "\n" + TextColor.ALERT + input.toString();
+		}
 	}
 	
 	public static class MenuError {
@@ -129,7 +140,7 @@ public class MenuTools {
 			return GovName;
 		}
 		private static final String makeMessage(Object msg) {
-			return "\n" + TextColor.ALERT + msg.toString();
+			return "\n" + TextColor.ERROR + msg.toString();
 		}
 	}
 }

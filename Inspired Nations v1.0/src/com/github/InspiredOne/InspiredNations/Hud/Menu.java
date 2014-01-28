@@ -6,11 +6,13 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
@@ -32,13 +34,15 @@ public abstract class Menu extends MessagePrompt {
 	 * @return	the <code>String</code> of the prompt text as it would appear exactly
 	 */
 	public final String getPromptText() {
+		Debug.print("getPromptText");
 		String space = MenuTools.space();
 		String main = MenuTools.header(this.getHeader());
 		String filler = this.getFiller();
 		String end = footer;
 		String errmsg = this.getError();
+		String alert = this.getAlert();
 		
-		return space + main + filler + end + errmsg;
+		return space + main + filler + end + errmsg + alert;
 	}
 	
 	public final PlayerData getPlayerData() {
@@ -46,6 +50,7 @@ public abstract class Menu extends MessagePrompt {
 	}
 	
 	public final void Initialize() {
+		Debug.print("Initialize");
 		if(!initialized) {
 			this.init();
 			initialized = true;
@@ -53,16 +58,19 @@ public abstract class Menu extends MessagePrompt {
 	}
 
 	public final boolean passBy() {
+		Debug.print("passBy");
 		this.Initialize();
 		return this.getPassBy() || !this.preRecsFilled();
 	}
 	
 	@Override
 	public final boolean blocksForInput(ConversationContext arg0) {
+		Debug.print("blocksForInput");
 		return !this.passBy() && this.preRecsFilled();
 	}
 	@Override
 	public final Prompt getNextPrompt(ConversationContext arg0) {
+		Debug.print("getNextPrompt");
 		if(!this.preRecsFilled()) {
 			return this.preRecRetrivalMenu();
 		}
@@ -72,12 +80,14 @@ public abstract class Menu extends MessagePrompt {
 	}
 	@Override
 	public final String getPromptText(ConversationContext arg0) {
+		Debug.print("getPromptText");
 		this.Initialize();
 		this.register();
 		return this.getPromptText();
 	}
 	@Override
 	public final Prompt acceptInput(ConversationContext arg0, String arg) {
+		Debug.print("acceptInput");
 		this.unregister();
 		if(arg == null) {
 			return this.getNextPrompt(arg0);
@@ -97,7 +107,7 @@ public abstract class Menu extends MessagePrompt {
 		String[] args = arg.split(" ");
 		if (args[0].equalsIgnoreCase("say"))  {
 			if(args.length > 1) {
-				PDI.getPlayer().chat(arg.substring(3));
+				PDI.getMsg().sendMessage(arg.substring(3));
 				//TODO send the chat message here
 			}
 			return this.getSelf();
@@ -111,9 +121,32 @@ public abstract class Menu extends MessagePrompt {
 	 * @return	the <code>String</code> to be used for the error in the menu
 	 */
 	protected String getError() {
+		Debug.print("getError");
 		String output = (String) this.getContext().getSessionData(ContextData.Error);
 		this.setError(MenuError.NO_ERROR());
 		return output;
+	}
+	/**
+	 * 
+	 * @return	the <code>String</code> to be used for the error in the menu
+	 */
+	protected String getAlert() {
+		Debug.print("getAlert");
+		String output = (String) this.getContext().getSessionData(ContextData.Alert);
+		this.setAlert(MenuAlert.NO_ALERT());
+		return output;
+	}
+	/**
+	 * Sets the message data to be displayed in the menu.
+	 * @param msg
+	 */
+	public void setAlert(String msg) {
+		Debug.print("setAlert");
+		this.getContext().setSessionData(ContextData.Alert, msg);
+//		if(!msg.equals(MenuAlert.NO_ALERT())) {
+//			this.PDI.getCon().outputNextPrompt();
+//		}
+		
 	}
 	/**
 	 * Returns a new instance of itself. Used for user input errors.
@@ -144,6 +177,7 @@ public abstract class Menu extends MessagePrompt {
 	 * in the menu graph
 	 */
 	private final Menu checkBack() {
+		Debug.print("checkBack");
 		Menu previous = this.getPreviousMenu();
 		if(!previous.passBy()) {
 			return previous;
@@ -159,6 +193,7 @@ public abstract class Menu extends MessagePrompt {
 	 * in the menu graph
 	 */
 	private final Menu checkNext(String input) {
+		Debug.print("checkNext");
 		Menu next = this.getNextMenu(input);
 		while(next.passBy()) {
 			next = (Menu) next.getNextPrompt(PDI.getCon().getContext());

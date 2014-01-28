@@ -4,7 +4,6 @@ package com.github.InspiredOne.InspiredNations.Hud;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
@@ -25,16 +24,15 @@ public abstract class ActionMenu extends Menu {
 		if (!current.equals(this.getPromptText())) {
 			PDI.getCon().outputNextPrompt();
 			current = this.getPromptText();
-			this.setError(MenuError.NO_ERROR());
+			for(ActionManager<?> mana:this.managers) {
+				mana.textChange();
+			}
 		}
 		else return;
 	}
 	
 	public void register() {
-		Debug.print("Inside Register");
 		if(!registered) {
-			Debug.print("inside register 2");
-			Debug.print(this.managers.size());
 			for(ActionManager<?> manager:this.getActionManager()) {
 				manager.stopListening();
 			}

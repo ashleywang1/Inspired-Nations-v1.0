@@ -9,9 +9,11 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 public class MapManager<T extends ActionMenu> extends TabManager<T> {
 
 	public int zoom = 4;
+	MapListener<MapManager<T>> maplis;
 	public MapManager(T menu) {
 		super(menu);
-		listeners.add(new MapListener<MapManager<T>>(this));
+		maplis = new MapListener<MapManager<T>>(this);
+		listeners.add(maplis);
 		listeners.add(new TabListener<MapManager<T>>(this));
 	}
 	
@@ -23,6 +25,7 @@ public class MapManager<T extends ActionMenu> extends TabManager<T> {
 			return drawMap(gov.getSuperGov());
 		}
 	}
+	
 	public String drawMap(Class<? extends InspiredGov> gov) {
 		return Tools.drawMap(this.getPlayerData(), (int) Math.pow(2, zoom), gov, 7);
 	}
@@ -37,5 +40,10 @@ public class MapManager<T extends ActionMenu> extends TabManager<T> {
 		}
 		this.getActionMenu().Update();
 		this.preTabEntry = "";
+	}
+	
+	@Override
+	public void textChange() {
+		maplis.rotacount = maplis.getRotaCount(maplis.yaw);
 	}
 }

@@ -22,6 +22,7 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Map;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class ConversationBuilder {
@@ -34,6 +35,7 @@ public class ConversationBuilder {
 		plugin = InspiredNations.plugin;
 		this.PDI = PDI;
 		this.initSessionData.put(ContextData.Error, MenuError.NO_ERROR());
+		this.initSessionData.put(ContextData.Alert, MenuAlert.NO_ALERT());
 	}
 	
 	public Conversation HudConvo() {

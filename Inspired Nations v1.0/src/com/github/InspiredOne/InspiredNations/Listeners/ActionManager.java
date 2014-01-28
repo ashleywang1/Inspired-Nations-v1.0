@@ -66,4 +66,10 @@ public abstract class ActionManager<T extends ActionMenu> {
 	public void Update() {
 		this.getActionMenu().Update();
 	}
+	/**
+	 * A function that gets run whenever there is a text change in the ActionMenu
+	 */
+	public void textChange() {
+		
+	}
 }

@@ -30,12 +30,14 @@ public class PlayerData implements Serializable, Nameable {
 	private String name;
 	private AccountCollection accounts;
 	private Currency currency;
+	private MessageManager msg;
 	
 	public PlayerData(PlayerID id) {
 		this.name = id.getName();
 		con = null;
 		currency = Currency.DEFAULT;
 		accounts = new AccountCollection();
+		msg = new MessageManager(this);
 	}
 
 	public Conversation getCon() {
@@ -140,5 +142,9 @@ public class PlayerData implements Serializable, Nameable {
 
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
+	}
+
+	public MessageManager getMsg() {
+		return msg;
 	}
 }

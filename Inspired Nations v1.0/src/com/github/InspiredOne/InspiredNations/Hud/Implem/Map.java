@@ -84,6 +84,7 @@ public class Map extends InputMenu {
 				options.add(gov.getTypeName());
 			}
 		}
+		options.clear();
 		return options;
 	}
 

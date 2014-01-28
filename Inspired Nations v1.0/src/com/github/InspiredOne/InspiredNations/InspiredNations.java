@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -43,6 +43,7 @@ public class InspiredNations extends JavaPlugin {
 	public static TaxTimer taxTimer;
 	public TempCommandListener CM = new TempCommandListener(this);
 	public TempPlayerListener PL = new TempPlayerListener(this);
+	public static ArrayList<String> check = new ArrayList<String>();
 	
 	public void onEnable() {
 
@@ -51,7 +52,7 @@ public class InspiredNations extends JavaPlugin {
 		PluginManager pm = this.getServer().getPluginManager();
 		SS.Start();
 		pm.registerEvents(PL, this);
-		global = (GlobalGov) (new GovFactory(GlobalGov.class)).getGov();
+		global = GovFactory.getGovInstance(GlobalGov.class);
 		global.register();
 		// if this is first time running plugin, then add the default globalgov to the regiondata
 		// else, put the global gov loaded in the region data back into the global variable.
@@ -96,13 +97,9 @@ public class InspiredNations extends JavaPlugin {
 				System.out.println("Player has not been added to playerdata yet");
 			}
 		}
-		
 		@EventHandler
-		public void onPlayerLeave(PlayerQuitEvent event) {
-			PlayerData PDI = InspiredNations.playerdata.get(new PlayerID(event.getPlayer()));
-			if(event.getPlayer().isConversing()) {
-				
-			}
+		public void onPlayerMove(PlayerMoveEvent event) {
+			//Debug.print(event.getTo().getYaw());
 		}
 	}
 	
@@ -134,6 +131,9 @@ public class InspiredNations extends JavaPlugin {
 				conversation.begin();
 			}
 			else if(CommandLable.equalsIgnoreCase("map")) {
+				if(PDI.getPlayer().isConversing()) {
+					return false;
+				}
 				ConversationBuilder convo = new ConversationBuilder(PDI);
 				Conversation conversation = convo.MapConvo();
 				PDI.setCon(conversation);

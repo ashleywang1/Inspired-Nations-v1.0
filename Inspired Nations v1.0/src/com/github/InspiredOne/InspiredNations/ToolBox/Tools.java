@@ -73,6 +73,7 @@ public class Tools {
 		UNAVAILABLE(ChatColor.DARK_GRAY + ""),
 		UNAVAILREASON(ChatColor.GRAY + ""),
 		INSTRUCTION(ChatColor.YELLOW + ""),
+		ERROR(ChatColor.RED + ""),
 		ALERT(ChatColor.RED + ""),
 		UNIT(ChatColor.YELLOW + ""),
 		ENDINSTRU(ChatColor.AQUA + "");
