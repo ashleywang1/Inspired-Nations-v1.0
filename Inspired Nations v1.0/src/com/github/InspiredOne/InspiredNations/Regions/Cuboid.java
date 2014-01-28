@@ -109,7 +109,7 @@ public class Cuboid extends NonCummulativeRegion {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean Intersects(Region region) {
 		Point3D point;

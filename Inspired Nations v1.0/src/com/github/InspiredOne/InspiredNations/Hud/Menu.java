@@ -6,7 +6,6 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
@@ -47,7 +46,6 @@ public abstract class Menu extends MessagePrompt {
 	}
 	
 	public final void Initialize() {
-		Debug.print("inside initialize");
 		if(!initialized) {
 			this.init();
 			initialized = true;
@@ -99,6 +97,7 @@ public abstract class Menu extends MessagePrompt {
 		String[] args = arg.split(" ");
 		if (args[0].equalsIgnoreCase("say"))  {
 			if(args.length > 1) {
+				PDI.getPlayer().chat(arg.substring(3));
 				//TODO send the chat message here
 			}
 			return this.getSelf();

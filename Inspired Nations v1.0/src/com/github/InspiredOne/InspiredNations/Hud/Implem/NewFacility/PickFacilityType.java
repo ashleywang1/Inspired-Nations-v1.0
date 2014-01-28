@@ -9,16 +9,15 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.GovernmentRegions;
 
-public class PickFacilityType extends PassByOptionMenu {
+public class PickFacilityType<T extends Facility> extends PassByOptionMenu {
 
-	Class<? extends Facility> GovType;
+	Class<T> GovType;
 	OwnerGov gov;
 	
 	
-	public PickFacilityType(PlayerData PDI, OwnerGov gov, Class<? extends Facility> GovType) {
+	public PickFacilityType(PlayerData PDI, OwnerGov gov, Class<T> GovType) {
 		super(PDI);
 		this.GovType = GovType;
 		this.gov = gov;
@@ -37,30 +36,30 @@ public class PickFacilityType extends PassByOptionMenu {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Menu getPreviousMenu() {
-		GovFactory govf = new GovFactory(GovType);
+		GovFactory<T> govf = new GovFactory<T>(GovType);
 		if(govf.getGov().getGeneralGovType().equals(GovType)) {
 			return new GovernmentRegions(PDI, gov);
 		}
 		else {
-			return new PickFacilityType(PDI, gov, (Class<? extends Facility>) ((Facility) govf.getGov()).getGeneralGovType());
+			return new PickFacilityType<T>(PDI, gov, (Class<T>) govf.getGov().getGeneralGovType());
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void init() {
 		for(Class<? extends InspiredGov> gov:GovFactory.getGovInstance(GovType).getSelfGovs()) {
-			GovFactory govf = new GovFactory(gov);
-			((OwnerGov) govf.getGov()).getOwners().add(PDI.getName());
+			GovFactory<T> govf = new GovFactory<T>((Class<T>) gov);
 			if(govf.getGov().getSelfGovs().size() == 1) {
 				if(govf.getGov().getSelfGovs().get(0).equals(govf.getGov().getClass())) {
-					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickSuperGov(PDI, this.gov, govf)));
+					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickFacilityName(PDI, this.gov, govf)));
 				}
 				else {
-					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickFacilityType(PDI, this.gov, ((Facility) govf.getGov()).getClass())));
+					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickFacilityType<T>(PDI, this.gov, (Class<T>) (govf.getGov()).getClass())));
 				}
 			}
 			else {
-				this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickFacilityType(PDI, this.gov, ((Facility) govf.getGov()).getClass())));
+				this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickFacilityType<T>(PDI, this.gov, (Class<T>) (govf.getGov()).getClass())));
 			}
 		}
 	}

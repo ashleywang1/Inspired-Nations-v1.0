@@ -24,7 +24,7 @@ public class MapManager<T extends ActionMenu> extends TabManager<T> {
 		}
 	}
 	public String drawMap(Class<? extends InspiredGov> gov) {
-		return Tools.drawMap(this.getPlayerData(), (int) Math.pow(2, zoom), gov);
+		return Tools.drawMap(this.getPlayerData(), (int) Math.pow(2, zoom), gov, 7);
 	}
 	
 	@Override

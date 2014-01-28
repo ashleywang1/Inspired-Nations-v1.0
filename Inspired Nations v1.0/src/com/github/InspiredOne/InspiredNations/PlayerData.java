@@ -135,12 +135,10 @@ public class PlayerData implements Serializable, Nameable {
 	}
 
 	public Currency getCurrency() {
-		Debug.print("Inside getCurrency: "  + currency);
 		return currency;
 	}
 
 	public void setCurrency(Currency currency) {
-		Debug.print("Inside setCurrency: "  + currency);
 		this.currency = currency;
 	}
 }

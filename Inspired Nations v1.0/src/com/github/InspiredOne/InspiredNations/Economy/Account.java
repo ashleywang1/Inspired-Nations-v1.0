@@ -20,7 +20,7 @@ public class Account implements Serializable, Nameable, Payable {
 	private static final String typeName = "Money";
 	private String name = "Money";
 	private IndexedMap<Currency, BigDecimal> money = new IndexedMap<Currency, BigDecimal>();
-	private boolean AutoExchange = true;
+	private boolean AutoExchange = false;
 
 	
 	public Account() {

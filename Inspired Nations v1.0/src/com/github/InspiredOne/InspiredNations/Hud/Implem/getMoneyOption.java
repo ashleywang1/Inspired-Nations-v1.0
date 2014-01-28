@@ -21,7 +21,7 @@ public class getMoneyOption extends Option {
 	@Override
 	public Menu response(String input) {
 		try {
-			PDI.getAccounts().addMoney(new BigDecimal(1000), Currency.DEFAULT);
+			PDI.getAccounts().addMoney(new BigDecimal(1000), PDI.getCurrency());
 		} catch (NegativeMoneyTransferException e) {
 			e.printStackTrace();
 		}

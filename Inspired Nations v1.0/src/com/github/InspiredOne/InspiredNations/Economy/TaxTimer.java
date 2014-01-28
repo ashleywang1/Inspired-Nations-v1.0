@@ -32,7 +32,6 @@ public class TaxTimer implements Serializable {
 			public void run() {
 				countdown--;
 				if(countdown == 0) {
-					Debug.print("Tax Timer Reset");
 					countdown = cycleLength;
 				}
 			}

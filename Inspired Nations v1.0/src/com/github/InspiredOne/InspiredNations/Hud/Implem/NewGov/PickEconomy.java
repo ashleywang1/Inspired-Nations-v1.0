@@ -24,6 +24,7 @@ public class PickEconomy<T extends OwnerGov> extends InputMenu{
 	@Override
 	public Menu nextMenu() {
 		Govf.registerGov();
+		PDI.setCurrency(Govf.getGov().getCurrency());
 		return new MainHud(PDI);
 	}
 

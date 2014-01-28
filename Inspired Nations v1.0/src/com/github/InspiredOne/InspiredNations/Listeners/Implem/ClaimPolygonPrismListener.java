@@ -1,12 +1,12 @@
 package com.github.InspiredOne.InspiredNations.Listeners.Implem;
 
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Listeners.InspiredListener;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
@@ -26,17 +26,15 @@ public class ClaimPolygonPrismListener<T extends ClaimPolygonPrismManager<?>> ex
 		}
 		if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
 			Location local = event.getClickedBlock().getLocation();
-			local.setY(local.getY() + 1);
+			Debug.print(local.getBlockX() + ", " + local.getBlockY() + ", " + local.getBlockZ());
+			local.setY(local.getY());
 			if(!event.isBlockInHand()) {
 				event.setCancelled(true);
 			}
-			if(Math.abs(local.getX() % 1) > .5) {
-				local.setX(local.getX() + 1);
-			}
-			if(Math.abs(local.getZ()) % 1 > .5) {
-				local.setZ(local.getZ() + 1);
-			}
 			position = new Point3D(local);
+			local.setX(local.getX() + .5);
+			local.setZ(local.getZ() + .5);
+			local.setY(local.getY() + 1);
 
 			position.world.getWorld().spawn(local, Arrow.class);
 			this.manager.Update();

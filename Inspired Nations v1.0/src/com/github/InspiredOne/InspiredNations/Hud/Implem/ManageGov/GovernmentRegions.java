@@ -3,12 +3,9 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
-import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
-import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.NewFacility.NewFacility;
 
 public class GovernmentRegions extends PassByOptionMenu {
 
@@ -39,12 +36,12 @@ public class GovernmentRegions extends PassByOptionMenu {
 	public void init() {
 
 		for(Facility fac: gov.getFacilities()) {
-			this.options.add(new PromptOption(this, "Manage " + fac.getTypeName(), new ManageFacility(PDI, previous, gov, fac)));
+			//this.options.add(new PromptOption(this, "Manage " + fac.getTypeName(), new ManageFacility(PDI, previous, gov, fac)));
 		}
 		for(Class<? extends Facility> fac: gov.getGovFacilities()) {
 			Facility facil = GovFactory.getGovInstance(fac);
 			if(!facil.isUnique()) {
-				this.options.add(new PromptOption(this, "New " + facil.getTypeName(), new NewFacility()))
+				//this.options.add(new PromptOption(this, "New " + facil.getTypeName(), new NewFacility()));
 			}
 			else {
 				boolean allowed = true;

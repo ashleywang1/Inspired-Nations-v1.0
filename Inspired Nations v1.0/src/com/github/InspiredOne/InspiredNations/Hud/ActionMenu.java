@@ -25,6 +25,7 @@ public abstract class ActionMenu extends Menu {
 		if (!current.equals(this.getPromptText())) {
 			PDI.getCon().outputNextPrompt();
 			current = this.getPromptText();
+			this.setError(MenuError.NO_ERROR());
 		}
 		else return;
 	}

@@ -4,7 +4,12 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
+
+import org.bukkit.Material;
+import org.bukkit.entity.Arrow;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
@@ -17,6 +22,7 @@ import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
+import com.github.InspiredOne.InspiredNations.ToolBox.MultiMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
@@ -32,6 +38,7 @@ public class PolygonPrism extends NonCummulativeRegion {
 	private int ymax;
 	private WorldID world;
 	private Polygon polygon = new Polygon();
+	private Polygon polygonOrig = new Polygon();
 	
 	public PolygonPrism() {
 		
@@ -42,6 +49,7 @@ public class PolygonPrism extends NonCummulativeRegion {
 		this.ymin = prism.ymin;
 		this.world = prism.world;
 		this.polygon = prism.polygon;
+		this.polygonOrig = new Polygon(polygon.xpoints, polygon.ypoints, polygon.npoints);
 	}
 	
 	public PolygonPrism(Point3D[] points) throws NotSimplePolygonException, PointsInDifferentWorldException{
@@ -53,17 +61,62 @@ public class PolygonPrism extends NonCummulativeRegion {
 			if(!this.world.equals(points[i].world)) {
 				throw new PointsInDifferentWorldException();
 			}
-			polygon.addPoint(points[i].x, points[i].z);
-			if(points[i].y > ymax) {
-				ymax = points[i].y;
-			}
-			else if(points[i].y < ymin) {
-				ymin = points[i].y;
-			}
+			this.addVertex(points[i]);
 		}
+		polygonOrig = new Polygon(polygon.xpoints, polygon.ypoints, polygon.npoints);
 		if(!this.isSimple()) {
 			throw new NotSimplePolygonException();
 		}
+		this.reconcilePoints();
+	}
+	
+	/**
+	 * Adjusts the points so that the original selected blocks are actually within the polygon.
+	 */
+	public void reconcilePoints() {
+		Polygon finalized = new Polygon(polygon.xpoints, polygon.ypoints, polygon.npoints);
+		for(int iter = 0; iter < polygon.npoints; iter++) {
+			Point3D point = new Point3D(polygonOrig.xpoints[iter], ymax, polygonOrig.ypoints[iter], world);
+			Point3D pointtemp = point.clone();
+			boolean notInside = !this.contains(point);
+			int rotate = 1;
+			int Area = 0; 
+			while(rotate <= 4) {
+				Debug.print(rotate);
+				pointtemp = rotateBlock(point, rotate);
+				polygon.xpoints[iter] = pointtemp.x;
+				polygon.ypoints[iter] = pointtemp.z;
+				polygon.invalidate();
+				notInside = !this.contains(point);
+				if(!notInside) {
+					int areatemp = this.area();
+					if(areatemp >= Area) {
+						Area = areatemp;
+						finalized.xpoints[iter] = pointtemp.x;
+						finalized.ypoints[iter] = pointtemp.z;
+						finalized.invalidate();
+					}
+				}
+				rotate++;
+			}
+		}
+		this.polygon = finalized;
+	}
+	public Point3D rotateBlock(Point3D pointInit, int rotates) {
+		Point3D point = pointInit.clone();
+		rotates = (rotates % 4);
+		int counter = 0;
+		for(int x = 0; x <= 1; x++) {
+			for(int z = 0; z <= 1; z++) {
+				if(rotates == counter) {
+					point.x = point.x + x;
+					point.z = point.z + z;
+				}
+				counter++;
+				
+			}
+		}
+		return point;
 	}
 	
 	@Override
@@ -88,18 +141,21 @@ public class PolygonPrism extends NonCummulativeRegion {
 		if(!this.instantiated()) {
 			this.world = point.world;
 			this.ymax = point.y;
-			this.ymin = point.y - 1;
+			this.ymin = point.y;
 		}
 		else if(!point.world.equals(this.world)) {
 			throw new PointsInDifferentWorldException();
 		}
+		Debug.print(this.ymax +" ymax, " + this.ymin);
 		if(point.y > ymax ) {
 			ymax = point.y;
 		}
-		if(point.y - 1 < ymin) {
-			ymin = point.y - 1;
+		if(point.y < ymin) {
+			ymin =point.y;
 		}
 		this.polygon.addPoint(point.x, point.z);
+		this.polygonOrig.addPoint(point.x, point.z);
+		this.reconcilePoints();
 	}
 
 	@Override
@@ -148,13 +204,12 @@ public class PolygonPrism extends NonCummulativeRegion {
 		return true;
 	}
 	
-	/**
-	 * Determines if a location is inside of the polygon
-	 */
+	@Override
 	public boolean contains(Point3D tile) {
 		if (tile.world.equals(this.world)) {
-			if (polygon.contains(tile.x, tile.z)) {// || polygon.contains(tile.getBlockX() + .5, tile.getBlockZ() + .5) || polygon.contains(tile.getBlockX() - .5, tile.getBlockZ() + .5) || polygon.contains(tile.getBlockX() + .5, tile.getBlockZ() - .5)) {
+			if (polygon.contains(tile.x + .5, tile.z + .5)) {// || polygon.contains(tile.getBlockX() + .5, tile.getBlockZ() + .5) || polygon.contains(tile.getBlockX() - .5, tile.getBlockZ() + .5) || polygon.contains(tile.getBlockX() + .5, tile.getBlockZ() - .5)) {
 				if (tile.y <= ymax && tile.y >= ymin) {
+					//tile.getLocation().getBlock().setType(Material.DIAMOND_BLOCK);
 					return true;
 				}
 				else return false;
@@ -168,8 +223,11 @@ public class PolygonPrism extends NonCummulativeRegion {
 	public Cuboid getBoundingCuboid() {
 		Rectangle rect = this.polygon.getBounds();
 		//TODO have to test this to make sure rect.x is actually x
-		Point3D one = new Point3D(rect.x - rect.width, this.ymin, rect.y - rect.height, this.world);
+
+		Point3D one = new Point3D(rect.x + rect.width, this.ymin, rect.y + rect.height, this.world);
 		Point3D two = new Point3D(rect.x, this.ymax, rect.y, this.world);
+		Debug.print(one.x + ", " + one.z);
+		Debug.print(two.x + ", " + two.z);
 		try {
 			return new Cuboid(one, two);
 		} catch (PointsInDifferentWorldException e) {
@@ -186,13 +244,17 @@ public class PolygonPrism extends NonCummulativeRegion {
 	@Override
 	public boolean IsIn(Region region) {
 		Debug.print("Inside polygonPrism IsIn(Region)");
+		Debug.print(region.getTypeName());
 		Rectangle rect = this.polygon.getBounds();
 		Debug.print(rect.width);
 		Debug.print(rect.height);
-		for(int x = rect.x; x >= rect.x - rect.width; x--) {
-			for(int z = rect.y; z >= rect.y - rect.height; z--) {
+		Debug.print(rect.x);
+		Debug.print(rect.y);
+		for(int x = rect.x; x <= rect.x + rect.width; x++) {
+			for(int z = rect.y; z <= rect.y + rect.height; z++) {
 				for(int y = this.ymax; y >= this.ymin; y--) {
 					Point3D test = new Point3D(x,y,z,this.world);
+					//test.getLocation().getBlock().setType(Material.GOLD_BLOCK);
 					if(this.contains(test) && !region.contains(test)) {
 						Debug.print("is not inside the region");
 						return false;

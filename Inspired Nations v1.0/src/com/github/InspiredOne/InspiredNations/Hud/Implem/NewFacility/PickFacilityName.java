@@ -12,16 +12,14 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.GovernmentRegions;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.PickMoneyName;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.PickSuperGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class PickFacilityName extends InputMenu {
 
 	OwnerGov gov;
-	GovFactory Govf;
+	GovFactory<? extends Facility> Govf;
 	
-	public PickFacilityName(PlayerData PDI, OwnerGov gov, GovFactory Govf) {
+	public PickFacilityName(PlayerData PDI, OwnerGov gov, GovFactory<? extends Facility> Govf) {
 		super(PDI);
 		this.gov = gov;
 		this.Govf = Govf;

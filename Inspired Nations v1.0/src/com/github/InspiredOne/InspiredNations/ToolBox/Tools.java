@@ -110,7 +110,7 @@ public class Tools {
 	 * @param gov		the highest government that will be shown on the map
 	 * @return			the <code>String</code> that includes the map
 	 */
-	public static String drawMap(PlayerData PDI, int res, Class<? extends InspiredGov> gov) {
+	public static String drawMap(PlayerData PDI, int res, Class<? extends InspiredGov> gov, int size) {
 		
 		String output = "";
 		Location location = PDI.getPlayer().getLocation();
@@ -130,8 +130,8 @@ public class Tools {
 		ChatColor selfcolor = ChatColor.GRAY;
 		String selfchar = "@";
 		
-		int above = 7;
-		int below = 8;
+		int above = size;
+		int below = size + 1;
 		
 		int[] remove = {160*above+240,160*above+77,160*above-80,160*above+83};
 		

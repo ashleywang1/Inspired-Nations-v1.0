@@ -21,6 +21,7 @@ public class TabListener<T extends TabManager<?>> extends InspiredListener<T> {
 		event.getTabCompletions().clear();
 		this.getManager().preTabEntry = event.getLastToken();
 		this.getManager().Update();
+		
 	}
 	
 }
