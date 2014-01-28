@@ -91,6 +91,7 @@ public class StartStop {
 	
 	// Handles Shut-down of plugin
 	public void Stop() {
+		
 		try {
 			Player[] online = plugin.getServer().getOnlinePlayers();
 			for (int i = 0; i < online.length; i++) {
@@ -103,41 +104,44 @@ public class StartStop {
 		}
 		catch (Exception ex) {	
 		}
-		
-		// Saves Data
-		try {
-			File regionfile = new File(plugin.getDataFolder(), "regiondata.yml");
-	        FileOutputStream regionOut = new FileOutputStream(regionfile);
-	        ObjectOutputStream rout = new ObjectOutputStream(regionOut);
-	        rout.writeObject(InspiredNations.regiondata);
-	        rout.close();
-	        regionOut.close();
-	        
-	        File playerfile = new File(plugin.getDataFolder(), "playerdata.yml");
-	        FileOutputStream playerOut = new FileOutputStream(playerfile);
-	        ObjectOutputStream pout = new ObjectOutputStream(playerOut);
-	        pout.writeObject(InspiredNations.playerdata);
-			pout.close();
-			playerOut.close();
+		// Checks to see if save folder has been deleted
+		FileConfiguration config = plugin.getConfig(); 
+		if ((new File(plugin.getDataFolder() + config.getName()).exists())) {
 			
-	        File econfile = new File(plugin.getDataFolder(), "econdata.yml");
-	        FileOutputStream econOut = new FileOutputStream(econfile);
-	        ObjectOutputStream eout = new ObjectOutputStream(econOut);
-	        eout.writeObject(InspiredNations.Exchange);
-	        eout.close();
-	        econOut.close();
-	        
-	        File taxfile = new File(plugin.getDataFolder(), "tax.yml");
-	        FileOutputStream taxOut = new FileOutputStream(taxfile);
-	        ObjectOutputStream tout = new ObjectOutputStream(taxOut);
-	        tout.writeObject(InspiredNations.taxTimer);
-	        tout.close();
-	        taxOut.close();
-		}
-		catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		
+			// Saves Data
+			try {
+				File regionfile = new File(plugin.getDataFolder(), "regiondata.yml");
+		        FileOutputStream regionOut = new FileOutputStream(regionfile);
+		        ObjectOutputStream rout = new ObjectOutputStream(regionOut);
+		        rout.writeObject(InspiredNations.regiondata);
+		        rout.close();
+		        regionOut.close();
+		        
+		        File playerfile = new File(plugin.getDataFolder(), "playerdata.yml");
+		        FileOutputStream playerOut = new FileOutputStream(playerfile);
+		        ObjectOutputStream pout = new ObjectOutputStream(playerOut);
+		        pout.writeObject(InspiredNations.playerdata);
+				pout.close();
+				playerOut.close();
+				
+		        File econfile = new File(plugin.getDataFolder(), "econdata.yml");
+		        FileOutputStream econOut = new FileOutputStream(econfile);
+		        ObjectOutputStream eout = new ObjectOutputStream(econOut);
+		        eout.writeObject(InspiredNations.Exchange);
+		        eout.close();
+		        econOut.close();
+		        
+		        File taxfile = new File(plugin.getDataFolder(), "tax.yml");
+		        FileOutputStream taxOut = new FileOutputStream(taxfile);
+		        ObjectOutputStream tout = new ObjectOutputStream(taxOut);
+		        tout.writeObject(InspiredNations.taxTimer);
+		        tout.close();
+		        taxOut.close();
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		}		
 		PluginDescriptionFile pdf = plugin.getDescription();
 		plugin.getLogger().info(pdf.getName() + " version " + pdf.getVersion() + " has been disabled.");
 	}

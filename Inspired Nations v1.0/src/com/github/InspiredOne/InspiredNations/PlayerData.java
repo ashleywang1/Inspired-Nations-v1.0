@@ -36,7 +36,7 @@ public class PlayerData implements Serializable, Nameable {
 		this.name = id.getName();
 		con = null;
 		currency = Currency.DEFAULT;
-		accounts = new AccountCollection();
+		accounts = new AccountCollection(this.name);
 		msg = new MessageManager(this);
 	}
 
@@ -146,5 +146,10 @@ public class PlayerData implements Serializable, Nameable {
 
 	public MessageManager getMsg() {
 		return msg;
+	}
+
+	@Override
+	public void setName(String name) {
+		
 	}
 }

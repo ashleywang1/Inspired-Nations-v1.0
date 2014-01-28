@@ -3,24 +3,23 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.NewFacility;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.ManageGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class PickFacilityName extends InputMenu {
 
-	OwnerGov gov;
+	InspiredGov gov;
 	GovFactory<? extends Facility> Govf;
 	Menu previous;
 	
-	public PickFacilityName(PlayerData PDI, Menu previous, OwnerGov gov, GovFactory<? extends Facility> Govf) {
+	public PickFacilityName(PlayerData PDI, Menu previous, InspiredGov gov, GovFactory<? extends Facility> Govf) {
 		super(PDI);
 		this.gov = gov;
 		this.Govf = Govf;
@@ -31,6 +30,7 @@ public class PickFacilityName extends InputMenu {
 	public String validate(String input) {
 		
 		boolean allowed = true;
+		Debug.print(InspiredNations.regiondata.get(Govf.getGov().getClass()).size());
 		
 		for(InspiredGov gov: InspiredNations.regiondata.get(Govf.getGov().getClass())) {
 			if(gov.getSuperGovObj().equals(Govf.getGov().getSuperGovObj()) && gov.getName().equalsIgnoreCase(input)) {
@@ -47,7 +47,8 @@ public class PickFacilityName extends InputMenu {
 
 	@Override
 	public void useInput(String input) {
-		Govf = Govf.withName(input).withSuperGov(gov);
+		Govf = Govf.withName(input);
+		Govf.registerGov();
 		this.gov.getFacilities().add(Govf.getGov());
 	}
 
@@ -69,7 +70,7 @@ public class PickFacilityName extends InputMenu {
 
 	@Override
 	public Menu nextMenu() {
-		return new ManageGov(PDI, gov);
+		return previous;
 	}
 
 	@Override

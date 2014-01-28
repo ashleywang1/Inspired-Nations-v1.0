@@ -40,7 +40,7 @@ public abstract class OptionMenu extends ActionMenu {
 				return this.getSelf();
 			}
 			else {
-				return options.get(answer - 1).response(arg);
+				return options.get(answer - 1).response(arg.substring(args[0].length()).trim());
 			}
 		}
 		catch (Exception ex) {

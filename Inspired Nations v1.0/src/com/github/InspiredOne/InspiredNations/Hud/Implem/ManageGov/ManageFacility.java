@@ -49,6 +49,7 @@ public class ManageFacility extends OptionMenu {
 	public void init() {
 		this.options.add(new PromptOption(this, "Manage Money", new ManageGovMoney(PDI, this, fac)));
 		this.options.add(new PromptOption(this, "Claim Land", new PickClaimType(PDI, fac, this)));
+		ManageGov.addFacilityOptions(PDI, this, fac);
 	}
 
 }

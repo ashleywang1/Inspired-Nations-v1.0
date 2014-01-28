@@ -27,6 +27,9 @@ public class Account implements Serializable, Nameable, Payable {
 		//TODO remove these for later. figure out how to handle when a player is first joining a server with no
 		// currencies already
 	}
+	public Account(String name) {
+		this.setName(name);
+	}
 
 	public String getTypeName() {
 		return typeName;

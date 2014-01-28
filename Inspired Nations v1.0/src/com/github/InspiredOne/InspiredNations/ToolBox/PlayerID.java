@@ -61,5 +61,10 @@ public class PlayerID implements Serializable, Nameable {
 	public PlayerData getPDI() {
 		return InspiredNations.playerdata.get(this);
 	}
+
+	@Override
+	public void setName(String name) {
+		
+	}
 	
 }

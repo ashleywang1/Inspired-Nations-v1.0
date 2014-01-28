@@ -46,7 +46,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	private static final long serialVersionUID = 5014430464149332251L;
 	
-	private AccountCollection accounts = new AccountCollection();
+	private AccountCollection accounts;
 	private InspiredRegion region;
 	private List<Facility> facilities = new ArrayList<Facility>();
 	private HashMap<Class<? extends InspiredGov>, Double> taxrates = new HashMap<Class<? extends InspiredGov>, Double>();
@@ -63,6 +63,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		for(Class<? extends InspiredGov> gov:this.getSubGovs()) {
 			taxrates.put(gov, 1.0);
 		}
+		accounts = new AccountCollection("");
 	}
 	/**
 	 * 
@@ -271,7 +272,9 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * 
 	 * @param name	the <code>String</code> to be used for the name of this government
 	 */
+	@Override
 	public void setName(String name) {
+		this.accounts.setName(name);
 		this.name = name;
 	}
 	/**

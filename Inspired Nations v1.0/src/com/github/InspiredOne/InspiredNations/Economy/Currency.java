@@ -31,7 +31,8 @@ public class Currency implements Serializable, Nameable{
 		return name;
 	}
 	
-	private void setName(String name) {
+	@Override
+	public void setName(String name) {
 		this.name = name;
 	}
 	

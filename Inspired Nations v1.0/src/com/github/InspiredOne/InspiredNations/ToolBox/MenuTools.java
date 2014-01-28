@@ -106,6 +106,9 @@ public class MenuTools {
 		public static String MONEY_MULTIPLYER_TOO_SMALL() {
 			return makeMessage("Your currency is too valuable.");
 		}
+		public static String ACCOUNT_NAME_ALREADY_TAKEN() {
+			return makeMessage("That account name is already in use.");
+		}
 		public static String NO_MATCHES_FOUND() {
 			return makeMessage("There are no matches found.");
 		}

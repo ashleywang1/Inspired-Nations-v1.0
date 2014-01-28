@@ -13,8 +13,10 @@ public class AccountCollection extends ArrayList<Account> implements Payable {
 	 * 
 	 */
 	private static final long serialVersionUID = 4596555858007834733L;
+	private String name;
 	
-	public AccountCollection() {
+	public AccountCollection(String name) {
+		this.name = name;
 		this.add(new Account());
 	}
 	public BigDecimal getTotalMoney(Currency valueType) {
@@ -49,6 +51,14 @@ public class AccountCollection extends ArrayList<Account> implements Payable {
 			this.add(new Account());
 		}
 		this.get(0).addMoney(amount, monType);
+	}
+	@Override
+	public String getName() {
+		return name;
+	}
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

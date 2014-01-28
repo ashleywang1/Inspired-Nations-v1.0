@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
@@ -25,30 +27,25 @@ public class PayAccountOption extends Option {
 
 	@Override
 	public Menu response(String input) {
-		try{
-			
-			String[] args = input.split(" ");
-			Debug.print("Inside PayAccountOption.response");
-			BigDecimal amount = new BigDecimal(args[1]);
-
-			if(amount.compareTo(accountsFrom.getTotalMoney(PDI.getCurrency())) > 0) {
+		String[] args = input.split(" ");
+		Debug.print("Inside PayAccountOption.response");
+		try {
+			BigDecimal amount = new BigDecimal(args[0]);
+	
+			try {
+				accountsFrom.transferMoney(amount, PDI.getCurrency(), accountTo);
+			} catch (BalanceOutOfBoundsException e) {
 				menu.setError(MenuError.NOT_ENOUGH_MONEY());
-			}
-			else if(amount.compareTo(BigDecimal.ZERO) < 0) {
+			} catch (NegativeMoneyTransferException e) {
 				menu.setError(MenuError.NEGATIVE_AMOUNTS_NOT_ALLOWED(amount));
 			}
-			else {
-				accountsFrom.transferMoney(amount, PDI.getCurrency(), accountTo);
-			}
 			
-			//TODO Add some message thing here to tell player that transaction was successful.
+			PDI.getMsg().sendChatMessage("Transfer of " + amount + " " + PDI.getCurrency().getName() + " to " + accountTo.getName() + " successful.");
 			return menu.getSelf();
 		}
-		catch(Exception ex) {
-			ex.printStackTrace();
-			Debug.print("inside PayAccountOption error thing");
+		catch (Exception ex) {
 			return menu.getSelf().setError(MenuError.INVALID_NUMBER_INPUT());
 		}
+		
 	}
-
 }

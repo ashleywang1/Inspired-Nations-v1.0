@@ -23,12 +23,6 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 	private static final long serialVersionUID = 6514705223412901675L;
 
 	@Override
-	public Class<? extends InspiredGov> getCommonEcon() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public final List<Class<? extends OwnerGov>> getSubGovs() {
 		List<Class<? extends OwnerGov>> output = new ArrayList<Class<? extends OwnerGov>>();
 		return output;

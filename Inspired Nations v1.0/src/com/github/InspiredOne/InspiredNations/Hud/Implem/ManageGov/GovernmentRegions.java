@@ -5,7 +5,7 @@ import java.util.HashSet;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
-import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
@@ -13,10 +13,12 @@ import com.github.InspiredOne.InspiredNations.Hud.Implem.NewFacility.PickFacilit
 
 public class GovernmentRegions extends PassByOptionMenu {
 
-	private OwnerGov gov;
-	public GovernmentRegions(PlayerData PDI, OwnerGov gov) {
+	private InspiredGov gov;
+	Menu previous;
+	public GovernmentRegions(PlayerData PDI, Menu previous, InspiredGov gov) {
 		super(PDI);
 		this.gov = gov;
+		this.previous = previous;
 	}
 
 	@Override
@@ -33,7 +35,7 @@ public class GovernmentRegions extends PassByOptionMenu {
 
 	@Override
 	public Menu getPreviousMenu() {
-		return new ManageGov(PDI, gov);
+		return previous;
 	}
 
 	@Override

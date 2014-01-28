@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
@@ -48,17 +49,21 @@ public class ManageGov extends OptionMenu {
 	public void init() {
 		this.options.add(new PromptOption(this, "Manage Money", new ManageGovMoney(PDI, this, gov)));
 		this.options.add(new PromptOption(this, "Claim Land", new PickClaimType(PDI, gov, this.getSelf())));
+		ManageGov.addFacilityOptions(PDI, this, gov);
+	}
+	
+	public static void addFacilityOptions(PlayerData PDI, OptionMenu menu, InspiredGov gov) {
 		if(gov.getGovFacilities().size() > 1) {
-			this.options.add(new PromptOption(this, gov.getFacilityGroupName(), new GovernmentRegions(PDI, gov)));
+			menu.getOptions().add(new PromptOption(menu, gov.getFacilityGroupName(), new GovernmentRegions(PDI, menu, gov)));
 		}
 		else {
 			for(Class<? extends Facility> factype:gov.getGovFacilities()) {
 				Facility facgov = GovFactory.getGovInstance(factype);
 				if(gov.getFacilities().size() == 0 || !facgov.isUnique()) {
-					this.options.add(new PromptOption(this, "New " + facgov.getTypeName(), new PickFacilityType<>(PDI, this, gov, factype)));
+					menu.getOptions().add(new PromptOption(menu, "New " + facgov.getTypeName(), new PickFacilityType<>(PDI, menu, gov, factype)));
 				}
 				if(gov.getFacilities().size() > 0) {
-					this.options.add(new PromptOption(this, "Manage " + facgov.getTypeName(), new PickFacilityToManage<>(PDI, this, gov, factype)));
+					menu.getOptions().add(new PromptOption(menu, "Manage " + facgov.getTypeName(), new PickFacilityToManage<>(PDI, menu, gov, factype)));
 				}
 			}
 		}

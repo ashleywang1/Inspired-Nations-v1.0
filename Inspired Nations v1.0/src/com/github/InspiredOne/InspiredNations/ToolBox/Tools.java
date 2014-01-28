@@ -44,7 +44,11 @@ public class Tools {
 			return null;
 		}
 	}
-	
+	/**
+	 *  A method to cut off decimals greater than the hundredth place;
+	 * @param input
+	 * @return
+	 */
 	public static BigDecimal cut(BigDecimal input) {
 		return input.divide(BigDecimal.ONE, 2, BigDecimal.ROUND_HALF_DOWN);
 	}
@@ -99,7 +103,6 @@ public class Tools {
 		}
 		return temp;
 	}
-	
 	
 	/**
 	 * Draws a ascii map for the player to view. The map shows the gov

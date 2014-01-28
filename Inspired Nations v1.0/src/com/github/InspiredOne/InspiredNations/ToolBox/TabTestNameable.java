@@ -17,4 +17,9 @@ public class TabTestNameable implements Nameable {
 		return name;
 	}
 
+	@Override
+	public void setName(String name) {
+		
+	}
+
 }

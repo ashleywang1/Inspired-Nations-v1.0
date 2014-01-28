@@ -10,4 +10,6 @@ public interface Nameable {
 	 * @return	the name of the object
 	 */
 	public String getName();
+	
+	public void setName(String name);
 }

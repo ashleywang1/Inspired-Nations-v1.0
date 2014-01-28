@@ -152,7 +152,7 @@ public abstract class Menu extends MessagePrompt {
 	 * Returns a new instance of itself. Used for user input errors.
 	 * @return	the <code>Menu</code> of itself
 	 */
-	public final Menu getSelf() {
+	public Menu getSelf() {
 		return this;
 	}
 	/**

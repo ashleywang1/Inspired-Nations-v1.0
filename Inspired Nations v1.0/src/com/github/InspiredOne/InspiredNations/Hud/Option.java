@@ -50,6 +50,10 @@ public abstract class Option implements Nameable {
 	public String getName() {
 		return this.label;
 	}
+	@Override
+	public void setName(String name) {
+
+	}
 	
 	public boolean isAvailable() {
 		switch(reason) {
