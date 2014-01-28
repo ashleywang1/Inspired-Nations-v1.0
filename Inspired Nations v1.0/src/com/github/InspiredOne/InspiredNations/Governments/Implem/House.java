@@ -1,6 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Governments.Implem;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +68,11 @@ public class House extends OwnerGov {
 	@Override
 	public Class<? extends InspiredRegion> getInspiredRegion() {
 		return HouseLand.class;
+	}
+
+	@Override
+	public String getFacilityGroupName() {
+		return null;
 	}
 
 }

@@ -1,11 +1,13 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.Facility;
+import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.NewFacility.PickFacilityType;
 
 public class ManageGov extends OptionMenu {
 
@@ -44,9 +46,22 @@ public class ManageGov extends OptionMenu {
 
 	@Override
 	public void init() {
-		this.options.add(new PromptOption(this, "Manage Money", new ManageGovMoney(PDI, gov)));
+		this.options.add(new PromptOption(this, "Manage Money", new ManageGovMoney(PDI, this, gov)));
 		this.options.add(new PromptOption(this, "Claim Land", new PickClaimType(PDI, gov, this.getSelf())));
-		this.options.add(new PromptOption(this, "Government Regions", new GovernmentRegions(PDI, gov)));
+		if(gov.getGovFacilities().size() > 1) {
+			this.options.add(new PromptOption(this, gov.getFacilityGroupName(), new GovernmentRegions(PDI, gov)));
+		}
+		else {
+			for(Class<? extends Facility> factype:gov.getGovFacilities()) {
+				Facility facgov = GovFactory.getGovInstance(factype);
+				if(gov.getFacilities().size() == 0 || !facgov.isUnique()) {
+					this.options.add(new PromptOption(this, "New " + facgov.getTypeName(), new PickFacilityType<>(PDI, gov, factype)));
+				}
+				if(gov.getFacilities().size() > 0) {
+					this.options.add(new PromptOption(this, "Manage " + facgov.getTypeName(), new PickFacilityToManage<>(PDI, this, gov, factype)));
+				}
+			}
+		}
 	}
 
 }

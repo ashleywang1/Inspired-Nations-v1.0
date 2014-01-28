@@ -9,7 +9,6 @@ import org.bukkit.OfflinePlayer;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
-import com.github.InspiredOne.InspiredNations.Regions.Region;
 
 public class GlobalGov extends OwnerSubjectGov {
 	
@@ -80,6 +79,12 @@ public class GlobalGov extends OwnerSubjectGov {
 
 	@Override
 	public Class<? extends InspiredRegion> getInspiredRegion() {
+		return null;
+	}
+
+	@Override
+	public String getFacilityGroupName() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

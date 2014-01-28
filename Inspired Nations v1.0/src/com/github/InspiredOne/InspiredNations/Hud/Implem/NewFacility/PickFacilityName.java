@@ -46,7 +46,7 @@ public class PickFacilityName extends InputMenu {
 	@Override
 	public void useInput(String input) {
 		Govf = Govf.withName(input);
-		this.gov.getFacilities().add((Facility) Govf.getGov());
+		this.gov.getFacilities().add(Govf.getGov());
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class PickFacilityName extends InputMenu {
 
 	@Override
 	public Menu getPreviousMenu() {
-		return new PickFacilityType(PDI, gov, Govf.getGov().getClass());
+		return new PickFacilityType<>(PDI, gov, Govf.getGov().getClass());
 	}
 
 	@Override

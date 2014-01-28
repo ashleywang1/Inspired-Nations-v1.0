@@ -61,11 +61,12 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	public boolean getPassBy() {
 		return false;
 	}
-
+	
 	@Override
 	public Menu getPassTo() {
 		return null;
 	}
+
 
 	@Override
 	public final String getPreOptionText() {

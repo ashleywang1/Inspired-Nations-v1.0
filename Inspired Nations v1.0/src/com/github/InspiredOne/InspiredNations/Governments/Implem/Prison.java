@@ -1,6 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Governments.Implem;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +57,16 @@ public class Prison extends Facility {
 	@Override
 	public Class<? extends InspiredRegion> getInspiredRegion() {
 		return PrisonLand.class;
+	}
+
+	@Override
+	public boolean isUnique() {
+		return true;
+	}
+
+	@Override
+	public String getFacilityGroupName() {
+		return null;
 	}
 
 }

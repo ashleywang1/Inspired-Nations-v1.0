@@ -12,11 +12,11 @@ import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 
 public class PickManageSelfType extends PassByOptionMenu {
 
-	Class<? extends OwnerGov> GovType;
+	Class<? extends InspiredGov> GovType;
 	
-	public PickManageSelfType(PlayerData PDI, Class<? extends OwnerGov> GovType) {
+	public PickManageSelfType(PlayerData PDI, Class<? extends InspiredGov> class1) {
 		super(PDI);
-		this.GovType = GovType;
+		this.GovType = class1;
 	}
 
 	@Override
@@ -24,15 +24,14 @@ public class PickManageSelfType extends PassByOptionMenu {
 		return "Pick the type of " + GovFactory.getGovInstance(GovType).getTypeName() + ".";
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Menu getPreviousMenu() {
-		GovFactory govf = new GovFactory(GovType);
+		GovFactory<? extends InspiredGov> govf = new GovFactory<>(GovType);
 		if(govf.getGov().getGeneralGovType().equals(GovType)) {
 			return new MainHud(PDI);
 		}
 		else {
-			return new PickManageSelfType(PDI, (Class<? extends OwnerGov>) ((OwnerGov) govf.getGov()).getGeneralGovType());
+			return new PickManageSelfType(PDI, govf.getGov().getGeneralGovType());
 		}
 	}
 
@@ -45,7 +44,7 @@ public class PickManageSelfType extends PassByOptionMenu {
 	@Override
 	public void init() {
 		for(Class<? extends InspiredGov> gov:GovFactory.getGovInstance(GovType).getSelfGovs()) {
-			GovFactory govf = new GovFactory(gov);
+			GovFactory<? extends InspiredGov> govf = new GovFactory<>(gov);
 			((OwnerGov) govf.getGov()).getOwners().add(PDI.getName());
 			if(govf.getGov().getSelfGovs().size() == 1) {
 				if(govf.getGov().getSelfGovs().get(0).equals(govf.getGov().getClass()) && !PDI.getOwnership(govf.getGov().getClass()).isEmpty()) {

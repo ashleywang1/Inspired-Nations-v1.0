@@ -40,7 +40,7 @@ public class PickManageSuperGov extends PassByOptionMenu {
 
 	@Override
 	public String getHeader() {
-		return "Pick Super Gov";
+		return "Pick " + supergov.getTypeName();
 	}
 
 	@Override

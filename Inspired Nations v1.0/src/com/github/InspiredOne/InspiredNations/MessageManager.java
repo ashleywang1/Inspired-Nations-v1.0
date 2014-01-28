@@ -18,20 +18,49 @@ public class MessageManager implements Serializable {
 		this.PDI = PDI;
 	}
 	
-	public void sendMessage(String msg) {
-		for(PlayerData PDITarget:InspiredNations.playerdata.values()) {
-			PDITarget.getMsg().recieveMessage(msg);
-		}
-		this.recieveMessage(msg);
+	public String MessageConstructor(String msg, PlayerData from) {
+		return from.getPlayer().getDisplayName() + ": " + msg;
 	}
-	public void recieveMessage(String msg) {
+	/**
+	 * Method to send a message from this player
+	 * @param msg
+	 */
+	public void sendChatMessage(String msg) {
+		Debug.print("inside sendMessage");
+		for(PlayerData PDITarget:InspiredNations.playerdata.values()) {
+			if(PDITarget == PDI) {
+				PDITarget.getMsg().recieveMessage(msg, PDI);
+			}
+			else {
+				PDITarget.getMsg().recieveChatMessage(msg, PDI);
+			}
+		}
+	}
+	/**
+	 * makes sure the player receives the message, even if they are in a menu
+	 * @param msg
+	 * @param from
+	 */
+	public void recieveMessage(String msg, PlayerData from) {
+		if(PDI.getPlayer() == null) {
+			return;
+		}
 		if(PDI.getPlayer().isConversing()) {
-			this.PDI.getCon().getContext().setSessionData(ContextData.Alert, MenuAlert.makeMessage(msg));
-			this.PDI.getCon().outputNextPrompt();
+			this.PDI.getCon().getContext().setSessionData(ContextData.Alert, MenuAlert.makeMessage(this.MessageConstructor(msg, from)));
+			if(from != PDI) {
+				this.PDI.getCon().outputNextPrompt();
+			}
 		}
 		else {
-			PDI.getPlayer().sendMessage(MenuAlert.makeMessage(msg));
+			PDI.getPlayer().sendMessage(this.MessageConstructor(msg, from));
 		}
+	}
+	
+	public void recieveChatMessage(String msg, PlayerData from) {
+		if(PDI.getPlayer() == null) {
+			return;
+		}
+		PDI.getPlayer().sendMessage(this.MessageConstructor(msg, from));
 	}
 
 }

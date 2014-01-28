@@ -7,7 +7,6 @@ import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
-import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.BankLand;
 
 public class Bank extends Facility {
@@ -59,6 +58,16 @@ public class Bank extends Facility {
 	@Override
 	public Class<? extends InspiredRegion> getInspiredRegion() {
 		return BankLand.class;
+	}
+
+	@Override
+	public boolean isUnique() {
+		return true;
+	}
+
+	@Override
+	public String getFacilityGroupName() {
+		return null;
 	}
 
 }

@@ -201,6 +201,11 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public abstract String getTypeName();
 	/**
+	 * Gets the name to be used for the Government Regions option.
+	 * @return
+	 */
+	public abstract String getFacilityGroupName();
+	/**
 	 * 
 	 * @param subgov	the <code>InspiredGov</code> type to be searched for
 	 * @return			the <code>double</code> representation of the tax rate

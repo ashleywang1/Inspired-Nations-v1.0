@@ -1,6 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Governments.Implem;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +57,15 @@ public class LocalPark extends Facility {
 	@Override
 	public Class<? extends InspiredRegion> getInspiredRegion() {
 		return LocalParkLand.class;
+	}
+	@Override
+	public boolean isUnique() {
+		return false;
+	}
+	@Override
+	public String getFacilityGroupName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

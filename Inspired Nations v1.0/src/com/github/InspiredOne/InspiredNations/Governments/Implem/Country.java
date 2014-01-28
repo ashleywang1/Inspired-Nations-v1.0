@@ -76,4 +76,9 @@ public class Country extends OwnerSubjectGov {
 		return CountryLand.class;
 	}
 
+	@Override
+	public String getFacilityGroupName() {
+		return "Government Facilities";
+	}
+
 }

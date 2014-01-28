@@ -64,7 +64,7 @@ public class MainHud extends OptionMenu {
 		for(Class<? extends OwnerGov> gov:array) {
 			OwnerGov govobj = (OwnerGov) GovFactory.getGovInstance(gov);
 			if(!PDI.getCitizenship(govobj.getSuperGov()).isEmpty()) {
-				this.options.add(new PromptOption(this, "New " + govobj.getTypeName(), new PickSelfType(PDI, gov)));
+				this.options.add(new PromptOption(this, "New " + govobj.getTypeName(), new PickSelfType<>(PDI, gov)));
 			}
 		}
 	}

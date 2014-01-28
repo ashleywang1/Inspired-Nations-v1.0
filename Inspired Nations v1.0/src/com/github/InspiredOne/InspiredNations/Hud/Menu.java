@@ -107,7 +107,7 @@ public abstract class Menu extends MessagePrompt {
 		String[] args = arg.split(" ");
 		if (args[0].equalsIgnoreCase("say"))  {
 			if(args.length > 1) {
-				PDI.getMsg().sendMessage(arg.substring(3));
+				PDI.getMsg().sendChatMessage(arg.substring(4));
 				//TODO send the chat message here
 			}
 			return this.getSelf();

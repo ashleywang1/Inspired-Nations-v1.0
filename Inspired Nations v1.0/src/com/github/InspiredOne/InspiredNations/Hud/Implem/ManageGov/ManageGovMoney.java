@@ -1,7 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
@@ -9,10 +9,12 @@ import com.github.InspiredOne.InspiredNations.Hud.Implem.Money.PayNav;
 
 public class ManageGovMoney extends OptionMenu {
 
-	OwnerGov gov;
-	public ManageGovMoney(PlayerData PDI, OwnerGov gov) {
+	InspiredGov gov;
+	Menu previous;
+	public ManageGovMoney(PlayerData PDI, Menu previous, InspiredGov gov) {
 		super(PDI);
 		this.gov = gov;
+		this.previous = previous;
 	}
 
 	@Override
@@ -22,7 +24,7 @@ public class ManageGovMoney extends OptionMenu {
 
 	@Override
 	public Menu getPreviousMenu() {
-		return new ManageGov(PDI, gov);
+		return previous;
 	}
 
 	@Override

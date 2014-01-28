@@ -8,7 +8,6 @@ import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
-import com.github.InspiredOne.InspiredNations.Regions.Region;
 
 public class Business extends OwnerSubjectGov {
 
@@ -65,6 +64,12 @@ public class Business extends OwnerSubjectGov {
 
 	@Override
 	public Class<? extends InspiredRegion> getInspiredRegion() {
+		return null;
+	}
+
+	@Override
+	public String getFacilityGroupName() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }
