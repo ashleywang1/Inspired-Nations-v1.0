@@ -33,7 +33,7 @@ public class PayPlayer extends TabSelectOptionMenu<PlayerID> {
 			this.taboptions.add(player);
 		}
 		if(this.getData().equals(PDI.getPlayerID())) {
-			this.options.add(new PromptOption(PDI, this, "Make Account Transfer"))
+			//this.options.add(new PromptOption(PDI, this, "Make Account Transfer"))
 		}
 		else {
 			this.options.add(new PayAccountOption(PDI, this, "Pay Player <amount>", accounts, this.getData().getPDI().getAccounts()));

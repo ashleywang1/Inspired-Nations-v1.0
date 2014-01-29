@@ -66,7 +66,7 @@ public class Tools {
 	public enum TextColor {
 		HEADER(ChatColor.GOLD + "" + ChatColor.BOLD),
 		SUBHEADER(ChatColor.YELLOW + "" + ChatColor.ITALIC + "" + ChatColor.BOLD),
-		LABEL(ChatColor.RED + ""),
+		LABEL(ChatColor.GRAY + ""),
 		VALUE(ChatColor.GOLD + ""),
 		VALUEDESCRI(ChatColor.YELLOW + ""),
 		DIVIDER(ChatColor.DARK_AQUA + ""),
@@ -78,7 +78,7 @@ public class Tools {
 		UNAVAILREASON(ChatColor.GRAY + ""),
 		INSTRUCTION(ChatColor.YELLOW + ""),
 		ERROR(ChatColor.RED + ""),
-		ALERT(ChatColor.RED + ""),
+		ALERT(ChatColor.YELLOW + ""),
 		UNIT(ChatColor.YELLOW + ""),
 		ENDINSTRU(ChatColor.AQUA + "");
 		

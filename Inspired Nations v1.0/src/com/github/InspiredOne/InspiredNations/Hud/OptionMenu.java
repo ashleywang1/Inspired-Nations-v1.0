@@ -44,7 +44,6 @@ public abstract class OptionMenu extends ActionMenu {
 			}
 		}
 		catch (Exception ex) {
-				ex.printStackTrace();
 				this.setError(MenuError.INVALID_NUMBER_INPUT());
 				return this.getSelf();
 		}

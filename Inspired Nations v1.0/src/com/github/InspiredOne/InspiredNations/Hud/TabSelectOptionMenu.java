@@ -105,7 +105,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			Nameable option = filteredoptions.get(iter); 
 			if(iter >= rangeBottom - maxLines && iter < rangeBottom) {
 				if(tabcnt == iter) {
-					output = output.concat(TextColor.LABEL.toString() + ChatColor.BOLD + option.getDisplayName(this.PDI) + "\n");
+					output = output.concat(TextColor.LABEL.toString() + "=> " + option.getDisplayName(this.PDI) + "\n");
 				}
 				else {
 					output = output.concat(TextColor.LABEL + option.getDisplayName(this.PDI) + "\n");

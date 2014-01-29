@@ -2,12 +2,13 @@ package com.github.InspiredOne.InspiredNations.Economy;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
-import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
@@ -21,7 +22,7 @@ public class Account implements Serializable, Nameable, Payable {
 	private static final long serialVersionUID = -7022565910007118461L;
 	private static final String typeName = "Money";
 	private String name = "Money";
-	private IndexedMap<Currency, BigDecimal> money = new IndexedMap<Currency, BigDecimal>();
+	private ArrayList<CurrencyAccount> money = new ArrayList<CurrencyAccount>();
 	private boolean AutoExchange = false;
 
 	
@@ -40,33 +41,35 @@ public class Account implements Serializable, Nameable, Payable {
 	 * 
 	 * @return	the <code>HashMap</code> with all the money values in it
 	 */
-	public final IndexedMap<Currency, BigDecimal> getMoney() {
+	public final ArrayList<CurrencyAccount> getMoney() {
 		return money;
 	}
 	/**
 	 * Sets the HashMap of all the money values
 	 * @param money	the HashMap to replace the current one
 	 */
-	public final void setMoney(IndexedMap<Currency, BigDecimal> money) {
+	public final void setMoney(ArrayList<CurrencyAccount> money) {
 		this.money = money;
 	}
 
 	public final BigDecimal getMoney(Currency getType, Currency valueType) {
 		MoneyExchange exch = InspiredNations.Exchange;
-		if(money.containsKey(getType)) {
-			return exch.getValue(money.get(getType), getType, valueType);
+		CurrencyAccount curren = getCurrenAccount(getType);
+		boolean contains = curren != null;
+		
+		if(contains) {
+			return exch.getValue(curren.getTotalMoney(getType), getType, valueType);
 		}
 		else {
-			money.put(getType, BigDecimal.ZERO);
+			money.add(new CurrencyAccount(getType, BigDecimal.ZERO));
 			return this.getMoney(getType, valueType);
 		}
 	}
 	
 	public final BigDecimal getTotalMoney(Currency valueType) {
-		MoneyExchange exch = InspiredNations.Exchange;
 		BigDecimal output = BigDecimal.ZERO;
-		for(Currency curren:money.keySet()) {
-			output = output.add(exch.getValue(money.get(curren), curren, valueType));
+		for(CurrencyAccount curren:money) {
+			output = output.add(curren.getTotalMoney(valueType));
 		}
 		return output;
 	}
@@ -75,44 +78,59 @@ public class Account implements Serializable, Nameable, Payable {
 		if(mon.compareTo(BigDecimal.ZERO) < 0) {
 			throw new NegativeMoneyTransferException();
 		}
-		MoneyExchange exch = InspiredNations.Exchange;
 		if(this.money.isEmpty()) {
-			this.money.put(Currency.DEFAULT, BigDecimal.ZERO);
+			this.money.add(new CurrencyAccount(Currency.DEFAULT, BigDecimal.ZERO));
 		}
 		
+		
+		// looks to see if accountCollection has MonType
+		CurrencyAccount account = getCurrenAccount(monType);
+		boolean contains = account != null;
+		
+		Debug.print("Inside account addMoney 1");
 		if(this.AutoExchange) {
-			Currency exTo = money.getIndex(0);
-			money.put(exTo, money.get(exTo).add(exch.exchange(mon, monType, exTo)));
+			money.get(0).addMoney(mon, monType);
 		}
-		else if(money.containsKey(monType)) {
-			money.put(monType, money.get(monType).add(mon));
+		else if(contains) {
+			Debug.print("Inside account addMoney 2");
+			account.addMoney(mon, monType);
 		}
 		else {
-			money.put(monType, BigDecimal.ZERO);
+			Debug.print("Inside account addMoney 3");
+			money.add(new CurrencyAccount(monType, BigDecimal.ZERO));
 			this.addMoney(mon, monType);
 		}
 	}
 	
 	public final void transferMoney(BigDecimal mon, Currency monType, Payable accountTo) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
-		MoneyExchange exch = InspiredNations.Exchange;
 		if(getTotalMoney(monType).compareTo(mon) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}
 		else {
-			for(Currency curren:money) {
-				BigDecimal amount = money.get(curren);
-				if(amount.compareTo(exch.getValue(mon, monType, curren)) < 0) {
-					mon = mon.subtract(exch.getValue(amount, curren, monType));
-					money.put(curren, BigDecimal.ZERO);
-					accountTo.addMoney(amount, curren);
+			for(CurrencyAccount curren:money) {
+				BigDecimal amount = curren.getTotalMoney(monType);
+				
+				if(amount.compareTo(mon) < 0) {
+					curren.transferMoney(amount, monType, accountTo);
+					money.set(money.indexOf(curren), new CurrencyAccount(curren.getCurrency()));
 				}
 				else {
-					money.put(curren, money.get(curren).subtract(exch.getValue(mon, monType, curren)));
-					accountTo.addMoney(exch.getValue(mon, monType, curren), curren);
+					curren.transferMoney(mon, monType, accountTo);
 					break;
 				}
 			}
 		}
+	}
+	
+	private CurrencyAccount getCurrenAccount(Currency monType) {
+		CurrencyAccount account = null;
+		for(CurrencyAccount curren:this.money) {
+			if(curren.getCurrency().equals(monType)) {
+				account = curren;
+				break;
+			}
+		}
+		return account;
 	}
 	
 	/**

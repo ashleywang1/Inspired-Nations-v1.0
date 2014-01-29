@@ -3,11 +3,12 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
-import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.Economy.CurrencyAccount;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 
-public class ManageCurrencies extends TabSelectOptionMenu<Currency> {
+public class ManageCurrencies extends TabSelectOptionMenu<CurrencyAccount> {
 
 	Menu previous;
 	AccountCollection accounts;
@@ -33,8 +34,12 @@ public class ManageCurrencies extends TabSelectOptionMenu<Currency> {
 
 	@Override
 	public void Init() {
-		for(Currency curren:account.getMoney().keySet()) {
+		for(CurrencyAccount curren:account.getMoney()) {
 			this.taboptions.add(curren);
+		}
+		if(this.taboptions.size() > 0) {
+			this.options.add(new PromptOption(this, "Pay with " + this.getData().getName(), new PayNav(PDI, this.getData(), this)));
+			this.options.add(new ChangeTabOrderOption<>(new ManageCurrencies(PDI, previous, accounts, account), "Change Currency Order <+/->", account.getMoney(), this.getData()));
 		}
 	}
 

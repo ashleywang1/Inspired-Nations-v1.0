@@ -1,6 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -39,7 +38,7 @@ public class ManageAccounts extends TabSelectOptionMenu<Account> {
 			this.options.add(new PromptOption(this, "Pay With " + this.getData().getName(), new PayNav(PDI, this.getData(), new ManageAccounts(PDI, previous, accounts))));
 			this.options.add(new RenameAccountOption(this, this.getData(), "Rename " + this.getData().getName() + " <Name>"));
 			this.options.add(new ChangeAutoExchangeOption(new ManageAccounts(PDI, previous, accounts), "Toggle Auto-Exchange", this.getData()));
-			this.options.add(new ChangeAccountOrderOption(new ManageAccounts(PDI, previous, accounts), "Change Account Order <+/->", PDI.getAccounts(), this.getData()));
+			this.options.add(new ChangeTabOrderOption<>(new ManageAccounts(PDI, previous, accounts), "Change Account Order <+/->", PDI.getAccounts(), this.getData()));
 			this.options.add(new PromptOption(new ManageAccounts(PDI, previous, accounts), "Manage Currencies In " +this.getData().getName(), new ManageCurrencies(PDI, previous, accounts, this.getData())));
 		}
 		
