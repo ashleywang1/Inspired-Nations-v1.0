@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Hud;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 
@@ -69,5 +70,10 @@ public abstract class Option implements Nameable {
 	}
 	public String getDescription() {
 		return description;
+	}
+	
+	@Override
+	public String getDisplayName(PlayerData PDI) {
+		return this.getName();
 	}
 }

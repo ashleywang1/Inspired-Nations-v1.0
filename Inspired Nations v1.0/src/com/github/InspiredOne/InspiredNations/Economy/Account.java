@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 public class Account implements Serializable, Nameable, Payable {
 
@@ -135,5 +137,10 @@ public class Account implements Serializable, Nameable, Payable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public String getDisplayName(PlayerData PDI) {
+		return this.getName() + " (" + Tools.cut(this.getTotalMoney(PDI.getCurrency())) +" " + PDI.getCurrency() + ")";
 	}
 }

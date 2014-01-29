@@ -28,7 +28,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 
 	private int tabcnt = 0;
 	private int rangeBottom = maxLines;
-	private static final int maxLines = 9;
+	private static final int maxLines = 7;
 	protected List<E> taboptions = new ArrayList<E>();
 	private List<E> filteredoptions = new ArrayList<E>();
 	private E data;
@@ -105,10 +105,10 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			Nameable option = filteredoptions.get(iter); 
 			if(iter >= rangeBottom - maxLines && iter < rangeBottom) {
 				if(tabcnt == iter) {
-					output = output.concat(TextColor.LABEL.toString() + ChatColor.BOLD + option.getName() + "\n");
+					output = output.concat(TextColor.LABEL.toString() + ChatColor.BOLD + option.getDisplayName(this.PDI) + "\n");
 				}
 				else {
-					output = output.concat(TextColor.LABEL + option.getName() + "\n");
+					output = output.concat(TextColor.LABEL + option.getDisplayName(this.PDI) + "\n");
 				}
 			}
 		}

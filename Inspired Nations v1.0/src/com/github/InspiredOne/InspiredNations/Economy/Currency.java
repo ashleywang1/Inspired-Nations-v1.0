@@ -7,7 +7,9 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 	
 public class Currency implements Serializable, Nameable{
 
@@ -24,6 +26,10 @@ public class Currency implements Serializable, Nameable{
 		this.setName(name);
 		InspiredNations.Exchange.registerCurrency(this, new BigDecimal(500));
 		
+	}
+	
+	public BigDecimal getExchangeRate(Currency output) {
+		return InspiredNations.Exchange.getValue(BigDecimal.ONE, this, output);
 	}
 
 	@Override
@@ -63,5 +69,10 @@ public class Currency implements Serializable, Nameable{
     @Override
     public String toString() {
     	return this.getName();
+    }
+    
+    @Override
+    public String getDisplayName(PlayerData PDI) {
+    	return this.getName() + " ("+Tools.cut(this.getExchangeRate(PDI.getCurrency())) + " " + PDI.getCurrency() + ")";
     }
 }

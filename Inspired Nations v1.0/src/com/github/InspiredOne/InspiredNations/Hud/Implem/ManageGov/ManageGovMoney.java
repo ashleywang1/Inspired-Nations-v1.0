@@ -5,6 +5,7 @@ import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Money.ManageAccounts;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Money.PayNav;
 
 public class ManageGovMoney extends OptionMenu {
@@ -45,6 +46,7 @@ public class ManageGovMoney extends OptionMenu {
 	@Override
 	public void init() {
 		this.options.add(new PromptOption(this, "Pay", new PayNav(PDI, gov.getAccounts(), this)));
+		this.options.add(new PromptOption(this, "Manage Accounts", new ManageAccounts(PDI, this, gov.getAccounts())));
 	}
 
 }

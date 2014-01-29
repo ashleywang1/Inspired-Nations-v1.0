@@ -57,6 +57,10 @@ public class PlayerData implements Serializable, Nameable {
 		return plugin.getServer().getPlayer(name);
 	}
 	
+	public PlayerID getPlayerID() {
+		return new PlayerID(this.getPlayer());
+	}
+	
 	public boolean isSubjectOf(Class<? extends InspiredGov> govtype) {
 		for(InspiredGov gov:InspiredNations.regiondata.get(govtype)) {
 			if(gov.getSubjects().contains(this.getName())) {
@@ -151,5 +155,11 @@ public class PlayerData implements Serializable, Nameable {
 	@Override
 	public void setName(String name) {
 		
+	}
+	
+	@Override
+	public String getDisplayName(PlayerData PDI) {
+		//TODO make this name the one used for messages and everything.
+		return this.getName();
 	}
 }

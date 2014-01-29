@@ -1,4 +1,7 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
+
+import com.github.InspiredOne.InspiredNations.PlayerData;
+
 /**
  * Used by menus to list a bunch of named objects
  * @author Jedidiah E. Phillips
@@ -12,4 +15,9 @@ public interface Nameable {
 	public String getName();
 	
 	public void setName(String name);
+	/**
+	 * Gets a string that includes the name an more information inline
+	 * @return
+	 */
+	public String getDisplayName(PlayerData viewer);
 }

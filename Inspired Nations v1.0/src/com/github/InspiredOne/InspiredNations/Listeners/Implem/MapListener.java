@@ -25,6 +25,7 @@ public class MapListener<T extends MapManager<?>> extends InspiredListener<T> {
 	public Point3D getResoPoint(Location loca) {
 		Point3D outpoint = new Point3D((int) Math.floor(loca.getBlockX()/((int) Math.pow(2, manager.zoom))), loca.getBlockY(), (int) Math.floor(loca.getBlockZ()/((int) Math.pow(2, manager.zoom))), loca.getWorld());
 		return outpoint;
+	//	return new Point3D(loca);
 	}
 	
 	@EventHandler

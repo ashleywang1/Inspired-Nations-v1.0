@@ -32,7 +32,12 @@ public class PayPlayer extends TabSelectOptionMenu<PlayerID> {
 		for(PlayerID player:InspiredNations.playerdata.keySet()) {
 			this.taboptions.add(player);
 		}
-		this.options.add(new PayAccountOption(PDI, this, "Pay Player <amount>", accounts, this.getData().getPDI().getAccounts()));
+		if(this.getData().equals(PDI.getPlayerID())) {
+			this.options.add(new PromptOption(PDI, this, "Make Account Transfer"))
+		}
+		else {
+			this.options.add(new PayAccountOption(PDI, this, "Pay Player <amount>", accounts, this.getData().getPDI().getAccounts()));
+		}
 	}
 	@Override
 	public String getHeader() {

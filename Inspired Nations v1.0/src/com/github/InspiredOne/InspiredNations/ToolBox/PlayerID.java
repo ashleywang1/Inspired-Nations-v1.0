@@ -67,4 +67,9 @@ public class PlayerID implements Serializable, Nameable {
 		
 	}
 	
+	@Override
+	public String getDisplayName(PlayerData PDI) {
+		return this.getPDI().getDisplayName(PDI);
+	}
+	
 }

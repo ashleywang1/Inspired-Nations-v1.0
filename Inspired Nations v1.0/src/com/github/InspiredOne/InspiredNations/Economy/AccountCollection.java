@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Economy;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
@@ -61,5 +62,9 @@ public class AccountCollection extends ArrayList<Account> implements Payable {
 		this.name = name;
 	}
 	
+	@Override
+	public String getDisplayName(PlayerData PDI) {
+		return this.getName() + " (" + this.getTotalMoney(PDI.getCurrency()) + " " + PDI.getCurrency() + ")";
+	}
 	
 }

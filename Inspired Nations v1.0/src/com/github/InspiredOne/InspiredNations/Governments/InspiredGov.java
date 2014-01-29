@@ -12,6 +12,7 @@ import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
@@ -573,6 +574,11 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		else {
 			this.getRegion().setRegion(new nullRegion());
 		}
+	}
+	
+	@Override
+	public String getDisplayName(PlayerData PDI) {
+		return this.getName().concat(" (" + this.getTypeName() + ")");
 	}
 	
 }
