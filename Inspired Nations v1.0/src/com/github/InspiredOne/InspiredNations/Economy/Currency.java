@@ -72,7 +72,8 @@ public class Currency implements Serializable, Nameable{
     }
     
     @Override
-    public String getDisplayName(PlayerData PDI) {
-    	return this.getName() + " ("+Tools.cut(this.getExchangeRate(PDI.getCurrency())) + " " + PDI.getCurrency() + ")";
+    public String getDisplayName(PlayerData viewer) {
+    	return this.getName() + " (1.00 " + this + " =~ " + Tools.cut(InspiredNations.Exchange.getValue(BigDecimal.ONE, this, viewer.getCurrency()))
+				+ viewer.getCurrency() + ")";
     }
 }
