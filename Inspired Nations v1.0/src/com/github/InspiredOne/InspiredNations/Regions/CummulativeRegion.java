@@ -3,6 +3,9 @@ package com.github.InspiredOne.InspiredNations.Regions;
 import java.util.HashSet;
 
 import com.github.InspiredOne.InspiredNations.Debug;
+import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
 public abstract class CummulativeRegion<T extends NonCummulativeRegion> extends Region {
@@ -97,6 +100,8 @@ public abstract class CummulativeRegion<T extends NonCummulativeRegion> extends 
 		}
 		return output;
 	}
+	
+	public abstract <E extends InspiredGov> Menu getUnclaimMenu(PlayerData PDI, Menu previous, E gov);
 
 
 }

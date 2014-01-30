@@ -17,6 +17,11 @@ public class NewAccountOption extends Option {
 
 	@Override
 	public Menu response(String input) {
+		input = input.trim();
+		if(input.isEmpty()) {
+			menu.setError(MenuError.EMPTY_INPUT());
+			return menu;
+		}
 		for(Account account:accounts){
 			if(account.getName().equalsIgnoreCase(input)) {
 				menu.setError(MenuError.ACCOUNT_NAME_ALREADY_TAKEN());

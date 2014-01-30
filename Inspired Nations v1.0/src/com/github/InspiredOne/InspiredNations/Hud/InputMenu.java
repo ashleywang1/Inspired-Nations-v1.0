@@ -15,6 +15,7 @@ public abstract class InputMenu extends ActionMenu {
 	
 	@Override
 	public final Menu getNextMenu(String input) {
+		input = input.trim();
 		String error = this.validate(input);
 		this.setError(error);
 		if(error.isEmpty()) {

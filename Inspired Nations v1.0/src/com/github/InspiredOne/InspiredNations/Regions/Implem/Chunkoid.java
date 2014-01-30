@@ -2,17 +2,16 @@ package com.github.InspiredOne.InspiredNations.Regions.Implem;
 
 import org.bukkit.Chunk;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimLand.ClaimChunkoid;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand.ClaimChunkoid;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 
-public class Chunkoid extends CummulativeRegion {
+public class Chunkoid extends CummulativeRegion<ChunkRegion> {
 
 	/**
 	 * 
@@ -42,7 +41,7 @@ public class Chunkoid extends CummulativeRegion {
 			return this.IsIn((NonCummulativeRegion) region);
 		}
 		else {
-			return this.IsIn((CummulativeRegion) region);
+			return this.IsIn((CummulativeRegion<?>) region);
 		}
 	}
 	
@@ -75,5 +74,23 @@ public class Chunkoid extends CummulativeRegion {
 	@Override
 	protected boolean instantiated() {
 		return true;
+	}
+
+	@Override
+	public Menu getUnclaimMenu(PlayerData PDI, Menu previous, InspiredGov gov) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean IsIn(CummulativeRegion<?> region) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean Intersects(CummulativeRegion<?> region) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

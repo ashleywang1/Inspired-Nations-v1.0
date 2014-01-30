@@ -33,15 +33,14 @@ public class ManageAccounts extends TabSelectOptionMenu<Account> {
 		for(Account account:accounts) {
 			this.taboptions.add(account);
 		}
-		this.options.add(new NewAccountOption(new ManageAccounts(PDI, previous, accounts), "New Account <Name>", PDI.getAccounts()));
+
 		if(taboptions.size() > 0) {
-			this.options.add(new PromptOption(this, "Pay With " + this.getData().getName(), new PayNav(PDI, this.getData(), new ManageAccounts(PDI, previous, accounts))));
-			this.options.add(new RenameAccountOption(this, this.getData(), "Rename " + this.getData().getName() + " <Name>"));
-			this.options.add(new ChangeAutoExchangeOption(new ManageAccounts(PDI, previous, accounts), "Toggle Auto-Exchange", this.getData()));
 			this.options.add(new ChangeTabOrderOption<>(new ManageAccounts(PDI, previous, accounts), "Change Account Order <+/->", PDI.getAccounts(), this.getData()));
+			this.options.add(new PromptOption(this, "Manage " + this.getData().getName() + " account", new ManageAccount(PDI, previous, this.getData(), accounts)));
+			this.options.add(new PromptOption(this, "Pay With " + this.getData().getName(), new PayNav(PDI, this.getData(), new ManageAccounts(PDI, previous, accounts))));
 			this.options.add(new PromptOption(new ManageAccounts(PDI, previous, accounts), "Manage Currencies In " +this.getData().getName(), new ManageCurrencies(PDI, previous, accounts, this.getData())));
 		}
-		
+		this.options.add(new NewAccountOption(new ManageAccounts(PDI, previous, accounts), "New Account <Name>", PDI.getAccounts()));
 	}
 
 	@Override

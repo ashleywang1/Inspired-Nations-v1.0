@@ -137,6 +137,9 @@ public class MenuTools {
 			return makeMessage("The polygon you selected is not simple. This means that some of the sides"
 					+ " cross. Make sure you select each corner in order.");
 		}
+		public static String EMPTY_INPUT() {
+			return makeMessage("Your input was blank.");
+		}
 		private static final String getTypeName(Class<? extends InspiredGov> gov) {
 			String GovName = "";
 			GovName = GovFactory.getGovInstance(gov).getTypeName();

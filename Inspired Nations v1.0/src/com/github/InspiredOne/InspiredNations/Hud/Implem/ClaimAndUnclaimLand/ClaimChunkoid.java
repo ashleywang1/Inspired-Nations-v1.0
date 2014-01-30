@@ -1,4 +1,4 @@
-package com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimLand;
+package com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand;
 
 import java.util.ArrayList;
 import java.util.List;

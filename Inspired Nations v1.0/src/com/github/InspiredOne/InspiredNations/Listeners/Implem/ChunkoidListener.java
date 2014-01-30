@@ -3,15 +3,14 @@ package com.github.InspiredOne.InspiredNations.Listeners.Implem;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import com.github.InspiredOne.InspiredNations.Debug;
+import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.InspiredListener;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 
-public class ClaimChunkoidListener<T extends ClaimChunkoidManager<?>> extends InspiredListener<T> {
+public class ChunkoidListener<T extends ChunkoidManager<?>> extends InspiredListener<T> {
 
-	public ClaimChunkoidListener(T manager) {
+	public ChunkoidListener(T manager) {
 		super(manager);
-		Debug.print("Inside ClaimChunkoidListener");
 	}
 	
 	@EventHandler
@@ -26,5 +25,4 @@ public class ClaimChunkoidListener<T extends ClaimChunkoidManager<?>> extends In
 			this.manager.Update();
 		}
 	}
-
 }

@@ -90,7 +90,6 @@ public class InspiredNations extends JavaPlugin {
 		
 		@EventHandler
 		public void onPlayerJoin(PlayerJoinEvent event) {
-			System.out.println(new PlayerID(event.getPlayer()).equals(new PlayerID(event.getPlayer())));
 			if(!InspiredNations.playerdata.containsKey(new PlayerID(event.getPlayer()))) {
 				PlayerID ID = new PlayerID(event.getPlayer());
 				InspiredNations.playerdata.put(ID, new PlayerData(ID));

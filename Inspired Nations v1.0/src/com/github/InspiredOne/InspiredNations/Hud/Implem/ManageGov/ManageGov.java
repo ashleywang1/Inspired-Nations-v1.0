@@ -49,6 +49,9 @@ public class ManageGov extends OptionMenu {
 	public void init() {
 		this.options.add(new PromptOption(this, "Manage Money", new ManageGovMoney(PDI, this, gov)));
 		this.options.add(new PromptOption(this, "Claim Land", new PickClaimType(PDI, gov, this.getSelf())));
+		if(gov.getRegion().getRegion().volume() != 0) {
+			this.options.add(new UnclaimLandOption(PDI, "Unclaim Land", this.getSelf(), gov));
+		}
 		ManageGov.addFacilityOptions(PDI, this, gov);
 	}
 	

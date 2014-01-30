@@ -72,11 +72,9 @@ public class MessageManager implements Serializable {
 	 * @return
 	 */
 	public String conditionForMoney(String input, PlayerData from) {
-		Debug.print("Inside ConditionMoneym 1");
 		BigDecimal amount;
 		String output = "";
 		if(input.contains("$")) {
-			Debug.print("Inside ConditionMoney 2");
 			String[] args = input.split(" ");
 			boolean checkNext = false;
 			boolean scan = false;
@@ -84,7 +82,6 @@ public class MessageManager implements Serializable {
 			String append;
 			for(String test:args) {
 				append = "";
-				Debug.print("Inside ConditionMoney " + test);
 				if(test.startsWith("$")) {
 					scan = true;
 					test = test.substring(1);
@@ -98,7 +95,6 @@ public class MessageManager implements Serializable {
 						test = test.substring(0, test.length() - 1);
 					}
 					scan = false;
-					Debug.print("Inside ConditionMoney 4");
 					// Try to do the conversion
 					try {
 						amount = new BigDecimal(test);
@@ -106,7 +102,6 @@ public class MessageManager implements Serializable {
 						checkNext = false;
 					}
 					catch (Exception ex) {
-						Debug.print("Inside ConditionMoney 5");
 						checkNext = !checkNext;
 					}
 					// Modify the value of the string in the list

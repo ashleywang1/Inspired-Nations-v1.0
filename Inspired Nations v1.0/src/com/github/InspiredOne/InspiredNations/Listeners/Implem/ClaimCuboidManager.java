@@ -4,7 +4,7 @@ import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.Exceptions.CuboidNotCompletedException;
 import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldException;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimLand.ClaimCuboid;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand.ClaimCuboid;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;

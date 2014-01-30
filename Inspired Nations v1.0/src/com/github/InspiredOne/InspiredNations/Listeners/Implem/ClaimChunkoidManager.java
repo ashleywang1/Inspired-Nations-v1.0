@@ -4,21 +4,20 @@ import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsExcep
 import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
 import com.github.InspiredOne.InspiredNations.Exceptions.RegionOutOfEncapsulationBoundsException;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimLand.ClaimChunkoid;
-import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand.ClaimChunkoid;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.ChunkRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 
-public class ClaimChunkoidManager<T extends ClaimChunkoid> extends ActionManager<T> {
+public class ClaimChunkoidManager<T extends ClaimChunkoid> extends ChunkoidManager<T> {
 
 	private Point2D position;
 	private boolean claiming = false;
 	private ChunkRegion region;
 	
 	public ClaimChunkoidManager(T menu, Point2D initialChunk) {
-		super(menu);
-		this.listeners.add(new ClaimChunkoidListener<ClaimChunkoidManager<T>>(this));
+		super(menu, initialChunk);
+		this.listeners.add(new ChunkoidListener<>(this));
 		this.position = initialChunk;
 		region = new ChunkRegion(initialChunk);
 	}

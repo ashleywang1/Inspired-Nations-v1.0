@@ -517,10 +517,10 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			Debug.print(gov.getName());
 			if(gov != this) {
 				Debug.print("Here 1");
-				if(gov.getRegion().getRegion().Intersects(region)) {
+				// now check if the gov is allowed to change the land of the region
+				if(!gov.getRegion().getOverlap().contains(this.getRegion().getClass())) {
 					Debug.print("Here 2");
-					// now check if the gov is allowed to change the land of the region
-					if(!gov.getRegion().getOverlap().contains(this.getRegion().getClass())) {
+					if(gov.getRegion().getRegion().Intersects(region)) {
 						Debug.print("Here 3");
 						if(gov.getProtectionlevel() >= this.getMilitaryLevel()-gov.getMilitaryLevel() + ProtectionLevels.CLAIM_PROTECTION) {
 							Debug.print("Here 4");
@@ -528,7 +528,8 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 						}
 						else {
 							Debug.print("Here 5");
-							gov.removeLand(region);
+							// remove land, no need to check because it's already been done.
+							gov.removeLand(region, false);
 						}
 					}
 				}
@@ -561,19 +562,47 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		Debug.print("Inside SetLand 9");
 
 	}
-
-	public void removeLand(Region select) {
+	/**
+	 * Assumes that this region intersects the region <code>select</code>. 
+	 * @param select
+	 */
+	public void removeLand(Region select, boolean check) {
 		Region regionfrom = this.getRegion().getRegion();
+		ArrayList<NonCummulativeRegion> removed = new ArrayList<NonCummulativeRegion>();
 		if(regionfrom instanceof CummulativeRegion<?>) {
 			for(NonCummulativeRegion region:((CummulativeRegion<?>) regionfrom).getRegions()) {
 				if(region.Intersects(select)) {
 					((CummulativeRegion<?>) regionfrom).getRegions().remove(region);
+					removed.add(region);
 				}
 			}
 		}
 		else {
-			this.getRegion().setRegion(new nullRegion());
+			if(check) {
+				if(regionfrom.Intersects(select)) {
+					removed.add((NonCummulativeRegion) regionfrom);
+					this.getRegion().setRegion(new nullRegion());
+				}
+			}
+			else {
+				removed.add((NonCummulativeRegion) regionfrom);
+				this.getRegion().setRegion(new nullRegion());
+			}
 		}
+		//iterate through all the sub regions of this land
+		for(InspiredGov govtest:this.getAllSubGovsAndFacilitiesJustBelow()) {
+			if(govtest.getRegion().getRegion().Intersects(select)) {
+				govtest.removeLand(select, false);
+			}
+			else if(govtest.getRegion().getEncapsulatingRegions().contains(this.getRegion().getClass())) {
+				for(NonCummulativeRegion region:removed) {
+					if(govtest.getRegion().getRegion().Intersects(region)) {
+						govtest.removeLand(region, false);
+					}
+				}
+			}
+		}
+		
 	}
 	
 	@Override

@@ -17,7 +17,7 @@ import com.github.InspiredOne.InspiredNations.Exceptions.NotSimplePolygonExcepti
 import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimLand.ClaimPolygonPrism;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand.ClaimPolygonPrism;
 import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;

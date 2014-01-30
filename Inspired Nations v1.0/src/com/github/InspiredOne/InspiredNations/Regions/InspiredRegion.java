@@ -33,6 +33,9 @@ public abstract class InspiredRegion implements Serializable {
 		}
 	}
 	public void setRegion(Region region) {
+		if(region == null) {
+			this.region = new nullRegion();
+		}
 		this.region = region;
 	}
 	public abstract Class<? extends InspiredGov> getRelatedGov();
