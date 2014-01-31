@@ -6,10 +6,12 @@ import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Vector;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.EnderPearl;
+import org.bukkit.entity.EnderSignal;
+import org.bukkit.util.Vector;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
@@ -69,11 +71,19 @@ public class PolygonPrism extends NonCummulativeRegion {
 		}
 		this.reconcilePoints();
 	}
+	ArrayList<Arrow> arrows = new ArrayList<Arrow>();
+	ArrayList<EnderSignal> eyes = new ArrayList<EnderSignal>();
 	
 	/**
 	 * Adjusts the points so that the original selected blocks are actually within the polygon.
 	 */
 	public void reconcilePoints() {
+		for(Arrow arrow:arrows) {
+			arrow.remove();
+		}
+		for(EnderSignal eye:eyes) {
+			eye.remove();
+		}
 		Polygon finalized = new Polygon(polygon.xpoints, polygon.ypoints, polygon.npoints);
 		for(int iter = 0; iter < polygon.npoints; iter++) {
 			Point3D point = new Point3D(polygonOrig.xpoints[iter], ymax, polygonOrig.ypoints[iter], world);
@@ -99,6 +109,19 @@ public class PolygonPrism extends NonCummulativeRegion {
 				}
 				rotate++;
 			}
+		}
+		//TODO ask eddie if these arrows should appear when selecting the region.
+		for(int point = 0; point < finalized.npoints; point++) {
+			Point3D arrowspawn = new Point3D(finalized.xpoints[point], ymin, finalized.ypoints[point], this.world);
+			Point3D eyespawn = arrowspawn.clone();
+			eyespawn.y = this.ymax;
+			Arrow arrow = this.world.getWorld().spawn(arrowspawn.getLocation(), Arrow.class);
+			EnderSignal eye = this.world.getWorld().spawn(eyespawn.getLocation(), EnderSignal.class);
+			eye.setVelocity(new Vector());
+			eye.setFireTicks(400);
+			arrow.setFireTicks(400);
+			arrows.add(arrow);
+			eyes.add(eye);
 		}
 		this.polygon = finalized;
 	}
@@ -180,7 +203,7 @@ public class PolygonPrism extends NonCummulativeRegion {
 	 */
 	public boolean isSimple() {
 		Polygon poly = this.polygon;
-		Vector<Line2D> lines = new Vector<Line2D>();
+		java.util.Vector<Line2D> lines = new java.util.Vector<Line2D>();
 		Line2D line;
 		Line2D line2;
 		for (int i = 0; i < poly.npoints; i++) {
@@ -203,11 +226,14 @@ public class PolygonPrism extends NonCummulativeRegion {
 		}
 		return true;
 	}
-	
+	//
 	@Override
 	public boolean contains(Point3D tile) {
 		if (tile.world.equals(this.world)) {
-			if (polygon.contains(tile.x + .5, tile.z + .5)) {// || polygon.contains(tile.getBlockX() + .5, tile.getBlockZ() + .5) || polygon.contains(tile.getBlockX() - .5, tile.getBlockZ() + .5) || polygon.contains(tile.getBlockX() + .5, tile.getBlockZ() - .5)) {
+			if (polygon.contains(tile.x + .49, tile.z + .49) 
+					&& polygon.contains(tile.x + .51, tile.z + .51)
+					&& polygon.contains(tile.x + .51, tile.z + .49)
+					&& polygon.contains(tile.x + .49, tile.z + .51)) {// || polygon.contains(tile.getBlockX() + .5, tile.getBlockZ() + .5) || polygon.contains(tile.getBlockX() - .5, tile.getBlockZ() + .5) || polygon.contains(tile.getBlockX() + .5, tile.getBlockZ() - .5)) {
 				if (tile.y <= ymax && tile.y >= ymin) {
 					//tile.getLocation().getBlock().setType(Material.DIAMOND_BLOCK);
 					return true;

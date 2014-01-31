@@ -42,7 +42,7 @@ public class ClaimChunkoid extends InputMenu {
 
 	@Override
 	public String getHeader() {
-		return "Claim Chunkoid";
+		return "Claim Chunkoid 1:" + (int) Math.pow(2, mapmanager.zoom);
 	}
 
 	@Override

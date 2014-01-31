@@ -85,7 +85,7 @@ public class ClaimPolygonPrism extends InputMenu {
 
 	@Override
 	public String getHeader() {
-		return "Claim Polygon Prism " + manager.prism.volume();
+		return "Claim Polygon Prism 1:" + (int) Math.pow(2, mapmanager.zoom) +", "+ manager.prism.volume();
 	}
 
 	@Override

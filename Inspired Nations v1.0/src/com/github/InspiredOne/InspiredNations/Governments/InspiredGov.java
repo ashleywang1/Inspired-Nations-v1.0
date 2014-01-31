@@ -57,6 +57,9 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	private int protectionlevel = 0;
 	private Currency currency = Currency.DEFAULT;
 	
+	public abstract class Inspired {
+		public String here = "hello";
+	}
 	/**
 	 * @param instance	the plugin instance
 	 */
@@ -64,6 +67,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		for(Class<? extends InspiredGov> gov:this.getSubGovs()) {
 			taxrates.put(gov, 1.0);
 		}
+		this.
 		accounts = new AccountCollection("");
 	}
 	/**
@@ -150,6 +154,20 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		return output;
 		
 	}
+	/**
+	 * Finds all the governments that are required to be within the region of this gov.
+	 * @return
+	 */
+/*	public List<InspiredGov> getEncapsulatedGovs() {
+		List<InspiredGov> output = new ArrayList<InpsiredGov>();
+		for(Class<? extends InspiredGov> govtype:InspiredNations.regiondata.keySet()) {
+			for(InspiredGov govtest:InspiredNations.regiondata.get(govtype)) {
+				if(govtest.getRegion().getEncapsulatingRegions().contains(this.getRegion().getClass())) {
+					if(govtest.isSubOf(this));
+				}
+			}
+		}
+	}*/
 	/**
 	 * Gets the class of the InspiredRegion for this government
 	 * @return
@@ -572,10 +590,10 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		if(regionfrom instanceof CummulativeRegion<?>) {
 			for(NonCummulativeRegion region:((CummulativeRegion<?>) regionfrom).getRegions()) {
 				if(region.Intersects(select)) {
-					((CummulativeRegion<?>) regionfrom).getRegions().remove(region);
 					removed.add(region);
 				}
 			}
+			((CummulativeRegion<?>) regionfrom).getRegions().removeAll(removed);
 		}
 		else {
 			if(check) {
@@ -588,6 +606,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				removed.add((NonCummulativeRegion) regionfrom);
 				this.getRegion().setRegion(new nullRegion());
 			}
+			
 		}
 		//iterate through all the sub regions of this land
 		for(InspiredGov govtest:this.getAllSubGovsAndFacilitiesJustBelow()) {
@@ -602,7 +621,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				}
 			}
 		}
-		
+
 	}
 	
 	@Override

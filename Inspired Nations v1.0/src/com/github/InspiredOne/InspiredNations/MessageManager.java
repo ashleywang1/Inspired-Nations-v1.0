@@ -37,6 +37,8 @@ public class MessageManager implements Serializable {
 				PDITarget.getMsg().recieveChatMessage(msg, PDI);
 			}
 		}
+
+
 	}
 	/**
 	 * makes sure the player receives the message, even if they are in a menu
@@ -56,6 +58,8 @@ public class MessageManager implements Serializable {
 		else {
 			PDI.getPlayer().sendMessage(this.MessageConstructor(msg, from));
 		}
+		InspiredNations.plugin.getServer().getLogger().info(this.MessageConstructor(msg, from));
+
 	}
 	
 	public void recieveChatMessage(String msg, PlayerData from) {

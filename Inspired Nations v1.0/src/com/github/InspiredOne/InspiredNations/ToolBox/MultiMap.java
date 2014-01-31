@@ -18,7 +18,7 @@ import java.util.Set;
  * @param <T>	Key
  * @param <K>	Value
  */
-public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable{
+public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable {
 
 	/**
 	 * 

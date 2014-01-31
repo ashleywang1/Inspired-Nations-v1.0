@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
@@ -21,6 +22,7 @@ public class UnclaimLandOption extends Option {
 
 	@Override
 	public Menu response(String input) {
+		Debug.print("In responce of UnclaimLandOption");
 		Region region = gov.getRegion().getRegion();
 		if(region instanceof CummulativeRegion) {
 			return ((CummulativeRegion<?>) region).getUnclaimMenu(menu.getPlayerData(), menu, gov);

@@ -18,6 +18,7 @@ public class Cuboid extends NonCummulativeRegion {
 	 * 
 	 */
 	private static final long serialVersionUID = 6074456272514021954L;
+	
 	private static final String typeName = "Cuboid";
 	private static final String description = "";
 	private Point3D pointmin;

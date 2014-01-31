@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.ChunkRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.Chunkoid;
@@ -38,6 +39,7 @@ public abstract class InspiredRegion implements Serializable {
 		}
 		this.region = region;
 	}
+	
 	public abstract Class<? extends InspiredGov> getRelatedGov();
 	/**
 	 * Returns all the SelectionModes that this InspiredRegion is allowed to be made of

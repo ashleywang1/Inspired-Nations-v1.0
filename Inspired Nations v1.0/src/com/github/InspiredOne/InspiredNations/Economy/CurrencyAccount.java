@@ -45,8 +45,9 @@ public class CurrencyAccount implements Payable, Nameable, Serializable {
 
 	@Override
 	public String getDisplayName(PlayerData viewer) {
-		return curren.getName() + " (" + Tools.cut(InspiredNations.Exchange.getValue(amount, curren, viewer.getCurrency()))
-				+ " " + viewer.getCurrency() + " : 1.00 " + curren + " ~ " + Tools.cut(InspiredNations.Exchange.getValue(BigDecimal.ONE, curren, viewer.getCurrency()))
+		return curren.getName() + " (" + this.getTotalMoney(this.curren) + "~"
+				+ Tools.cut(InspiredNations.Exchange.getValue(amount, curren, viewer.getCurrency()))
+				+ " " + viewer.getCurrency() + ":1.00 " + "~" + Tools.cut(InspiredNations.Exchange.getValue(BigDecimal.ONE, curren, viewer.getCurrency()))
 				+ " " + viewer.getCurrency() + ")";
 	}
 

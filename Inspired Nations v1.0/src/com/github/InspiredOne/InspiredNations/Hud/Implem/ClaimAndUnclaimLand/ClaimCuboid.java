@@ -36,7 +36,7 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public String getHeader() {
-			return "Claim Cuboid " + this.manager.getVolume();
+			return "Claim Cuboid 1:" + (int) Math.pow(2, mapmanager.zoom)+ ",   " + manager.getVolume();
 	}
 
 	@Override

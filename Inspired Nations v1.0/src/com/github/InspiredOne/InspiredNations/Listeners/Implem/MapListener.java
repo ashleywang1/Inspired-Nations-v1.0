@@ -13,9 +13,11 @@ public class MapListener<T extends MapManager<?>> extends InspiredListener<T> {
 
 	double yaw;
 	public int rotacount;
+	Point3D position;
 	public MapListener(T manager) {
 		super(manager);
 		yaw = this.getPlayerData().getPlayer().getLocation().getYaw();
+		position = new Point3D(this.getPlayerData().getPlayer().getLocation());
 		rotacount = getRotaCount(yaw);
 	}
 	
@@ -35,15 +37,20 @@ public class MapListener<T extends MapManager<?>> extends InspiredListener<T> {
 			return;
 		}
 		else {
-			if(event.getTo().getYaw() < 360 && event.getTo().getYaw() > -360) {
-				yaw = event.getTo().getYaw();
+			if(event.getFrom().getYaw() < 360 && event.getFrom().getYaw() > -360) {
+				yaw = event.getFrom().getYaw();
 			}
 			if(!getResoPoint(event.getFrom()).equals(getResoPoint(event.getTo()))) {
+				
+			}
+			if(!getResoPoint(event.getFrom()).equals(position)) {
+				position = getResoPoint(event.getFrom());
 				this.getManager().Update();
-				Debug.print("update because moved");
+				
 			}
 			else if(getRotaCount(yaw) != rotacount) {
 				this.getManager().Update();
+				rotacount = getRotaCount(yaw);
 				Debug.print("update because looked");
 			}
 		}
