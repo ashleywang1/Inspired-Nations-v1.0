@@ -50,7 +50,7 @@ public class Tools {
 	 * @return
 	 */
 	public static BigDecimal cut(BigDecimal input) {
-		return input.divide(BigDecimal.ONE, 2, BigDecimal.ROUND_HALF_DOWN);
+		return input.divide(BigDecimal.ONE, 2, BigDecimal.ROUND_DOWN);
 	}
 	public static <T extends Nameable> List<T> filter(String key, List<T> fulllist) {
 		List<T> output = new ArrayList<T>();
@@ -124,8 +124,8 @@ public class Tools {
 		HashMap<InspiredGov, String> subGov = new HashMap<InspiredGov, String>();
 		
 		int superIter = 0;// for iterating through superGov color choices
-		ChatColor[] superColors = {ChatColor.GREEN, ChatColor.YELLOW, ChatColor.GOLD, ChatColor.RED, ChatColor.DARK_RED, ChatColor.DARK_GREEN, ChatColor.WHITE,
-				ChatColor.AQUA, ChatColor.DARK_BLUE, ChatColor.DARK_AQUA, ChatColor.DARK_PURPLE, ChatColor.LIGHT_PURPLE};
+		ChatColor[] superColors = {ChatColor.GREEN, ChatColor.RED, ChatColor.DARK_BLUE, ChatColor.DARK_GREEN, ChatColor.DARK_RED, ChatColor.GOLD, ChatColor.WHITE,
+				ChatColor.AQUA, ChatColor.YELLOW, ChatColor.DARK_AQUA, ChatColor.DARK_PURPLE, ChatColor.LIGHT_PURPLE};
 		int subIter = 0;// for iterating through subGov Char choices
 		String[] subChars = {"#", "$", "%", "&", "S"};
 

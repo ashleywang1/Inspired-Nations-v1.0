@@ -29,7 +29,7 @@ public class Currency implements Serializable, Nameable{
 	}
 	
 	public BigDecimal getExchangeRate(Currency output) {
-		return InspiredNations.Exchange.getValue(BigDecimal.ONE, this, output);
+		return InspiredNations.Exchange.getExchangeValue(BigDecimal.ONE, this, output);
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class Currency implements Serializable, Nameable{
     
     @Override
     public String getDisplayName(PlayerData viewer) {
-    	return this.getName() + " (1.00 " + this + " =~ " + Tools.cut(InspiredNations.Exchange.getValue(BigDecimal.ONE, this, viewer.getCurrency()))
+    	return this.getName() + " (1.00 " + this + " =~ " + Tools.cut(InspiredNations.Exchange.getExchangeValue(BigDecimal.ONE, this, viewer.getCurrency()))
 				+ viewer.getCurrency() + ")";
     }
 }

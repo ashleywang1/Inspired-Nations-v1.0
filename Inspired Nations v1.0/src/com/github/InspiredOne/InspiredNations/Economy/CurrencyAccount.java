@@ -45,9 +45,9 @@ public class CurrencyAccount implements Payable, Nameable, Serializable {
 
 	@Override
 	public String getDisplayName(PlayerData viewer) {
-		return curren.getName() + " (" + this.getTotalMoney(this.curren) + "~"
-				+ Tools.cut(InspiredNations.Exchange.getValue(amount, curren, viewer.getCurrency()))
-				+ " " + viewer.getCurrency() + ":1.00 " + "~" + Tools.cut(InspiredNations.Exchange.getValue(BigDecimal.ONE, curren, viewer.getCurrency()))
+		return curren.getName() + " (" + Tools.cut(this.getTotalMoney(this.curren)) + "~"
+				+ Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, viewer.getCurrency()))
+				+ " " + viewer.getCurrency() + ":1.00 " + "~" + Tools.cut(InspiredNations.Exchange.getExchangeValue(BigDecimal.ONE, curren, viewer.getCurrency()))
 				+ " " + viewer.getCurrency() + ")";
 	}
 
@@ -55,17 +55,17 @@ public class CurrencyAccount implements Payable, Nameable, Serializable {
 	public void transferMoney(BigDecimal amountTake, Currency monType,
 			Payable target) throws BalanceOutOfBoundsException,
 			NegativeMoneyTransferException {
-		BigDecimal amountTemp = InspiredNations.Exchange.getValue(amountTake, monType, curren);
+		BigDecimal amountTemp = InspiredNations.Exchange.getTransferValue(amountTake, monType, curren);
 		if(amountTemp.compareTo(BigDecimal.ZERO) < 0 ) {
 			throw new NegativeMoneyTransferException();
 		}
 		else if(amount.compareTo(amountTemp) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}
-		InspiredNations.Exchange.exchange(amountTake, monType, curren);
-		this.amount = amount.subtract(amountTemp);
-		target.addMoney(amountTemp, curren);
-
+		else {
+			this.amount = amount.subtract(amountTemp);
+			target.addMoney(amountTemp, curren);
+		}
 	}
 
 	@Override
@@ -81,6 +81,6 @@ public class CurrencyAccount implements Payable, Nameable, Serializable {
 
 	@Override
 	public BigDecimal getTotalMoney(Currency valueType) {
-		return InspiredNations.Exchange.getValue(amount, curren, valueType);
+		return InspiredNations.Exchange.getExchangeValue(amount, curren, valueType);
 	}
 }

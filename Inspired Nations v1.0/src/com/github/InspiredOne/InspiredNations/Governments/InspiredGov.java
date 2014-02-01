@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.bukkit.Location;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -109,13 +108,11 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @return the <code>InspiredGov</code> instance above this government
 	 */
 	public InspiredGov getSuperGovObj() {
-		Debug.print("Inside getSuperGovObj of Inspiredgov 1");
 		if(supergov == null) {
-			Debug.print("Inside getSuperGovObj of Inspiredgov 2");
 			return GovFactory.getGovInstance(this.getSuperGov());
 		}
 		else {
-			Debug.print("Inside getSuperGovObj of Inspiredgov 3");
+
 			return supergov;
 		}
 	}
@@ -319,7 +316,6 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
 		this.accounts.transferMoney(amount, curren, this.getSuperGovObj().accounts);
-		Debug.print("in paySuper of Inspiredgov 1");
 	}
 	/**
 	 * 
@@ -433,8 +429,6 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			return true;
 		}
 		else {
-			Debug.print("in isSubOf just before getSuperGovObj");
-			Debug.print(this.getSuperGovObj() == null);
 			return this.getSuperGovObj().isSubOf(gov);
 		}
 	}
@@ -475,12 +469,11 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public BigDecimal taxValue(Region region, double taxfrac,int protect, Currency curren) {
 		BigDecimal output = BigDecimal.ZERO;
-		Debug.print("In taxValue()");
 		// Basically... multiply them all together and it gets you the value in Defualt currency
 		//TODO come up with some kind of war money function
 		output = (new BigDecimal(region.volume()).multiply(new BigDecimal(taxfrac))).multiply(new BigDecimal(this.taxedrate));
 		output = output.multiply(new BigDecimal(protect)).add(this.getAdditionalCost());
-		output = InspiredNations.Exchange.getValue(output, Currency.DEFAULT, curren);
+		output = InspiredNations.Exchange.getExchangeValue(output, Currency.DEFAULT, curren);
 		
 		return output;
 	}
@@ -502,50 +495,34 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @throws InsufficientRefundAccountBalanceException 
 	 */
 	public void setLand(Region region) throws BalanceOutOfBoundsException, InspiredGovTooStrongException, RegionOutOfEncapsulationBoundsException, InsufficientRefundAccountBalanceException {
-		Debug.print("In setLand()");
 		Currency curren = Currency.DEFAULT;
 		BigDecimal holdings = this.accounts.getTotalMoney(curren);
 		BigDecimal reimburse = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal difference = cost.subtract(reimburse);// positive if own country money, negative if country ows money
-		Debug.print("Inside SetLand 1");
 		// Can they afford it?
 		if(holdings.compareTo(difference) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}
-		Debug.print("Inside SetLand 2");
 		// Is it inside all the regions it's supposed to be in?
 		for(Class<? extends InspiredRegion > regionType:this.getRegion().getEncapsulatingRegions()) {
-			Debug.print("Inside SetLand 2loop 1");
 			InspiredRegion check = Tools.getInstance(regionType);
-			Debug.print("Inside SetLand 2loop 2");
 			for(InspiredGov gov:InspiredNations.regiondata.get(check.getRelatedGov())) {
-				Debug.print("before test");
-				Debug.print(this.isSubOf(gov));
-				Debug.print("Inside SetLand 2loop 3");
 				if(this.isSubOf(gov) && !region.IsIn(gov.getRegion().getRegion())) {
 					throw new RegionOutOfEncapsulationBoundsException(gov);
 				}
-				Debug.print("Inside SetLand 2loop 4");
 			}
 		}
-		Debug.print("Inside SetLand 3");
 		// Does it cross over any regions that it can't be over?
 		for(InspiredGov gov:this.getSuperGovObj().getAllSubGovsAndFacilitiesJustBelow()) {
-			Debug.print(gov.getName());
 			if(gov != this) {
-				Debug.print("Here 1");
 				// now check if the gov is allowed to change the land of the region
 				if(!gov.getRegion().getOverlap().contains(this.getRegion().getClass())) {
-					Debug.print("Here 2");
 					if(gov.getRegion().getRegion().Intersects(region)) {
-						Debug.print("Here 3");
 						if(gov.getProtectionlevel() >= this.getMilitaryLevel()-gov.getMilitaryLevel() + ProtectionLevels.CLAIM_PROTECTION) {
-							Debug.print("Here 4");
 							throw new InspiredGovTooStrongException(gov);
 						}
 						else {
-							Debug.print("Here 5");
 							// remove land, no need to check because it's already been done.
 							gov.removeLand(region, false);
 						}
@@ -553,10 +530,8 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				}
 			}
 		}
-		Debug.print("Inside SetLand 5");
 		
 		if(difference.compareTo(BigDecimal.ZERO) < 0) {
-			Debug.print("Inside SetLand 6");
 			try{
 				this.pullFromSuper(reimburse.negate(), curren);
 			}
@@ -568,16 +543,13 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			}
 		}
 		else {
-			Debug.print("Inside SetLand 7");
 			try {
 				this.paySuper(cost, curren);
 			} catch (NegativeMoneyTransferException e) {
 				e.printStackTrace();
 			}
 		}
-		Debug.print("Inside SetLand 8");
 		this.getRegion().addLand(region);
-		Debug.print("Inside SetLand 9");
 
 	}
 	/**

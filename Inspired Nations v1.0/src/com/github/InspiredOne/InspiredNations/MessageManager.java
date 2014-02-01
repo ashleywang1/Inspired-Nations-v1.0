@@ -102,7 +102,7 @@ public class MessageManager implements Serializable {
 					// Try to do the conversion
 					try {
 						amount = new BigDecimal(test);
-						test = Tools.cut(InspiredNations.Exchange.getValue(amount, from.getCurrency(), PDI.getCurrency())).toString() + " " + PDI.getCurrency();
+						test = Tools.cut(InspiredNations.Exchange.getTransferValue(amount, from.getCurrency(), PDI.getCurrency())).toString() + " " + PDI.getCurrency();
 						checkNext = false;
 					}
 					catch (Exception ex) {

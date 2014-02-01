@@ -9,4 +9,6 @@ public class Debug {
 		InspiredNations.plugin.logger.info(msg.toString());
 		
 	}
+	
+	
 }

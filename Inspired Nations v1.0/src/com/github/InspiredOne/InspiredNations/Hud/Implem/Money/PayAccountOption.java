@@ -35,6 +35,8 @@ public class PayAccountOption extends Option {
 			try {
 				accountsFrom.transferMoney(amount, PDI.getCurrency(), accountTo);
 			} catch (BalanceOutOfBoundsException e) {
+				e.printStackTrace();
+				Debug.print("Inside BalanceOutOfBoundsException in the PayAccountOption Menu");
 				menu.setError(MenuError.NOT_ENOUGH_MONEY());
 			} catch (NegativeMoneyTransferException e) {
 				menu.setError(MenuError.NEGATIVE_AMOUNTS_NOT_ALLOWED(amount));
@@ -44,6 +46,7 @@ public class PayAccountOption extends Option {
 			return menu.getSelf();
 		}
 		catch (Exception ex) {
+			ex.printStackTrace();
 			return menu.getSelf().setError(MenuError.INVALID_NUMBER_INPUT());
 		}
 		

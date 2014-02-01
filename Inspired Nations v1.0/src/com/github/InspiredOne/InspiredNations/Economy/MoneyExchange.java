@@ -15,8 +15,9 @@ public class MoneyExchange implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -3674609233229292913L;
-	private MathContext mcup = new MathContext(5, RoundingMode.UP);
-	private MathContext mcdown = new MathContext(5, RoundingMode.HALF_EVEN);
+	private MathContext mcup = new MathContext(50, RoundingMode.UP);
+	private MathContext mcdown = new MathContext(50, RoundingMode.DOWN);
+//	private MathContext mcoutput = new MathContext(25, RoundingMode.DOWN);
 
 	private HashMap<Currency, BigDecimal> Exchange = new HashMap<Currency, BigDecimal>();
 	
@@ -28,7 +29,37 @@ public class MoneyExchange implements Serializable{
 		Exchange.put(currency, amount.multiply(diamondValue));
 	}
 	
-	public final BigDecimal getValue(BigDecimal mon, Currency monType, Currency valueType) {
+	/**
+	 * Finds the value of money required in valueType that would yeild mon in montype if exchanged.
+	 * The reason getExchangeValue does not work in a transfer context is that getExchangeValue
+	 * assumes that monType depreciates when exchanged. Because in a transfer there is no exchange
+	 * happening, the monType does not depreciate and therefore more valueType is required than
+	 * what is found using getExchangeValue.
+	 * @param mon		the amount of mon you're trying to get
+	 * @param monType	the type of mon
+	 * @param valueType	the type of currency you're using to get mon
+	 * @return
+	 */
+	public final BigDecimal getTransferValue(BigDecimal mon, Currency monType, Currency valueType) {
+		BigDecimal output;
+		BigDecimal valueAmount = Exchange.get(valueType);
+		BigDecimal monAmount = Exchange.get(monType);
+		if(monType.equals(valueType)) {
+			return mon;
+		}
+		BigDecimal difference = monAmount.subtract(mon);
+		output = mon.multiply(valueAmount).divide(difference, mcup);
+		
+		return output;
+	}
+	/**
+	 * Gets the total amount of valueType you would recieve if you exchanged mon amount of monType
+	 * @param mon
+	 * @param monType
+	 * @param valueType
+	 * @return
+	 */
+	public final BigDecimal getExchangeValue(BigDecimal mon, Currency monType, Currency valueType) {
 		BigDecimal output;
 		//TODO put these lines back into the else statement.
 		BigDecimal valueAmount = Exchange.get(valueType);
@@ -46,11 +77,9 @@ public class MoneyExchange implements Serializable{
 		else {
 
 			BigDecimal monSum = monAmount.add(mon);
-			BigDecimal division = valueAmount.divide(monSum, mcup);
+			BigDecimal division = valueAmount.divide(monSum, mcdown);
 			
 			output = mon.multiply(division);
-			Debug.print("Numarrator: " + valueAmount);
-			Debug.print("Denominator: " + monSum);
 
 		}
 		Debug.print("Output: " + output);
@@ -58,7 +87,7 @@ public class MoneyExchange implements Serializable{
 	}
 	
 	public final BigDecimal exchange(BigDecimal mon, Currency monType, Currency valueType) {
-		BigDecimal output = this.getValue(mon, monType, valueType);
+		BigDecimal output = this.getExchangeValue(mon, monType, valueType);
 		Debug.print("Exchange " + monType + " before transaction: " + Exchange.get(monType));
 		Debug.print("Exchange " + valueType + " before transaction: " + Exchange.get(valueType));
 		Exchange.put(monType, Exchange.get(monType).add(mon));

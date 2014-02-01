@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
@@ -58,7 +57,7 @@ public class Account implements Serializable, Nameable, Payable {
 		boolean contains = curren != null;
 		
 		if(contains) {
-			return exch.getValue(curren.getTotalMoney(getType), getType, valueType);
+			return exch.getExchangeValue(curren.getTotalMoney(getType), getType, valueType);
 		}
 		else {
 			money.add(new CurrencyAccount(getType, BigDecimal.ZERO));
@@ -78,25 +77,24 @@ public class Account implements Serializable, Nameable, Payable {
 		if(mon.compareTo(BigDecimal.ZERO) < 0) {
 			throw new NegativeMoneyTransferException();
 		}
-		if(this.money.isEmpty()) {
-			this.money.add(new CurrencyAccount(Currency.DEFAULT, BigDecimal.ZERO));
-		}
+
 		
 		
 		// looks to see if accountCollection has MonType
 		CurrencyAccount account = getCurrenAccount(monType);
 		boolean contains = account != null;
 		
-		Debug.print("Inside account addMoney 1");
 		if(this.AutoExchange) {
+			if(this.money.isEmpty()) {
+				this.money.add(new CurrencyAccount(Currency.DEFAULT, BigDecimal.ZERO));
+			}
 			money.get(0).addMoney(mon, monType);
 		}
 		else if(contains) {
-			Debug.print("Inside account addMoney 2");
 			account.addMoney(mon, monType);
 		}
 		else {
-			Debug.print("Inside account addMoney 3");
+
 			money.add(new CurrencyAccount(monType, BigDecimal.ZERO));
 			this.addMoney(mon, monType);
 		}
@@ -113,6 +111,7 @@ public class Account implements Serializable, Nameable, Payable {
 				if(amount.compareTo(mon) < 0) {
 					curren.transferMoney(amount, monType, accountTo);
 					money.set(money.indexOf(curren), new CurrencyAccount(curren.getCurrency()));
+					mon = mon.subtract(amount);
 				}
 				else {
 					curren.transferMoney(mon, monType, accountTo);

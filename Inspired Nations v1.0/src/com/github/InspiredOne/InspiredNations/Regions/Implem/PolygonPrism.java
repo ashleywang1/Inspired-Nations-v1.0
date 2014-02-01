@@ -72,7 +72,7 @@ public class PolygonPrism extends NonCummulativeRegion {
 		this.reconcilePoints();
 	}
 	ArrayList<Arrow> arrows = new ArrayList<Arrow>();
-	ArrayList<EnderSignal> eyes = new ArrayList<EnderSignal>();
+//	ArrayList<EnderSignal> eyes = new ArrayList<EnderSignal>();
 	
 	/**
 	 * Adjusts the points so that the original selected blocks are actually within the polygon.
@@ -81,9 +81,9 @@ public class PolygonPrism extends NonCummulativeRegion {
 		for(Arrow arrow:arrows) {
 			arrow.remove();
 		}
-		for(EnderSignal eye:eyes) {
-			eye.remove();
-		}
+//		for(EnderSignal eye:eyes) {
+//			eye.remove();
+//		}
 		Polygon finalized = new Polygon(polygon.xpoints, polygon.ypoints, polygon.npoints);
 		for(int iter = 0; iter < polygon.npoints; iter++) {
 			Point3D point = new Point3D(polygonOrig.xpoints[iter], ymax, polygonOrig.ypoints[iter], world);
@@ -116,12 +116,12 @@ public class PolygonPrism extends NonCummulativeRegion {
 			Point3D eyespawn = arrowspawn.clone();
 			eyespawn.y = this.ymax;
 			Arrow arrow = this.world.getWorld().spawn(arrowspawn.getLocation(), Arrow.class);
-			EnderSignal eye = this.world.getWorld().spawn(eyespawn.getLocation(), EnderSignal.class);
-			eye.setVelocity(new Vector());
-			eye.setFireTicks(400);
+//			EnderSignal eye = this.world.getWorld().spawn(eyespawn.getLocation(), EnderSignal.class);
+//			eye.setVelocity(new Vector());
+//			eye.setFireTicks(400);
 			arrow.setFireTicks(400);
 			arrows.add(arrow);
-			eyes.add(eye);
+//			eyes.add(eye);
 		}
 		this.polygon = finalized;
 	}
