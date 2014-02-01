@@ -18,7 +18,7 @@ public class UnclaimChunkoid extends InputMenu {
 	MapManager<UnclaimChunkoid> mapmanager;
 	
 	Menu previous;
-	InspiredGov gov;
+	public InspiredGov gov;
 	
 	public UnclaimChunkoid(PlayerData PDI, Menu previous, InspiredGov gov) {
 		super(PDI);
@@ -28,7 +28,7 @@ public class UnclaimChunkoid extends InputMenu {
 
 	@Override
 	public Menu nextMenu() {
-		return previous;
+		return this;
 	}
 
 	@Override
@@ -44,10 +44,10 @@ public class UnclaimChunkoid extends InputMenu {
 	@Override
 	public void useInput(String input) {
 		if(input.equalsIgnoreCase("begin")) {
-			
+			this.manager.setUnclaim(true);
 		}
 		else if(input.equalsIgnoreCase("stop")) {
-			
+			this.manager.setUnclaim(false);
 		}
 	}
 

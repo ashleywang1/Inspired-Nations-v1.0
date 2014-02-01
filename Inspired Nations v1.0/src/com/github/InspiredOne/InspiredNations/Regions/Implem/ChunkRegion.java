@@ -58,7 +58,7 @@ public class ChunkRegion extends NonCummulativeRegion {
 	}
 	
 	@Override
-	public boolean IsIn(CummulativeRegion region) {
+	public boolean IsIn(CummulativeRegion<?> region) {
 		if(region instanceof Chunkoid) {
 			return region.getRegions().contains(this);
 		}
@@ -78,7 +78,7 @@ public class ChunkRegion extends NonCummulativeRegion {
 	}
 	
 	@Override
-	public boolean Intersects(CummulativeRegion region) {
+	public boolean Intersects(CummulativeRegion<?> region) {
 		if(region instanceof Chunkoid) {
 			return region.getRegions().contains(this);	
 		}

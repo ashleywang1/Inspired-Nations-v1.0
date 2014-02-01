@@ -536,6 +536,11 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				this.pullFromSuper(reimburse.negate(), curren);
 			}
 			catch (BalanceOutOfBoundsException ex) {
+				try {
+					this.pullFromSuper(this.getSuperGovObj().getAccounts().getTotalMoney(curren), curren);
+				} catch (NegativeMoneyTransferException e) {
+					e.printStackTrace();
+				}
 				throw new InsufficientRefundAccountBalanceException();
 			} 
 			catch (NegativeMoneyTransferException e) {
@@ -558,6 +563,11 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public void removeLand(Region select, boolean check) {
 		Region regionfrom = this.getRegion().getRegion();
+		
+		Currency curren = Currency.DEFAULT;
+		BigDecimal reimburse = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
+				
+		
 		ArrayList<NonCummulativeRegion> removed = new ArrayList<NonCummulativeRegion>();
 		if(regionfrom instanceof CummulativeRegion<?>) {
 			for(NonCummulativeRegion region:((CummulativeRegion<?>) regionfrom).getRegions()) {
@@ -578,7 +588,6 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				removed.add((NonCummulativeRegion) regionfrom);
 				this.getRegion().setRegion(new nullRegion());
 			}
-			
 		}
 		//iterate through all the sub regions of this land
 		for(InspiredGov govtest:this.getAllSubGovsAndFacilitiesJustBelow()) {
@@ -593,12 +602,40 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				}
 			}
 		}
-
+		BigDecimal cost = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
+		BigDecimal difference = cost.subtract(reimburse);// positive if own country money, negative if country ows money
+		if(difference.compareTo(BigDecimal.ZERO) > 0) { 	// If for some reason you ow the country money for this
+			try {
+				this.paySuper(difference, curren);			// Pay what you ow
+			} catch (BalanceOutOfBoundsException e) {		//	If you don't have enough
+				try {
+					this.paySuper(this.accounts.getTotalMoney(curren), curren);	// Pay what you have
+				} catch (BalanceOutOfBoundsException
+						| NegativeMoneyTransferException e1) {
+				}
+			} catch (NegativeMoneyTransferException e) {	// Should not encounter this error
+				e.printStackTrace();
+			}
+		}
+		else {	// Else if the country ows you money for unfinished protection
+			try {
+				this.pullFromSuper(difference.negate(), curren);	// Pull the reimbursment from them
+			} catch (BalanceOutOfBoundsException e) {	// If they don't have enough
+				try {
+					this.pullFromSuper(this.getSuperGovObj().accounts.getTotalMoney(curren), curren); // Pull all they have
+				} catch (BalanceOutOfBoundsException e1) {	// Should not encounter
+					e1.printStackTrace();	
+				} catch (NegativeMoneyTransferException e1) { // Should not encounter
+					e1.printStackTrace();
+				}
+			} catch (NegativeMoneyTransferException e) {	// Should not encounter
+				e.printStackTrace();
+			}
+		}
 	}
-	
+
 	@Override
 	public String getDisplayName(PlayerData PDI) {
 		return this.getName().concat(" (" + this.getTypeName() + ")");
 	}
-	
 }

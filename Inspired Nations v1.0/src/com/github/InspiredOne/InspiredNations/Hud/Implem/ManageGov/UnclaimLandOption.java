@@ -22,15 +22,17 @@ public class UnclaimLandOption extends Option {
 
 	@Override
 	public Menu response(String input) {
-		Debug.print("In responce of UnclaimLandOption");
+		Debug.print("In responce of UnclaimLandOption 1");
 		Region region = gov.getRegion().getRegion();
+		Debug.print("In responce of UnclaimLandOption 2");
 		if(region instanceof CummulativeRegion) {
+			Debug.print("In responce of UnclaimLandOption 3");
 			return ((CummulativeRegion<?>) region).getUnclaimMenu(menu.getPlayerData(), menu, gov);
 		}
-		else if(region instanceof NonCummulativeRegion){
+		else if(region instanceof NonCummulativeRegion) {
+			Debug.print("In responce of UnclaimLandOption 5");
 			gov.getRegion().setRegion(new nullRegion());
 		}
 		return menu;
 	}
-
 }

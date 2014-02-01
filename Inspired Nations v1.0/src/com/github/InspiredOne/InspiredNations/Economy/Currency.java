@@ -23,8 +23,9 @@ public class Currency implements Serializable, Nameable{
 
 	public Currency(String name) {
 		//TODO Remove later, figure out when to add a currency to the exchange
+		//InspiredNations.Exchange.registerCurrency(this, new BigDecimal(500));
 		this.setName(name);
-		InspiredNations.Exchange.registerCurrency(this, new BigDecimal(500));
+
 		
 	}
 	

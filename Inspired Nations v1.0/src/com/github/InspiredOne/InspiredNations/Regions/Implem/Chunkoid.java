@@ -6,6 +6,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand.ClaimChunkoid;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand.UnclaimChunkoid;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
@@ -78,19 +79,26 @@ public class Chunkoid extends CummulativeRegion<ChunkRegion> {
 
 	@Override
 	public Menu getUnclaimMenu(PlayerData PDI, Menu previous, InspiredGov gov) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UnclaimChunkoid(PDI, previous, gov);
 	}
 
 	@Override
 	public boolean IsIn(CummulativeRegion<?> region) {
-		// TODO Auto-generated method stub
-		return false;
+		for(NonCummulativeRegion test:this.getRegions()) {
+			if(!test.IsIn(region)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
 	public boolean Intersects(CummulativeRegion<?> region) {
-		// TODO Auto-generated method stub
+		for(NonCummulativeRegion test:this.getRegions()) {
+			if(test.Intersects(region)) {
+				return true;
+			}
+		}
 		return false;
 	}
 }

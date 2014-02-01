@@ -7,7 +7,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 
 public abstract class ChunkoidManager<T extends ActionMenu> extends ActionManager<T> {
 	private ChunkRegion region;
-	private Point2D position;
+	protected Point2D position;
 	
 	public ChunkoidManager(T menu, Point2D initialChunk) {
 		super(menu);

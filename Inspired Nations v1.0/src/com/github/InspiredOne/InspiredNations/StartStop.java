@@ -97,6 +97,7 @@ public class StartStop {
 			for (int i = 0; i < online.length; i++) {
 				if (online[i].isConversing()) {
 					PlayerID onlineP = new PlayerID(online[i]);
+					InspiredNations.playerdata.get(onlineP).getCon().acceptInput("exit");
 					InspiredNations.playerdata.get(onlineP).getCon().abandon();
 					InspiredNations.playerdata.get(onlineP).setCon(null);
 				}

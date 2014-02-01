@@ -22,6 +22,7 @@ public class GovFactory<T extends InspiredGov> {
 	
 	public GovFactory<T> withSuperGov(InspiredGov gov) {
 		this.gov.setSuperGovObj(gov);
+		
 		if(!this.gov.getCommonEcon().equals(this.gov.getClass())) {
 			this.gov.setCurrency(gov.getCurrency());
 		}

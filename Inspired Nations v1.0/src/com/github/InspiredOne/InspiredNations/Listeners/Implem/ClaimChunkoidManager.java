@@ -17,7 +17,6 @@ public class ClaimChunkoidManager<T extends ClaimChunkoid> extends ChunkoidManag
 	
 	public ClaimChunkoidManager(T menu, Point2D initialChunk) {
 		super(menu, initialChunk);
-		this.listeners.add(new ChunkoidListener<>(this));
 		this.position = initialChunk;
 		region = new ChunkRegion(initialChunk);
 	}

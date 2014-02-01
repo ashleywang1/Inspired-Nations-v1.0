@@ -1,6 +1,7 @@
 
 package com.github.InspiredOne.InspiredNations;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -20,6 +21,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.MarketPlace;
 import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
 import com.github.InspiredOne.InspiredNations.Economy.TaxTimer;
@@ -51,6 +53,7 @@ public class InspiredNations extends JavaPlugin {
 		taxTimer = new TaxTimer();
 		PluginManager pm = this.getServer().getPluginManager();
 		SS.Start();
+		InspiredNations.Exchange.registerCurrency(Currency.DEFAULT, new BigDecimal(500));
 		pm.registerEvents(PL, this);
 		global = GovFactory.getGovInstance(GlobalGov.class);
 		global.register();

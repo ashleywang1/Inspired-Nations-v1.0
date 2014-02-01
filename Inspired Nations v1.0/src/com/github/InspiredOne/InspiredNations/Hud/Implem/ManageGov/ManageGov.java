@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
@@ -32,7 +33,7 @@ public class ManageGov extends OptionMenu {
 	@Override
 	public String getHeader() {
 		// TODO Auto-generated method stub
-		return "";
+		return "Manage " + gov.getDisplayName(PDI);
 	}
 
 	@Override
@@ -47,8 +48,9 @@ public class ManageGov extends OptionMenu {
 
 	@Override
 	public void init() {
+		Debug.print("Menu has been initialized");
 		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Money", new ManageGovMoney(PDI, this, gov)));
-		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Claim Land", new PickClaimType(PDI, gov, this.getSelf())));
+		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Claim Land", new PickClaimType(PDI, gov, new ManageGov(PDI, gov))));
 		if(gov.getRegion().getRegion().volume() != 0) {
 			this.options.add(new UnclaimLandOption(new ManageGov(PDI, gov), "Unclaim Land", gov));
 		}

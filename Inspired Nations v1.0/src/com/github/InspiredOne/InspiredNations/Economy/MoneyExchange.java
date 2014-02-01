@@ -24,9 +24,9 @@ public class MoneyExchange implements Serializable{
 	public void registerCurrency(Currency currency, BigDecimal diamondValue) {
 		
 		BigDecimal amount = new BigDecimal(InspiredNations.plugin.getConfig().getString("exchange_multiplyer"));
-		Debug.print(currency);
-		Debug.print(amount.multiply(diamondValue));
-		Exchange.put(currency, amount.multiply(diamondValue));
+		if(!this.Exchange.containsKey(currency)) {
+			Exchange.put(currency, amount.multiply(diamondValue));
+		}
 	}
 	
 	/**
@@ -64,8 +64,7 @@ public class MoneyExchange implements Serializable{
 		//TODO put these lines back into the else statement.
 		BigDecimal valueAmount = Exchange.get(valueType);
 		BigDecimal monAmount = Exchange.get(monType);
-		Debug.print(valueType + " in exchange: " + valueAmount);
-		Debug.print(monType + " in exchange: " + monAmount);
+
 			
 		//TODO end of the lines I need to put back in the else statement.
 		
@@ -82,19 +81,13 @@ public class MoneyExchange implements Serializable{
 			output = mon.multiply(division);
 
 		}
-		Debug.print("Output: " + output);
 		return output;
 	}
 	
 	public final BigDecimal exchange(BigDecimal mon, Currency monType, Currency valueType) {
 		BigDecimal output = this.getExchangeValue(mon, monType, valueType);
-		Debug.print("Exchange " + monType + " before transaction: " + Exchange.get(monType));
-		Debug.print("Exchange " + valueType + " before transaction: " + Exchange.get(valueType));
 		Exchange.put(monType, Exchange.get(monType).add(mon));
 		Exchange.put(valueType, Exchange.get(valueType).subtract(output));
-		
-		Debug.print("Exchange " + monType + " after transaction: " + Exchange.get(monType));
-		Debug.print("Exchange " + valueType + " after transaction: " + Exchange.get(valueType));
 		
 		return output;
 	}

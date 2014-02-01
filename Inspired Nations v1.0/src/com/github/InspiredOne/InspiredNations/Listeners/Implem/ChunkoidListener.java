@@ -19,9 +19,9 @@ public class ChunkoidListener<T extends ChunkoidManager<?>> extends InspiredList
 			return;
 		}
 		Point2D from = this.manager.getPosition();
-		Point2D to = new Point2D(event.getTo().getChunk());
-		if(!from.equals(to)) {
-			this.manager.setPosition(to);
+		Point2D newFrom = new Point2D(event.getFrom().getChunk());
+		if(!from.equals(newFrom)) {
+			this.manager.setPosition(newFrom);
 			this.manager.Update();
 		}
 	}
