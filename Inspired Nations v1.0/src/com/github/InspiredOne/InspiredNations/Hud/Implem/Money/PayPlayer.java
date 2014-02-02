@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
@@ -33,7 +34,7 @@ public class PayPlayer extends TabSelectOptionMenu<PlayerID> {
 			this.taboptions.add(player);
 		}
 		if(this.getData().equals(PDI.getPlayerID())) {
-			//this.options.add(new PromptOption(PDI, this, "Make Account Transfer"))
+			this.options.add(new PromptOption(this, "Transfer Money", new PickAccount(PDI, this, PDI.getAccounts(), accounts)));
 		}
 		else {
 			this.options.add(new PayAccountOption(PDI, this, "Pay Player <amount>", accounts, this.getData().getPDI().getAccounts()));

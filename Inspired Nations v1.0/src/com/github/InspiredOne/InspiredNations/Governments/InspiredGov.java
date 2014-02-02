@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations.Governments;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +25,7 @@ import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.Regions.nullRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
+import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
@@ -49,38 +49,48 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	private AccountCollection accounts;
 	private InspiredRegion region;
 	private List<Facility> facilities = new ArrayList<Facility>();
-	private HashMap<Class<? extends InspiredGov>, Double> taxrates = new HashMap<Class<? extends InspiredGov>, Double>();
+	private IndexedMap<Class<? extends InspiredGov>, Double> taxrates = new IndexedMap<Class<? extends InspiredGov>, Double>();
 	private InspiredGov supergov;
 	private String name;
 	private double taxedrate = 0; // the last tax rate used on this gov.
 	private int protectionlevel = 0;
 	private Currency currency = Currency.DEFAULT;
 	
-	public abstract class Inspired {
-		public String here = "hello";
-	}
 	/**
 	 * @param instance	the plugin instance
 	 */
 	public InspiredGov() {
 		for(Class<? extends InspiredGov> gov:this.getSubGovs()) {
-			taxrates.put(gov, 1.0);
+			this.registerTaxRates(gov);
 		}
-		this.
 		accounts = new AccountCollection("");
+	}
+	/**
+	 * registers all the tax rates for a given this government
+	 */
+	public void registerTaxRates(Class<? extends InspiredGov> govType) {
+		InspiredGov temp = GovFactory.getGovInstance(govType);
+		if(temp.getSelfGovs().size() == 1 && temp.getSelfGovs().contains(govType)) {
+			taxrates.put(govType, 1.0);
+		}
+		else {
+			for(Class<? extends InspiredGov> govnext:temp.getSelfGovs()) {
+				this.registerTaxRates(govnext);
+			}
+		}
 	}
 	/**
 	 * 
 	 * @return	a <code>HashMap<code> with each subgov class mapping to it's associated tax rate
 	 */
-	public HashMap<Class<? extends InspiredGov>, Double> getTaxrates() {
+	public IndexedMap<Class<? extends InspiredGov>, Double> getTaxrates() {
 		return taxrates;
 	}
 	/**
 	 * 
 	 * @param taxrates	the new <code>HashMap</code> of class mappings to tax rates
 	 */
-	public void setTaxrates(HashMap<Class<? extends InspiredGov>, Double> taxrates) {
+	public void setTaxrates(IndexedMap<Class<? extends InspiredGov>, Double> taxrates) {
 		this.taxrates = taxrates;
 	}
 	/**

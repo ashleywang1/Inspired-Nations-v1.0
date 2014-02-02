@@ -40,7 +40,7 @@ public class ManageAccounts extends TabSelectOptionMenu<Account> {
 			this.options.add(new PromptOption(this, "Pay With " + this.getData().getName(), new PayNav(PDI, this.getData(), new ManageAccounts(PDI, previous, accounts))));
 			this.options.add(new PromptOption(new ManageAccounts(PDI, previous, accounts), "Manage Currencies In " +this.getData().getName(), new ManageCurrencies(PDI, previous, accounts, this.getData())));
 		}
-		this.options.add(new NewAccountOption(new ManageAccounts(PDI, previous, accounts), "New Account <Name>", PDI.getAccounts()));
+		this.options.add(new NewAccountOption(new ManageAccounts(PDI, previous, accounts), "New Account <Name>", accounts));
 	}
 
 	@Override

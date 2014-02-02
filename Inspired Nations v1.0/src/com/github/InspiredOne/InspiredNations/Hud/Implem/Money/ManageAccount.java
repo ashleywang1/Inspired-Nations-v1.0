@@ -49,6 +49,7 @@ public class ManageAccount extends OptionMenu {
 		this.options.add(new ChangeAutoExchangeOption(new ManageAccount(PDI, previous, account, accounts), "Toggle Auto-Exchange", account));
 		this.options.add(new PromptOption(this, "Pay With " + account.getName(), new PayNav(PDI, account, new ManageAccount(PDI, previous, account, accounts))));
 		this.options.add(new RenameAccountOption(this, account, "Rename " + account.getName() + " <Name>"));
+		this.options.add(new PromptOption(this, "Transfer Money", new PickAccount(PDI, this, accounts, account)));
 	}
 
 }

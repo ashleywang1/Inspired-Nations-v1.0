@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
@@ -20,7 +21,15 @@ public class ManageGovMoney extends OptionMenu {
 
 	@Override
 	public String getPreOptionText() {
-		return gov.getAccounts().getTotalMoney(PDI.getCurrency()).toString() + " " + PDI.getCurrency();
+		String output = "";
+		for(Class<? extends InspiredGov> govtype:gov.getTaxrates().keySet()) {
+			InspiredGov govtemp = GovFactory.getGovInstance(govtype);
+			output = output.concat(govtemp.getTypeName() + " Tax: " + gov.getTaxrates().get(govtype) + "\n");
+		}
+		output = output.concat(gov.getAccounts().getTotalMoney(PDI.getCurrency()).toString() + " " + PDI.getCurrency());
+		
+		return output;
+		
 	}
 
 	@Override

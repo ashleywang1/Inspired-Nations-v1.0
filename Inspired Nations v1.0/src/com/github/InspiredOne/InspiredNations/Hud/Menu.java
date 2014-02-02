@@ -34,7 +34,7 @@ public abstract class Menu extends MessagePrompt {
 	 */
 	public final String getPromptText() {
 		String space = MenuTools.space();
-		String main = MenuTools.header(this.getHeader());
+		String main = MenuTools.header(this.getHeader() + " " + InspiredNations.taxTimer.getTimeLeftReadout());
 		String filler = this.getFiller();
 		String end = footer;
 		String errmsg = this.getError();

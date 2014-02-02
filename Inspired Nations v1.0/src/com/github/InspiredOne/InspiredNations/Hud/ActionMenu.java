@@ -17,6 +17,7 @@ public abstract class ActionMenu extends Menu {
 	
 	public ActionMenu(PlayerData PDI) {
 		super(PDI);
+		managers.add(new TaxTimerManager<ActionMenu>(this));
 	}
 
 	public final void Update() {

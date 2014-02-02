@@ -23,6 +23,11 @@ public class MessageManager implements Serializable {
 	public String MessageConstructor(String msg, PlayerData from) {
 		return from.getPlayer().getDisplayName() + ": " + conditionForMoney(msg, from);
 	}
+	
+	public void recieveAlert(String msg) {
+
+	}
+	
 	/**
 	 * Method to send a message from this player
 	 * @param msg
@@ -40,6 +45,21 @@ public class MessageManager implements Serializable {
 
 
 	}
+
+	/**
+	 * makes sure the player receives the message, even if they are in a menu
+	 * @param msg
+	 * @param from
+	 */
+	public void recieveMessage(String msg) {
+		if(PDI.getPlayer() == null) {
+			return;
+		}
+		if(PDI.getPlayer().isConversing()) {
+			this.PDI.getCon().getContext().setSessionData(ContextData.Alert, MenuAlert.makeMessage(msg));
+		}
+	}
+	
 	/**
 	 * makes sure the player receives the message, even if they are in a menu
 	 * @param msg

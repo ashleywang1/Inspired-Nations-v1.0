@@ -53,6 +53,7 @@ public class InspiredNations extends JavaPlugin {
 		taxTimer = new TaxTimer();
 		PluginManager pm = this.getServer().getPluginManager();
 		SS.Start();
+		taxTimer.setCycleLength(InspiredNations.plugin.getConfig().getInt("tax_cycle_length"));
 		InspiredNations.Exchange.registerCurrency(Currency.DEFAULT, new BigDecimal(500));
 		pm.registerEvents(PL, this);
 		global = GovFactory.getGovInstance(GlobalGov.class);
