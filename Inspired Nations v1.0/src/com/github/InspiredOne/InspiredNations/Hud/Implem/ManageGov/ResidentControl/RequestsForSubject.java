@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.ResidentCont
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
@@ -32,6 +33,8 @@ public class RequestsForSubject extends TabSelectOptionMenu<PlayerID> {
 		for(PlayerID player:this.gov.getSubjectRequests()) {
 			this.taboptions.add(player);
 		}
+		this.options.add(new PromptOption(new RequestsForSubject(PDI, previous, gov), gov.getSubjectPositionName() + " Offers",
+				new OffersForSubject(PDI, previous, gov)));
 	}
 
 	@Override

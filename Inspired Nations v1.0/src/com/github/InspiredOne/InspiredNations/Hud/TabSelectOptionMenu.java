@@ -54,7 +54,6 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		else {
 			this.data = this.filteredoptions.get(tabcnt);
 		}
-		Debug.print(data.getName());
 	}
 
 	@Override
@@ -140,8 +139,8 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			else {
 				return;
 			}
+			this.setData(this.filteredoptions.get(tabcnt));
 		}
-		this.setData(this.filteredoptions.get(tabcnt));
 		this.options.clear();
 		this.taboptions.clear();
 		Init();

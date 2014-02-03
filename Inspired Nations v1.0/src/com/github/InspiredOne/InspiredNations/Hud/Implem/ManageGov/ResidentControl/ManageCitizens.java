@@ -4,6 +4,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
@@ -31,9 +32,9 @@ public class ManageCitizens extends TabSelectOptionMenu<PlayerID> {
 		for(PlayerID subject:gov.getSubjects()) {
 			this.taboptions.add(subject);
 		}
-		
+		this.options.add(new PromptOption(this, gov.getOwnerPositionName() + " Requests and Offers", new RequestsForOwner(PDI, previous, gov)));
 		if(gov instanceof OwnerSubjectGov) {
-			
+			this.options.add(new PromptOption(this, ((OwnerSubjectGov) gov).getSubjectPositionName() + " Requests and Offers", new RequestsForSubject(PDI, previous, (OwnerSubjectGov) gov)));
 		}
 	}
 

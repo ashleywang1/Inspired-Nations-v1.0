@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
@@ -22,6 +23,9 @@ public class PlayerID implements Serializable, Nameable {
 	private String name;
 	
 	public PlayerID(Player player) {
+		this.name = player.getName();
+	}
+	public PlayerID(OfflinePlayer player) {
 		this.name = player.getName();
 	}
 	

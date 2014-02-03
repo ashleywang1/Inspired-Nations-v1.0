@@ -9,6 +9,7 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.ResidentControl.ManageCitizens;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.NewFacility.PickFacilityType;
 
 public class ManageGov extends OptionMenu {
@@ -32,7 +33,6 @@ public class ManageGov extends OptionMenu {
 
 	@Override
 	public String getHeader() {
-		// TODO Auto-generated method stub
 		return "Manage " + gov.getDisplayName(PDI);
 	}
 
@@ -48,7 +48,7 @@ public class ManageGov extends OptionMenu {
 
 	@Override
 	public void init() {
-		Debug.print("Menu has been initialized");
+		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Population", new ManageCitizens(PDI, new ManageGov(PDI, gov), gov)));
 		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Money", new ManageGovMoney(PDI, this, gov)));
 		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Claim Land", new PickClaimType(PDI, gov, new ManageGov(PDI, gov))));
 		if(gov.getRegion().getRegion().volume() != 0) {

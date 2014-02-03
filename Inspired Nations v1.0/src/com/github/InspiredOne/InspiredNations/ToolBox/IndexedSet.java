@@ -24,7 +24,7 @@ public class IndexedSet<E> extends ArrayList<E> implements Collection<E>, Iterab
 			return true;
 		}
 		else {
-			this.add(e);
+			this.add(0, e);
 			return false;
 		}
 	}

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
@@ -46,7 +48,8 @@ public class GlobalGov extends OwnerSubjectGov {
 		IndexedSet<PlayerID> output = new IndexedSet<PlayerID>();
 		
 		for(OfflinePlayer player:InspiredNations.plugin.getServer().getOfflinePlayers()) {
-			output.add(new PlayerID(player.getPlayer()));
+			Debug.print("inside Global Gov For Loop");
+			output.add(new PlayerID(player));
 		}
 		return output;
 	}

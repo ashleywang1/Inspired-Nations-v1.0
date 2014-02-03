@@ -63,7 +63,7 @@ public class PlayerData implements Serializable, Nameable {
 	
 	public boolean isSubjectOf(Class<? extends InspiredGov> govtype) {
 		for(InspiredGov gov:InspiredNations.regiondata.get(govtype)) {
-			if(gov.getSubjects().contains(this.getName())) {
+			if(gov.getSubjects().contains(this.getPlayerID())) {
 				return true;
 			}
 		}
@@ -89,7 +89,7 @@ public class PlayerData implements Serializable, Nameable {
 		List<OwnerSubjectGov> output = new ArrayList<OwnerSubjectGov>();
 
 		for(InspiredGov gov:govDir) {
-			if(gov.getSubjects().contains(this.getName()) && gov.getClass().equals(govType)) {
+			if(gov.getSubjects().contains(this.getPlayerID()) && gov.getClass().equals(govType)) {
 				output.add((OwnerSubjectGov) gov);
 			}
 		}
@@ -106,7 +106,7 @@ public class PlayerData implements Serializable, Nameable {
 		for(InspiredGov gov:InspiredNations.regiondata.get(govType)) {
 			if(gov instanceof OwnerGov) {
 				gov = (OwnerGov) gov;
-				if(((OwnerGov) gov).getOwners().contains(this.getName())) {
+				if(((OwnerGov) gov).getOwners().contains(this.getPlayerID())) {
 					output.add((OwnerGov) gov);
 				}
 			}
