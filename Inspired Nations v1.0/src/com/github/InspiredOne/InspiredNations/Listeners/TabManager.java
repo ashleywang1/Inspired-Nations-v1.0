@@ -18,6 +18,4 @@ public class TabManager<T extends ActionMenu> extends ActionManager<T> {
 		return this.preTabEntry;
 	}
 
-
-	
 }

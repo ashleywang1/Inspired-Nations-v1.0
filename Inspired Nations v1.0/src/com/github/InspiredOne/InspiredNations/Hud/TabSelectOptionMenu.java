@@ -119,35 +119,32 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	public void actionResponse() {
 		int tabsize = this.filteredoptions.size();
 		this.setError(MenuError.NO_ERROR());
-		
-		if (manager.neither) {
-			List<E> tempOptions = Tools.filter(manager.preTabEntry, this.taboptions);
-			if(tempOptions.size() <= 0) {
-				this.setError(MenuError.NO_MATCHES_FOUND());
-				return;
-			}
-			else {
-				this.filteredoptions = tempOptions;
-				this.setTabcnt(0);
-			}
-			
-		}
-		else {
-			if(manager.scrollUp) {
+		if(this.manager.updateFromTabScroll) {
+			if(manager.preTabEntry.equalsIgnoreCase("+")) {
 				this.setTabcnt(((this.getTabcnt() - 1) + tabsize) % tabsize);
 			}
-			else if(!manager.scrollUp) {
+			else if(manager.preTabEntry.equalsIgnoreCase("-")) {
 				this.setTabcnt((this.getTabcnt() + 1) % tabsize);
 			}
-		} 
-
+			else if(!manager.preTabEntry.isEmpty()) {
+				List<E> tempOptions = Tools.filter(manager.preTabEntry, this.taboptions);
+				if(tempOptions.size() <= 0) {
+					this.setError(MenuError.NO_MATCHES_FOUND());
+					return;
+				}
+				else {
+					this.filteredoptions = tempOptions;
+					this.setTabcnt(0);
+				}
+			}
+			else {
+				return;
+			}
+		}
 		this.setData(this.filteredoptions.get(tabcnt));
 		this.options.clear();
 		this.taboptions.clear();
 		Init();
-
-		Debug.print(data.getName());
-
 	}
 	
 	public int getTabcnt() {
