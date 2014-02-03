@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Governments;
 
-import java.util.HashSet;
+import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public abstract class OwnerGov extends InspiredGov {
 	
@@ -8,22 +9,23 @@ public abstract class OwnerGov extends InspiredGov {
 	 * 
 	 */
 	private static final long serialVersionUID = 2000613785185838007L;
-	private HashSet<String> owners = new HashSet<String>();
+	private IndexedSet<PlayerID> owners = new IndexedSet<PlayerID>();
+	private IndexedSet<PlayerID> ownerRequest = new IndexedSet<PlayerID>();
+	private IndexedSet<PlayerID> ownerOffers = new IndexedSet<PlayerID>();
 	
 	public OwnerGov() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public HashSet<String> getOwners() {
+	public IndexedSet<PlayerID> getOwners() {
 		return owners;
 	}
 
-	public void setOwners(HashSet<String> owners) {
+	public void setOwners(IndexedSet<PlayerID> owners) {
 		this.owners = owners;
 	}
 	
-	public HashSet<String> getSubjects() {
+	public IndexedSet<PlayerID> getSubjects() {
 		return this.owners;
 	}
 	
@@ -46,5 +48,21 @@ public abstract class OwnerGov extends InspiredGov {
 	 * 
 	 * */	
 	public abstract Class<? extends InspiredGov> getCommonGov();
+
+	public IndexedSet<PlayerID> getOwnerRequest() {
+		return ownerRequest;
+	}
+
+	public void setOwnerRequest(IndexedSet<PlayerID> ownerRequest) {
+		this.ownerRequest = ownerRequest;
+	}
+
+	public IndexedSet<PlayerID> getOwnerOffers() {
+		return ownerOffers;
+	}
+
+	public void setOwnerOffers(IndexedSet<PlayerID> ownerOffers) {
+		this.ownerOffers = ownerOffers;
+	}
 
 }

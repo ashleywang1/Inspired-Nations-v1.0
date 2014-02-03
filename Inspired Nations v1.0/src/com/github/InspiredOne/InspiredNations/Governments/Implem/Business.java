@@ -69,7 +69,16 @@ public class Business extends OwnerSubjectGov {
 
 	@Override
 	public String getFacilityGroupName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Shops";
+	}
+
+	@Override
+	public String getSubjectPositionName() {
+		return "Employee";
+	}
+
+	@Override
+	public String getOwnerPositionName() {
+		return "Owner";
 	}
 }

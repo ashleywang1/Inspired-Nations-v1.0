@@ -81,4 +81,15 @@ public class Town extends OwnerSubjectGov {
 	public String getFacilityGroupName() {
 		return "Government Facilities";
 	}
+
+	@Override
+	public String getSubjectPositionName() {
+		return "Citizen";
+	}
+
+	@Override
+	public String getOwnerPositionName() {
+		// TODO Auto-generated method stub
+		return "Mayor";
+	}
 }

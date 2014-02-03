@@ -81,4 +81,14 @@ public class Country extends OwnerSubjectGov {
 		return "Government Facilities";
 	}
 
+	@Override
+	public String getSubjectPositionName() {
+		return "Citizen";
+	}
+
+	@Override
+	public String getOwnerPositionName() {
+		return "Ruler";
+	}
+
 }

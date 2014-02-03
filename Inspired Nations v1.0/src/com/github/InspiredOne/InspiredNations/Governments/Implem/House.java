@@ -72,7 +72,12 @@ public class House extends OwnerGov {
 
 	@Override
 	public String getFacilityGroupName() {
-		return null;
+		return "";
+	}
+
+	@Override
+	public String getOwnerPositionName() {
+		return "Owner";
 	}
 
 }

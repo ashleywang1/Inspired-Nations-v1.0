@@ -43,6 +43,10 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 		Debug.print("in getSuperGov of Facility");
 		return null;
 	}
+	@Override
+	public String getOwnerPositionName() {
+		return "Caretaker";
+	}
 	/**
 	 * Is there only allowed to be one of these? 
 	 * @return

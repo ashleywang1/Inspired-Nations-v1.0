@@ -26,7 +26,9 @@ import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.Regions.nullRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
+import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
@@ -138,7 +140,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * are directly under this governments control.
 	 * @return	the <code>HashSet</code> of all subject names
 	 */
-	public HashSet<String> getSubjects() {
+	public IndexedSet<PlayerID> getSubjects() {
 		return this.getSuperGovObj().getSubjects();
 	}
 	/**
@@ -648,4 +650,11 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	public String getDisplayName(PlayerData PDI) {
 		return this.getName().concat(" (" + this.getTypeName() + ")");
 	}
+	/**
+	 * Gets the name for the position of owner for this government to be
+	 * used in menus.
+	 * @return	Owner Position Name
+	 */
+	public abstract String getOwnerPositionName();
+	
 }

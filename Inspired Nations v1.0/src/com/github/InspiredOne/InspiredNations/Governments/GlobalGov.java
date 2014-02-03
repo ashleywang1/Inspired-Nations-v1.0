@@ -1,7 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Governments;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.bukkit.OfflinePlayer;
@@ -9,6 +8,8 @@ import org.bukkit.OfflinePlayer;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
+import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class GlobalGov extends OwnerSubjectGov {
 	
@@ -40,12 +41,12 @@ public class GlobalGov extends OwnerSubjectGov {
 	}
 
 	@Override
-	public HashSet<String> getSubjects() {
+	public IndexedSet<PlayerID> getSubjects() {
 		
-		HashSet<String> output = new HashSet<String>();
+		IndexedSet<PlayerID> output = new IndexedSet<PlayerID>();
 		
 		for(OfflinePlayer player:InspiredNations.plugin.getServer().getOfflinePlayers()) {
-			output.add(player.getName());
+			output.add(new PlayerID(player.getPlayer()));
 		}
 		return output;
 	}
@@ -84,8 +85,17 @@ public class GlobalGov extends OwnerSubjectGov {
 
 	@Override
 	public String getFacilityGroupName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "";
+	}
+
+	@Override
+	public String getSubjectPositionName() {
+		return "Server Resident";
+	}
+
+	@Override
+	public String getOwnerPositionName() {
+		return "Server Owner";
 	}
 
 }
