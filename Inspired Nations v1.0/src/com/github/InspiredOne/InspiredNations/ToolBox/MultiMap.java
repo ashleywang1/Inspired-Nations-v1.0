@@ -141,15 +141,4 @@ public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable, Iterabl
 		Debug.print("Inside iterator if multiMap");
 		return new MultiMapIterator<K>(this);
 	}
-	
-	public List<K> getAllThatPass(Condition<K> condition) {
-		List<K> output = new ArrayList<K>();
-		for(Iterator<K> iter = this.iterator();iter.hasNext();) {
-			K k = iter.next();
-			if(condition.rulePass(k)) {
-				output.add(k);
-			}
-		}
-		return output;
-	}
 }

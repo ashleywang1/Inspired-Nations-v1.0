@@ -117,8 +117,8 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	@Override
 	public void actionResponse() {
 		int tabsize = this.filteredoptions.size();
-		this.setError(MenuError.NO_ERROR());
 		if(this.manager.updateFromTabScroll) {
+			this.setError(MenuError.NO_ERROR());
 			if(manager.preTabEntry.equalsIgnoreCase("+")) {
 				this.setTabcnt(((this.getTabcnt() - 1) + tabsize) % tabsize);
 			}

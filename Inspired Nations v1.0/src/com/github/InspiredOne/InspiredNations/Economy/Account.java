@@ -160,7 +160,6 @@ public class Account implements Serializable, Nameable, Payable {
 	
 	private boolean isShared() {
 		boolean foundOne = false;
-		Debug.print("Inside isShared of Account");
 		for(InspiredGov gov:InspiredNations.regiondata) {
 			Debug.print(gov);
 			if(gov.getAccounts().contains(this)) {
@@ -172,7 +171,6 @@ public class Account implements Serializable, Nameable, Payable {
 				}
 			}
 		}
-		Debug.print("Inside isShared of Account 2");
 		for(PlayerData player:InspiredNations.playerdata.values()) {
 			if(player.getAccounts().contains(this)) {
 				if(foundOne) {
@@ -183,12 +181,12 @@ public class Account implements Serializable, Nameable, Payable {
 				}
 			}
 		}
-		Debug.print("Inside isShared of Account 3");
 		return false;
 	}
 	
 	@Override
 	public String getDisplayName(PlayerData PDI) {
+		Debug.print("Inside GetDisplay Name of account");
 		if(isShared()){
 			return this.getName() + " (" + Tools.cut(this.getTotalMoney(PDI.getCurrency())) +" " + PDI.getCurrency() + ") Shared";
 		}
