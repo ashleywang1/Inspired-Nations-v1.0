@@ -51,11 +51,11 @@ public abstract class ActionMenu extends Menu {
 		registered = false;
 	}
 	
-	@Override
+/*	@Override
 	protected String getError() {
 		String output = (String) this.getContext().getSessionData(ContextData.Error);
 		return output;
-	}
+	}*/
 	
 	
 	/**

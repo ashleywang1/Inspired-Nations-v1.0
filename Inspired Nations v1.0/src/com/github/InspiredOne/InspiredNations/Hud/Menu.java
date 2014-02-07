@@ -5,7 +5,9 @@ package com.github.InspiredOne.InspiredNations.Hud;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
@@ -21,6 +23,7 @@ public abstract class Menu extends MessagePrompt {
 	public PlayerData PDI;
 	public InspiredNations plugin;
 	private boolean initialized = false;
+	private int errorTimer = -1;
 	
 	
 	public Menu(PlayerData PDI) {
@@ -113,11 +116,21 @@ public abstract class Menu extends MessagePrompt {
 	 */
 	protected String getError() {
 		String output = (String) this.getContext().getSessionData(ContextData.Error);
-		this.setError(MenuError.NO_ERROR());
+		Debug.print("Inside getError();");
+		if(errorTimer == -1 && !output.equals(MenuError.NO_ERROR())) {
+			errorTimer = new BukkitRunnable() {
+				@Override
+				public void run() {
+					Debug.print("Inside the runable part");
+					errorTimer = -1;
+					setError(MenuError.NO_ERROR());
+				}
+			}.runTaskLater(InspiredNations.plugin, 100).getTaskId();	
+		}
 		return output;
 	}
 	/**
-	 * 
+	bactbac * 
 	 * @return	the <code>String</code> to be used for the error in the menu
 	 */
 	protected String getAlert() {
