@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
+import com.github.InspiredOne.InspiredNations.ToolBox.Condition;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
@@ -31,6 +33,7 @@ public class PlayerData implements Serializable, Nameable {
 	private AccountCollection accounts;
 	private Currency currency;
 	private MessageManager msg;
+	protected PlayerData PDI;
 	
 	public PlayerData(PlayerID id) {
 		this.name = id.getName();
@@ -38,6 +41,7 @@ public class PlayerData implements Serializable, Nameable {
 		currency = Currency.DEFAULT;
 		accounts = new AccountCollection(this.name);
 		msg = new MessageManager(this);
+		PDI = this;
 	}
 
 	public Conversation getCon() {
@@ -69,6 +73,70 @@ public class PlayerData implements Serializable, Nameable {
 		}
 		return false;
 	}
+	/**
+	 * Gets all the governemnts that this player has applied ownership.
+	 * @return
+	 */
+	public List<OwnerGov> getAllOwnerApplications() {
+		List<OwnerGov> output = new ArrayList<OwnerGov>();
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			if(gov instanceof OwnerGov) {
+				if(((OwnerGov) gov).getOwnerRequest().contains(this.getPlayerID())) {
+					output.add((OwnerGov) gov);
+				}
+			}
+		}
+		return output;
+	}
+	/**
+	 * Gets all the governemnts that this player has been offered ownership.
+	 * @return
+	 */
+	public List<OwnerGov> getAllOwnerOffers() {
+		List<OwnerGov> output = new ArrayList<OwnerGov>();
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			if(gov instanceof OwnerGov) {
+				if(((OwnerGov) gov).getOwnerOffers().contains(this.getPlayerID())) {
+					output.add((OwnerGov) gov);
+				}
+			}
+		}
+		return output;
+	}
+	/**
+	 * Gets all the government that this player has applied subject
+	 * @return
+	 */
+	public List<OwnerSubjectGov> getAllResidenceApplications() {
+		List<OwnerSubjectGov> output = new ArrayList<OwnerSubjectGov>();
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			if(gov instanceof OwnerSubjectGov) {
+				if(((OwnerSubjectGov) gov).getSubjectRequests().contains(this.getPlayerID())) {
+					output.add((OwnerSubjectGov) gov);
+				}
+			}
+		}
+		return output;
+	}
+	/**
+	 * Gets all the governments that this player has been offered citizenship
+	 * @return
+	 */
+	public List<OwnerSubjectGov> getAllResidenceOffers() {
+		List<OwnerSubjectGov> output = new ArrayList<OwnerSubjectGov>();
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			if(gov instanceof OwnerSubjectGov) {
+				if(((OwnerSubjectGov) gov).getSubjectOffers().contains(this.getPlayerID())) {
+					output.add((OwnerSubjectGov) gov);
+				}
+			}
+		}
+		return output;
+	}
+
+	
+
+	
 	/**
 	 * Gets all governments in which a player is a citizen. Uses the HashSet input to check.
 	 * @param govType	type of government we're looking for

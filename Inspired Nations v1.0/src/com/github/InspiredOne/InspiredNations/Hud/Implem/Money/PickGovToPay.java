@@ -42,5 +42,9 @@ public class PickGovToPay extends PickGovGeneral {
 	public String postTabListPreOptionsText() {
 		return "Money: " + accounts.getTotalMoney(PDI.getCurrency()) + " " + PDI.getCurrency();
 	}
+	@Override
+	public String getHeader() {
+		return "Select Government To Pay";
+	}
 
 }

@@ -1,11 +1,12 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
-public class PlayerProfile extends Menu {
+public class PlayerProfile extends ActionMenu {
 
 	PlayerData PDITarget;
 	Datable<PlayerID> data;
@@ -58,7 +59,11 @@ public class PlayerProfile extends Menu {
 
 	@Override
 	public void unregister() {
-		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionResponse() {
 		
 	}
 

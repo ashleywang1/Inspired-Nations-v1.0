@@ -1,19 +1,18 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
-import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
+import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickPlayerGeneral;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
-public class PayPlayer extends TabSelectOptionMenu<PlayerID> {
+public class PayPlayer extends PickPlayerGeneral {
 
 	Payable accounts;
 	Menu back;
 	public PayPlayer(PlayerData PDI, Payable accounts, Menu back) {
-		super(PDI);
+		super(PDI, back);
 		this.accounts = accounts;
 		this.back = back;
 	}
@@ -29,10 +28,7 @@ public class PayPlayer extends TabSelectOptionMenu<PlayerID> {
 	}
 
 	@Override
-	public void Init() {
-		for(PlayerID player:InspiredNations.playerdata.keySet()) {
-			this.taboptions.add(player);
-		}
+	public void insertOptions() {
 		if(this.getData().equals(PDI.getPlayerID())) {
 			this.options.add(new PromptOption(this, "Transfer Money", new PickAccount(PDI, this, PDI.getAccounts(), accounts)));
 		}
@@ -43,6 +39,11 @@ public class PayPlayer extends TabSelectOptionMenu<PlayerID> {
 	@Override
 	public String getHeader() {
 		return "Select a player to pay";
+	}
+
+	@Override
+	public boolean check(PlayerID player) {
+		return true;
 	}
 
 }

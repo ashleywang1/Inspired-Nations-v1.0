@@ -53,11 +53,6 @@ public abstract class PickGovGeneral extends TabSelectOptionMenu<InspiredGov> {
 	}
 
 	@Override
-	public String getHeader() {
-		return "Select the option that corrisponds to the address";
-	}
-
-	@Override
 	public final void Init() {
 
 		this.taboptions.clear();

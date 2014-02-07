@@ -7,8 +7,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 /**
  * My own implementation of a map that maps to a Set. If the key is not present, then
  * the map adds a Set with a single entry. Every subsequent addition to the key
@@ -18,7 +23,7 @@ import java.util.Set;
  * @param <T>	Key
  * @param <K>	Value
  */
-public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable {
+public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable, Iterable<K> {
 
 	/**
 	 * 
@@ -130,5 +135,21 @@ public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable {
 			T key = iter.next();
 			set.put(key, m.get(key));
 		}
+	}
+
+	@Override
+	public Iterator<K> iterator() {
+		return null;
+	}
+	
+	public List<K> getAllThatPass(Condition<K> condition) {
+		List<K> output = new ArrayList<K>();
+		for(Iterator<K> iter = this.iterator();iter.hasNext();) {
+			K k = iter.next();
+			if(condition.rulePass(k)) {
+				output.add(k);
+			}
+		}
+		return output;
 	}
 }
