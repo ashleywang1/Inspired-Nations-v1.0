@@ -51,7 +51,7 @@ public class ManageAccount extends OptionMenu {
 		this.options.add(new RenameAccountOption(this, account, "Rename " + account.getName() + " <Name>"));
 		this.options.add(new PromptOption(this, "Transfer Money", new PickAccount(PDI, this, accounts, account)));
 		this.options.add(new RemoveAccountOption(new ManageAccounts(PDI, previous, this.accounts), "Remove Account", this.account, this.accounts));
-		this.options.add(new PromptOption(this, "Share Account", new ShareAccountNav(PDI, previous, this.account)));
+		this.options.add(new PromptOption(this, "Share Account", new ShareAccountNav(PDI, new ManageAccount(PDI, previous, account, accounts), this.account)));
 	}
 
 }

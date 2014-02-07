@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
@@ -156,8 +158,42 @@ public class Account implements Serializable, Nameable, Payable {
 		this.name = name;
 	}
 	
+	private boolean isShared() {
+		boolean foundOne = false;
+		Debug.print("Inside isShared of Account");
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			Debug.print(gov);
+			if(gov.getAccounts().contains(this)) {
+				if(foundOne) {
+					return true;
+				}
+				else {
+					foundOne = true;
+				}
+			}
+		}
+		Debug.print("Inside isShared of Account 2");
+		for(PlayerData player:InspiredNations.playerdata.values()) {
+			if(player.getAccounts().contains(this)) {
+				if(foundOne) {
+					return true;
+				}
+				else {
+					foundOne = true;
+				}
+			}
+		}
+		Debug.print("Inside isShared of Account 3");
+		return false;
+	}
+	
 	@Override
 	public String getDisplayName(PlayerData PDI) {
-		return this.getName() + " (" + Tools.cut(this.getTotalMoney(PDI.getCurrency())) +" " + PDI.getCurrency() + ")";
+		if(isShared()){
+			return this.getName() + " (" + Tools.cut(this.getTotalMoney(PDI.getCurrency())) +" " + PDI.getCurrency() + ") Shared";
+		}
+		else {
+			return this.getName() + " (" + Tools.cut(this.getTotalMoney(PDI.getCurrency())) +" " + PDI.getCurrency() + ")";
+		}
 	}
 }

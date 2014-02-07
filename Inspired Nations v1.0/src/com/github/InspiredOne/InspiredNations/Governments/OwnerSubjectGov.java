@@ -18,7 +18,6 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 
 	public OwnerSubjectGov() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

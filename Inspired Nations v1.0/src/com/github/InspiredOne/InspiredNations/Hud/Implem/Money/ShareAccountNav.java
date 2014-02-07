@@ -26,24 +26,22 @@ public class ShareAccountNav extends PickNavGeneral {
 
 	@Override
 	public Menu getGovMenu() {
-		return new PickGovernmentToShare(PDI, previous, previous, account, InspiredNations.global);
+		return new PickGovernmentToShare(PDI, this, this, account, InspiredNations.global);
 	}
 
 	@Override
 	public Menu getPlayerMenu() {
-		return null;
+		return new PickPlayerToShare(PDI, this, account);
 	}
 
 	@Override
 	public String getPreOptionText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 	@Override
 	public String getHeader() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Pick What You Would Like To Share With";
 	}
 
 }
