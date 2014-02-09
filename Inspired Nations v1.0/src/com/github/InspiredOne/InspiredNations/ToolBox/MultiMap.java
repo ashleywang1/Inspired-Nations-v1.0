@@ -7,11 +7,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.github.InspiredOne.InspiredNations.Debug;
 
 /**
  * My own implementation of a map that maps to a Set. If the key is not present, then
@@ -138,7 +135,6 @@ public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable, Iterabl
 
 	@Override
 	public Iterator<K> iterator() {
-		Debug.print("Inside iterator if multiMap");
 		return new MultiMapIterator<K>(this);
 	}
 }

@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -17,6 +18,7 @@ import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsExcep
 import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeProtectionLevelException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Exceptions.RegionOutOfEncapsulationBoundsException;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
@@ -49,13 +51,13 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	private static final long serialVersionUID = 5014430464149332251L;
 	
 	private AccountCollection accounts;
-	private InspiredRegion region;
+	protected InspiredRegion region;
 	private List<Facility> facilities = new ArrayList<Facility>();
 	private IndexedMap<Class<? extends InspiredGov>, Double> taxrates = new IndexedMap<Class<? extends InspiredGov>, Double>();
 	private InspiredGov supergov;
 	private String name;
-	private double taxedrate = 0; // the last tax rate used on this gov.
-	private int protectionlevel = 0;
+	private double taxedrate = 1; // the last tax rate used on this gov.
+	protected int protectionlevel = 0;
 	private Currency currency = Currency.DEFAULT;
 	
 	/**
@@ -327,7 +329,10 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @throws NegativeMoneyTransferException 
 	 */
 	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
+		Debug.print("Inside Pay Super 1 " + amount);
 		this.accounts.transferMoney(amount, curren, this.getSuperGovObj().accounts);
+		Debug.print("Inside Pay Super 2");
+		
 	}
 	/**
 	 * 
@@ -448,8 +453,33 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	public int getProtectionlevel() {
 		return protectionlevel;
 	}
-	public void setProtectionlevel(int protectionlevel) {
-		this.protectionlevel = protectionlevel;
+	public void setProtectionlevel(int protectionlevel) throws NegativeProtectionLevelException, BalanceOutOfBoundsException {
+		if(protectionlevel < 0) {
+			throw new NegativeProtectionLevelException();
+		}
+		else {
+			BigDecimal refund = this.taxValue(region.getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, Currency.DEFAULT);
+			BigDecimal newcost = this.taxValue(region.getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, Currency.DEFAULT);
+			BigDecimal cost = refund.subtract(newcost);
+			if(cost.compareTo(BigDecimal.ZERO) < 0) {
+				try {
+					this.paySuper(cost.negate(), Currency.DEFAULT);
+				} catch (NegativeMoneyTransferException e) {
+				}
+			}
+			else {
+				try {
+					this.pullFromSuper(newcost, Currency.DEFAULT);
+				} catch (NegativeMoneyTransferException e) {
+				} catch (BalanceOutOfBoundsException e) {
+					try {
+						this.pullFromSuper(this.getSuperGovObj().getAccounts().getTotalMoney(Currency.DEFAULT), Currency.DEFAULT);
+					} catch (NegativeMoneyTransferException e1) {
+					}
+				}
+			}
+			this.protectionlevel = protectionlevel;
+		}
 	}
 	
 	public int getMilitaryLevel() {
@@ -480,11 +510,24 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @return
 	 */
 	public BigDecimal taxValue(Region region, double taxfrac,int protect, Currency curren) {
+		return this.taxValue(region, taxfrac, protect, this.getAdditionalCost(), curren);
+	}
+	/**
+	 * Returns the amount of money that the parameters would costs
+	 * @param region
+	 * @param taxfrac
+	 * @param protect
+	 * @param additionalcost
+	 * @param curren
+	 * @return
+	 */
+	public BigDecimal taxValue(Region region, double taxfrac, int protect, BigDecimal additionalcost, Currency curren) {
 		BigDecimal output = BigDecimal.ZERO;
 		// Basically... multiply them all together and it gets you the value in Defualt currency
 		//TODO come up with some kind of war money function
+		Debug.print(taxfrac);
 		output = (new BigDecimal(region.volume()).multiply(new BigDecimal(taxfrac))).multiply(new BigDecimal(this.taxedrate));
-		output = output.multiply(new BigDecimal(protect)).add(this.getAdditionalCost());
+		output = output.multiply(new BigDecimal(protect)).add(additionalcost);
 		output = InspiredNations.Exchange.getExchangeValue(output, Currency.DEFAULT, curren);
 		
 		return output;

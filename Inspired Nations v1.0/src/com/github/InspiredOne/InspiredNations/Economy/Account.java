@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
@@ -161,7 +160,6 @@ public class Account implements Serializable, Nameable, Payable {
 	private boolean isShared() {
 		boolean foundOne = false;
 		for(InspiredGov gov:InspiredNations.regiondata) {
-			Debug.print(gov);
 			if(gov.getAccounts().contains(this)) {
 				if(foundOne) {
 					return true;
@@ -186,7 +184,6 @@ public class Account implements Serializable, Nameable, Payable {
 	
 	@Override
 	public String getDisplayName(PlayerData PDI) {
-		Debug.print("Inside GetDisplay Name of account");
 		if(isShared()){
 			return this.getName() + " (" + Tools.cut(this.getTotalMoney(PDI.getCurrency())) +" " + PDI.getCurrency() + ") Shared";
 		}

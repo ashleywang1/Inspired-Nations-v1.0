@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import com.github.InspiredOne.InspiredNations.Debug;
-
 public class MultiMapIterator<T> implements Iterator<T> {
 
 	private MultiMap <?, T> map;
@@ -21,7 +19,6 @@ public class MultiMapIterator<T> implements Iterator<T> {
 		if(govIter.hasNext()) {
 			value = govIter.next();
 		}
-		Debug.print("Inside MultiMapIterator constructor");
 	}
 
 	@Override

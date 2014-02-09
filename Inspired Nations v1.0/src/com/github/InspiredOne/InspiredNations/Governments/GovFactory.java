@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Governments;
 import java.math.BigDecimal;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
@@ -41,6 +42,11 @@ public class GovFactory<T extends InspiredGov> {
 	
 	public GovFactory<T> withCurrency(Currency currency) {
 		this.gov.setCurrency(currency);
+		return this;
+	}
+	
+	public GovFactory<T> withAccountCollection(AccountCollection collection) {
+		this.gov.setAccounts(collection);
 		return this;
 	}
 	

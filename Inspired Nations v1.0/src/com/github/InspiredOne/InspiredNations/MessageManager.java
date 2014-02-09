@@ -3,9 +3,13 @@ package com.github.InspiredOne.InspiredNations;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitRunnable;
+
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class MessageManager implements Serializable {
 
@@ -14,10 +18,34 @@ public class MessageManager implements Serializable {
 	 */
 	private static final long serialVersionUID = 5200407053459680313L;
 	
-	PlayerData PDI;
-	
+	private PlayerData PDI;
+	private String notification = MenuError.NO_ERROR(); //The string that is to be returned when getNotif() is called.
+	private int taskID = -1;
+	transient BukkitRunnable Timer;
 	public MessageManager(PlayerData PDI) {
 		this.PDI = PDI;
+	}
+	
+	public void setNotif(String msg) {
+		if(!notification.equals(msg)) {
+			if(Bukkit.getScheduler().isQueued(taskID)) {
+				Timer.cancel();
+			}
+		}
+		this.notification = msg;
+	}
+	
+	public String getNotif() {
+		if(!Bukkit.getScheduler().isQueued(taskID) && !notification.equals(MenuError.NO_ERROR())) {
+			this.Timer = new BukkitRunnable() {
+				@Override
+				public void run() {
+					setNotif(MenuError.NO_ERROR());
+				}
+			};
+			taskID = Timer.runTaskLater(InspiredNations.plugin, 100).getTaskId();
+		}
+		return notification;
 	}
 	
 	public String MessageConstructor(String msg, PlayerData from) {
@@ -33,7 +61,6 @@ public class MessageManager implements Serializable {
 	 * @param msg
 	 */
 	public void sendChatMessage(String msg) {
-		Debug.print("inside sendMessage");
 		for(PlayerData PDITarget:InspiredNations.playerdata.values()) {
 			if(PDITarget == PDI) {
 				PDITarget.getMsg().recieveMessage(msg, PDI);

@@ -131,8 +131,15 @@ public class PlayerData implements Serializable, Nameable {
 		}
 		return output;
 	}
-
-	
+	/**
+	 * A function that stops all the listeners of the player
+	 * @param player
+	 */
+	public static void unRegister(PlayerID player) {
+		InspiredNations.playerdata.get(player).getCon().acceptInput("exit");
+		InspiredNations.playerdata.get(player).getCon().abandon();
+		InspiredNations.playerdata.get(player).setCon(null);
+	}
 
 	
 	/**

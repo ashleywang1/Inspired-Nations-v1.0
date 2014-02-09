@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
@@ -44,7 +45,10 @@ public abstract class OptionMenu extends ActionMenu {
 			}
 		}
 		catch (Exception ex) {
+			Debug.print("Inside getNextMenu of optionmenu 1");
 				this.setError(MenuError.INVALID_NUMBER_INPUT());
+				Debug.print("Inside getNextMenu of optionmenu 2");
+				Debug.print("Is this menu null? " + (this == null));
 				return this.getSelf();
 		}
 	}

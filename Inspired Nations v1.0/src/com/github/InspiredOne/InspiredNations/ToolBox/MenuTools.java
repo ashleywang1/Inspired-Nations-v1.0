@@ -137,6 +137,12 @@ public class MenuTools {
 			return makeMessage("The polygon you selected is not simple. This means that some of the sides"
 					+ " cross. Make sure you select each corner in order.");
 		}
+		public static String NEGATIVE_PROTECTION_LEVEL_NOT_ALLOWED() {
+			return makeMessage("Negative numbers are not allowed for protection levels.");
+		}
+		public static String NEGATIVE_MILITARY_LEVEL_NOT_ALLOWED() {
+			return makeMessage("Negative numbers are not allowed for military levels.");
+		}
 		public static String EMPTY_INPUT() {
 			return makeMessage("Your input was blank.");
 		}

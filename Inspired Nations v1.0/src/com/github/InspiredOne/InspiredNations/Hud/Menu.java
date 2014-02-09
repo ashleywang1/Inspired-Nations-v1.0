@@ -1,34 +1,28 @@
 package com.github.InspiredOne.InspiredNations.Hud;
 
-
-
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
-public abstract class Menu extends MessagePrompt {
+public abstract class Menu extends MessagePrompt implements Cloneable {
 
 	private static final String footer = MenuTools.addDivider("") + TextColor.ENDINSTRU + "Type 'exit' to leave, 'say' to chat, or 'back'/'hud' to go back.";
 	public PlayerData PDI;
 	public InspiredNations plugin;
 	private boolean initialized = false;
-	private int errorTimer = -1;
-	
+	private Menu self;
 	
 	public Menu(PlayerData PDI) {
 		this.PDI = PDI;
 		this.plugin = InspiredNations.plugin;
+			self = (Menu) this;
 	}
 	
 	/**
@@ -41,9 +35,8 @@ public abstract class Menu extends MessagePrompt {
 		String filler = this.getFiller();
 		String end = footer;
 		String errmsg = this.getError();
-		String alert = this.getAlert();
 		
-		return space + main + filler + end + errmsg + alert;
+		return space + main + filler + end + errmsg;
 	}
 	
 	public final PlayerData getPlayerData() {
@@ -83,6 +76,7 @@ public abstract class Menu extends MessagePrompt {
 	}
 	@Override
 	public final Prompt acceptInput(ConversationContext arg0, String arg) {
+		this.setError(MenuError.NO_ERROR());
 		this.unregister();
 		if(arg == null) {
 			return this.getNextPrompt(arg0);
@@ -114,36 +108,24 @@ public abstract class Menu extends MessagePrompt {
 	 * 
 	 * @return	the <code>String</code> to be used for the error in the menu
 	 */
-	protected String getError() {
-		String output = (String) this.getContext().getSessionData(ContextData.Error);
-		Debug.print("Inside getError();");
-		if(errorTimer == -1 && !output.equals(MenuError.NO_ERROR())) {
-			errorTimer = new BukkitRunnable() {
-				@Override
-				public void run() {
-					Debug.print("Inside the runable part");
-					errorTimer = -1;
-					setError(MenuError.NO_ERROR());
-				}
-			}.runTaskLater(InspiredNations.plugin, 100).getTaskId();	
-		}
+	private final String getError() {
+		String output = this.PDI.getMsg().getNotif();		
 		return output;
 	}
 	/**
-	bactbac * 
-	 * @return	the <code>String</code> to be used for the error in the menu
+	 * 
+	 * @param error	the <code>MenuError</code> to be used as the error
 	 */
-	protected String getAlert() {
-		String output = (String) this.getContext().getSessionData(ContextData.Alert);
-		this.setAlert(MenuAlert.NO_ALERT());
-		return output;
+	public final Menu setError(String error) {
+		this.PDI.getMsg().setNotif(error);
+		return this;
 	}
 	/**
 	 * Sets the message data to be displayed in the menu.
 	 * @param msg
 	 */
 	public void setAlert(String msg) {
-		this.getContext().setSessionData(ContextData.Alert, msg);
+		this.PDI.getMsg().setNotif(msg);
 //		if(!msg.equals(MenuAlert.NO_ALERT())) {
 //			this.PDI.getCon().outputNextPrompt();
 //		}
@@ -154,7 +136,7 @@ public abstract class Menu extends MessagePrompt {
 	 * @return	the <code>Menu</code> of itself
 	 */
 	public Menu getSelf() {
-		return this;
+		return this.self;
 	}
 	/**
 	 * 
@@ -164,14 +146,7 @@ public abstract class Menu extends MessagePrompt {
 		this.PDI.getCon();
 		return this.PDI.getCon().getContext();
 	}
-	/**
-	 * 
-	 * @param error	the <code>MenuError</code> to be used as the error
-	 */
-	public final Menu setError(String error) {
-		this.getContext().setSessionData(ContextData.Error, error);
-		return this;
-	}
+
 	/**
 	 * Looks at previous menu and determines if it should be skipped or not
 	 * @return	the actual previous menu rather than just the one before this one

@@ -18,6 +18,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -53,6 +55,7 @@ public class InspiredNations extends JavaPlugin {
 		taxTimer = new TaxTimer();
 		PluginManager pm = this.getServer().getPluginManager();
 		SS.Start();
+		Debug.print("Revision 3");
 		taxTimer.setCycleLength(InspiredNations.plugin.getConfig().getInt("tax_cycle_length"));
 		InspiredNations.Exchange.registerCurrency(Currency.DEFAULT, new BigDecimal(500));
 		pm.registerEvents(PL, this);
@@ -99,6 +102,16 @@ public class InspiredNations extends JavaPlugin {
 				InspiredNations.playerdata.put(ID, new PlayerData(ID));
 				System.out.println("Player has not been added to playerdata yet");
 			}
+		}
+		@EventHandler
+		public void onPlayerLeave(PlayerKickEvent event) {
+			PlayerID id = new PlayerID(event.getPlayer());
+			PlayerData.unRegister(id);
+		}
+		@EventHandler
+		public void onPlayerLeave(PlayerQuitEvent event) {
+			PlayerID id = new PlayerID(event.getPlayer());
+			PlayerData.unRegister(id);
 		}
 		@EventHandler
 		public void onPlayerChat(AsyncPlayerChatEvent event) {

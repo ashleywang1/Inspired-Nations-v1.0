@@ -2,6 +2,11 @@ package com.github.InspiredOne.InspiredNations.Governments;
 
 import java.math.BigDecimal;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMilitaryLevelExecption;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
@@ -22,6 +27,11 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 
 	@Override
 	public BigDecimal getAdditionalCost() {
+
+		return getAdditionalCost(this.getMilitaryLevel());
+	}
+	
+	public BigDecimal getAdditionalCost(int militarylevel) {
 		//TODO determine the function for the cost of war here.
 		return (new BigDecimal(100)).multiply((new BigDecimal(militarylevel)).pow(2));
 	}
@@ -42,7 +52,33 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 		return militarylevel;
 	}
 
-	public void setMilitaryLevel(int militarylevel) {
+	public void setMilitaryLevel(int militarylevel) throws NegativeMilitaryLevelExecption, BalanceOutOfBoundsException {
+		if(militarylevel < 0) {
+			throw new NegativeMilitaryLevelExecption();
+		}
+		else {
+			BigDecimal refund = this.taxValue(region.getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, Currency.DEFAULT);
+			BigDecimal newcost = this.taxValue(region.getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, this.getAdditionalCost(militarylevel), Currency.DEFAULT);
+			BigDecimal cost = refund.subtract(newcost);
+			if(cost.compareTo(BigDecimal.ZERO) < 0) {
+				try {
+					this.paySuper(cost.negate(), Currency.DEFAULT);
+				} catch (NegativeMoneyTransferException e) {
+				}
+			}
+			else {
+				try {
+					this.pullFromSuper(cost, Currency.DEFAULT);
+				} catch (NegativeMoneyTransferException e) {
+				} catch (BalanceOutOfBoundsException e) {
+					try {
+						this.pullFromSuper(this.getSuperGovObj().getAccounts().getTotalMoney(Currency.DEFAULT), Currency.DEFAULT);
+					} catch (NegativeMoneyTransferException e1) {
+					}
+				}
+			}
+			this.militarylevel = militarylevel;
+		}
 		this.militarylevel = militarylevel;
 	}
 
