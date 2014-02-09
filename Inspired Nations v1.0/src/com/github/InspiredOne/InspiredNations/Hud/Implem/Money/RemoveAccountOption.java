@@ -9,7 +9,6 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
-import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 
 public class RemoveAccountOption extends Option {
 

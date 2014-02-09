@@ -28,7 +28,7 @@ public class nullRegion extends Region {
 	}
 
 	@Override
-	public boolean IsIn(CummulativeRegion region) {
+	public boolean IsIn(CummulativeRegion<?> region) {
 		return false;
 	}
 
@@ -53,7 +53,7 @@ public class nullRegion extends Region {
 	}
 
 	@Override
-	public boolean Intersects(CummulativeRegion region) {
+	public boolean Intersects(CummulativeRegion<?> region) {
 		return false;
 	}
 

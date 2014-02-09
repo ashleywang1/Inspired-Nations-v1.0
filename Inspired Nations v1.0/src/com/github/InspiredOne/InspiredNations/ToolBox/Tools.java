@@ -137,7 +137,7 @@ public class Tools {
 		int above = size;
 		int below = size + 1;
 		
-		int[] remove = {160*above+240,160*above+77,160*above-80,160*above+83};
+		//int[] remove = {160*above+240,160*above+77,160*above-80,160*above+83};
 		
 		for(int z = -above;z < below; z++) {
 			Location loctest = location.clone();

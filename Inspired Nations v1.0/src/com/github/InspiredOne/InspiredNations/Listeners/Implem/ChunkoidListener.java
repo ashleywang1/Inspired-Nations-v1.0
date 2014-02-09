@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations.Listeners.Implem;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.InspiredListener;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 

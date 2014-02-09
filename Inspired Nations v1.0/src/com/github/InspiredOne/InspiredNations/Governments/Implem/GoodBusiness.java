@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.GoodBusinessLand;
 
 
