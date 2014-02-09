@@ -45,11 +45,6 @@ public class House extends OwnerGov {
 	}
 
 	@Override
-	public Class<? extends InspiredRegion> getSelfRegionType() {
-		return HouseLand.class;
-	}
-
-	@Override
 	public List<Class<? extends Facility>> getGovFacilities() {
 		List<Class<? extends Facility>> output = new ArrayList<Class<? extends Facility>>();
 		return output;

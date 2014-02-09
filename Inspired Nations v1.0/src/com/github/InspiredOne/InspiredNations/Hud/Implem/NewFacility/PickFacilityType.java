@@ -48,7 +48,7 @@ public class PickFacilityType<T extends Facility> extends PassByOptionMenu {
 	@Override
 	public void init() {
 		for(Class<? extends InspiredGov> selfgov:GovFactory.getGovInstance(GovType).getSelfGovs()) {
-			GovFactory<T> govf = new GovFactory<T>((Class<T>) selfgov).withSuperGov(gov);
+			GovFactory<T> govf = new GovFactory<T>((Class<T>) selfgov).withSuperGov(gov).withAccountCollection(gov.getAccounts());
 			if(govf.getGov().getSelfGovs().size() == 1) {
 				if(govf.getGov().getSelfGovs().get(0).equals(govf.getGov().getClass())) {
 					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickFacilityName(PDI, previous, this.gov, govf)));

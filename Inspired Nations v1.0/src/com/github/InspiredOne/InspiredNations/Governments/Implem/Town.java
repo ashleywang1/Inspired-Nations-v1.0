@@ -49,11 +49,6 @@ public class Town extends OwnerSubjectGov {
 	}
 
 	@Override
-	public Class<? extends InspiredRegion> getSelfRegionType() {
-		return TownLand.class;
-	}
-
-	@Override
 	public List<Class<? extends Facility>> getGovFacilities() {
 		List<Class<? extends Facility>> output = new ArrayList<Class<? extends Facility>>();
 		output.add(LocalPark.class);

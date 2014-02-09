@@ -8,84 +8,117 @@ import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
-public class Shop extends Region {
+public class ShopRegion extends Region {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2195353839150455099L;
 
+	Point3D one;
+	Point3D two;
 
 	@Override
 	public String getTypeName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Shop";
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return "A facility to sell items from";
 	}
 
 	@Override
 	public Menu getClaimMenu(PlayerData PDI, Menu previous, InspiredGov gov) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean IsIn(NonCummulativeRegion region) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.IsIn((Region) region);
 	}
 
 	@Override
-	public boolean IsIn(CummulativeRegion region) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean IsIn(CummulativeRegion<?> region) {
+		return this.IsIn((Region) region);
 	}
 
 	@Override
 	public int volume() {
-		// TODO Auto-generated method stub
-		return 0;
+		int output = 0;
+		if(one != null) {
+			output++;
+		}
+		if(two != null) {
+			output ++;
+		}
+		return output;
 	}
 
 	@Override
 	public boolean contains(Point3D location) {
-		// TODO Auto-generated method stub
+		if(one != null) {
+			if(one.equals(location)) {
+				return true;
+			}
+		}
+		if(two != null) {
+			if(two.equals(location)) {
+				return true;
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean Intersects(NonCummulativeRegion region) {
-		// TODO Auto-generated method stub
-		return false;
+		return Intersects((Region) region);
 	}
 
 	@Override
-	public boolean Intersects(CummulativeRegion region) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean Intersects(CummulativeRegion<?> region) {
+		return Intersects((Region) region);
 	}
 
 	@Override
 	public boolean IsIn(Region region) {
-		// TODO Auto-generated method stub
-		return false;
+		if(one == null) {
+			if(two == null) {
+				return true;
+			}
+			else {
+				return region.contains(two);
+			}
+		}
+		else {
+			if(two ==null) {
+				return region.contains(one);
+			}
+			else {
+				return(region.contains(one) && region.contains(two));
+			}
+		}
 	}
 
 	@Override
 	public boolean Intersects(Region region) {
-		// TODO Auto-generated method stub
+		if(one != null) {
+			if(region.contains(one)) return true;
+		}
+		if(two != null) {
+			if(region.contains(two)) return true;
+		}
 		return false;
 	}
 
 	@Override
 	protected boolean instantiated() {
-		// TODO Auto-generated method stub
-		return false;
+		if(one != null || two != null) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 }

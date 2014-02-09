@@ -36,11 +36,6 @@ public class ServiceBusiness extends Business {
 	}
 	
 	@Override
-	public Class<? extends InspiredRegion> getSelfRegionType() {
-		return ServiceBusinessLand.class;
-	}
-
-	@Override
 	public List<Class<? extends Facility>> getGovFacilities() {
 		List<Class<? extends Facility>> output = new ArrayList<Class<? extends Facility>>();
 		return output;

@@ -21,10 +21,6 @@ public class LocalPark extends Facility {
 	public LocalPark() {
 		super();
 	}
-	@Override
-	public Class<? extends InspiredRegion> getSelfRegionType() {
-		return LocalParkLand.class;
-	}
 
 	@Override
 	public List<Class<? extends Facility>> getGovFacilities() {

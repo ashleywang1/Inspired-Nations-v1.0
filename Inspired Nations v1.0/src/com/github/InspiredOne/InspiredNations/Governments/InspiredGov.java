@@ -191,11 +191,11 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @return	the <code>InspiredGov</code> class that this class synchronizes it's economy variables
 	 */
 	public abstract Class<? extends InspiredGov> getCommonEcon();
-	/**
+/*	*//**
 	 * 
 	 * @return	the <code>InspiredRegion</code> class that this government uses
-	 */
-	public abstract Class<? extends InspiredRegion> getSelfRegionType();
+	 *//*
+	public abstract Class<? extends InspiredRegion> getSelfRegionType();*/
 	/**
 	 * Gets the <code>Facility</code> classes that this government uses as facilities.
 	 * facilities are not taxed by this gov, but are taxed by the supergov. They share owners with

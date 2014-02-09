@@ -40,11 +40,6 @@ public class Bank extends Facility {
 	}
 
 	@Override
-	public Class<? extends InspiredRegion> getSelfRegionType() {
-		return BankLand.class;
-	}
-
-	@Override
 	public List<Class<? extends Facility>> getGovFacilities() {
 		List<Class<? extends Facility>> output = new ArrayList<Class<? extends Facility>>();
 		return output;
