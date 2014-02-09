@@ -1,7 +1,10 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 
@@ -14,25 +17,31 @@ public class Applications extends TabSelectOptionMenu<OwnerGov> {
 
 	@Override
 	public Menu getPreviousPrompt() {
-		// TODO Auto-generated method stub
-		return null;
+		return new PlayerCitizenship(PDI);
 	}
 
 	@Override
 	public String postTabListPreOptionsText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 	@Override
 	public void Init() {
-		
+		for(InspiredGov gov: InspiredNations.regiondata) {
+			if((gov instanceof OwnerGov) && gov.getSubjects().contains(PDI.getPlayerID())) {
+				this.taboptions.add((OwnerGov) gov);
+			}
+		}
+		OwnerGov gov = this.getData();
+		//if(gov.getOwnerOffers())
+		if(gov instanceof OwnerSubjectGov) {
+			//
+		}
 	}
 
 	@Override
 	public String getHeader() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Applications";
 	}
 
 

@@ -62,17 +62,18 @@ public class ManageGov extends OptionMenu {
 	}
 	
 	public static void addFacilityOptions(PlayerData PDI, OptionMenu menu, InspiredGov gov) {
+		OptionMenu newman = new ManageGov(PDI, (OwnerGov) gov);
 		if(gov.getGovFacilities().size() > 1) {
-			menu.getOptions().add(new PromptOption(menu, gov.getFacilityGroupName(), new GovernmentRegions(PDI, menu, gov)));
+			menu.getOptions().add(new PromptOption(newman, gov.getFacilityGroupName(), new GovernmentRegions(PDI, newman, gov)));
 		}
 		else {
 			for(Class<? extends Facility> factype:gov.getGovFacilities()) {
 				Facility facgov = GovFactory.getGovInstance(factype);
 				if(gov.getFacilities().size() == 0 || !facgov.isUnique()) {
-					menu.getOptions().add(new PromptOption(menu, "New " + facgov.getTypeName(), new PickFacilityType<>(PDI, menu, gov, factype)));
+					menu.getOptions().add(new PromptOption(newman, "New " + facgov.getTypeName(), new PickFacilityType<>(PDI, newman, gov, factype)));
 				}
 				if(gov.getFacilities().size() > 0) {
-					menu.getOptions().add(new PromptOption(menu, "Manage " + facgov.getTypeName(), new PickFacilityToManage<>(PDI, menu, gov, factype)));
+					menu.getOptions().add(new PromptOption(newman, "Manage " + facgov.getTypeName(), new PickFacilityToManage<>(PDI, newman, gov, factype)));
 				}
 			}
 		}

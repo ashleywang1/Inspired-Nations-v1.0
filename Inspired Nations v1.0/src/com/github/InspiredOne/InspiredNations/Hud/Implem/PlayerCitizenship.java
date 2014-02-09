@@ -13,7 +13,7 @@ public class PlayerCitizenship extends OptionMenu {
 
 	@Override
 	public String getPreOptionText() {
-		return null;
+		return "";
 	}
 
 	@Override
@@ -38,6 +38,8 @@ public class PlayerCitizenship extends OptionMenu {
 
 	@Override
 	public void init() {
+		// owner requests and offers
+		// subject requests and offers
 		this.options.add(new PromptOption(this, "Apply For Citizenship", new Applications(PDI)));
 	}
 

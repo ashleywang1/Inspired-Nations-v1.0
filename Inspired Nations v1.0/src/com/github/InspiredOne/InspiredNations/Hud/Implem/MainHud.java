@@ -49,6 +49,7 @@ public class MainHud extends OptionMenu {
 	public void init() {
 		this.options.add(new PromptOption(this, "Map", new Map(PDI)));
 		this.options.add(new PromptOption(this, "Player Directory", new PlayerDirectory(PDI)));
+		this.options.add(new PromptOption(this, "Citizenship", new PlayerCitizenship(PDI)));
 		this.options.add(new PromptOption(this, "Manage Money", new ManageMoney(PDI)));
 		this.options.add(new getMoneyOption(this, "Get 1000 " + PDI.getCurrency().getName(), PDI));
 		List<Class<? extends OwnerGov>> array = InspiredNations.global.getAllSubGovs();
