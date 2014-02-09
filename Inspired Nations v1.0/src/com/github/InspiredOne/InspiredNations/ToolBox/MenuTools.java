@@ -146,6 +146,9 @@ public class MenuTools {
 		public static String EMPTY_INPUT() {
 			return makeMessage("Your input was blank.");
 		}
+		public static String ACCOUNT_ALREADY_HAS_THAT_CURRENCY() {
+			return makeMessage("The account already has that currency.");
+		}
 		private static final String getTypeName(Class<? extends InspiredGov> gov) {
 			String GovName = "";
 			GovName = GovFactory.getGovInstance(gov).getTypeName();

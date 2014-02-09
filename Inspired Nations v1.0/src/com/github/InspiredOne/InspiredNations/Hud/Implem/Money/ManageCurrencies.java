@@ -40,7 +40,9 @@ public class ManageCurrencies extends TabSelectOptionMenu<CurrencyAccount> {
 		if(this.taboptions.size() > 0) {
 			this.options.add(new PromptOption(this, "Pay with " + this.getData().getName(), new PayNav(PDI, this.getData(), this)));
 			this.options.add(new ChangeTabOrderOption<>(new ManageCurrencies(PDI, previous, accounts, account), "Change Currency Order <+/->", account.getMoney(), this.getData()));
+			this.options.add(new RemoveCurrencyOption(new ManageCurrencies(PDI, previous, accounts, account), "Remove " + this.getData().getCurrency(), account, this.getData()));
 		}
+		this.options.add(new PromptOption(this, "Add Currency", new PickCurrencyToAdd(PDI, new ManageCurrencies(PDI, previous, accounts, account), account)));
 	}
 
 	@Override

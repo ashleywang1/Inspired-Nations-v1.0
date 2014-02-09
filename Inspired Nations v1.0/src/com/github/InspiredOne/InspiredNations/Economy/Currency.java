@@ -11,7 +11,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 	
-public class Currency implements Serializable, Nameable{
+public class Currency implements Serializable, Nameable, Comparable<Currency>{
 
 	/**
 	 * 
@@ -77,4 +77,11 @@ public class Currency implements Serializable, Nameable{
     	return this.getName() + " (1.00 " + this + " =~ " + Tools.cut(InspiredNations.Exchange.getExchangeValue(BigDecimal.ONE, this, viewer.getCurrency()))
 				+ viewer.getCurrency() + ")";
     }
+
+	@Override
+	public int compareTo(Currency arg0) {
+		int compareVal = arg0.getExchangeRate(DEFAULT).multiply(new BigDecimal(1000)).intValue();
+		int thisval = this.getExchangeRate(DEFAULT).multiply(new BigDecimal(1000)).intValue();
+		return thisval - compareVal;
+	}
 }

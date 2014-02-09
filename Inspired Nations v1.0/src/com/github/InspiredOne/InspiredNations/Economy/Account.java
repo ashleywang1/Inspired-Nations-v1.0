@@ -182,6 +182,15 @@ public class Account implements Serializable, Nameable, Payable {
 		return false;
 	}
 	
+	public boolean containsCurrency(Currency curren) {
+		for(CurrencyAccount acc:this.money) {
+			if(acc.getCurrency().equals(curren)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	public String getDisplayName(PlayerData PDI) {
 		if(isShared()){
