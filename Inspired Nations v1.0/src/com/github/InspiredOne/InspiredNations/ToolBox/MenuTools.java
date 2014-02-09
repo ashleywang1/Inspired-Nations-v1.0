@@ -149,6 +149,9 @@ public class MenuTools {
 		public static String ACCOUNT_ALREADY_HAS_THAT_CURRENCY() {
 			return makeMessage("The account already has that currency.");
 		}
+		public static String ACCOUNT_COLLECTION_NOT_LINKED() {
+			return makeMessage("This account is not linked to any other accounts.");
+		}
 		private static final String getTypeName(Class<? extends InspiredGov> gov) {
 			String GovName = "";
 			GovName = GovFactory.getGovInstance(gov).getTypeName();

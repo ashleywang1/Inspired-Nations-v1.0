@@ -7,6 +7,8 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class PickAccount extends TabSelectOptionMenu<Account> {
 
@@ -27,7 +29,8 @@ public class PickAccount extends TabSelectOptionMenu<Account> {
 
 	@Override
 	public String postTabListPreOptionsText() {
-		return "";
+		return TextColor.LABEL + "Money: " + TextColor.VALUE + 
+				Tools.cut(accounts.getTotalMoney(PDI.getCurrency())) + " " + PDI.getCurrency();
 	}
 
 	@Override

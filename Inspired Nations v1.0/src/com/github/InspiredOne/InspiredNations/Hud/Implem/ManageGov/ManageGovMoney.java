@@ -27,7 +27,6 @@ public class ManageGovMoney extends OptionMenu {
 			output = output.concat(govtemp.getTypeName() + " Tax: " + gov.getTaxrates().get(govtype) + "\n");
 		}
 		output = output.concat(gov.getAccounts().getTotalMoney(PDI.getCurrency()).toString() + " " + PDI.getCurrency());
-		
 		return output;
 		
 	}
@@ -56,6 +55,9 @@ public class ManageGovMoney extends OptionMenu {
 	public void init() {
 		this.options.add(new PromptOption(this, "Pay", new PayNav(PDI, gov.getAccounts(), this)));
 		this.options.add(new PromptOption(this, "Manage Accounts", new ManageAccounts(PDI, this, gov.getAccounts())));
+		if(this.gov.getAccounts().isLinked()) {
+			this.options.add(new SplitAccountOption(this, "Split " + gov.getTypeName() + " Account", "Separates this account from yours", gov));
+		}
 	}
 
 }

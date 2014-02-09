@@ -17,7 +17,6 @@ public class PickName<T extends OwnerGov> extends InputMenu {
 	GovFactory<T> Govf;
 	public PickName(PlayerData PDI, GovFactory<T> Govf) {
 		super(PDI);
-		System.out.println("Made it here! 3");
 		this.Govf = Govf;
 	}
 

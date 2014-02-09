@@ -3,10 +3,13 @@ package com.github.InspiredOne.InspiredNations.Economy;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 
 public class AccountCollection extends ArrayList<Account> implements Payable {
@@ -65,6 +68,30 @@ public class AccountCollection extends ArrayList<Account> implements Payable {
 	@Override
 	public String getDisplayName(PlayerData PDI) {
 		return this.getName() + " (" + this.getTotalMoney(PDI.getCurrency()) + " " + PDI.getCurrency() + ")";
+	}
+	public boolean isLinked() {
+		boolean oneFound = false;
+		for(PlayerData player:InspiredNations.playerdata.values()) {
+			if(player.getAccounts().equals(this)) {
+				if(oneFound) {
+					return true;
+				}
+				else {
+					oneFound = true;
+				}
+			}
+		}
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			if(gov.getAccounts().equals(this)) {
+				if(oneFound) {
+					return true;
+				}
+				else {
+					oneFound = true;
+				}
+			}
+		}
+		return false;
 	}
 	
 }

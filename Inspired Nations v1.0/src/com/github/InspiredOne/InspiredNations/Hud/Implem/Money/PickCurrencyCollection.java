@@ -6,6 +6,8 @@ import com.github.InspiredOne.InspiredNations.Economy.CurrencyAccount;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class PickCurrencyCollection extends TabSelectOptionMenu<CurrencyAccount> {
 
@@ -26,7 +28,8 @@ public class PickCurrencyCollection extends TabSelectOptionMenu<CurrencyAccount>
 
 	@Override
 	public String postTabListPreOptionsText() {
-		return "";
+		return TextColor.LABEL + "Money: " + TextColor.VALUE + 
+				Tools.cut(accountFrom.getTotalMoney(PDI.getCurrency())) + " " + PDI.getCurrency();
 	}
 
 	@Override
