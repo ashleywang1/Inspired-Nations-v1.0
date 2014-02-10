@@ -5,6 +5,6 @@ public interface Notifyable {
 	/**
 	 * Makes sure this receiver gets this message
 	 */
-	public void sendNotification(String msg);
+	public void sendNotification(Alert msg);
 	
 }

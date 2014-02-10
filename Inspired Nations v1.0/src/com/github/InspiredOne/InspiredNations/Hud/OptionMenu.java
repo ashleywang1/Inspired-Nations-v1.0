@@ -17,7 +17,7 @@ public abstract class OptionMenu extends ActionMenu {
 		super(PDI);
 	}
 
-	@SuppressWarnings("unchecked")
+/*	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Menu> T getSelf(T self) {
 		Debug.print("Is self null? " + this.self == null);
@@ -26,7 +26,7 @@ public abstract class OptionMenu extends ActionMenu {
 		output.options = new ArrayList<Option>();
 		output.initialized = false;
 		return (T) this.self;
-	}
+	}*/
 	
 	@Override
 	public final String getFiller() {

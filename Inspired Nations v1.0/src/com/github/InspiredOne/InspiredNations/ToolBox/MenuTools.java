@@ -81,18 +81,54 @@ public class MenuTools {
 	}
 	
 	public static class MenuAlert {
-		public static String NO_ALERT() {
-			return "";
+		public static Alert NO_ALERT() {
+			return new Alert() {
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					return "";
+				}
+				
+			};
 		}
-		public static String RECEIVED_MONEY(BigDecimal amount, Currency curren, Nameable sender, PlayerID receiver) {
-			return sender.getDisplayName(receiver.getPDI()) + makeMessage(" sent you " + 
-		Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, receiver.getPDI().getCurrency())) + " "
-		+ receiver.getPDI().getCurrency() + ".");
+		public static Alert MESSAGE_ALERT(final String msg) {
+			return new Alert() {
+				
+				@Override
+				public String getMessage(PlayerData reciever) {
+					return makeMessage(msg);
+				}
+			};
+		}
+		public static Alert RECEIVED_MONEY(final BigDecimal amount, final Currency curren, final Nameable sender) {
+			return new Alert() {
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					BigDecimal converted = Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, receiver.getCurrency()));
+					return makeMessage(sender.getDisplayName(receiver) + makeMessage(" sent you " + converted + " "
+							+ receiver.getCurrency() + "."));
+				}
+				
+			};
+		}
+		public static Alert TRANSFER_SUCCESSFUL(final BigDecimal amount, final Currency curren, final Nameable sender, final Nameable paid) {
+			return new Alert() {
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					BigDecimal converted = Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, receiver.getCurrency()));
+					return makeMessage(sender.getDisplayName(receiver) + " successfully transfered " + converted +
+							" " + receiver.getCurrency() + " to " + paid.getDisplayName(receiver));
+				}
+				
+			};
 		}
 		
 		public static String makeMessage(Object input) {
 			return "\n" + TextColor.ALERT + input.toString();
 		}
+
 	}
 	
 	public static class MenuError {

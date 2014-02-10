@@ -72,7 +72,7 @@ public class ClaimPolygonPrism extends InputMenu {
 
 	@Override
 	public String getInstructions() {
-		return this.mapmanager.drawMap(gov);
+		return this.mapmanager.drawMap(gov, 4);
 	}
 
 	@Override

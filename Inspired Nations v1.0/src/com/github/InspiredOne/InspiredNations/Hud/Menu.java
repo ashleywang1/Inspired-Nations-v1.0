@@ -10,6 +10,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
@@ -131,8 +132,8 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 	 * Sets the message data to be displayed in the menu.
 	 * @param msg
 	 */
-	public void setAlert(String msg) {
-		this.PDI.getMsg().receiveAlert(new Alert(msg));
+	public void setAlert(Alert msg) {
+		this.PDI.getMsg().receiveAlert(msg);
 //		if(!msg.equals(MenuAlert.NO_ALERT())) {
 //			this.PDI.getCon().outputNextPrompt();
 //		}
@@ -148,6 +149,7 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 		Debug.print(self);
 		return (T) this.self;
 	}
+
 	/**
 	 * 
 	 * @return the <code>ConversationContext</code> of the player using this menu

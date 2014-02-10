@@ -5,23 +5,19 @@ import java.util.Locale;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 
-public class Alert implements Nameable{
+public abstract class Alert implements Nameable{
 
 	public Calendar calendar;
-	public String msg;
 	
-	public Alert(String msg) {
+	public Alert() {
 		calendar = Calendar.getInstance();
-		this.msg = msg;
 	}
 
-	public String getMessage() {
-		return msg;
-	}
+	public abstract String getMessage(PlayerData receiver);
 	
 	@Override
 	public String getName() {
-		return "Revieved: " + calendar.getDisplayName(0, 0, Locale.US);
+		return "Received: " + calendar.getDisplayName(0, 0, Locale.US);
 	}
 
 	@Override
@@ -32,6 +28,7 @@ public class Alert implements Nameable{
 	@Override
 	public String getDisplayName(PlayerData viewer) {
 		int end = 20;
+		String msg = this.getMessage(viewer);
 		if(msg.length() <= 20) {
 			end = msg.length() - 1;
 			return getName() + " " + msg.substring(0, end);

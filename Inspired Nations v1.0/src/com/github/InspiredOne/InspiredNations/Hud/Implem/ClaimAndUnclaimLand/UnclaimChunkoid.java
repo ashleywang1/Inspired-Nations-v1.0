@@ -59,7 +59,7 @@ public class UnclaimChunkoid extends InputMenu {
 
 	@Override
 	public String getInstructions() {
-		return "Type 'begin' to begin claiming and 'stop' or 'back' to stop." + mapmanager.drawMap(gov);
+		return "Type 'begin' to begin claiming and 'stop' or 'back' to stop." + mapmanager.drawMap(gov, 4);
 	}
 
 	@Override

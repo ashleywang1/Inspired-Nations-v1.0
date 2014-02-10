@@ -8,6 +8,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
@@ -95,7 +96,7 @@ public class AccountCollection extends ArrayList<Account> implements Payable, No
 		return false;
 	}
 	@Override
-	public void sendNotification(String msg) {
+	public void sendNotification(Alert msg) {
 		for(PlayerData player:InspiredNations.playerdata.values()) {
 			if(player.getAccounts().equals(this)) {
 				player.sendNotification(msg);

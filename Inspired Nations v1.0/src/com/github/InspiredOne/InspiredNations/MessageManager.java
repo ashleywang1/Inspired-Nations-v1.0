@@ -50,7 +50,7 @@ public class MessageManager implements Serializable {
 	}
 	
 	public void receiveAlert(Alert msg) {
-		this.setNotif(msg.getMessage());
+		this.setNotif(msg.getMessage(PDI));
 	}
 	public void receiveError(String msg) {
 		this.setNotif(msg);

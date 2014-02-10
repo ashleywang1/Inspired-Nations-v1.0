@@ -239,7 +239,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 	}
 
 	@Override
-	public void sendNotification(String msg) {
-		this.getMsg().receiveAlert(new Alert(msg));
+	public void sendNotification(Alert msg) {
+		this.getMsg().receiveAlert(msg);
 	}
 }

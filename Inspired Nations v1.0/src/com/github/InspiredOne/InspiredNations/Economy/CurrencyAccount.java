@@ -7,6 +7,7 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
+import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
@@ -84,8 +85,14 @@ public class CurrencyAccount implements Payable, Nameable, Serializable {
 		return InspiredNations.Exchange.getExchangeValue(amount, curren, valueType);
 	}
 	@Override
-	public void sendNotification(String msg) {
-		// TODO Auto-generated method stub
-		
+	public void sendNotification(Alert msg) {
+		for(PlayerData player:InspiredNations.playerdata.values()) {
+			for(Account account:player.getAccounts()) {
+				if(account.getMoney().contains(this)) {
+					account.sendNotification(msg);
+					break;
+				}
+			}
+		}
 	}
 }

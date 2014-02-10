@@ -9,6 +9,7 @@ import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferEx
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
@@ -35,6 +36,8 @@ public class PayAccountOption extends Option {
 	
 			try {
 				accountsFrom.transferMoney(amount, PDI.getCurrency(), accountTo);
+				accountTo.sendNotification(MenuAlert.RECEIVED_MONEY(amount, PDI.getCurrency(), PDI));
+				accountsFrom.sendNotification(MenuAlert.TRANSFER_SUCCESSFUL(amount, PDI.getCurrency(), PDI, accountTo));
 				//accountTo.sendNotification(MenuAlert.RECEIVED_MONEY(amount, PDI.getCurrency(), PDI));
 			} catch (BalanceOutOfBoundsException e) {
 				e.printStackTrace();
@@ -43,8 +46,7 @@ public class PayAccountOption extends Option {
 			} catch (NegativeMoneyTransferException e) {
 				menu.setError(MenuError.NEGATIVE_AMOUNTS_NOT_ALLOWED(amount));
 			}
-			
-			PDI.getMsg().sendChatMessage("Transfer of " + amount + " " + PDI.getCurrency().getName() + " to " + accountTo.getName() + " successful.");
+
 			return menu.getSelf(menu);
 		}
 		catch (Exception ex) {

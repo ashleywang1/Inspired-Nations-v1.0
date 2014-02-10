@@ -9,6 +9,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
@@ -200,8 +201,15 @@ public class Account implements Serializable, Nameable, Payable {
 			return this.getName() + " (" + Tools.cut(this.getTotalMoney(PDI.getCurrency())) +" " + PDI.getCurrency() + ")";
 		}
 	}
+	
 	@Override
-	public void sendNotification(String msg) {
-		
+	public void sendNotification(Alert msg) {
+		for(PlayerData player:InspiredNations.playerdata.values()) {
+			for(Account account: player.getAccounts()) {
+				if(account.equals(this)) {
+					player.sendNotification(msg);
+				}
+			}
+		}
 	}
 }

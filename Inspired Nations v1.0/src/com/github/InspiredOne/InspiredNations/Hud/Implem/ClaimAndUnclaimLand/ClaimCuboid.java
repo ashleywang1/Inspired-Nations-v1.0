@@ -110,7 +110,7 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public String getInstructions() {
-		return this.mapmanager.drawMap(gov) + 
+		return this.mapmanager.drawMap(gov, 4) + 
 				"Left Click for one corner of the cuboid and Right Click for the other corner.";
 	}
 }

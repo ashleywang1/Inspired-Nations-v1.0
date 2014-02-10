@@ -100,9 +100,9 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		this.taxrates = taxrates;
 	}
 	@Override
-	public void sendNotification(String msg) {
+	public void sendNotification(Alert msg) {
 		for(PlayerID player:this.getSubjects()) {
-			player.getPDI().getMsg().receiveAlert(new Alert(msg));
+			player.getPDI().getMsg().receiveAlert(msg);
 		}
 	}
 	/**

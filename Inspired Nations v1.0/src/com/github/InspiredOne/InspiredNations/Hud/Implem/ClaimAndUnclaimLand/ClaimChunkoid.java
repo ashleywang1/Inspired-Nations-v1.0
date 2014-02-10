@@ -11,6 +11,7 @@ import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.ClaimChunkoidManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MapManager;
+import com.github.InspiredOne.InspiredNations.Regions.nullRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.Chunkoid;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
@@ -95,10 +96,16 @@ public class ClaimChunkoid extends InputMenu {
 	@Override
 	public String getInstructions() {
 		Chunkoid unit = new Chunkoid(new Point2D(0,0,PDI.getPlayer().getWorld()));
-		BigDecimal totalcost = Tools.cut(gov.taxValue(region, 1, gov.getProtectionlevel(), PDI.getCurrency()));
-		BigDecimal unitcost = Tools.cut(gov.taxValue(unit, 1, gov.getProtectionlevel(), PDI.getCurrency()));
+		// Tax paid that is independent of chunks
+		BigDecimal zero = gov.taxValue(new nullRegion(), InspiredNations.taxTimer.getFractionLeft(), gov.getProtectionlevel(), PDI.getCurrency());
+		// Total tax from chunks
+		BigDecimal totalcost = Tools.cut(gov.taxValue(region, 1, gov.getProtectionlevel(), PDI.getCurrency()).subtract(zero));
+		// Total cost of one chunk
+		BigDecimal unitcost = Tools.cut(gov.taxValue(unit, 1, gov.getProtectionlevel(), PDI.getCurrency()).subtract(zero));
+		// Current cost of one chunk at the current moment
 		BigDecimal currenccost = Tools.cut(gov.taxValue(unit, InspiredNations.taxTimer.getFractionLeft()
-				, gov.getProtectionlevel(), PDI.getCurrency()));
+				, gov.getProtectionlevel(), PDI.getCurrency()).subtract(gov.taxValue(new nullRegion(), InspiredNations.taxTimer.getFractionLeft()
+						, gov.getProtectionlevel(), PDI.getCurrency())));
 		
 		String output = this.mapmanager.drawMap(gov,4);
 		output = MenuTools.addDivider(output);
