@@ -81,19 +81,31 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 		}
 		this.militarylevel = militarylevel;
 	}
-
+	/**
+	 * Gets a list of all the requests made by players to join the subjects of this government
+	 * @return
+	 */
 	public IndexedSet<PlayerID> getSubjectRequests() {
 		return subjectRequests;
 	}
-
+	/**
+	 * sets a list of all the requests made by players to join the subjects of this government
+	 * @return
+	 */
 	public void setSubjectRequests(IndexedSet<PlayerID> subjectRequests) {
 		this.subjectRequests = subjectRequests;
 	}
-
+	/**
+	 * gets a list of all the offers made by this government for players to join the subjects.
+	 * @return
+	 */
 	public IndexedSet<PlayerID> getSubjectOffers() {
 		return subjectOffers;
 	}
-
+	/**
+	 * sets a list of all the offers made by this government for players to join the subjects.
+	 * @param subjectOffers
+	 */
 	public void setSubjectOffers(IndexedSet<PlayerID> subjectOffers) {
 		this.subjectOffers = subjectOffers;
 	}

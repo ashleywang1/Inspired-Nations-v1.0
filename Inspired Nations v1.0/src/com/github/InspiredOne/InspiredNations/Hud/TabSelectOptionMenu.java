@@ -47,7 +47,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		this.managers.add(manager);
 		this.filteredoptions = this.taboptions;
 		this.Init();
-		if(this.filteredoptions.size() == 0) {
+		if(this.filteredoptions.size() == 0 && this.taboptions.size() != 0) {
 			this.setError(MenuError.NO_MATCHES_FOUND());
 			return;
 		}

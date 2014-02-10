@@ -38,9 +38,10 @@ public class PlayerCitizenship extends OptionMenu {
 
 	@Override
 	public void init() {
+		this.options.add(new PromptOption(this, "Ownership Requests and Offers", new OwnerOffers(PDI)));
+		this.options.add(new PromptOption(this, "Citizenship Requests and Offers", new SubjectOffers(PDI)));
 		// owner requests and offers
 		// subject requests and offers
-		this.options.add(new PromptOption(this, "Apply For Citizenship", new Applications(PDI)));
 	}
 
 }

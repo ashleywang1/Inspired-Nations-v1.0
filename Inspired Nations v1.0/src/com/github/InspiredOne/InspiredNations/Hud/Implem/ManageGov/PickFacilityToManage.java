@@ -38,8 +38,11 @@ public class PickFacilityToManage<T extends Facility> extends TabSelectOptionMen
 			if(fac.getClass().equals(factype)) {
 				this.taboptions.add((T) fac);
 			}
-		}	
-		this.options.add(new PromptOption(this, "Manage", new ManageFacility(PDI, this, supergov, this.getSelection())));
+		}
+		if(this.taboptions.size() != 0) {
+			this.options.add(new PromptOption(this, "Manage", new ManageFacility(PDI, new PickFacilityToManage<T>(PDI, previous, supergov, factype), this.getSelection())));	
+		}
+		
 	}
 
 	@Override

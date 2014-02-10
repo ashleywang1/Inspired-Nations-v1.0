@@ -6,13 +6,13 @@ import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 
-public class Applications extends TabSelectOptionMenu<OwnerGov> {
+public class SubjectOffers extends TabSelectOptionMenu<OwnerSubjectGov> {
 
-	public Applications(PlayerData PDI) {
+	public SubjectOffers(PlayerData PDI) {
 		super(PDI);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -27,23 +27,20 @@ public class Applications extends TabSelectOptionMenu<OwnerGov> {
 
 	@Override
 	public void Init() {
-		for(InspiredGov gov: InspiredNations.regiondata) {
-			if((gov instanceof OwnerGov) && gov.getSubjects().contains(PDI.getPlayerID())) {
-				this.taboptions.add((OwnerGov) gov);
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			if(gov instanceof OwnerSubjectGov) {
+				if(((OwnerSubjectGov) gov).getSubjectOffers().contains(PDI.getPlayerID())) {
+					this.taboptions.add((OwnerSubjectGov) gov);
+				}
 			}
 		}
-		OwnerGov gov = this.getData();
-		//if(gov.getOwnerOffers())
-		if(gov instanceof OwnerSubjectGov) {
-			//
-		}
+		this.options.add(new PromptOption(this, "Requests Citizenship", new SubjectRequests(PDI)));
 	}
 
 	@Override
 	public String getHeader() {
-		return "Applications";
+		// TODO Auto-generated method stub
+		return null;
 	}
-
-
 
 }

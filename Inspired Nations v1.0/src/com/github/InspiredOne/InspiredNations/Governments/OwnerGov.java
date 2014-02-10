@@ -48,19 +48,31 @@ public abstract class OwnerGov extends InspiredGov {
 	 * 
 	 * */	
 	public abstract Class<? extends InspiredGov> getCommonGov();
-
+	/**
+	 * Gets all the requests made by other players to join this government's owners.
+	 * @return
+	 */
 	public IndexedSet<PlayerID> getOwnerRequest() {
 		return ownerRequest;
 	}
-
+	/**
+	 * Sets the list of all the requests by other players to join this government's owners;
+	 * @param ownerRequest
+	 */
 	public void setOwnerRequest(IndexedSet<PlayerID> ownerRequest) {
 		this.ownerRequest = ownerRequest;
 	}
-
+	/**
+	 * Get all the offers made by this government for a player to join the owners.
+	 * @return
+	 */
 	public IndexedSet<PlayerID> getOwnerOffers() {
 		return ownerOffers;
 	}
-
+	/**
+	 * Set the list of offers made by this government for a player to join the owners.
+	 * @param ownerOffers
+	 */
 	public void setOwnerOffers(IndexedSet<PlayerID> ownerOffers) {
 		this.ownerOffers = ownerOffers;
 	}

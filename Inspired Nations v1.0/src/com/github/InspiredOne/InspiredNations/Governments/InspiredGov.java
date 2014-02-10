@@ -563,7 +563,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		for(Class<? extends InspiredRegion > regionType:this.getRegion().getEncapsulatingRegions()) {
 			InspiredRegion check = Tools.getInstance(regionType);
 			for(InspiredGov gov:InspiredNations.regiondata.get(check.getRelatedGov())) {
-				if(this.isSubOf(gov) && !region.IsIn(gov.getRegion().getRegion())) {
+				if(this.isSubOf(gov) && !region.IsIn(gov.getRegion().getRegion()) && !(region instanceof nullRegion)) {
 					throw new RegionOutOfEncapsulationBoundsException(gov);
 				}
 			}
