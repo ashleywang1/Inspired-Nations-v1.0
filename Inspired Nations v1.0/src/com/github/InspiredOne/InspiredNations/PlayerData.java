@@ -15,11 +15,13 @@ import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
+import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 
-public class PlayerData implements Serializable, Nameable {
+public class PlayerData implements Serializable, Nameable, Notifyable {
 
 	/**
 	 * 
@@ -234,5 +236,10 @@ public class PlayerData implements Serializable, Nameable {
 	public String getDisplayName(PlayerData PDI) {
 		//TODO make this name the one used for messages and everything.
 		return this.getName();
+	}
+
+	@Override
+	public void sendNotification(String msg) {
+		this.getMsg().receiveAlert(new Alert(msg));
 	}
 }

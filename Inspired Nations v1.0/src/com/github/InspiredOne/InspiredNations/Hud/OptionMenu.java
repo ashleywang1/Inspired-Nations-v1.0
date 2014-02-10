@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
@@ -16,6 +17,17 @@ public abstract class OptionMenu extends ActionMenu {
 		super(PDI);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends Menu> T getSelf(T self) {
+		Debug.print("Is self null? " + this.self == null);
+		Debug.print(self);
+		OptionMenu output = (OptionMenu) this.self;
+		output.options = new ArrayList<Option>();
+		output.initialized = false;
+		return (T) this.self;
+	}
+	
 	@Override
 	public final String getFiller() {
 		String output = "";
@@ -37,7 +49,7 @@ public abstract class OptionMenu extends ActionMenu {
 			answer = Integer.parseInt(args[0]);
 			if(answer > options.size()) {
 				this.setError(MenuError.OUT_OF_RANGE_NUMBER_INPUT());
-				return this.getSelf();
+				return getSelf(this);
 			}
 			else {
 				return options.get(answer - 1).response(arg.substring(args[0].length()).trim());
@@ -45,7 +57,7 @@ public abstract class OptionMenu extends ActionMenu {
 		}
 		catch (Exception ex) {
 				this.setError(MenuError.INVALID_NUMBER_INPUT());
-				return this.getSelf();
+				return getSelf(this);
 		}
 	}
 	
@@ -60,7 +72,7 @@ public abstract class OptionMenu extends ActionMenu {
 			}
 			else {
 				output = output.concat(TextColor.UNAVAILABLE + "(" + TextColor.UNAVAILREASON + iter + TextColor.UNAVAILABLE + ") " + option.getName() +
-						TextColor.UNAVAILREASON + option.getUnvailReason() + "\n");
+					TextColor.UNAVAILREASON + option.getUnvailReason() + "\n");
 			}
 			iter ++;
 		}

@@ -83,4 +83,9 @@ public class CurrencyAccount implements Payable, Nameable, Serializable {
 	public BigDecimal getTotalMoney(Currency valueType) {
 		return InspiredNations.Exchange.getExchangeValue(amount, curren, valueType);
 	}
+	@Override
+	public void sendNotification(String msg) {
+		// TODO Auto-generated method stub
+		
+	}
 }

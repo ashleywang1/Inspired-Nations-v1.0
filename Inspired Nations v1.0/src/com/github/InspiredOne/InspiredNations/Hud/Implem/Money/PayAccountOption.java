@@ -9,6 +9,7 @@ import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferEx
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 
@@ -34,6 +35,7 @@ public class PayAccountOption extends Option {
 	
 			try {
 				accountsFrom.transferMoney(amount, PDI.getCurrency(), accountTo);
+				//accountTo.sendNotification(MenuAlert.RECEIVED_MONEY(amount, PDI.getCurrency(), PDI));
 			} catch (BalanceOutOfBoundsException e) {
 				e.printStackTrace();
 				Debug.print("Inside BalanceOutOfBoundsException in the PayAccountOption Menu");
@@ -43,11 +45,11 @@ public class PayAccountOption extends Option {
 			}
 			
 			PDI.getMsg().sendChatMessage("Transfer of " + amount + " " + PDI.getCurrency().getName() + " to " + accountTo.getName() + " successful.");
-			return menu.getSelf();
+			return menu.getSelf(menu);
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
-			return menu.getSelf().setError(MenuError.INVALID_NUMBER_INPUT());
+			return menu.getSelf(menu).setError(MenuError.INVALID_NUMBER_INPUT());
 		}
 		
 	}

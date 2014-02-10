@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
@@ -26,7 +27,7 @@ public class MessageManager implements Serializable {
 		this.PDI = PDI;
 	}
 	
-	public void setNotif(String msg) {
+	private void setNotif(String msg) {
 		if(!notification.equals(msg)) {
 			if(Bukkit.getScheduler().isQueued(taskID)) {
 				Timer.cancel();
@@ -48,13 +49,19 @@ public class MessageManager implements Serializable {
 		return notification;
 	}
 	
+	public void receiveAlert(Alert msg) {
+		this.setNotif(msg.getMessage());
+	}
+	public void receiveError(String msg) {
+		this.setNotif(msg);
+	}
+	
+	
 	public String MessageConstructor(String msg, PlayerData from) {
 		return from.getPlayer().getDisplayName() + ": " + conditionForMoney(msg, from);
 	}
 	
-	public void recieveAlert(String msg) {
 
-	}
 	
 	/**
 	 * Method to send a message from this player

@@ -8,11 +8,12 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 
-public class AccountCollection extends ArrayList<Account> implements Payable {
+public class AccountCollection extends ArrayList<Account> implements Payable, Notifyable {
 	/**
 	 * 
 	 */
@@ -72,7 +73,7 @@ public class AccountCollection extends ArrayList<Account> implements Payable {
 	public boolean isLinked() {
 		boolean oneFound = false;
 		for(PlayerData player:InspiredNations.playerdata.values()) {
-			if(player.getAccounts().equals(this)) {
+			if(player.getAccounts() == this) {
 				if(oneFound) {
 					return true;
 				}
@@ -82,7 +83,7 @@ public class AccountCollection extends ArrayList<Account> implements Payable {
 			}
 		}
 		for(InspiredGov gov:InspiredNations.regiondata) {
-			if(gov.getAccounts().equals(this)) {
+			if(gov.getAccounts() == this) {
 				if(oneFound) {
 					return true;
 				}
@@ -92,6 +93,14 @@ public class AccountCollection extends ArrayList<Account> implements Payable {
 			}
 		}
 		return false;
+	}
+	@Override
+	public void sendNotification(String msg) {
+		for(PlayerData player:InspiredNations.playerdata.values()) {
+			if(player.getAccounts().equals(this)) {
+				player.sendNotification(msg);
+			}
+		}
 	}
 	
 }

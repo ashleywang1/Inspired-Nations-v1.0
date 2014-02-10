@@ -49,7 +49,7 @@ public class Map extends InputMenu {
 	@Override
 	public Menu nextMenu() {
 		this.setError(MenuError.NOT_AN_OPTION());
-		return this.getSelf();
+		return getSelf(this);
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class Map extends InputMenu {
 
 	@Override
 	public String getInstructions() {
-		return manager.drawMap(selection);
+		return manager.drawMap(selection, 6);
 	}
 
 	@Override

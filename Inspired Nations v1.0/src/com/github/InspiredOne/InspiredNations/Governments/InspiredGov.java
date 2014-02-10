@@ -26,10 +26,12 @@ import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.Regions.nullRegion;
+import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
@@ -43,7 +45,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
  * @author InspiredOne
  *
  */
-public abstract class InspiredGov implements Serializable, Nameable, Datable<InspiredGov> {
+public abstract class InspiredGov implements Serializable, Nameable, Datable<InspiredGov>, Notifyable {
 
 	/**
 	 * 
@@ -96,6 +98,12 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public void setTaxrates(IndexedMap<Class<? extends InspiredGov>, Double> taxrates) {
 		this.taxrates = taxrates;
+	}
+	@Override
+	public void sendNotification(String msg) {
+		for(PlayerID player:this.getSubjects()) {
+			player.getPDI().getMsg().receiveAlert(new Alert(msg));
+		}
 	}
 	/**
 	 * Returns the <code>InspiredRegion</code> associated with this government.
@@ -554,7 +562,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		BigDecimal holdings = this.accounts.getTotalMoney(curren);
 		BigDecimal reimburse = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
-		BigDecimal difference = cost.subtract(reimburse);// positive if own country money, negative if country ows money
+		BigDecimal difference = cost.subtract(reimburse);// positive if owe country money, negative if country owe money
 		// Can they afford it?
 		if(holdings.compareTo(difference) < 0) {
 			throw new BalanceOutOfBoundsException();
@@ -587,6 +595,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		}
 		
 		if(difference.compareTo(BigDecimal.ZERO) < 0) {
+			Debug.print(difference);
 			try{
 				this.pullFromSuper(reimburse.negate(), curren);
 			}

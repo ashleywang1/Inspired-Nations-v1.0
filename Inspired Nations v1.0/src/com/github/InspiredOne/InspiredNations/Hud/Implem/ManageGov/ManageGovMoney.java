@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
@@ -53,10 +54,18 @@ public class ManageGovMoney extends OptionMenu {
 
 	@Override
 	public void init() {
-		this.options.add(new PromptOption(this, "Pay", new PayNav(PDI, gov.getAccounts(), this)));
-		this.options.add(new PromptOption(this, "Manage Accounts", new ManageAccounts(PDI, this, gov.getAccounts())));
+		Debug.print("in init of manage gov money 1");
+		Debug.print("is gov null? " + (gov == null));
+		Debug.print("Does getSelf() return null? " + (getSelf(this) == null));
+		Debug.print("la de da");
+		this.options.add(new PromptOption(getSelf(this), "Pay", new PayNav(PDI, gov.getAccounts(), this)));
+		Debug.print("in init of manage gov money 2");
+		this.options.add(new PromptOption(getSelf(this), "Manage Accounts", new ManageAccounts(PDI, this, gov.getAccounts())));
+		Debug.print("in init of manage gov money 3");
 		if(this.gov.getAccounts().isLinked()) {
-			this.options.add(new SplitAccountOption(this, "Split " + gov.getTypeName() + " Account", "Separates this account from yours", gov));
+			Debug.print("in init of manage gov money 4");
+			this.options.add(new SplitAccountOption(getSelf(this), "Split " + gov.getTypeName() + " Account", "Separates this account from yours", gov));
+			Debug.print("in init of manage gov money 5");
 		}
 	}
 

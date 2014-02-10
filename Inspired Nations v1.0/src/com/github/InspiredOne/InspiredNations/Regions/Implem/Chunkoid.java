@@ -20,6 +20,13 @@ public class Chunkoid extends CummulativeRegion<ChunkRegion> {
 	private static final long serialVersionUID = 4821199291297874395L;
 	private static final String typeName = "Chunkoid";
 	private static final String description = "A region made up by chunks going from bedrock to world height.";
+
+	public Chunkoid() {
+		
+	}
+	public Chunkoid(Point2D point) {
+		this.addChunk(point);
+	}
 	
 	@Override
 	public String getTypeName() {

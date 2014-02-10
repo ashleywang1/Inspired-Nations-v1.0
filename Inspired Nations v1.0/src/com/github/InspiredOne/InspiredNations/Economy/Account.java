@@ -200,4 +200,8 @@ public class Account implements Serializable, Nameable, Payable {
 			return this.getName() + " (" + Tools.cut(this.getTotalMoney(PDI.getCurrency())) +" " + PDI.getCurrency() + ")";
 		}
 	}
+	@Override
+	public void sendNotification(String msg) {
+		
+	}
 }

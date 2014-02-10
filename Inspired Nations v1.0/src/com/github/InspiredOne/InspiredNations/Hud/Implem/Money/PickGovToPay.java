@@ -6,9 +6,8 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickGovGeneral;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
-import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
-import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class PickGovToPay extends PickGovGeneral {
 
@@ -42,8 +41,7 @@ public class PickGovToPay extends PickGovGeneral {
 	}
 	@Override
 	public String postTabListPreOptionsText() {
-		return TextColor.LABEL + "Money: " + TextColor.VALUE + 
-				Tools.cut(accounts.getTotalMoney(PDI.getCurrency())) + " " + PDI.getCurrency();
+		return MenuTools.oneLineWallet("", PDI, accounts);
 	}
 	@Override
 	public String getHeader() {

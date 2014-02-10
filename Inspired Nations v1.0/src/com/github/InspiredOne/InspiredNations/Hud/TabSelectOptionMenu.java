@@ -164,7 +164,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	public final Menu getPreviousMenu() {
 		if(this.taboptions != this.filteredoptions) {
 			this.filteredoptions = this.taboptions;
-			return this.getSelf();
+			return getSelf(this);
 		}
 		else {
 			return getPreviousPrompt();

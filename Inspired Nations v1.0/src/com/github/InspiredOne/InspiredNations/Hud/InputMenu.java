@@ -23,7 +23,7 @@ public abstract class InputMenu extends ActionMenu {
 			return this.nextMenu();
 		}
 		else {
-			return this.getSelf();
+			return getSelf(this);
 		}
 	}
 

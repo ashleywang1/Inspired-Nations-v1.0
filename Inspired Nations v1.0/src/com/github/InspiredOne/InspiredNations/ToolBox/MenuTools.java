@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import org.bukkit.ChatColor;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
@@ -39,6 +41,16 @@ public class MenuTools {
 		return text.concat(TextColor.DIVIDER + Tools.repeat("-", 53) + "\n" + ChatColor.RESET);
 	}
 	/**
+	 * Adds a line that shows the value of the player's wallet.
+	 * @param text
+	 * @return
+	 */
+	public static String oneLineWallet(String text, PlayerData PDI, Payable account) {
+		String output = text.concat(TextColor.VALUEDESCRI + "Holdings: " + TextColor.VALUE +
+				Tools.cut(account.getTotalMoney(PDI.getCurrency())) + TextColor.UNIT +" " + PDI.getCurrency() + "\n");
+		return output;
+	}
+	/**
 	 * Builds the header for menus. Adds the <code>ChatColor</code> character to the beginning
 	 * and clears it afterward.
 	 * @param msg	the <code>String</code> to be used in the header
@@ -71,6 +83,11 @@ public class MenuTools {
 	public static class MenuAlert {
 		public static String NO_ALERT() {
 			return "";
+		}
+		public static String RECEIVED_MONEY(BigDecimal amount, Currency curren, Nameable sender, PlayerID receiver) {
+			return sender.getDisplayName(receiver.getPDI()) + makeMessage(" sent you " + 
+		Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, receiver.getPDI().getCurrency())) + " "
+		+ receiver.getPDI().getCurrency() + ".");
 		}
 		
 		public static String makeMessage(Object input) {

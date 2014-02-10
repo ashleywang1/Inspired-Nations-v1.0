@@ -1,8 +1,10 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
@@ -10,8 +12,11 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.ClaimChunkoidManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MapManager;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.Chunkoid;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class ClaimChunkoid extends InputMenu {
 
@@ -89,7 +94,20 @@ public class ClaimChunkoid extends InputMenu {
 
 	@Override
 	public String getInstructions() {
-		return this.mapmanager.drawMap(gov);
+		Chunkoid unit = new Chunkoid(new Point2D(0,0,PDI.getPlayer().getWorld()));
+		BigDecimal totalcost = Tools.cut(gov.taxValue(region, 1, gov.getProtectionlevel(), PDI.getCurrency()));
+		BigDecimal unitcost = Tools.cut(gov.taxValue(unit, 1, gov.getProtectionlevel(), PDI.getCurrency()));
+		BigDecimal currenccost = Tools.cut(gov.taxValue(unit, InspiredNations.taxTimer.getFractionLeft()
+				, gov.getProtectionlevel(), PDI.getCurrency()));
+		
+		String output = this.mapmanager.drawMap(gov,4);
+		output = MenuTools.addDivider(output);
+		output = MenuTools.oneLineWallet(output, PDI, gov.getAccounts());
+		output = output.concat(TextColor.VALUEDESCRI + "Total Chunks: " + TextColor.VALUE + region.getRegions().size()
+				+ TextColor.UNIT + " Chunks\n");
+		output = output.concat(TextColor.VALUEDESCRI + "Total/Unit/Current: " + TextColor.VALUE +
+				totalcost + "/" + unitcost + "/" + currenccost + TextColor.UNIT + " " + PDI.getCurrency() + "\n");
+		return output;
 	}
 
 	@Override

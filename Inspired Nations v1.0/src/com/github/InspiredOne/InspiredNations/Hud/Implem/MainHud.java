@@ -32,7 +32,7 @@ public class MainHud extends OptionMenu {
 
 	@Override
 	public Menu getPreviousMenu() {
-		return this.getSelf();
+		return getSelf(this);
 	}
 
 	@Override

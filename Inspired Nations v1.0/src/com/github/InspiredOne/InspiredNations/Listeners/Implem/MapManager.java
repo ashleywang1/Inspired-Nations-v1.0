@@ -17,17 +17,17 @@ public class MapManager<T extends ActionMenu> extends TabManager<T> {
 		listeners.add(new TabListener<MapManager<T>>(this));
 	}
 	
-	public String drawMap(InspiredGov gov) {
+	public String drawMap(InspiredGov gov, int size) {
 		if(gov.getSuperGov().equals(GlobalGov.class)) {
-			return drawMap(gov.getClass());
+			return drawMap(gov.getClass(), size);
 		}
 		else {
-			return drawMap(gov.getSuperGov());
+			return drawMap(gov.getSuperGov(), size);
 		}
 	}
 	
-	public String drawMap(Class<? extends InspiredGov> gov) {
-		return Tools.drawMap(this.getPlayerData(), (int) Math.pow(2, zoom), gov, 7);
+	public String drawMap(Class<? extends InspiredGov> gov, int size) {
+		return Tools.drawMap(this.getPlayerData(), (int) Math.pow(2, zoom), gov, size);
 	}
 	
 	@Override

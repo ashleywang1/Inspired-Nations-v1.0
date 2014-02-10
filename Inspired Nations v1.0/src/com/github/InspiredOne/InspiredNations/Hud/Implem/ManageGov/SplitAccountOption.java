@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -30,12 +31,16 @@ public class SplitAccountOption extends Option {
 
 	@Override
 	public Menu response(String input) {
+		Debug.print("In Responce of split account option 1");
 		if(gov.getAccounts().isLinked()) {
+			Debug.print("In Responce of split account option 2");
 			gov.setAccounts(new AccountCollection(""));
 		}
 		else {
+			Debug.print("In Responce of split account option 3");
 			menu.setError(MenuError.ACCOUNT_COLLECTION_NOT_LINKED());
 		}
+		Debug.print("In Responce of split account option 4");
 		return menu;
 	}
 
