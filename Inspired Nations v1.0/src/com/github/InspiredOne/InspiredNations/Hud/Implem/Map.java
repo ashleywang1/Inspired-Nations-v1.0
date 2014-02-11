@@ -49,7 +49,7 @@ public class Map extends InputMenu {
 	@Override
 	public Menu nextMenu() {
 		this.setError(MenuError.NOT_AN_OPTION());
-		return getSelf(this);
+		return getSelf();
 	}
 
 	@Override
@@ -97,5 +97,10 @@ public class Map extends InputMenu {
 	public void Init() {
 		manager = new MapManager<Map>(this);
 		managers.add(manager);		
+	}
+
+	@Override
+	public InputMenu getSelf() {
+		return new Map(PDI);
 	}
 }

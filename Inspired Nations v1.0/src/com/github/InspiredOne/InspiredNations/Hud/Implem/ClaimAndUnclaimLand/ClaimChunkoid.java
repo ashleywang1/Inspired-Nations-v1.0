@@ -125,4 +125,9 @@ public class ClaimChunkoid extends InputMenu {
 		this.managers.add(mapmanager);
 	}
 
+	@Override
+	public InputMenu getSelf() {
+		return new ClaimChunkoid(PDI, previous, gov);
+	}
+
 }

@@ -32,7 +32,7 @@ public class MainHud extends OptionMenu {
 
 	@Override
 	public Menu getPreviousMenu() {
-		return getSelf(this);
+		return getSelf();
 	}
 
 	@Override
@@ -68,5 +68,10 @@ public class MainHud extends OptionMenu {
 				this.options.add(new PromptOption(this, "New " + govobj.getTypeName(), new PickSelfType<>(PDI, gov)));
 			}
 		}
+	}
+
+	@Override
+	public OptionMenu getSelf() {
+		return new MainHud(PDI);
 	}
 }

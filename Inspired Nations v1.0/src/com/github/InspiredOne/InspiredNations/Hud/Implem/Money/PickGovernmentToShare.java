@@ -4,6 +4,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickGovGeneral;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 
@@ -40,6 +41,11 @@ public class PickGovernmentToShare extends PickGovGeneral {
 	@Override
 	public String getHeader() {
 		return "Pick Government To Share Account";
+	}
+
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new PickGovernmentToShare(PDI, previous, next, account, superGov);
 	}
 
 }

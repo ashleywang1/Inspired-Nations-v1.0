@@ -46,12 +46,17 @@ public class ManageAccount extends OptionMenu {
 
 	@Override
 	public void init() {
-		this.options.add(new ChangeAutoExchangeOption((OptionMenu) getSelf(this), "Toggle Auto-Exchange", account));
-		this.options.add(new PromptOption(this, "Pay With " + account.getName(), new PayNav(PDI, account, new ManageAccount(PDI, previous, account, accounts))));
+		this.options.add(new ChangeAutoExchangeOption((OptionMenu) getSelf(), "Toggle Auto-Exchange", account));
+		this.options.add(new PromptOption(this, "Pay With " + account.getName(), new PayNav(PDI, new ManageAccount(PDI, previous, account, accounts), account)));
 		this.options.add(new RenameAccountOption(this, account, "Rename " + account.getName() + " <Name>"));
 		this.options.add(new PromptOption(this, "Transfer Money", new PickAccount(PDI, this, accounts, account)));
 		this.options.add(new RemoveAccountOption(new ManageAccounts(PDI, previous, this.accounts), "Remove Account", this.account, this.accounts));
 		this.options.add(new PromptOption(this, "Share Account", new ShareAccountNav(PDI, new ManageAccount(PDI, previous, account, accounts), this.account)));
+	}
+
+	@Override
+	public OptionMenu getSelf() {
+		return new ManageAccount(PDI, previous, account, accounts);
 	}
 
 }

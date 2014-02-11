@@ -39,4 +39,9 @@ public class SubjectRequests extends TabSelectOptionMenu<OwnerSubjectGov> {
 		return "Subject Requests";
 	}
 
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new SubjectRequests(PDI);
+	}
+
 }

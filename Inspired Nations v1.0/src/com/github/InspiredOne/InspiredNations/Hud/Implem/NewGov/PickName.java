@@ -78,4 +78,9 @@ public class PickName<T extends OwnerGov> extends InputMenu {
 	public void Init() {
 		
 	}
+
+	@Override
+	public InputMenu getSelf() {
+		return new PickName<>(PDI, Govf);
+	}
 }

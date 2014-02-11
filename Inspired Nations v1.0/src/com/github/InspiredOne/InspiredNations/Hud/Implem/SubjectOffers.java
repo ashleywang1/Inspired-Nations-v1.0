@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
@@ -39,8 +38,12 @@ public class SubjectOffers extends TabSelectOptionMenu<OwnerSubjectGov> {
 
 	@Override
 	public String getHeader() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Offers For Citizenship";
+	}
+
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new SubjectOffers(PDI);
 	}
 
 }

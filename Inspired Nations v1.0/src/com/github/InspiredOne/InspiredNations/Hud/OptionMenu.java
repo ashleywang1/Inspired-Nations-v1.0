@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations.Hud;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
@@ -40,6 +39,11 @@ public abstract class OptionMenu extends ActionMenu {
 		output = output.concat(optionsToText(options));
 		return output;
 	}
+	/**
+	 * Returns a new instance of itself. Used for user input errors.
+	 * @return	the <code>Menu</code> of itself
+	 */
+	public abstract OptionMenu getSelf();
 	
 	@Override
 	public final Menu getNextMenu(String arg) {
@@ -49,7 +53,7 @@ public abstract class OptionMenu extends ActionMenu {
 			answer = Integer.parseInt(args[0]);
 			if(answer > options.size()) {
 				this.setError(MenuError.OUT_OF_RANGE_NUMBER_INPUT());
-				return getSelf(this);
+				return getSelf();
 			}
 			else {
 				return options.get(answer - 1).response(arg.substring(args[0].length()).trim());
@@ -57,7 +61,7 @@ public abstract class OptionMenu extends ActionMenu {
 		}
 		catch (Exception ex) {
 				this.setError(MenuError.INVALID_NUMBER_INPUT());
-				return getSelf(this);
+				return getSelf();
 		}
 	}
 	

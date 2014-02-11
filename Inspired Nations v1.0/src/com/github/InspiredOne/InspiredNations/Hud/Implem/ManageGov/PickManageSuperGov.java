@@ -49,11 +49,16 @@ public class PickManageSuperGov extends PassByOptionMenu {
 		for(Iterator<OwnerGov> iter = options.iterator(); iter.hasNext();) {
 			OwnerGov gov = iter.next();
 			if(gov.getClass().equals(this.GovType)) {
-				this.options.add(new PromptOption(this, gov.getName(), new ManageGov(PDI, gov)));
+				this.options.add(new PromptOption(this.getSelf(), gov.getName(), new ManageGov(PDI, gov)));
 			}
 			else {
-				this.options.add(new PromptOption(this, gov.getName(), new PickManageSuperGov(PDI, this.GovType, gov)));
+				this.options.add(new PromptOption(this.getSelf(), gov.getName(), new PickManageSuperGov(PDI, this.GovType, gov)));
 			}
 		}
+	}
+
+	@Override
+	public PassByOptionMenu getSelf() {
+		return new PickManageSuperGov(PDI, GovType, supergov);
 	}
 }

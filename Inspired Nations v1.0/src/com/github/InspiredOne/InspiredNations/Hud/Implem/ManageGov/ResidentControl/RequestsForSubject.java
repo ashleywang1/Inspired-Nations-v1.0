@@ -41,5 +41,10 @@ public class RequestsForSubject extends TabSelectOptionMenu<PlayerID> {
 	public String getHeader() {
 		return this.gov.getSubjectPositionName() + " Requests";
 	}
+
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new RequestsForSubject(PDI, previous, gov);
+	}
 	
 }

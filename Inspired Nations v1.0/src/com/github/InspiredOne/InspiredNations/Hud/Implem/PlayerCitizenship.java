@@ -44,4 +44,9 @@ public class PlayerCitizenship extends OptionMenu {
 		// subject requests and offers
 	}
 
+	@Override
+	public OptionMenu getSelf() {
+		return new PlayerCitizenship(PDI);
+	}
+
 }

@@ -44,5 +44,10 @@ public class PickCurrencyCollection extends TabSelectOptionMenu<CurrencyAccount>
 	public String getHeader() {
 		return "Pick Currency To Transfer Money Into";
 	}
+
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new PickCurrencyCollection(PDI, previous, account, accountFrom);
+	}
 	
 }

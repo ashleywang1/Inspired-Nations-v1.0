@@ -66,4 +66,9 @@ public class PickSuperGov<T extends OwnerGov> extends PassByOptionMenu {
 			this.options.add(new PromptOption(this, gov.getName(), new WarningAlreadyOwnOne<T>(PDI, Govf.withSuperGov(gov))));
 		}
 	}
+
+	@Override
+	public PassByOptionMenu getSelf() {
+		return new PickSuperGov<>(PDI, Govf);
+	}
 }

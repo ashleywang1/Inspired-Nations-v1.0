@@ -4,13 +4,11 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
@@ -44,14 +42,19 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 	public final PlayerData getPlayerData() {
 		return this.PDI;
 	}
+	/**
+	 * Returns a new instance of itself. Used for user input errors.
+	 * @return	the <code>Menu</code> of itself
+	 */
+	public abstract ActionMenu getSelf();
 	
 	public final void Initialize() {
-		try {
+/*		try {
 			self = (Menu) this.clone();
 			Debug.print("self has been set in Menu");
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
-		}
+		}*/
 		if(!initialized) {
 			this.init();
 			initialized = true;
@@ -73,7 +76,12 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 			return this.preRecRetrivalMenu();
 		}
 		else {
-			return this.getPassTo();
+			if(this.getPassTo().initialized) {
+				return this.getPassTo().getSelf();
+			}
+			else {
+				return this.getPassTo();
+			}
 		}
 	}
 	@Override
@@ -106,7 +114,7 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 			if(args.length > 1) {
 				PDI.getMsg().sendChatMessage(arg.substring(4));
 			}
-			return this.getSelf(this);
+			return this.getSelf();
 		}
 		
 		return this.checkNext(arg);
@@ -139,16 +147,6 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 //		}
 		
 	}
-	/**
-	 * Returns a new instance of itself. Used for user input errors.
-	 * @return	the <code>Menu</code> of itself
-	 */
-	@SuppressWarnings("unchecked")
-	public <T extends Menu> T getSelf(T self) {
-		Debug.print("Is self null? " + this.self == null);
-		Debug.print(self);
-		return (T) this.self;
-	}
 
 	/**
 	 * 
@@ -166,6 +164,9 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 	 */
 	private final Menu checkBack() {
 		Menu previous = this.getPreviousMenu();
+		if(previous.initialized) {
+			previous = previous.getSelf();
+		}
 		if(!previous.passBy()) {
 			return previous;
 		}
@@ -181,6 +182,9 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 	 */
 	private final Menu checkNext(String input) {
 		Menu next = this.getNextMenu(input);
+		if(next.initialized) {
+			next = next.getSelf();
+		}
 		while(next.passBy()) {
 			next = (Menu) next.getNextPrompt(PDI.getCon().getContext());
 		}

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.TabScrollManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
@@ -164,7 +163,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	public final Menu getPreviousMenu() {
 		if(this.taboptions != this.filteredoptions) {
 			this.filteredoptions = this.taboptions;
-			return getSelf(this);
+			return getSelf();
 		}
 		else {
 			return getPreviousPrompt();
@@ -200,4 +199,9 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	 * Use for adding options, managers, and tab-completes.
 	 */
 	public abstract void Init();
+	/**
+	 * Returns a new instance of itself. Used for user input errors.
+	 * @return	the <code>Menu</code> of itself
+	 */
+	public abstract TabSelectOptionMenu<?> getSelf();
 }

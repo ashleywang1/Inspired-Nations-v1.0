@@ -84,4 +84,9 @@ public class PickEconomy<T extends OwnerGov> extends InputMenu{
 	public void Init() {
 		
 	}
+
+	@Override
+	public InputMenu getSelf() {
+		return new PickEconomy<>(PDI, Govf);
+	}
 }

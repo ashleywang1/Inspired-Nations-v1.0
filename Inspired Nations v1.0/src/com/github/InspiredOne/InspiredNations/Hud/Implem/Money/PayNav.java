@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickNavGeneral;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 
@@ -14,7 +15,7 @@ public class PayNav extends PickNavGeneral {
 	 * @param accounts
 	 * @param back	the menu to return to after doing all of the payment stuff.
 	 */
-	public PayNav(PlayerData PDI, Payable accounts, Menu back) {
+	public PayNav(PlayerData PDI, Menu back, Payable accounts) {
 		super(PDI, back);
 		this.accounts = accounts;
 	}
@@ -47,6 +48,11 @@ public class PayNav extends PickNavGeneral {
 	@Override
 	public Menu getPlayerMenu() {
 		return new PayPlayer(PDI, accounts, previous);
+	}
+
+	@Override
+	public PassByOptionMenu getSelf() {
+		return new PayNav(PDI, previous, accounts);
 	}
 
 }

@@ -8,7 +8,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public abstract class PickPlayerGeneral extends TabSelectOptionMenu<PlayerID> {
 
-	Menu previous;
+	protected Menu previous;
 	
 	public PickPlayerGeneral(PlayerData PDI, Menu previous) {
 		super(PDI);

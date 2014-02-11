@@ -28,4 +28,10 @@ public abstract class PassByOptionMenu extends OptionMenu{
 	public Menu getPassTo() {
 		return this.getNextMenu("1");
 	}
+	
+	/**
+	 * Returns a new instance of itself. Used for user input errors.
+	 * @return	the <code>Menu</code> of itself
+	 */
+	public abstract PassByOptionMenu getSelf();
 }

@@ -76,4 +76,9 @@ public class PickMoneyName<T extends OwnerGov> extends InputMenu{
 		
 	}
 
+	@Override
+	public InputMenu getSelf() {
+		return new PickMoneyName<>(PDI, Govf);
+	}
+
 }

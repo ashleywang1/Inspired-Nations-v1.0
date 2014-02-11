@@ -66,5 +66,10 @@ public class GovernmentRegions extends PassByOptionMenu {
 		
 	}
 
+	@Override
+	public PassByOptionMenu getSelf() {
+		return new GovernmentRegions(PDI, previous, gov);
+	}
+
 
 }

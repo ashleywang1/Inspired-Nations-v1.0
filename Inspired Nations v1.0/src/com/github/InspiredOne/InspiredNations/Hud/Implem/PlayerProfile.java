@@ -38,7 +38,7 @@ public class PlayerProfile extends ActionMenu {
 
 	@Override
 	public Menu getNextMenu(String input) {
-		return getSelf(this);
+		return getSelf();
 	}
 
 	@Override
@@ -65,6 +65,11 @@ public class PlayerProfile extends ActionMenu {
 	@Override
 	public void actionResponse() {
 		
+	}
+
+	@Override
+	public ActionMenu getSelf() {
+		return new PlayerProfile(PDI, data);
 	}
 
 }

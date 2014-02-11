@@ -13,7 +13,7 @@ public class PickClaimType extends PassByOptionMenu {
 	InspiredGov gov;
 	Menu previous;
 	
-	public PickClaimType(PlayerData PDI, InspiredGov gov, Menu previous) {
+	public PickClaimType(PlayerData PDI, Menu previous, InspiredGov gov) {
 		super(PDI);
 		this.gov = gov;
 		this.previous = previous;
@@ -42,6 +42,11 @@ public class PickClaimType extends PassByOptionMenu {
 			temp = Tools.getInstance(regiontype);
 			this.options.add(new PromptOption(this, temp.getTypeName() + ": " + temp.getDescription(), temp.getClaimMenu(PDI, previous, gov)));
 		}
+	}
+
+	@Override
+	public PassByOptionMenu getSelf() {
+		return new PickClaimType(PDI, previous, gov);
 	}
 
 }

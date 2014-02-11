@@ -61,4 +61,9 @@ public class PickSelfType<T extends OwnerGov> extends PassByOptionMenu {
 			}
 		}
 	}
+
+	@Override
+	public PassByOptionMenu getSelf() {
+		return new PickSelfType<>(PDI,GovType);
+	}
 }

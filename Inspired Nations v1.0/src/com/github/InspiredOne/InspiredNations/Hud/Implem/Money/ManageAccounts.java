@@ -36,9 +36,9 @@ public class ManageAccounts extends TabSelectOptionMenu<Account> {
 
 		if(taboptions.size() > 0) {
 			this.options.add(new ChangeTabOrderOption<>(new ManageAccounts(PDI, previous, accounts), "Change Account Order <+/->", PDI.getAccounts(), this.getData()));
-			this.options.add(new PromptOption(this, "Manage " + this.getData().getName() + " account", new ManageAccount(PDI, previous, this.getData(), accounts)));
-			this.options.add(new PromptOption(this, "Pay With " + this.getData().getName(), new PayNav(PDI, this.getData(), new ManageAccounts(PDI, previous, accounts))));
-			this.options.add(new PromptOption(new ManageAccounts(PDI, previous, accounts), "Manage Currencies In " +this.getData().getName(), new ManageCurrencies(PDI, previous, accounts, this.getData())));
+			this.options.add(new PromptOption(getSelf(), "Manage " + this.getData().getName() + " account", new ManageAccount(PDI, previous, this.getData(), accounts)));
+			this.options.add(new PromptOption(getSelf(), "Pay With " + this.getData().getName(), new PayNav(PDI, getSelf(), this.getData())));
+			this.options.add(new PromptOption(getSelf(), "Manage Currencies In " +this.getData().getName(), new ManageCurrencies(PDI, previous,this.getData(), accounts)));
 		}
 		if(taboptions.size() > 1) {
 			this.options.add(new RemoveAccountOption(new ManageAccounts(PDI, previous, accounts), "Remove Account", this.getData(), this.accounts));
@@ -49,6 +49,11 @@ public class ManageAccounts extends TabSelectOptionMenu<Account> {
 	@Override
 	public String getHeader() {
 		return "Manage Accounts";
+	}
+
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new ManageAccounts(PDI, previous, accounts);
 	}
 
 }

@@ -62,4 +62,9 @@ public class PickFacilityType<T extends Facility> extends PassByOptionMenu {
 			}
 		}
 	}
+
+	@Override
+	public PassByOptionMenu getSelf() {
+		return new PickFacilityType<>(PDI, previous, gov, GovType);
+	}
 }

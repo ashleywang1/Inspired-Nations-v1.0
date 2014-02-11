@@ -47,4 +47,9 @@ public class PickAccount extends TabSelectOptionMenu<Account> {
 		return "Pick Account To Transfer Money Into";
 	}
 
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new PickAccount(PDI, previous, accounts, accountFrom);
+	}
+
 }

@@ -36,4 +36,9 @@ public class SelectNewCurrency extends TabSelectOptionMenu<Currency> {
 	public String getHeader() {
 		return "Pick Currency";
 	}
+
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new SelectNewCurrency(PDI, previous);
+	}
 }

@@ -56,17 +56,22 @@ public class ManageGovMoney extends OptionMenu {
 	public void init() {
 		Debug.print("in init of manage gov money 1");
 		Debug.print("is gov null? " + (gov == null));
-		Debug.print("Does getSelf() return null? " + (getSelf(this) == null));
+		Debug.print("Does getSelf() return null? " + (getSelf() == null));
 		Debug.print("la de da");
-		this.options.add(new PromptOption(getSelf(this), "Pay", new PayNav(PDI, gov.getAccounts(), this)));
+		this.options.add(new PromptOption(getSelf(), "Pay", new PayNav(PDI, getSelf(), gov.getAccounts())));
 		Debug.print("in init of manage gov money 2");
-		this.options.add(new PromptOption(getSelf(this), "Manage Accounts", new ManageAccounts(PDI, this, gov.getAccounts())));
+		this.options.add(new PromptOption(getSelf(), "Manage Accounts", new ManageAccounts(PDI, this, gov.getAccounts())));
 		Debug.print("in init of manage gov money 3");
 		if(this.gov.getAccounts().isLinked()) {
 			Debug.print("in init of manage gov money 4");
-			this.options.add(new SplitAccountOption(getSelf(this), "Split " + gov.getTypeName() + " Account", "Separates this account from yours", gov));
+			this.options.add(new SplitAccountOption(getSelf(), "Split " + gov.getTypeName() + " Account", "Separates this account from yours", gov));
 			Debug.print("in init of manage gov money 5");
 		}
+	}
+
+	@Override
+	public OptionMenu getSelf() {
+		return new ManageGovMoney(PDI, previous, gov);
 	}
 
 }

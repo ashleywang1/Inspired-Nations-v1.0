@@ -9,7 +9,6 @@ import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferEx
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
@@ -47,12 +46,11 @@ public class PayAccountOption extends Option {
 				menu.setError(MenuError.NEGATIVE_AMOUNTS_NOT_ALLOWED(amount));
 			}
 
-			return menu.getSelf(menu);
+			return menu.getSelf();
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
-			return menu.getSelf(menu).setError(MenuError.INVALID_NUMBER_INPUT());
+			return menu.getSelf().setError(MenuError.INVALID_NUMBER_INPUT());
 		}
-		
 	}
 }

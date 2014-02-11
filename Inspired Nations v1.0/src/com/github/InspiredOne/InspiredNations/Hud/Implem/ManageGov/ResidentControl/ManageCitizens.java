@@ -48,4 +48,9 @@ public class ManageCitizens extends TabSelectOptionMenu<PlayerID> {
 		}
 
 	}
+
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new ManageCitizens(PDI, previous, gov);
+	}
 }

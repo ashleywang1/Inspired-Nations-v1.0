@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickPlayerGeneral;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
@@ -38,6 +39,11 @@ public class PickPlayerToShare extends PickPlayerGeneral {
 	@Override
 	public String getHeader() {
 		return "Pick Player To Share Account";
+	}
+
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new PickPlayerToShare(PDI, previous, account);
 	}
 
 }

@@ -46,4 +46,9 @@ public class MilitaryLevels extends OptionMenu {
 		this.options.add(new SetMilitaryLevelOption(this, "Set Military Level <level>", gov));
 	}
 
+	@Override
+	public OptionMenu getSelf() {
+		return new MilitaryLevels(PDI, previous, gov);
+	}
+
 }

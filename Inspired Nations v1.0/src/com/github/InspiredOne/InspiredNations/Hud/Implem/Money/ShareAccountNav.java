@@ -4,6 +4,7 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickNavGeneral;
 
 public class ShareAccountNav extends PickNavGeneral {
@@ -42,6 +43,11 @@ public class ShareAccountNav extends PickNavGeneral {
 	@Override
 	public String getHeader() {
 		return "Pick What You Would Like To Share With";
+	}
+
+	@Override
+	public PassByOptionMenu getSelf() {
+		return new ShareAccountNav(PDI, previous, account);
 	}
 
 }

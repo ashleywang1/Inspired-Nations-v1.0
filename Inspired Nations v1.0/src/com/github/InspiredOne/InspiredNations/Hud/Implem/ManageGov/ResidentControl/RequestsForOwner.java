@@ -43,4 +43,9 @@ public class RequestsForOwner extends TabSelectOptionMenu<PlayerID> {
 		return gov.getOwnerPositionName() + " Offers";
 	}
 
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new RequestsForOwner(PDI, previous, gov);
+	}
+
 }

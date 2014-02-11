@@ -1,8 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -12,7 +10,7 @@ import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 public class ManageMoney extends OptionMenu {
-	private MathContext mcup = new MathContext(5, RoundingMode.UP);//this is temporary
+	//private MathContext mcup = new MathContext(5, RoundingMode.UP);//this is temporary
 
 	public ManageMoney(PlayerData PDI) {
 		super(PDI);
@@ -29,8 +27,8 @@ public class ManageMoney extends OptionMenu {
 
 	@Override
 	public void init() {
-		this.options.add(new PromptOption(this, "Pay", new PayNav(PDI, PDI.getAccounts(), this)));
-		this.options.add(new PromptOption(this, "Manage Accounts", new ManageAccounts(PDI, this, PDI.getAccounts())));
+		this.options.add(new PromptOption(getSelf(), "Pay", new PayNav(PDI, getSelf(), PDI.getAccounts())));
+		this.options.add(new PromptOption(getSelf(), "Manage Accounts", new ManageAccounts(PDI, getSelf(), PDI.getAccounts())));
 	}
 
 	@Override
@@ -51,6 +49,11 @@ public class ManageMoney extends OptionMenu {
 	@Override
 	public Menu getPreviousMenu() {
 		return new MainHud(PDI);
+	}
+
+	@Override
+	public OptionMenu getSelf() {
+		return new ManageMoney(PDI);
 	}
 
 }

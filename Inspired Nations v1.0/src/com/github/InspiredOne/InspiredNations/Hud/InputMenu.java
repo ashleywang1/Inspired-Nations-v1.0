@@ -23,7 +23,7 @@ public abstract class InputMenu extends ActionMenu {
 			return this.nextMenu();
 		}
 		else {
-			return getSelf(this);
+			return getSelf();
 		}
 	}
 
@@ -76,4 +76,9 @@ public abstract class InputMenu extends ActionMenu {
 	 * for adding options, managers, and tab-completes.
 	 */
 	public abstract void Init();
+	/**
+	 * Returns a new instance of itself. Used for user input errors.
+	 * @return	the <code>Menu</code> of itself
+	 */
+	public abstract InputMenu getSelf();
 }

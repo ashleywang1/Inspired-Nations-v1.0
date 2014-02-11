@@ -15,7 +15,7 @@ public abstract class PickGovGeneral extends TabSelectOptionMenu<InspiredGov> {
 
 	public Menu previous;
 	public Menu next;
-	Datable<InspiredGov> superGov;
+	protected Datable<InspiredGov> superGov;
 	
 	/**
 	 * 

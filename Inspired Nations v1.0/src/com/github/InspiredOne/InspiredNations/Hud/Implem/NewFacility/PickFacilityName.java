@@ -88,4 +88,9 @@ public class PickFacilityName extends InputMenu {
 		
 	}
 
+	@Override
+	public InputMenu getSelf() {
+		return new PickFacilityName(PDI, previous, gov, Govf);
+	}
+
 }

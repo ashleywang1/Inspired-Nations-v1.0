@@ -39,4 +39,9 @@ public class OffersForSubject extends TabSelectOptionMenu<PlayerID> {
 		return gov.getSubjectPositionName() + " Offers";
 	}
 
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new OffersForSubject(PDI, previous, gov);
+	}
+
 }

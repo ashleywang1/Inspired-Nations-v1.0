@@ -58,4 +58,9 @@ public class WarningAlreadyOwnOne<T extends OwnerGov> extends OptionMenu {
 		options.add(new PromptOption(this, "No", new MainHud(PDI)));
 	}
 
+	@Override
+	public OptionMenu getSelf() {
+		return new WarningAlreadyOwnOne<>(PDI, Govf);
+	}
+
 }

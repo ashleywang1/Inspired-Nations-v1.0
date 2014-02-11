@@ -59,4 +59,9 @@ public class PickManageSelfType extends PassByOptionMenu {
 			}
 		}
 	}
+
+	@Override
+	public PassByOptionMenu getSelf() {
+		return new PickManageSelfType(PDI, GovType);
+	}
 }

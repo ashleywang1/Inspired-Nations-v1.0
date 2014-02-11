@@ -4,6 +4,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
+import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickGovGeneral;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
@@ -46,6 +47,10 @@ public class PickGovToPay extends PickGovGeneral {
 	@Override
 	public String getHeader() {
 		return "Select Government To Pay";
+	}
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new PickGovToPay(PDI, accounts, previous, next, superGov);
 	}
 
 }

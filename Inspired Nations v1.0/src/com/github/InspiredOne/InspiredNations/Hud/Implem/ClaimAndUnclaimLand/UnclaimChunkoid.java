@@ -85,4 +85,9 @@ public class UnclaimChunkoid extends InputMenu {
 		return false;
 	}
 
+	@Override
+	public InputMenu getSelf() {
+		return new UnclaimChunkoid(PDI, previous, gov);
+	}
+
 }

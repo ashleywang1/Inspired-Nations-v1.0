@@ -39,4 +39,9 @@ public class OwnerRequests extends TabSelectOptionMenu<OwnerGov> {
 		return "Requests for Ownership";
 	}
 
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new OwnerRequests(PDI);
+	}
+
 }

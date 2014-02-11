@@ -65,5 +65,10 @@ public class PickFacilityToManage<T extends Facility> extends TabSelectOptionMen
 		return this.options.get(0).response("1");
 	}
 
+	@Override
+	public TabSelectOptionMenu<?> getSelf() {
+		return new PickFacilityToManage<>(PDI, previous, supergov, factype);
+	}
+
 
 }

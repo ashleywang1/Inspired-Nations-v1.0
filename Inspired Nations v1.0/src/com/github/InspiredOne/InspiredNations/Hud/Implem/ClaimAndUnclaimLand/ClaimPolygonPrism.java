@@ -98,4 +98,9 @@ public class ClaimPolygonPrism extends InputMenu {
 		return false;
 	}
 
+	@Override
+	public InputMenu getSelf() {
+		return new ClaimPolygonPrism(PDI, previous, gov);
+	}
+
 }
