@@ -29,6 +29,11 @@ public abstract class OwnerGov extends InspiredGov {
 		return this.owners;
 	}
 	
+	@Override
+	public void updateTaxRate() {
+		this.getSuperGovObj().getSubTaxRate(this.getClass());
+	}
+	
 	public InspiredGov getCommonGovObj() {
 		boolean found = false;
 		InspiredGov test = this;

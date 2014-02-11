@@ -13,7 +13,7 @@ public class ClaimCuboidListener<T extends ClaimCuboidManager<?>> extends Inspir
 	}
 	
 	@EventHandler
-	public void onPlayerLeftClick(PlayerInteractEvent event) {
+	public void onPlayerClick(PlayerInteractEvent event) {
 		if(this.getPlayerData().getPlayer() != event.getPlayer()) {
 			return;
 		}

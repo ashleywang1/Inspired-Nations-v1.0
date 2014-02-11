@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
@@ -40,9 +41,8 @@ public class PickFacilityToManage<T extends Facility> extends TabSelectOptionMen
 			}
 		}
 		if(this.taboptions.size() != 0) {
-			this.options.add(new PromptOption(this, "Manage", new ManageFacility(PDI, new PickFacilityToManage<T>(PDI, previous, supergov, factype), this.getSelection())));	
+			this.options.add(new PromptOption(this, "Manage", new ManageFacility(PDI, getSelf(), this.getSelection())));	
 		}
-		
 	}
 
 	@Override
@@ -52,7 +52,8 @@ public class PickFacilityToManage<T extends Facility> extends TabSelectOptionMen
 	
 	@Override
 	public boolean getPassBy() {
-		if(this.taboptions.size() == 1) {
+		Debug.print("In getPassBy();");
+		if(this.taboptions.size() <= 1) {
 			return true;
 		}
 		else {
@@ -62,7 +63,8 @@ public class PickFacilityToManage<T extends Facility> extends TabSelectOptionMen
 
 	@Override
 	public Menu getPassTo() {
-		return this.options.get(0).response("1");
+		Debug.print("In getPassTo();");
+		return new ManageFacility(PDI, previous, this.getData());
 	}
 
 	@Override

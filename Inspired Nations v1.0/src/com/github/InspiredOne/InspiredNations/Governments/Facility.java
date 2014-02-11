@@ -29,6 +29,11 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 	}
 	
 	@Override
+	public void updateTaxRate() {
+		this.taxedrate = this.getSuperGovObj().getSuperGovObj().getSubTaxRate(this.getSuperGov());
+	}
+	
+	@Override
 	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
 		this.getAccounts().transferMoney(amount, curren, this.getSuperGovObj().getSuperGovObj().getAccounts());
 	}

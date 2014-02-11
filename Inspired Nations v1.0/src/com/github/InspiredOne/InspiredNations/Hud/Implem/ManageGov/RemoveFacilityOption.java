@@ -1,11 +1,11 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
 import com.github.InspiredOne.InspiredNations.Exceptions.RegionOutOfEncapsulationBoundsException;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
-import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
@@ -36,11 +36,10 @@ public class RemoveFacilityOption extends Option {
 	@Override
 	public Menu response(String input) {
 		
-		InspiredGov supergov = fac.getSuperGovObj();
-		
 		try {
 			fac.setLand(new nullRegion());
-			supergov.getFacilities().remove(fac);
+			InspiredNations.regiondata.removeValue(fac);
+			return menu;
 		} catch (BalanceOutOfBoundsException e) {
 			e.printStackTrace();
 		} catch (InspiredGovTooStrongException e) {
@@ -49,8 +48,9 @@ public class RemoveFacilityOption extends Option {
 			e.printStackTrace();
 		} catch (InsufficientRefundAccountBalanceException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
 		return menu;
 	}
 

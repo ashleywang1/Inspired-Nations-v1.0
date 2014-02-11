@@ -53,12 +53,12 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	private static final long serialVersionUID = 5014430464149332251L;
 	
 	private AccountCollection accounts;
-	protected InspiredRegion region;
-	private List<Facility> facilities = new ArrayList<Facility>();
+	private InspiredRegion region;
+	//private List<Facility> facilities = new ArrayList<Facility>();
 	private IndexedMap<Class<? extends InspiredGov>, Double> taxrates = new IndexedMap<Class<? extends InspiredGov>, Double>();
 	private InspiredGov supergov;
 	private String name;
-	private double taxedrate = 1; // the last tax rate used on this gov.
+	protected double taxedrate = 1; // the last tax rate used on this gov. Used to calculate prices.
 	protected int protectionlevel = 0;
 	private Currency currency = Currency.DEFAULT;
 	
@@ -154,6 +154,10 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		return this.getSuperGovObj().getSubjects();
 	}
 	/**
+	 * A function to update the TaxRate that this government will use when claiming and unclaiming land.
+	 */
+	public abstract void updateTaxRate();
+	/**
 	 * Returns a <code>List</code> of all <code>InspiredGovs</code> that have been created under this government.
 	 * It does this by searching through the <code>HashMap</code> in the plugin class
 	 * for any <code>InspiredGov</code> instance that returns this <code>InspiredGov</code> instance
@@ -161,12 +165,13 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @param key	the Class of InspiredGovs to find
 	 * @return		a List of InspiredGovs of the type 
 	 */
-	public List<OwnerGov> getAllSubGovs(Class<? extends OwnerGov> key) {
-		List<OwnerGov> output = new ArrayList<OwnerGov>();
+	@SuppressWarnings("unchecked")
+	public <T extends InspiredGov> List<T> getAllSubGovs(Class<T> key) {
+		List<T> output = new ArrayList<T>();
 		for(Iterator<InspiredGov> iter = InspiredNations.regiondata.get(key).iterator(); iter.hasNext(); ) {
 			InspiredGov gov = iter.next();
 			if (gov.getSuperGovObj().equals(this)) {
-				output.add((OwnerGov) gov);
+				output.add((T) gov);
 			}
 		}
 		
@@ -268,14 +273,11 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @return a <code>List</code> of the <code>InspiredGov</code>s that are used as facilities
 	 */
 	public List<Facility> getFacilities() {
-		return facilities;
-	}
-	/**
-	 * 
-	 * @param facilities	the new <code>List</code> of the facilities
-	 */
-	public void setFacilities(List<Facility> facilities) {
-		this.facilities = facilities;
+		List<Facility> output = new ArrayList<Facility>();
+		for(Class<? extends Facility> facType:this.getGovFacilities()) {
+			output.addAll(this.getAllSubGovs(facType));
+		}
+		return output;
 	}
 	/**
 	 * Sifts through all the InspiredGovs and coalesces all the governments that are one level below this
@@ -466,8 +468,8 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			throw new NegativeProtectionLevelException();
 		}
 		else {
-			BigDecimal refund = this.taxValue(region.getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, Currency.DEFAULT);
-			BigDecimal newcost = this.taxValue(region.getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, Currency.DEFAULT);
+			BigDecimal refund = this.taxValue(this.getRegion().getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, Currency.DEFAULT);
+			BigDecimal newcost = this.taxValue(this.getRegion().getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, Currency.DEFAULT);
 			BigDecimal cost = refund.subtract(newcost);
 			if(cost.compareTo(BigDecimal.ZERO) < 0) {
 				try {
@@ -560,7 +562,10 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	public void setLand(Region region) throws BalanceOutOfBoundsException, InspiredGovTooStrongException, RegionOutOfEncapsulationBoundsException, InsufficientRefundAccountBalanceException {
 		Currency curren = Currency.DEFAULT;
 		BigDecimal holdings = this.accounts.getTotalMoney(curren);
-		BigDecimal reimburse = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
+		Debug.print(this.getRegion().getRegion());
+		Debug.print(InspiredNations.taxTimer.getFractionLeft());
+		Debug.print(this.protectionlevel);
+		BigDecimal reimburse = this.taxValue(this.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal difference = cost.subtract(reimburse);// positive if owe country money, negative if country owe money
 		// Can they afford it?
@@ -629,7 +634,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		Region regionfrom = this.getRegion().getRegion();
 		
 		Currency curren = Currency.DEFAULT;
-		BigDecimal reimburse = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
+		BigDecimal reimburse = this.taxValue(this.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 				
 		
 		ArrayList<NonCummulativeRegion> removed = new ArrayList<NonCummulativeRegion>();

@@ -58,7 +58,7 @@ public class GovernmentRegions extends PassByOptionMenu {
 		for(Facility fac: gov.getFacilities()) {
 			HashSet<Class<? extends Facility>> set = new HashSet<Class<? extends Facility>>();
 			if(!set.contains(fac.getClass())) {
-				this.options.add(new PromptOption(this, "Manage " + fac.getTypeName(), new PickFacilityToManage<>(PDI, this, gov, fac.getClass())));
+				this.options.add(new PromptOption(this, "Manage " + fac.getTypeName(), new PickFacilityToManage<>(PDI,this, gov, fac.getClass())));
 			}
 			set.add(fac.getClass());
 		}

@@ -69,6 +69,7 @@ public class nullRegion extends Region {
 
 	@Override
 	public Menu getClaimMenu(PlayerData PDI, Menu previous, InspiredGov gov) {
+		Debug.print(Debug.InformPluginDev);
 		return null;
 	}
 

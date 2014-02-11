@@ -50,7 +50,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			this.setError(MenuError.NO_MATCHES_FOUND());
 			return;
 		}
-		else {
+		else if(this.filteredoptions.size() != 0){
 			this.data = this.filteredoptions.get(tabcnt);
 		}
 	}

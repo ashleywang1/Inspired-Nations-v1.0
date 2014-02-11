@@ -4,6 +4,7 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
@@ -164,13 +165,16 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 	 */
 	private final Menu checkBack() {
 		Menu previous = this.getPreviousMenu();
+		Debug.print("In CheckBack();");
 		if(previous.initialized) {
 			previous = previous.getSelf();
 		}
 		if(!previous.passBy()) {
+			Debug.print("In CheckBack() return previous;");
 			return previous;
 		}
 		else {
+			Debug.print("In CheckBack() return previous.checkback;");
 			return previous.checkBack();
 		}
 	}

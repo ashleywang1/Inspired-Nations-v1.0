@@ -125,6 +125,21 @@ public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable, Iterabl
 		return set.remove(key);
 	}
 
+	public K removeValue(Object value) {
+		K valueRemoved = null;
+		for(T key:this.keySet()) {
+			for(K val:this.get(key)) {
+				if(val.equals(value)) {
+					HashSet<K> temp = this.get(key);
+					temp.remove(value);
+					valueRemoved = val;
+					this.put(key, temp);
+				}
+			}
+		}
+		return valueRemoved;
+	}
+	
 	@Override
 	public void putAll(Map<? extends T, ? extends HashSet<K>> m) {
 		for(Iterator<? extends T> iter = m.keySet().iterator(); iter.hasNext();) {

@@ -9,8 +9,8 @@ import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 public class ManageFacility extends OptionMenu {
 
 	private Facility fac;
-	private OptionMenu previous;
-	public ManageFacility(PlayerData PDI, OptionMenu previous, Facility fac) {
+	private Menu previous;
+	public ManageFacility(PlayerData PDI, Menu previous, Facility fac) {
 		super(PDI);
 		this.fac = fac;
 		this.previous = previous;
@@ -34,19 +34,19 @@ public class ManageFacility extends OptionMenu {
 
 	@Override
 	public boolean getPassBy() {
-		return false;
+		return !fac.getSuperGovObj().getFacilities().contains(fac);
 	}
 
 	@Override
 	public Menu getPassTo() {
-		return null;
+		return previous;
 	}
 
 	@Override
 	public void init() {
 		this.options.add(new PromptOption(this, "Manage Money", new ManageGovMoney(PDI, this, fac)));
 		this.options.add(new PromptOption(this, "Claim Land", new PickClaimType(PDI, this.getSelf(), fac)));
-		this.options.add(new RemoveFacilityOption((OptionMenu) previous, "Remove Facility", fac));	
+		this.options.add(new RemoveFacilityOption(getSelf(), "Remove Facility", fac));
 	}
 
 	@Override

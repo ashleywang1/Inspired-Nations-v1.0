@@ -27,6 +27,7 @@ public class GovFactory<T extends InspiredGov> {
 		if(!this.gov.getCommonEcon().equals(this.gov.getClass())) {
 			this.gov.setCurrency(gov.getCurrency());
 		}
+		this.gov.updateTaxRate();
 		return this;
 	}
 	
