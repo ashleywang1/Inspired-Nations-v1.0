@@ -190,6 +190,9 @@ public class MenuTools {
 			return makeMessage("The polygon you selected is not simple. This means that some of the sides"
 					+ " cross. Make sure you select each corner in order.");
 		}
+		public static String SELECTION_MUST_BE_CHEST() {
+			return makeMessage("You may only select chests for your shop.");
+		}
 		public static String NEGATIVE_PROTECTION_LEVEL_NOT_ALLOWED() {
 			return makeMessage("Negative numbers are not allowed for protection levels.");
 		}

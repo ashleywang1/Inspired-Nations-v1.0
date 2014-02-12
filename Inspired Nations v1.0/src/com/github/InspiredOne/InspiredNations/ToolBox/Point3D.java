@@ -71,6 +71,11 @@ public class Point3D implements Serializable, Cloneable {
     	return new Point3D(this.x, this.y, this.z, this.world);
     }
     
+    @Override
+    public String toString() {
+    	return "("+this.x+", "+this.y + ", "+this.z+", "+ this.world.toString()+ ")";
+    }
+    
     public Location getLocation() {
     
     	return new Location(InspiredNations.plugin.getServer().getWorld(this.world.toString()), x, y, z);

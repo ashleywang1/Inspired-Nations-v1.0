@@ -14,6 +14,7 @@ public class ClaimChestShopManager extends ActionManager<ClaimChestShop> {
 	
 	public ClaimChestShopManager(ClaimChestShop menu) {
 		super(menu);
+		this.listeners.add(new ClaimChestShopListener(this));
 	}
 	
 	public void addBlock(Block block) throws BlockNotChestException {

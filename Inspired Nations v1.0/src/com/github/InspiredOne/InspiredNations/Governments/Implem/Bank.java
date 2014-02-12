@@ -62,7 +62,7 @@ public class Bank extends Facility {
 
 	@Override
 	public String getFacilityGroupName() {
-		return null;
+		return "";
 	}
 
 }

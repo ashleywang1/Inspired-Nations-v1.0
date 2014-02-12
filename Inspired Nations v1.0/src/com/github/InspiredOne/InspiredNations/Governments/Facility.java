@@ -44,11 +44,6 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 	}
 	
 	@Override
-	public Class<? extends OwnerGov> getSuperGov() {
-		Debug.print("in getSuperGov of Facility");
-		return null;
-	}
-	@Override
 	public String getOwnerPositionName() {
 		return "Caretaker";
 	}

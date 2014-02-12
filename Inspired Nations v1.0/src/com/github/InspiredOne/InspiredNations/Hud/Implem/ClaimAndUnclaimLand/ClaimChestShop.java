@@ -58,7 +58,8 @@ public class ClaimChestShop extends InputMenu {
 	public String getInstructions() {
 		String output = mapmanager.drawMap(gov, 4);
 		output = MenuTools.addDivider(output);
-		output = output.concat(TextColor.INSTRUCTION + "Left click on the chest that you would like to claim.");
+		output = output.concat(TextColor.INSTRUCTION + "Left click on the chest that you would like to claim.\n");
+		output = output.concat(manager.region.volume() + " blocks\n");
 		return output;
 	}
 

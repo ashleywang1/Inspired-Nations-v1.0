@@ -26,18 +26,29 @@ public class ShopRegion extends Region {
 	Point3D one;
 	Point3D two;
 	List<Material> allowed = new ArrayList<Material>();
-
+	
+	public ShopRegion() {
+		allowed.add(Material.CHEST);
+		allowed.add(Material.TRAPPED_CHEST);
+	}
+	
 	public void addChest(Block block) throws BlockNotChestException {
+		one = null;
+		two = null;
 		Material type = block.getType();
 		Point3D location = new Point3D(block.getLocation());
 		if(allowed.contains(type)) {
 			one = location;
-			for(int x = -1; x <= 1; x = x+2) {
-				for(int z = -1; z<=1; z = z+2) {
-					Point3D test = new Point3D(location.x + x, location.y, location.z + z, location.world);
-					if(test.getLocation().getBlock().getType().equals(type)) {
-						two = test;
-					}
+			for(int x = -1; x <= 2; x = x+2) {
+				Point3D test = new Point3D(location.x, location.y, location.z, location.world);
+				if(test.getLocation().getBlock().getType().equals(type)) {
+					two = test;
+				}
+			}
+			for(int z = -1; z<=2; z = z+2) {
+				Point3D test = new Point3D(location.x, location.y, location.z + z, location.world);
+				if(test.getLocation().getBlock().getType().equals(type)) {
+					two = test;
 				}
 			}
 		}
