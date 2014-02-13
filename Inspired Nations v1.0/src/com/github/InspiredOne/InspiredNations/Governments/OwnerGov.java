@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Governments;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
@@ -24,11 +25,18 @@ public abstract class OwnerGov extends InspiredGov {
 	
 	public void addOwner(PlayerID player) {
 		if(!this.canAddWithoutConsequence(player.getPDI())) {
-			((OwnerSubjectGov) player.getPDI().getCitizenship(this.getClass()).get(0)).removeSubject(player);;
+			for(InspiredGov gov:player.getPDI().getCitizenship(this.getClass())) {
+				if(!gov.equals(this)) {
+					((OwnerGov) gov).removeOwner(player);
+					if(gov instanceof OwnerSubjectGov) {
+						((OwnerSubjectGov) gov).removeSubject(player);
+					}
+				}
+			}
 		}
 		this.owners.add(player);
 		if(this instanceof OwnerSubjectGov) {
-			((OwnerSubjectGov) this).addSubject(player);;
+			((OwnerSubjectGov) this).addSubject(player);
 		}
 	}
 	
@@ -37,6 +45,10 @@ public abstract class OwnerGov extends InspiredGov {
 	}
 	
 	public boolean isOwner(PlayerID player) {
+		Debug.print("Check: " + player);
+		for(PlayerID p:this.ownerOffers) {
+			Debug.print("In OwnerList: " + p);
+		}
 		return this.owners.contains(player);
 	}
 	
@@ -91,7 +103,7 @@ public abstract class OwnerGov extends InspiredGov {
 	 * Gets all the requests made by other players to join this government's owners.
 	 * @return
 	 */
-	public IndexedSet<PlayerID> getOwnerRequest() {
+	public IndexedSet<PlayerID> getOwnerRequests() {
 		return ownerRequest;
 	}
 	/**

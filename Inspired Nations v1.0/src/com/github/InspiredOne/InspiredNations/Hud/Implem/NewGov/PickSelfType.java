@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov;
 
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
@@ -48,6 +49,7 @@ public class PickSelfType<T extends OwnerGov> extends PassByOptionMenu {
 		for(Class<? extends InspiredGov> gov:GovFactory.getGovInstance(GovType).getSelfGovs()) {
 			GovFactory<T> govf = new GovFactory<T>((Class<T>) gov);
 			govf.getGov().addOwner(PDI.getPlayerID());
+			Debug.print(govf.getGov().isOwner(PDI.getPlayerID()));
 			if(govf.getGov().getSelfGovs().size() == 1) {
 				if(govf.getGov().getSelfGovs().get(0).equals(govf.getGov().getClass())) {
 					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickSuperGov<T>(PDI, govf)));

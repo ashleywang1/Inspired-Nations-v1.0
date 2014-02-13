@@ -81,7 +81,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 		List<OwnerGov> output = new ArrayList<OwnerGov>();
 		for(InspiredGov gov:InspiredNations.regiondata) {
 			if(gov instanceof OwnerGov) {
-				if(((OwnerGov) gov).getOwnerRequest().contains(this.getPlayerID())) {
+				if(((OwnerGov) gov).getOwnerRequests().contains(this.getPlayerID())) {
 					output.add((OwnerGov) gov);
 				}
 			}
@@ -181,7 +181,9 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 		for(InspiredGov gov:InspiredNations.regiondata.get(govType)) {
 			if(gov instanceof OwnerGov) {
 				gov = (OwnerGov) gov;
+				Debug.print("inside the ownership check. 1 of playerdata");
 				if(((OwnerGov) gov).isOwner(this.getPlayerID())) {
+					Debug.print("inside the ownership check. 2 of playerdata");
 					output.add((OwnerGov) gov);
 				}
 			}

@@ -38,7 +38,11 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 	
 	public void addSubject(PlayerID player) {
 		if(!this.canAddWithoutConsequence(player.getPDI())) {
-			((OwnerSubjectGov) player.getPDI().getCitizenship(this.getClass()).get(0)).removeSubject(player);;
+			for(InspiredGov gov:player.getPDI().getCitizenship(this.getClass())) {
+				if(!gov.equals(this)) {
+					((OwnerSubjectGov) gov).removeSubject(player);
+				}
+			}
 		}
 		this.subjects.add(player);
 	}

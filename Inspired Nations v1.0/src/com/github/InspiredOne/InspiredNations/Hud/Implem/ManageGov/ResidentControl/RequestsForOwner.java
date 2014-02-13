@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.ResidentControl;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -30,16 +31,17 @@ public class RequestsForOwner extends TabSelectOptionMenu<PlayerID> {
 
 	@Override
 	public void Init() {
-		for(PlayerID player:this.gov.getOwnerRequest()) {
+		Debug.print("Inside RequestForOwner Init();");
+		for(PlayerID player:this.gov.getOwnerRequests()) {
 			this.taboptions.add(player);
 		}
 		this.options.add(new PromptOption(new RequestsForOwner(PDI, previous, gov), gov.getOwnerPositionName() + " Offers",
 				new OffersForOwner(PDI, previous, gov)));
+		Debug.print("Inside RequestForOwner Init(); 2");
 	}
 
 	@Override
 	public String getHeader() {
-		// TODO Auto-generated method stub
 		return gov.getOwnerPositionName() + " Offers";
 	}
 

@@ -30,10 +30,18 @@ public abstract class PickCurrencyGeneral extends TabSelectOptionMenu<Currency> 
 	public void Init() {
 		TreeSet<Currency> currens = new TreeSet<Currency>(InspiredNations.Exchange.getExchangeMap().keySet());
 		for(Currency curren:currens) {
-			this.taboptions.add(curren);
+			if(check(curren)) {
+				this.taboptions.add(curren);
+			}
 		}
 		insertOptions();
 	}
+	/**
+	 * 
+	 * @param curren
+	 * @return	<code>true</code> if the currency should be added
+	 */
+	public abstract boolean check(Currency curren);
 
 	@Override
 	public String getHeader() {
