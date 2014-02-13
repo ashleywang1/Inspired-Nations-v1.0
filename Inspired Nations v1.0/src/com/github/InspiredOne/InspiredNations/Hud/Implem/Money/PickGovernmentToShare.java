@@ -44,7 +44,7 @@ public class PickGovernmentToShare extends PickGovGeneral {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new PickGovernmentToShare(PDI, previous, next, account, superGov);
 	}
 

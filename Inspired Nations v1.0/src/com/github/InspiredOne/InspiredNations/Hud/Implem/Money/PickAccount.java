@@ -48,7 +48,7 @@ public class PickAccount extends TabSelectOptionMenu<Account> {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new PickAccount(PDI, previous, accounts, accountFrom);
 	}
 

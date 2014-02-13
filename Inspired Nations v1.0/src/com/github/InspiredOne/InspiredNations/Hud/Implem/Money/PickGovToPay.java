@@ -49,7 +49,7 @@ public class PickGovToPay extends PickGovGeneral {
 		return "Select Government To Pay";
 	}
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new PickGovToPay(PDI, accounts, previous, next, superGov);
 	}
 

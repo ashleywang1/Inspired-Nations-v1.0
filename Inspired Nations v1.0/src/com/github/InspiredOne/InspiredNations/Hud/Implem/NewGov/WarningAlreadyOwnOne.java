@@ -36,15 +36,7 @@ public class WarningAlreadyOwnOne<T extends OwnerGov> extends OptionMenu {
 	@Override
 	public boolean getPassBy() {
 		OwnerGov gov = Govf.getGov();
-		if(!PDI.getCitizenship(gov.getCommonGov()).isEmpty()) {
-			if(gov.getCommonGovObj() != PDI.getCitizenship(gov.getCommonGov()).get(0)) {
-				return false;
-			}
-			else {
-				return true;
-			}
-		}
-		return true;
+		return gov.canAddWithoutConsequence(PDI);
 	}
 
 	@Override

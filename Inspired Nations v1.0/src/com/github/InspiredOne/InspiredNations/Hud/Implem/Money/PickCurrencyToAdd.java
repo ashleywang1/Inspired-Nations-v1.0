@@ -23,7 +23,7 @@ public class PickCurrencyToAdd extends PickCurrencyGeneral {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new PickCurrencyToAdd(PDI, previous, account);
 	}
 

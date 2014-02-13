@@ -50,7 +50,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			this.setError(MenuError.NO_MATCHES_FOUND());
 			return;
 		}
-		else if(this.filteredoptions.size() != 0){
+		else if(this.filteredoptions.size() != 0) {
 			this.data = this.filteredoptions.get(tabcnt);
 		}
 	}
@@ -180,6 +180,9 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	
 	public E getData() {
 		if(data == null) {
+			if(tabcnt >= this.filteredoptions.size()) {
+				tabcnt = this.filteredoptions.size()-1;
+			}
 			this.data = this.filteredoptions.get(tabcnt);
 		}
 		return this.data;
@@ -203,5 +206,11 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	 * Returns a new instance of itself. Used for user input errors.
 	 * @return	the <code>Menu</code> of itself
 	 */
-	public abstract TabSelectOptionMenu<?> getSelf();
+	public abstract TabSelectOptionMenu<?> GetSelf();
+	
+	public final TabSelectOptionMenu<?> getSelf() {
+		TabSelectOptionMenu<?> output = this.GetSelf();
+		output.tabcnt = tabcnt;
+		return output;
+	}
 }

@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Governments;
 
+import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
@@ -16,22 +17,55 @@ public abstract class OwnerGov extends InspiredGov {
 	public OwnerGov() {
 		super();
 	}
-
-	public IndexedSet<PlayerID> getOwners() {
-		return owners;
-	}
-
-	public void setOwners(IndexedSet<PlayerID> owners) {
-		this.owners = owners;
+	
+	protected IndexedSet<PlayerID> getOwners() {
+		return this.owners;
 	}
 	
-	public IndexedSet<PlayerID> getSubjects() {
+	public void addOwner(PlayerID player) {
+		if(!this.canAddWithoutConsequence(player.getPDI())) {
+			((OwnerSubjectGov) player.getPDI().getCitizenship(this.getClass()).get(0)).removeSubject(player);;
+		}
+		this.owners.add(player);
+		if(this instanceof OwnerSubjectGov) {
+			((OwnerSubjectGov) this).addSubject(player);;
+		}
+	}
+	
+	public void removeOwner(PlayerID player) {
+		this.owners.remove(player);
+	}
+	
+	public boolean isOwner(PlayerID player) {
+		return this.owners.contains(player);
+	}
+	
+	@Override
+	protected IndexedSet<PlayerID> getSubjects() {
 		return this.owners;
 	}
 	
 	@Override
 	public void updateTaxRate() {
 		this.getSuperGovObj().getSubTaxRate(this.getClass());
+	}
+	/**
+	 * Indicates if the player can become a citizen or owner of this government
+	 * without having to give up ownership and citizenship of any govs.
+	 * @param PDI
+	 * @return 	<code>true</code> if no consequence
+	 */
+	public boolean canAddWithoutConsequence(PlayerData PDI) {
+		OwnerGov gov = this;
+		if(!PDI.getCitizenship(gov.getCommonGov()).isEmpty()) {
+			if(gov.getCommonGovObj() != PDI.getCitizenship(gov.getCommonGov()).get(0)) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		return true;
 	}
 	
 	public InspiredGov getCommonGovObj() {

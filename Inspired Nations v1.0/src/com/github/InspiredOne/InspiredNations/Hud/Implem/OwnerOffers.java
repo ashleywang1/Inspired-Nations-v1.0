@@ -42,7 +42,7 @@ public class OwnerOffers extends TabSelectOptionMenu<OwnerGov> {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new OwnerOffers(PDI);
 	}
 

@@ -145,13 +145,17 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	public void setSuperGovObj(InspiredGov supergov) {
 		this.supergov = supergov;
 	}
+
 	/**
 	 * Returns the set containing the names of all players who
 	 * are directly under this governments control.
 	 * @return	the <code>HashSet</code> of all subject names
 	 */
-	public IndexedSet<PlayerID> getSubjects() {
+	protected IndexedSet<PlayerID> getSubjects() {
 		return this.getSuperGovObj().getSubjects();
+	}
+	public final boolean isSubject(PlayerID player) {
+		return this.getSubjects().contains(player);
 	}
 	/**
 	 * A function to update the TaxRate that this government will use when claiming and unclaiming land.

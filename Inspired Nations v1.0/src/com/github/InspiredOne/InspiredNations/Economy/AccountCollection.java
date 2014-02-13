@@ -1,7 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Economy;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
@@ -9,12 +8,12 @@ import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsExcep
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
+import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
-import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 
-public class AccountCollection extends ArrayList<Account> implements Payable, Notifyable {
+public class AccountCollection extends IndexedSet<Account> implements Payable, Notifyable, Iterable<Account> {
 	/**
 	 * 
 	 */
@@ -25,6 +24,7 @@ public class AccountCollection extends ArrayList<Account> implements Payable, No
 		this.name = name;
 		this.add(new Account());
 	}
+	
 	public BigDecimal getTotalMoney(Currency valueType) {
 		BigDecimal output = BigDecimal.ZERO;
 		for(Account valueCheck:this) {

@@ -46,7 +46,7 @@ public class PickCurrencyCollection extends TabSelectOptionMenu<CurrencyAccount>
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new PickCurrencyCollection(PDI, previous, account, accountFrom);
 	}
 	

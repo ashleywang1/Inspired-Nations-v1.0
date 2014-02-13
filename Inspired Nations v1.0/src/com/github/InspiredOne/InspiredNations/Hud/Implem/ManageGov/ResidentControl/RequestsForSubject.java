@@ -43,7 +43,7 @@ public class RequestsForSubject extends TabSelectOptionMenu<PlayerID> {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new RequestsForSubject(PDI, previous, gov);
 	}
 	

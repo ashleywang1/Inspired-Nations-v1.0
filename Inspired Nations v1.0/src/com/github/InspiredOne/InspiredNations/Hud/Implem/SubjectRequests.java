@@ -5,6 +5,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 
 public class SubjectRequests extends TabSelectOptionMenu<OwnerSubjectGov> {
@@ -32,6 +33,10 @@ public class SubjectRequests extends TabSelectOptionMenu<OwnerSubjectGov> {
 				}
 			}
 		}
+		if(this.taboptions.size() != 0) {
+			this.options.add(new IgnoreOfferOption(this, "Remove Request to " + this.getData().getName(), PDI.getPlayerID(), this.getData().getSubjectRequests()));
+		}
+		this.options.add(new PromptOption(this, "Add Request", new PickGovToRequestSubject(PDI,this,this)));
 	}
 
 	@Override
@@ -40,7 +45,7 @@ public class SubjectRequests extends TabSelectOptionMenu<OwnerSubjectGov> {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new SubjectRequests(PDI);
 	}
 

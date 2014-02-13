@@ -42,7 +42,7 @@ public class PickPlayerToShare extends PickPlayerGeneral {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new PickPlayerToShare(PDI, previous, account);
 	}
 

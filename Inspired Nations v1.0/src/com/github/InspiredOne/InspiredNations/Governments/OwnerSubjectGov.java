@@ -36,9 +36,19 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 		return (new BigDecimal(100)).multiply((new BigDecimal(militarylevel)).pow(2));
 	}
 	
-
+	public void addSubject(PlayerID player) {
+		if(!this.canAddWithoutConsequence(player.getPDI())) {
+			((OwnerSubjectGov) player.getPDI().getCitizenship(this.getClass()).get(0)).removeSubject(player);;
+		}
+		this.subjects.add(player);
+	}
 	
-	public IndexedSet<PlayerID> getSubjects() {
+	public void removeSubject(PlayerID player) {
+		this.removeOwner(player);
+		this.subjects.remove(player);
+	}
+	
+	protected IndexedSet<PlayerID> getSubjects() {
 		subjects.addAll(this.getOwners());
 		return subjects;
 	}

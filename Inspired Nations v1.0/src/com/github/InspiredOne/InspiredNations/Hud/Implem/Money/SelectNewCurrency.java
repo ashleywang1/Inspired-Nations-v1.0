@@ -38,7 +38,7 @@ public class SelectNewCurrency extends TabSelectOptionMenu<Currency> {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new SelectNewCurrency(PDI, previous);
 	}
 }

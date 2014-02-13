@@ -40,7 +40,7 @@ public class OffersForOwner extends TabSelectOptionMenu<PlayerID> {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new OffersForOwner(PDI, previous, gov);
 	}
 

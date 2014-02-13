@@ -39,7 +39,7 @@ public class PlayerDirectory extends TabSelectOptionMenu<PlayerID> {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new PlayerDirectory(PDI);
 	}
 

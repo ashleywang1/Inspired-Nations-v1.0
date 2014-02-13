@@ -49,7 +49,7 @@ public class PayPlayer extends PickPlayerGeneral {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new PayPlayer(PDI, accounts, back);
 	}
 

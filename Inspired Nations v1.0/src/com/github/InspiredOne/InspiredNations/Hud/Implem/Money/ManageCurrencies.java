@@ -32,6 +32,7 @@ public class ManageCurrencies extends TabSelectOptionMenu<CurrencyAccount> {
 		return "";
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void Init() {
 		for(CurrencyAccount curren:account.getMoney()) {
@@ -39,7 +40,7 @@ public class ManageCurrencies extends TabSelectOptionMenu<CurrencyAccount> {
 		}
 		if(this.taboptions.size() > 0) {
 			this.options.add(new PromptOption(getSelf(), "Pay with " + this.getData().getName(), new PayNav(PDI, getSelf(), this.getData())));
-			this.options.add(new ChangeTabOrderOption<>(getSelf(), "Change Currency Order <+/->", account.getMoney(), this.getData()));
+			this.options.add(new ChangeTabOrderOption<>((TabSelectOptionMenu<CurrencyAccount>)getSelf(), "Change Currency Order <+/->", account.getMoney(), this.getData()));
 			this.options.add(new PromptOption(this, "Transfer " + this.getData().getCurrency(), new PickAccount(PDI, this, accounts, account)));
 			if(this.taboptions.size() > 1) {
 				this.options.add(new RemoveCurrencyOption(getSelf(), "Remove " + this.getData().getCurrency(), account, this.getData()));
@@ -54,7 +55,7 @@ public class ManageCurrencies extends TabSelectOptionMenu<CurrencyAccount> {
 	}
 
 	@Override
-	public TabSelectOptionMenu<CurrencyAccount> getSelf() {
+	public TabSelectOptionMenu<CurrencyAccount> GetSelf() {
 		return new ManageCurrencies(PDI, previous, account, accounts);
 	}
 

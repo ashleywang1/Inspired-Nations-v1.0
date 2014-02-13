@@ -52,7 +52,7 @@ public class ManageAccounts extends TabSelectOptionMenu<Account> {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new ManageAccounts(PDI, previous, accounts);
 	}
 

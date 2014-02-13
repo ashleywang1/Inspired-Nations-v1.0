@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.ResidentControl;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
@@ -29,8 +30,10 @@ public class ManageCitizens extends TabSelectOptionMenu<PlayerID> {
 
 	@Override
 	public void Init() {
-		for(PlayerID subject:gov.getSubjects()) {
-			this.taboptions.add(subject);
+		for(PlayerID subject:InspiredNations.playerdata) {
+			if(gov.isSubject(subject)) {
+				this.taboptions.add(subject);
+			}
 		}
 		this.options.add(new PromptOption(this, gov.getOwnerPositionName() + " Requests and Offers", new RequestsForOwner(PDI, previous, gov)));
 		if(gov instanceof OwnerSubjectGov) {
@@ -50,7 +53,7 @@ public class ManageCitizens extends TabSelectOptionMenu<PlayerID> {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new ManageCitizens(PDI, previous, gov);
 	}
 }

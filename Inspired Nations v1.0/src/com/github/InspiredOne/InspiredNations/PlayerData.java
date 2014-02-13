@@ -67,7 +67,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 	
 	public boolean isSubjectOf(Class<? extends InspiredGov> govtype) {
 		for(InspiredGov gov:InspiredNations.regiondata.get(govtype)) {
-			if(gov.getSubjects().contains(this.getPlayerID())) {
+			if(gov.isSubject(this.getPlayerID())) {
 				return true;
 			}
 		}
@@ -146,13 +146,13 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 	
 	/**
 	 * Gets all governments in which a player is a citizen. Uses the HashSet input to check.
-	 * @param govType	type of government we're looking for
+	 * @param class1	type of government we're looking for
 	 * @return	a list off all the governments in which the player is a citizen
-	 * @param govType
+	 * @param class1
 	 * @return
 	 */
-	public List<OwnerSubjectGov> getCitizenship(Class<? extends InspiredGov> govType) {
-		return getCitizenship(govType, InspiredNations.regiondata.get(govType));
+	public List<InspiredGov> getCitizenship(Class<? extends InspiredGov> class1) {
+		return getCitizenship(class1, InspiredNations.regiondata.get(class1));
 	}
 	/**
 	 * Gets all governments in which a player is a citizen. Uses the HashSet input to check.
@@ -160,12 +160,12 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 	 * @param govDir	all the governments to check
 	 * @return	a list off all the governments in which the player is a citizen
 	 */
-	public List<OwnerSubjectGov> getCitizenship(Class<? extends InspiredGov> govType, HashSet<? extends InspiredGov> govDir) {
-		List<OwnerSubjectGov> output = new ArrayList<OwnerSubjectGov>();
+	public List<InspiredGov> getCitizenship(Class<? extends InspiredGov> govType, HashSet<? extends InspiredGov> govDir) {
+		List<InspiredGov> output = new ArrayList<InspiredGov>();
 
 		for(InspiredGov gov:govDir) {
-			if(gov.getSubjects().contains(this.getPlayerID()) && gov.getClass().equals(govType)) {
-				output.add((OwnerSubjectGov) gov);
+			if(gov.isSubject(this.getPlayerID()) && gov.getClass().equals(govType)) {
+				output.add(gov);
 			}
 		}
 		return output;
@@ -181,7 +181,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 		for(InspiredGov gov:InspiredNations.regiondata.get(govType)) {
 			if(gov instanceof OwnerGov) {
 				gov = (OwnerGov) gov;
-				if(((OwnerGov) gov).getOwners().contains(this.getPlayerID())) {
+				if(((OwnerGov) gov).isOwner(this.getPlayerID())) {
 					output.add((OwnerGov) gov);
 				}
 			}

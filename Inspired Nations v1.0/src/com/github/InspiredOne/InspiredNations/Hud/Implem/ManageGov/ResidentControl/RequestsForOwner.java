@@ -44,7 +44,7 @@ public class RequestsForOwner extends TabSelectOptionMenu<PlayerID> {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new RequestsForOwner(PDI, previous, gov);
 	}
 

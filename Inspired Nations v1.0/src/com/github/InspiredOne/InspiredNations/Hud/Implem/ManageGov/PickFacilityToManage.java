@@ -68,7 +68,7 @@ public class PickFacilityToManage<T extends Facility> extends TabSelectOptionMen
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> getSelf() {
+	public TabSelectOptionMenu<?> GetSelf() {
 		return new PickFacilityToManage<>(PDI, previous, supergov, factype);
 	}
 

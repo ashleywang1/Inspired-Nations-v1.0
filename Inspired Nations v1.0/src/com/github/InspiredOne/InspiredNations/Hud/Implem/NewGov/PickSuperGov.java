@@ -50,7 +50,7 @@ public class PickSuperGov<T extends OwnerGov> extends PassByOptionMenu {
 		
 		for(Class<? extends OwnerGov> govCheck:superGovObj.getSubGovs()) {
 			if(Govf.getGov().isSubOfClass(govCheck)) {
-				for(OwnerSubjectGov gov:PDI.getCitizenship(govCheck)) {
+				for(InspiredGov gov:PDI.getCitizenship(govCheck)) {
 					if(govCheck.equals(Govf.getGov().getSuperGov())) {
 						this.options.add(new PromptOption(this, gov.getName(), new WarningAlreadyOwnOne<T>(PDI, Govf.withSuperGov(gov))));
 					}
