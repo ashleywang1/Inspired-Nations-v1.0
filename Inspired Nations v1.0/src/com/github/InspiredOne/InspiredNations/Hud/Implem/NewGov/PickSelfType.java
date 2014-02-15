@@ -48,7 +48,7 @@ public class PickSelfType<T extends OwnerGov> extends PassByOptionMenu {
 	public void init() {
 		for(Class<? extends InspiredGov> gov:GovFactory.getGovInstance(GovType).getSelfGovs()) {
 			GovFactory<T> govf = new GovFactory<T>((Class<T>) gov);
-			govf.getGov().addOwner(PDI.getPlayerID());
+			govf.withOwner(PDI.getPlayerID());
 			Debug.print(govf.getGov().isOwner(PDI.getPlayerID()));
 			if(govf.getGov().getSelfGovs().size() == 1) {
 				if(govf.getGov().getSelfGovs().get(0).equals(govf.getGov().getClass())) {

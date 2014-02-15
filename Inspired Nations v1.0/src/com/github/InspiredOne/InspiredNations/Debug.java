@@ -10,5 +10,9 @@ public class Debug {
 		
 	}
 	
+	public static void print(int i) {
+		InspiredNations.plugin.logger.info("Debuger check: " + i);
+	}
+	
 	
 }

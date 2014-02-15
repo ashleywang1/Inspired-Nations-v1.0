@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
@@ -54,7 +55,6 @@ public class MainHud extends OptionMenu {
 		this.options.add(new getMoneyOption(this, "Get 1000 " + PDI.getCurrency().getName(), PDI));
 		List<Class<? extends OwnerGov>> array = InspiredNations.global.getAllSubGovs();
 		array.remove(InspiredNations.global.getClass());
-		
 		for(Class<? extends OwnerGov> gov:array) {
 			OwnerGov govobj = (OwnerGov) GovFactory.getGovInstance(gov);
 			if(!PDI.getOwnership(gov).isEmpty()) {

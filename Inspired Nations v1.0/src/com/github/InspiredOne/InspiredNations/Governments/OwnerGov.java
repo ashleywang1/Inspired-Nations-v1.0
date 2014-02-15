@@ -11,7 +11,7 @@ public abstract class OwnerGov extends InspiredGov {
 	 * 
 	 */
 	private static final long serialVersionUID = 2000613785185838007L;
-	private IndexedSet<PlayerID> owners = new IndexedSet<PlayerID>();
+	protected IndexedSet<PlayerID> owners = new IndexedSet<PlayerID>();
 	private IndexedSet<PlayerID> ownerRequest = new IndexedSet<PlayerID>();
 	private IndexedSet<PlayerID> ownerOffers = new IndexedSet<PlayerID>();
 	
@@ -41,14 +41,11 @@ public abstract class OwnerGov extends InspiredGov {
 	}
 	
 	public void removeOwner(PlayerID player) {
+		Debug.print("!!!!!!!!!!!!!! Inside removeOwner of OwnerGov");
 		this.owners.remove(player);
 	}
 	
 	public boolean isOwner(PlayerID player) {
-		Debug.print("Check: " + player);
-		for(PlayerID p:this.ownerOffers) {
-			Debug.print("In OwnerList: " + p);
-		}
 		return this.owners.contains(player);
 	}
 	
