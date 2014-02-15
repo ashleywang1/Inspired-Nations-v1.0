@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public abstract class ActionMenu extends Menu {
@@ -30,6 +29,10 @@ public abstract class ActionMenu extends Menu {
 			}
 		}
 		else return;
+	}
+	
+	public void syncSelf(ActionMenu menu) {
+		menu.managers = this.getActionManager();
 	}
 	
 	public void register() {

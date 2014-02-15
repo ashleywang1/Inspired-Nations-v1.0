@@ -6,6 +6,7 @@ import java.util.List;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
+import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.LocalParkLand;
 
@@ -62,6 +63,11 @@ public class LocalPark extends Facility {
 	public String getFacilityGroupName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public List<Option> getFunctionOptions() {
+		List<Option> output = new ArrayList<Option>();
+		return output;
 	}
 
 }

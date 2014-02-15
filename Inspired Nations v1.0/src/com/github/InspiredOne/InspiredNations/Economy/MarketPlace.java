@@ -1,36 +1,23 @@
 package com.github.InspiredOne.InspiredNations.Economy;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Sellable;
 
-public abstract class MarketPlace {
+public interface MarketPlace extends Nameable{
 	
-	private List<Sellable> ForSale = new ArrayList<Sellable>();
-	private String marketName; // Used in menus
-	
-	public MarketPlace(String marketName) {
-		this.marketName = marketName;
-	}
-	
-	public String getName() {
-		return this.marketName;
-	}
 	/**
-	 * 
-	 * @param searchPhrase
-	 * @return	a list of all the sellables that have the searchPhrase in the description
+	 * Gets all the sellables in the server. This method is responsible for checking
+	 * every location that a sellable can exist and adding it to the marketplace
+	 * if the sellable is for sale.
+	 * @return
 	 */
-	public List<Sellable> searchDesc(String searchPhrase) {
-		List<Sellable> output = new ArrayList<Sellable>();
-		
-		for(Sellable check:ForSale) {
-//			if(check.getDescription().contains(searchPhrase)) {
-//				output.add(check);
-//			}
-		}
-		return output;
-	}
-	
+	public abstract List<Sellable> getSales();
+
+	/**
+	 * Gets the name of the marketplace to be used in Menus
+	 * @return
+	 */
+	public abstract String getName();
 }

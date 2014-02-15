@@ -12,7 +12,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 public class ClaimChestShopListener extends InspiredListener<ClaimChestShopManager> {
 
 	
-
+	ItemSellable item;
 	
 	public ClaimChestShopListener(ClaimChestShopManager manager) {
 		super(manager);
@@ -30,10 +30,11 @@ public class ClaimChestShopListener extends InspiredListener<ClaimChestShopManag
 				this.getManager().getActionMenu().setError(MenuError.SELECTION_MUST_BE_CHEST());
 			}
 			if(event.isBlockInHand()) {
+				item.transferOwnership(this.getPlayerData().getPlayerID());
 				event.setCancelled(true);
 			}
 			event.getPlayer().getInventory().setItem(1, event.getPlayer().getItemInHand());
-			ItemSellable item = new ItemSellable(event.getPlayer().getItemInHand());
+			item = new ItemSellable(event.getPlayer().getItemInHand());
 			event.getPlayer().getInventory().setItem(0, item.getItem());
 			manager.Update();
 		}

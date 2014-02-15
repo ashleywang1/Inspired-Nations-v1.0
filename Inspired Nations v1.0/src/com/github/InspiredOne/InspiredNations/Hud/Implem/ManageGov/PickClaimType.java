@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -38,7 +39,9 @@ public class PickClaimType extends PassByOptionMenu {
 	@Override
 	public void init() {
 		Region temp;
+		Debug.print(gov.getName());
 		for(Class<? extends Region> regiontype:gov.getRegion().getAllowedForms()) {
+			Debug.print(regiontype.toString());
 			temp = Tools.getInstance(regiontype);
 			this.options.add(new PromptOption(this, temp.getTypeName() + ": " + temp.getDescription(), temp.getClaimMenu(PDI, previous, gov)));
 		}

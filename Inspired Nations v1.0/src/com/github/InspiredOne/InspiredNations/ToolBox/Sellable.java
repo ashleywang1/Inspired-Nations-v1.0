@@ -1,5 +1,9 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
+import java.math.BigDecimal;
+
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
+
 
 public interface Sellable {
 
@@ -12,5 +16,24 @@ public interface Sellable {
 	 * @param player
 	 */
 	public void transferOwnership(PlayerID playerTo);
+	
+	/**
+	 * Returns true if the item is for sale
+	 * @return
+	 */
+	public boolean isForSale();
+	
+	/**
+	 * Returns the Location of the item.
+	 * @return
+	 */
+	public Point3D getLocation();
+	
+	/**
+	 * Gets the asked price for the item.
+	 * @param curren
+	 * @return
+	 */
+	public BigDecimal getPrice(Currency curren);
 	
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
+import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.BankLand;
 
@@ -63,6 +64,11 @@ public class Bank extends Facility {
 	@Override
 	public String getFacilityGroupName() {
 		return "";
+	}
+	@Override
+	public List<Option> getFunctionOptions() {
+		List<Option> output = new ArrayList<Option>();
+		return output;
 	}
 
 }

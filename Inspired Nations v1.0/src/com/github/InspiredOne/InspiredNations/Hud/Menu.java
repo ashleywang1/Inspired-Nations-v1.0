@@ -19,7 +19,7 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 	public PlayerData PDI;
 	public InspiredNations plugin;
 	protected boolean initialized = false;
-	protected Menu self;
+	protected ActionMenu self;
 	
 	public Menu(PlayerData PDI) {
 		this.PDI = PDI;
@@ -49,17 +49,22 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 	 */
 	public abstract ActionMenu getSelf();
 	
+	public void SyncSelf(ActionMenu menu) {
+		this.syncSelf(menu);
+	}
+	
+	public abstract void syncSelf(ActionMenu menu);
+	
 	public final void Initialize() {
-/*		try {
-			self = (Menu) this.clone();
-			Debug.print("self has been set in Menu");
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}*/
+
 		if(!initialized) {
 			this.init();
 			initialized = true;
+			
+			this.self = this.getSelf();
+			this.syncSelf(self);
 		}
+		
 	}
 
 	public final boolean passBy() {
@@ -78,7 +83,7 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 		}
 		else {
 			if(this.getPassTo().initialized) {
-				return this.getPassTo().getSelf();
+				return this.getPassTo().self;
 			}
 			else {
 				return this.getPassTo();
@@ -115,7 +120,7 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 			if(args.length > 1) {
 				PDI.getMsg().sendChatMessage(arg.substring(4));
 			}
-			return this.getSelf();
+			return this.self;
 		}
 		
 		return this.checkNext(arg);
@@ -167,7 +172,7 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 		Menu previous = this.getPreviousMenu();
 		Debug.print("In CheckBack();");
 		if(previous.initialized) {
-			previous = previous.getSelf();
+			previous = previous.self;
 		}
 		if(!previous.passBy()) {
 			Debug.print("In CheckBack() return previous;");
@@ -187,7 +192,7 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 	private final Menu checkNext(String input) {
 		Menu next = this.getNextMenu(input);
 		if(next.initialized) {
-			next = next.getSelf();
+			next = next.self;
 		}
 		while(next.passBy()) {
 			next = (Menu) next.getNextPrompt(PDI.getCon().getContext());

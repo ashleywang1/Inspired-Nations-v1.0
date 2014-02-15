@@ -1,7 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Economy;
 
-import java.io.File;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
+import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.Sellable;
 
 public class ItemSellable implements Sellable, Nameable, Serializable {
@@ -33,26 +34,40 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getItem().getType().name();
 	}
 
 	@Override
 	public void setName(String name) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public String getDisplayName(PlayerData viewer) {
+		return this.getName();
+	}
+
+	@Override
+	public void transferOwnership(PlayerID playerTo) {
+		this.getItem().setAmount(3);
+	}
+
+	@Override
+	public boolean isForSale() {
+		// TODO Auto-generated methoDd stub
+		return false;
+	}
+
+	@Override
+	public Point3D getLocation() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void transferOwnership(PlayerID playerTo) {
+	public BigDecimal getPrice(Currency curren) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 }
