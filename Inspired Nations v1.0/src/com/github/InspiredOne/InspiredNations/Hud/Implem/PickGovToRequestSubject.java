@@ -48,7 +48,7 @@ public class PickGovToRequestSubject extends PickGovGeneral {
 				description = "Joining will remove you from your " + gov.getTypeName();
 			}
 			if(gov.getSubjectOffers().contains(PDI.getPlayerID())) {
-				this.options.add(new JoinSubjectGovOption(this, "Accept Offer From " + this.getData().getName(), (OwnerSubjectGov) this.getData()));
+				this.options.add(new JoinSubjectGovOption(this, "Accept Offer From " + this.getData().getName(), (OwnerSubjectGov) this.getData(), PDI.getPlayerID()));
 			}
 			else {
 				options.add(new RequestSubjectOption(this, "Request " + gov.getSubjectPositionName(), description, gov));

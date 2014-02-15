@@ -42,7 +42,7 @@ public class RequestsForOwner extends TabSelectOptionMenu<PlayerID> {
 
 	@Override
 	public String getHeader() {
-		return gov.getOwnerPositionName() + " Offers";
+		return gov.getOwnerPositionName() + " Requests";
 	}
 
 	@Override

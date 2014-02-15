@@ -5,6 +5,8 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.IgnoreOfferOption;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.JoinSubjectGovOption;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class RequestsForSubject extends TabSelectOptionMenu<PlayerID> {
@@ -32,6 +34,10 @@ public class RequestsForSubject extends TabSelectOptionMenu<PlayerID> {
 	public void Init() {
 		for(PlayerID player:this.gov.getSubjectRequests()) {
 			this.taboptions.add(player);
+		}
+		if(taboptions.size() != 0) {
+			this.options.add(new IgnoreOfferOption(this, "Ignore Request", this.getData(), gov.getSubjectRequests()));
+			this.options.add(new JoinSubjectGovOption(this, "Accept Request", this.gov, this.getData()));
 		}
 		this.options.add(new PromptOption(new RequestsForSubject(PDI, previous, gov), gov.getSubjectPositionName() + " Offers",
 				new OffersForSubject(PDI, previous, gov)));

@@ -48,7 +48,7 @@ public class PickGovToRequestOwner extends PickGovGeneral {
 				description = "Joining will remove you from your " + gov.getTypeName();
 			}
 			if(gov.getOwnerOffers().contains(PDI.getPlayerID())) {
-				this.options.add(new JoinOwnerGovOption(this, "Accept Offer From " + this.getData().getName(), (OwnerGov) this.getData()));
+				this.options.add(new JoinOwnerGovOption(this, "Accept Offer From " + this.getData().getName(), (OwnerGov) this.getData(), PDI.getPlayerID()));
 			}
 			else {
 				options.add(new RequestOwnerOption(this, "Request " + gov.getOwnerPositionName(), description, gov));

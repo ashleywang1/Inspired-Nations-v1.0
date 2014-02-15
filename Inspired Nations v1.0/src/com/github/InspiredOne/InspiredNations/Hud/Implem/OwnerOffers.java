@@ -35,7 +35,7 @@ public class OwnerOffers extends TabSelectOptionMenu<OwnerGov> {
 		}
 		if(this.taboptions.size() != 0) {
 			this.options.add(new IgnoreOfferOption(this, "Ignore Offer From " + this.getData().getName(), PDI.getPlayerID(), this.getData().getOwnerOffers()));
-			this.options.add(new JoinOwnerGovOption(this, "Accept Offer From " + this.getData().getName(), this.getData()));
+			this.options.add(new JoinOwnerGovOption(this, "Accept Offer From " + this.getData().getName(), this.getData(), PDI.getPlayerID()));
 		}
 		this.options.add(new PromptOption(this, "Request Ownership", new OwnerRequests(PDI)));
 	}

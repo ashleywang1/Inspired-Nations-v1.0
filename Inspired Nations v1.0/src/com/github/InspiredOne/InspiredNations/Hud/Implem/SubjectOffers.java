@@ -35,7 +35,7 @@ public class SubjectOffers extends TabSelectOptionMenu<OwnerSubjectGov> {
 		}
 		if(this.taboptions.size() != 0) {
 			this.options.add(new IgnoreOfferOption(this, "Ignore Offer From " + this.getData().getName(), PDI.getPlayerID(), this.getData().getSubjectOffers()));
-			this.options.add(new JoinSubjectGovOption(this, "Accept Offer From " + this.getData().getName(), this.getData()));
+			this.options.add(new JoinSubjectGovOption(this, "Accept Offer From " + this.getData().getName(), this.getData(), PDI.getPlayerID()));
 		}
 		this.options.add(new PromptOption(this, "Requests Citizenship", new SubjectRequests(PDI)));
 	}

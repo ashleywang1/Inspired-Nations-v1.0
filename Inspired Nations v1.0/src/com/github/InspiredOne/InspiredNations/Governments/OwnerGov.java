@@ -41,7 +41,6 @@ public abstract class OwnerGov extends InspiredGov {
 	}
 	
 	public void removeOwner(PlayerID player) {
-		Debug.print("!!!!!!!!!!!!!! Inside removeOwner of OwnerGov");
 		this.owners.remove(player);
 	}
 	
