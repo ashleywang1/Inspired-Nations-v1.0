@@ -48,19 +48,22 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 	 * @return	the <code>Menu</code> of itself
 	 */
 	public abstract ActionMenu getSelf();
-	
-	public void SyncSelf(ActionMenu menu) {
+	/**
+	 * Used to update the menu returned by getSelf() so that
+	 * it has the correct data to be seemless.
+	 * @param menu
+	 */
+	protected final void SyncSelf(ActionMenu menu) {
 		this.syncSelf(menu);
 	}
 	
-	public abstract void syncSelf(ActionMenu menu);
+	protected abstract void syncSelf(ActionMenu menu);
 	
 	public final void Initialize() {
 
 		if(!initialized) {
 			this.init();
 			initialized = true;
-			
 			this.self = this.getSelf();
 			this.syncSelf(self);
 		}

@@ -3,9 +3,8 @@ package com.github.InspiredOne.InspiredNations.Economy;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
-import com.github.InspiredOne.InspiredNations.ToolBox.Sellable;
 
-public interface MarketPlace extends Nameable{
+public interface MarketPlace<E extends Sellable> extends Nameable{
 	
 	/**
 	 * Gets all the sellables in the server. This method is responsible for checking
@@ -13,7 +12,7 @@ public interface MarketPlace extends Nameable{
 	 * if the sellable is for sale.
 	 * @return
 	 */
-	public abstract List<Sellable> getSales();
+	public abstract List<E> getSales();
 
 	/**
 	 * Gets the name of the marketplace to be used in Menus

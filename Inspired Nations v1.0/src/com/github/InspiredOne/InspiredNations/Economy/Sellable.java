@@ -1,11 +1,13 @@
-package com.github.InspiredOne.InspiredNations.ToolBox;
+package com.github.InspiredOne.InspiredNations.Economy;
 
 import java.math.BigDecimal;
 
-import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
+import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
 
-public interface Sellable {
+public interface Sellable extends Nameable {
 
 	/**
 	 * Handles the physical transfer of the item ownership. For items with multiple

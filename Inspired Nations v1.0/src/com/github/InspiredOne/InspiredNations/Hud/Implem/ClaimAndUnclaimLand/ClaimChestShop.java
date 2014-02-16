@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
+import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
+import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
+import com.github.InspiredOne.InspiredNations.Exceptions.RegionOutOfEncapsulationBoundsException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -15,7 +19,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class ClaimChestShop extends InputMenu {
 
-	InspiredGov gov;
+	public InspiredGov gov;
 	Menu previous;
 	private ClaimChestShopManager manager;
 	private MapManager<ClaimChestShop> mapmanager;
@@ -36,6 +40,18 @@ public class ClaimChestShop extends InputMenu {
 	@Override
 	public String validate(String input) {
 		if(input.equalsIgnoreCase("finish")) {
+			try {
+				gov.setLand(manager.region);
+				return MenuError.NO_ERROR();
+			} catch (BalanceOutOfBoundsException e) {
+				return MenuError.NOT_ENOUGH_MONEY();
+			} catch (InspiredGovTooStrongException e) {
+				return MenuError.GOV_TOO_STRONG(e.gov);
+			} catch (RegionOutOfEncapsulationBoundsException e) {
+				return MenuError.CLAIM_OUT_OF_BOUNDS(e.gov);
+			} catch (InsufficientRefundAccountBalanceException e) {
+				e.printStackTrace();
+			}
 			return MenuError.NO_ERROR();
 		}
 		else {
@@ -45,7 +61,7 @@ public class ClaimChestShop extends InputMenu {
 
 	@Override
 	public void useInput(String input) {
-		gov.getRegion().setRegion(manager.region);
+
 	}
 
 	@Override

@@ -23,8 +23,8 @@ public class ShopRegion extends Region {
 	 */
 	private static final long serialVersionUID = -2195353839150455099L;
 
-	Point3D one;
-	Point3D two;
+	public Point3D one;
+	public Point3D two;
 	List<Material> allowed = new ArrayList<Material>();
 	
 	public ShopRegion() {
@@ -40,7 +40,7 @@ public class ShopRegion extends Region {
 		if(allowed.contains(type)) {
 			one = location;
 			for(int x = -1; x <= 2; x = x+2) {
-				Point3D test = new Point3D(location.x, location.y, location.z, location.world);
+				Point3D test = new Point3D(location.x + x, location.y, location.z, location.world);
 				if(test.getLocation().getBlock().getType().equals(type)) {
 					two = test;
 				}

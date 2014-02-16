@@ -19,6 +19,7 @@ public class ClaimChestShopManager extends ActionManager<ClaimChestShop> {
 	
 	public void addBlock(Block block) throws BlockNotChestException {
 		region.addChest(block);
+		this.getActionMenu().gov.getRegion().setRegion(region);
 	}
 
 }

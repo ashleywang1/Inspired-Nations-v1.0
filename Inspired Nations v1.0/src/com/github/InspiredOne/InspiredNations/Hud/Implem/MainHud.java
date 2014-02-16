@@ -49,6 +49,9 @@ public class MainHud extends OptionMenu {
 	@Override
 	public void init() {
 		this.options.add(new PromptOption(this, "Map", new Map(PDI)));
+		if(!InspiredNations.Markets.isEmpty()) {
+			this.options.add(new PromptOption(this, "Market", new PickMarketplace(PDI)));
+		}
 		this.options.add(new PromptOption(this, "Player Directory", new PlayerDirectory(PDI)));
 		this.options.add(new PromptOption(this, "Citizenship", new PlayerCitizenship(PDI)));
 		this.options.add(new PromptOption(this, "Manage Money", new ManageMoney(PDI)));

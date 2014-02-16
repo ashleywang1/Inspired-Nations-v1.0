@@ -68,7 +68,7 @@ public class Tools {
 		SUBHEADER(ChatColor.YELLOW + "" + ChatColor.ITALIC + "" + ChatColor.BOLD),
 		LABEL(ChatColor.GRAY + ""),
 		VALUE(ChatColor.GOLD + ""),
-		VALUEDESCRI(ChatColor.YELLOW + ""),
+		VALUEDESCRI(ChatColor.RED + ""),
 		DIVIDER(ChatColor.DARK_AQUA + ""),
 		
 		OPTION(ChatColor.GREEN + ""),

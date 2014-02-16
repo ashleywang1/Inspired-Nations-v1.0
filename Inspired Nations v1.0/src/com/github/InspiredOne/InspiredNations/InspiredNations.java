@@ -27,6 +27,7 @@ import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.MarketPlace;
 import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
 import com.github.InspiredOne.InspiredNations.Economy.TaxTimer;
+import com.github.InspiredOne.InspiredNations.Economy.Implem.ItemMarketplace;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
@@ -42,7 +43,7 @@ public class InspiredNations extends JavaPlugin {
 	public static MultiGovMap regiondata = new MultiGovMap(); 
 	public static IndexedMap<PlayerID, PlayerData> playerdata = new IndexedMap<PlayerID, PlayerData>();
 	public static MoneyExchange Exchange = new MoneyExchange();
-	public static List<MarketPlace> Markets = new ArrayList<MarketPlace>(); 
+	public static List<MarketPlace<?>> Markets = new ArrayList<MarketPlace<?>>(); 
 	public static GlobalGov global;
 	public static TaxTimer taxTimer;
 	public TempCommandListener CM = new TempCommandListener(this);
@@ -55,7 +56,9 @@ public class InspiredNations extends JavaPlugin {
 		taxTimer = new TaxTimer();
 		PluginManager pm = this.getServer().getPluginManager();
 		SS.Start();
-		Debug.print("Revision 3");
+		if(InspiredNations.Markets.isEmpty()) {
+			InspiredNations.Markets.add(new ItemMarketplace());
+		}
 		taxTimer.setCycleLength(InspiredNations.plugin.getConfig().getInt("tax_cycle_length"));
 		InspiredNations.Exchange.registerCurrency(Currency.DEFAULT, new BigDecimal(500));
 		pm.registerEvents(PL, this);

@@ -4,8 +4,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.github.InspiredOne.InspiredNations.Economy.ItemSellable;
+import com.github.InspiredOne.InspiredNations.Economy.Implem.ItemSellable;
 import com.github.InspiredOne.InspiredNations.Exceptions.BlockNotChestException;
+import com.github.InspiredOne.InspiredNations.Governments.Implem.ChestShop;
 import com.github.InspiredOne.InspiredNations.Listeners.InspiredListener;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
@@ -29,12 +30,16 @@ public class ClaimChestShopListener extends InspiredListener<ClaimChestShopManag
 			} catch (BlockNotChestException e) {
 				this.getManager().getActionMenu().setError(MenuError.SELECTION_MUST_BE_CHEST());
 			}
+			
+			event.setCancelled(true);
 			if(event.isBlockInHand()) {
-				item.transferOwnership(this.getPlayerData().getPlayerID());
-				event.setCancelled(true);
+				
 			}
-			event.getPlayer().getInventory().setItem(1, event.getPlayer().getItemInHand());
-			item = new ItemSellable(event.getPlayer().getItemInHand());
+			
+			
+			//event.getPlayer().getInventory().setItem(1, event.getPlayer().getItemInHand());
+			item = new ItemSellable(event.getPlayer().getItemInHand(), (ChestShop) this.manager.getActionMenu().gov);
+			item.isForSale();
 			event.getPlayer().getInventory().setItem(0, item.getItem());
 			manager.Update();
 		}

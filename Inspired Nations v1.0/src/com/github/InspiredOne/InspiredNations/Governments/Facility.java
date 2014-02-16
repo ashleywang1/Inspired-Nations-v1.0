@@ -5,10 +5,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
+import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 /**
  * Facilities cannot have subgovs
@@ -51,7 +53,7 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 	 * Gets all the options that this facility needs to be functional as a facility.
 	 * @return
 	 */
-	public abstract List<Option> getFunctionOptions();
+	public abstract void setFunctionOptions(PlayerData PDI, OptionMenu menu);
 	/**
 	 * Is there only allowed to be one of these? 
 	 * @return

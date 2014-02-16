@@ -109,6 +109,8 @@ public class ClaimChunkoid extends InputMenu {
 		
 		String output = this.mapmanager.drawMap(gov,4);
 		output = MenuTools.addDivider(output);
+		output = output.concat(TextColor.INSTRUCTION + "Type '" + TextColor.VALUE + "begin" + TextColor.INSTRUCTION
+				+ "' and walk around to claim. Type '" + TextColor.VALUE + "stop" + TextColor.INSTRUCTION + "' to stop.\n");
 		output = MenuTools.oneLineWallet(output, PDI, gov.getAccounts());
 		output = output.concat(TextColor.VALUEDESCRI + "Total Chunks: " + TextColor.VALUE + region.getRegions().size()
 				+ TextColor.UNIT + " Chunks\n");

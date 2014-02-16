@@ -3,10 +3,12 @@ package com.github.InspiredOne.InspiredNations.Governments.Implem;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
+import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.BankLand;
 
@@ -66,9 +68,8 @@ public class Bank extends Facility {
 		return "";
 	}
 	@Override
-	public List<Option> getFunctionOptions() {
+	public void setFunctionOptions(PlayerData PDI, OptionMenu menu) {
 		List<Option> output = new ArrayList<Option>();
-		return output;
 	}
 
 }
