@@ -1,5 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Regions.Implem;
 
+import java.util.HashSet;
+
 import org.bukkit.Chunk;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
@@ -53,6 +55,13 @@ public class Chunkoid extends CummulativeRegion<ChunkRegion> {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Chunkoid clone() {
+		Chunkoid output = new Chunkoid();
+		output.setRegions((HashSet<ChunkRegion>) this.getRegions().clone());
+		return output;
+	}
 	public void addChunk(Chunk chunk) {
 		Point2D position = new Point2D(chunk);
 		addChunk(position);

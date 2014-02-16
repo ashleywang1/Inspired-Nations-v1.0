@@ -9,6 +9,7 @@ import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Money.ManageAccounts;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Money.PayNav;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 public class ManageGovMoney extends OptionMenu {
 
@@ -27,7 +28,7 @@ public class ManageGovMoney extends OptionMenu {
 			InspiredGov govtemp = GovFactory.getGovInstance(govtype);
 			output = output.concat(govtemp.getTypeName() + " Tax: " + gov.getTaxrates().get(govtype) + "\n");
 		}
-		output = output.concat(gov.getAccounts().getTotalMoney(PDI.getCurrency()).toString() + " " + PDI.getCurrency());
+		output = output.concat(Tools.cut(gov.getAccounts().getTotalMoney(PDI.getCurrency())).toString() + " " + PDI.getCurrency());
 		return output;
 		
 	}

@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeProtectionLevelException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
@@ -32,6 +33,7 @@ public class SetProtectionLevelOption extends Option {
 	@Override
 	public Menu response(String input) {
 		try {
+			Debug.print("protection input" + input);
 			gov.setProtectionlevel(Integer.parseInt(input));
 		} catch (NumberFormatException e) {
 			menu.setError(MenuError.INVALID_NUMBER_INPUT());

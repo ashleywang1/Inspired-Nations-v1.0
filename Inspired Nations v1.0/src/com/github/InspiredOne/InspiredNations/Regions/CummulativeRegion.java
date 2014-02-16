@@ -91,6 +91,10 @@ public abstract class CummulativeRegion<T extends NonCummulativeRegion> extends 
 	public HashSet<T> getRegions() {
 		return regions;
 	}
+	
+	public void setRegions(HashSet<T> regions) {
+		this.regions = regions;
+	}
 
 	@Override
 	public int volume() {

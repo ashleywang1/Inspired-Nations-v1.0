@@ -1,11 +1,13 @@
 package com.github.InspiredOne.InspiredNations.Listeners.Implem;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
 import com.github.InspiredOne.InspiredNations.Exceptions.RegionOutOfEncapsulationBoundsException;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand.ClaimChunkoid;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.ChunkRegion;
+import com.github.InspiredOne.InspiredNations.Regions.Implem.Chunkoid;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 
@@ -26,17 +28,25 @@ public class ClaimChunkoidManager<T extends ClaimChunkoid> extends ChunkoidManag
 	}
 	
 	public void setClaiming(boolean claiming) {
+		Debug.print("inside setClaiming: " + claiming);
 		this.claiming = claiming;
 		setPosition(position);
 	}
 	
 	public void setPosition(Point2D position) {
 		this.position = position;
+		Debug.print(claiming + "= claiming 1");
 		if(claiming) {
+			Debug.print(claiming + "= claiming 2");
 			this.getActionMenu().setError(MenuError.NO_ERROR());
 			try {
+				Chunkoid chunks = new Chunkoid();
+				if(this.getActionMenu().gov.getRegion().getRegion() instanceof Chunkoid) {
+					chunks = ((Chunkoid)this.getActionMenu().gov.getRegion().getRegion()).clone();
+				}
 				region = new ChunkRegion(position);
-				this.getActionMenu().gov.setLand(region);
+				chunks.addChunk(region);
+				this.getActionMenu().gov.setLand(chunks);
 			} catch (BalanceOutOfBoundsException e) {
 				this.getActionMenu().setError(MenuError.NOT_ENOUGH_MONEY());
 			} catch (InspiredGovTooStrongException e) {

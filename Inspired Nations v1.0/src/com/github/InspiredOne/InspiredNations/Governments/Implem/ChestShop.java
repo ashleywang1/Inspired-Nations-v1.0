@@ -116,7 +116,9 @@ public class ChestShop extends Facility {
 
 	@Override
 	public void setFunctionOptions(PlayerData PDI, OptionMenu menu) {
-		menu.getOptions().add(new PromptOption(menu, "Manage Shop Inventory",new ManageItemsForSale(PDI, menu, this)));
+		if(this.getRegion().getRegion() instanceof ShopRegion) {
+			menu.getOptions().add(new PromptOption(menu, "Manage Shop Inventory",new ManageItemsForSale(PDI, menu, this)));
+		}
 	}
 
 	public List<ItemSellable> getItems() {

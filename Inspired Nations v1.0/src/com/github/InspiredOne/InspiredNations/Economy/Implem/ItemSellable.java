@@ -41,7 +41,9 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 
 	@Override
 	public String getName() {
-		return this.getItem().getType().name();
+		String name = this.getItem().getType().name().toLowerCase();
+		name = name.concat(" (" + this.getItem().getDurability() + ")");
+		return name;
 	}
 
 	@Override
@@ -111,7 +113,6 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 
 	@Override
 	public BigDecimal getPrice(Currency curren) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

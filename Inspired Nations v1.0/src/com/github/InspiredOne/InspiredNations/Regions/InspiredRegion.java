@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.ChunkRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.Chunkoid;
@@ -15,7 +16,7 @@ import com.github.InspiredOne.InspiredNations.Regions.Implem.Chunkoid;
  * @author Jedidiah Phillips
  *
  */
-public abstract class InspiredRegion implements Serializable {
+public abstract class InspiredRegion implements Serializable, Cloneable {
 
 	/**
 	 * 

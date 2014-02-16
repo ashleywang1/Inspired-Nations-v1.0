@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.OfflinePlayer;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
@@ -20,6 +21,7 @@ public class GlobalGov extends OwnerSubjectGov {
 	private static final String typeName = "Global Government"; 
 
 	public GlobalGov() {
+		this.setAccounts(new AccountCollection(""));
 	}
 	
 	@Override

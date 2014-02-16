@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -470,7 +471,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		}
 		else {
 			BigDecimal refund = this.taxValue(this.getRegion().getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, Currency.DEFAULT);
-			BigDecimal newcost = this.taxValue(this.getRegion().getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, Currency.DEFAULT);
+			BigDecimal newcost = this.taxValue(this.getRegion().getRegion(),InspiredNations.taxTimer.getFractionLeft(), protectionlevel, Currency.DEFAULT);
 			BigDecimal cost = refund.subtract(newcost);
 			if(cost.compareTo(BigDecimal.ZERO) < 0) {
 				try {
@@ -513,6 +514,22 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	public InspiredGov getData() {
 		return this;
 	}
+	public BigDecimal getExpectedRevenue(Currency curren) {
+		BigDecimal output = BigDecimal.ZERO;
+		for(Class<? extends OwnerGov> subgovtype:this.getSubGovs()) {
+			output = output.add(this.getExpectedRevenueFrom(subgovtype, curren));
+		}
+		return output;
+	}
+	public BigDecimal getExpectedRevenueFrom(Class<? extends InspiredGov> gov, Currency curren) {
+		BigDecimal output = BigDecimal.ZERO;
+		for(InspiredGov subgov:InspiredNations.regiondata.get(gov)) {
+			if(subgov.getSuperGovObj() == this) {
+				output = output.add(subgov.currentTaxCycleValue(curren));
+			}
+		}
+		return output;
+	}
 	/**
 	 * Returns the amount of money that the the parameters would
 	 * cost.
@@ -546,10 +563,9 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		BigDecimal output = BigDecimal.ZERO;
 		// Basically... multiply them all together and it gets you the value in Defualt currency
 		//TODO come up with some kind of war money function
-		output = (new BigDecimal(region.volume()).multiply(new BigDecimal(taxfrac))).multiply(new BigDecimal(taxrate));
+		output = (new BigDecimal(region.volume()/10000).multiply(new BigDecimal(taxfrac))).multiply(new BigDecimal(taxrate));
 		output = output.multiply(new BigDecimal(protect)).add(additionalcost);
 		output = InspiredNations.Exchange.getExchangeValue(output, Currency.DEFAULT, curren);
-		
 		return output;
 	}
 	 
@@ -573,7 +589,9 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		Currency curren = Currency.DEFAULT;
 		BigDecimal holdings = this.accounts.getTotalMoney(curren);
 		BigDecimal reimburse = this.taxValue(this.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
+		Debug.print(Tools.cut(reimburse) + " reimbursment");
 		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
+		Debug.print(Tools.cut(cost) + " cost");
 		BigDecimal difference = cost.subtract(reimburse);// positive if owe country money, negative if country owe money
 		// Can they afford it?
 		if(holdings.compareTo(difference) < 0) {
@@ -606,9 +624,11 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			}
 		}
 		
+		
 		if(difference.compareTo(BigDecimal.ZERO) < 0) {
 			try{
-				this.pullFromSuper(reimburse.negate(), curren);
+				Debug.print(Tools.cut(difference).toString());
+				this.pullFromSuper(difference.negate(), curren);
 			}
 			catch (BalanceOutOfBoundsException ex) {
 				try {
@@ -616,7 +636,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				} catch (NegativeMoneyTransferException e) {
 					e.printStackTrace();
 				}
-				throw new InsufficientRefundAccountBalanceException();
+				//throw new InsufficientRefundAccountBalanceException(); This was preventing land from being claimed
 			} 
 			catch (NegativeMoneyTransferException e) {
 				e.printStackTrace();
@@ -624,13 +644,14 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		}
 		else {
 			try {
+				Debug.print(cost + " second statement of cost");
 				this.paySuper(cost, curren);
 			} catch (NegativeMoneyTransferException e) {
 				e.printStackTrace();
 			}
 		}
 		this.getRegion().addLand(region);
-
+		Debug.print(10);
 	}
 	/**
 	 * Assumes that this region intersects the region <code>select</code>. 
@@ -638,48 +659,75 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public void removeLand(Region select, boolean check) {
 		Region regionfrom = this.getRegion().getRegion();
-		
+		Debug.print("Inside RemoveLand!); 1");
 		Currency curren = Currency.DEFAULT;
 		BigDecimal reimburse = this.taxValue(this.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
-				
+		Debug.print("Inside RemoveLand!); 2");
 		
 		ArrayList<NonCummulativeRegion> removed = new ArrayList<NonCummulativeRegion>();
+		Debug.print("Inside RemoveLand!); 3");
 		if(regionfrom instanceof CummulativeRegion<?>) {
+			Debug.print("Inside RemoveLand!); 4");
 			for(NonCummulativeRegion region:((CummulativeRegion<?>) regionfrom).getRegions()) {
+				Debug.print("Inside RemoveLand!); 5");
 				if(region.Intersects(select)) {
+					Debug.print("Inside RemoveLand!); 6");
 					removed.add(region);
+					Debug.print("Inside RemoveLand!); 7");
 				}
 			}
+			Debug.print("Inside RemoveLand!); 8");
 			((CummulativeRegion<?>) regionfrom).getRegions().removeAll(removed);
+			Debug.print("Inside RemoveLand!); 9");
 		}
 		else {
+			Debug.print("Inside RemoveLand!); 10");
 			if(check) {
+				Debug.print("Inside RemoveLand!); 11");
 				if(regionfrom.Intersects(select)) {
+					Debug.print("Inside RemoveLand!); 12");
 					removed.add((NonCummulativeRegion) regionfrom);
+					Debug.print("Inside RemoveLand!); 13");
 					this.getRegion().setRegion(new nullRegion());
+					Debug.print("Inside RemoveLand!); 14");
 				}
 			}
 			else {
+				Debug.print("Inside RemoveLand!); 15");
 				removed.add((NonCummulativeRegion) regionfrom);
+				Debug.print("Inside RemoveLand!); 16");
 				this.getRegion().setRegion(new nullRegion());
+				Debug.print("Inside RemoveLand!); 17");
 			}
 		}
+		Debug.print("Inside RemoveLand!); 18");
 		//iterate through all the sub regions of this land
 		for(InspiredGov govtest:this.getAllSubGovsAndFacilitiesJustBelow()) {
+			Debug.print("Inside RemoveLand!); 19");
 			if(govtest.getRegion().getRegion().Intersects(select)) {
+				Debug.print("Inside RemoveLand!); 20");
 				govtest.removeLand(select, false);
+				Debug.print("Inside RemoveLand!); 21");
 			}
 			else if(govtest.getRegion().getEncapsulatingRegions().contains(this.getRegion().getClass())) {
+				Debug.print("Inside RemoveLand!); 22");
 				for(NonCummulativeRegion region:removed) {
+					Debug.print("Inside RemoveLand!); 23");
 					if(govtest.getRegion().getRegion().Intersects(region)) {
+						Debug.print("Inside RemoveLand!); 24");
 						govtest.removeLand(region, false);
+						Debug.print("Inside RemoveLand!); 25");
 					}
 				}
 			}
 		}
+		Debug.print("Inside RemoveLand!); 26");
 		BigDecimal cost = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
+		Debug.print("Inside RemoveLand!); 27");
 		BigDecimal difference = cost.subtract(reimburse);// positive if own country money, negative if country ows money
+		Debug.print("Inside RemoveLand!); 28");
 		if(difference.compareTo(BigDecimal.ZERO) > 0) { 	// If for some reason you ow the country money for this
+			Debug.print("Inside RemoveLand!); 29");
 			try {
 				this.paySuper(difference, curren);			// Pay what you ow
 			} catch (BalanceOutOfBoundsException e) {		//	If you don't have enough
@@ -707,6 +755,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				e.printStackTrace();
 			}
 		}
+		Debug.print("Inside RemoveLand!); 50");
 	}
 
 	@Override
