@@ -3,11 +3,15 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 import java.math.BigDecimal;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
+import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class ManageMoney extends OptionMenu {
 	//private MathContext mcup = new MathContext(5, RoundingMode.UP);//this is temporary
@@ -22,7 +26,21 @@ public class ManageMoney extends OptionMenu {
 		//TODO get rid of this line eventually
 		total = Tools.cut(PDI.getAccounts().getTotalMoney(PDI.getCurrency()));
 		
-		return total + " " + PDI.getCurrency().getName(); 
+		String output = TextColor.VALUEDESCRI + "Total Holdings: " + TextColor.VALUE + total.toString() +
+				TextColor.UNIT + " " + PDI.getCurrency() + "\n";
+
+		IndexedMap<Class<? extends InspiredGov>, BigDecimal> taxmap = PDI.getAccounts().getTaxes(PDI.getCurrency());
+		if(!taxmap.isEmpty()) {
+			output = output.concat(TextColor.SUBHEADER + "Taxes\n");
+		}
+		for(Class<? extends InspiredGov> govtype:taxmap) {
+			InspiredGov gov = GovFactory.getGovInstance(govtype);
+			output = output.concat(TextColor.VALUEDESCRI + gov.getTypeName() + ": " + TextColor.VALUE +
+					Tools.cut(taxmap.get(govtype))) + TextColor.UNIT + " " + PDI.getCurrency();
+		}
+		
+		
+		return output; 
 	}
 
 	@Override

@@ -48,10 +48,13 @@ public class StartStop {
 	        FileInputStream regionIn = new FileInputStream(regionfile);
 	        ObjectInputStream rin = new ObjectInputStream(regionIn);
 	        InspiredNations.regiondata = (MultiGovMap) rin.readObject();
+	        InspiredNations.playerdata = (IndexedMap<PlayerID, PlayerData>) rin.readObject();
+	        InspiredNations.Exchange = (MoneyExchange) rin.readObject();
+	        InspiredNations.taxTimer = (TaxTimer) rin.readObject();
 	        rin.close();
 	        regionIn.close();
 	        
-	        File playerfile = new File(plugin.getDataFolder(), "playerdata.yml");
+/*	        File playerfile = new File(plugin.getDataFolder(), "playerdata.yml");
 	        FileInputStream playerIn = new FileInputStream(playerfile);
 	        ObjectInputStream pin = new ObjectInputStream(playerIn);
 	        InspiredNations.playerdata = (IndexedMap<PlayerID, PlayerData>) pin.readObject();
@@ -70,7 +73,7 @@ public class StartStop {
 	        ObjectInputStream tin = new ObjectInputStream(taxIn);
 	        InspiredNations.taxTimer = (TaxTimer) tin.readObject();
 	        tin.close();
-	        taxIn.close();
+	        taxIn.close();*/
 		}
 		catch(Exception ex) {
 			
@@ -113,9 +116,12 @@ public class StartStop {
 		        FileOutputStream regionOut = new FileOutputStream(regionfile);
 		        ObjectOutputStream rout = new ObjectOutputStream(regionOut);
 		        rout.writeObject(InspiredNations.regiondata);
+		        rout.writeObject(InspiredNations.playerdata);
+		        rout.writeObject(InspiredNations.Exchange);
+		        rout.writeObject(InspiredNations.taxTimer);
 		        rout.close();
 		        regionOut.close();
-		        
+/*		        
 		        File playerfile = new File(plugin.getDataFolder(), "playerdata.yml");
 		        FileOutputStream playerOut = new FileOutputStream(playerfile);
 		        ObjectOutputStream pout = new ObjectOutputStream(playerOut);
@@ -135,7 +141,7 @@ public class StartStop {
 		        ObjectOutputStream tout = new ObjectOutputStream(taxOut);
 		        tout.writeObject(InspiredNations.taxTimer);
 		        tout.close();
-		        taxOut.close();
+		        taxOut.close();*/
 			}
 			catch(Exception ex) {
 				ex.printStackTrace();

@@ -8,6 +8,7 @@ import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsExcep
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
+import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
@@ -104,4 +105,18 @@ public class AccountCollection extends IndexedSet<Account> implements Payable, N
 		}
 	}
 	
+	public IndexedMap<Class<? extends InspiredGov>, BigDecimal> getTaxes(Currency curren) {
+		IndexedMap<Class<? extends InspiredGov>, BigDecimal> output = new IndexedMap<Class<? extends InspiredGov>, BigDecimal>();
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			if(gov.getAccounts() == (this)) {
+				if(output.containsKey(gov.getClass())) {
+					output.put(gov.getClass(), output.get(gov.getClass()).add(gov.currentTaxCycleValue(curren)));
+				}
+				else {
+					output.put(gov.getClass(), gov.currentTaxCycleValue(curren));
+				}
+			}
+		}
+		return output;
+	}
 }

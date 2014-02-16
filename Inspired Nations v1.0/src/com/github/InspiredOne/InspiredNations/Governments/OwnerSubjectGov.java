@@ -74,7 +74,7 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 		}
 		else {
 			BigDecimal refund = this.taxValue(this.getRegion().getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, Currency.DEFAULT);
-			BigDecimal newcost = this.taxValue(this.getRegion().getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, this.getAdditionalCost(militarylevel), Currency.DEFAULT);
+			BigDecimal newcost = this.taxValue(this.getRegion().getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, this.getAdditionalCost(militarylevel), this.taxedrate, Currency.DEFAULT);
 			BigDecimal cost = refund.subtract(newcost);
 			if(cost.compareTo(BigDecimal.ZERO) < 0) {
 				try {
