@@ -40,7 +40,9 @@ public class RemoveAccountOption extends Option {
 		try {
 			account.transferMoney(account.getTotalMoney(Currency.DEFAULT), Currency.DEFAULT, superAcc);
 		} catch (BalanceOutOfBoundsException e) {
+			e.printStackTrace();
 		} catch (NegativeMoneyTransferException e) {
+			e.printStackTrace();
 		}
 		return menu;
 	}

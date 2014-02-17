@@ -5,6 +5,7 @@ import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.CurrencyAccount;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
@@ -28,8 +29,7 @@ public class PickCurrencyCollection extends TabSelectOptionMenu<CurrencyAccount>
 
 	@Override
 	public String postTabListPreOptionsText() {
-		return TextColor.LABEL + "Money: " + TextColor.VALUE + 
-				Tools.cut(accountFrom.getTotalMoney(PDI.getCurrency())) + " " + PDI.getCurrency();
+		return MenuTools.oneLineWallet("", PDI, accountFrom);
 	}
 
 	@Override
@@ -37,7 +37,9 @@ public class PickCurrencyCollection extends TabSelectOptionMenu<CurrencyAccount>
 		for(CurrencyAccount curren:account.getMoney()) {
 			this.taboptions.add(curren);
 		}
-		this.options.add(new PayAccountOption(PDI, new PickCurrencyCollection(PDI, previous, account, accountFrom), "Transfer Funds <amount>", accountFrom, this.getData()));
+		if(taboptions.size() > 0) {
+			this.options.add(new PayAccountOption(PDI, new PickCurrencyCollection(PDI, previous, account, accountFrom), "Transfer Funds <amount>", accountFrom, this.getData()));
+		}
 	}
 
 	@Override

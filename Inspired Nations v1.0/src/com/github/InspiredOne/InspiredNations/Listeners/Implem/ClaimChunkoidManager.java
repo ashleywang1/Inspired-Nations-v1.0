@@ -1,6 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Listeners.Implem;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
@@ -28,16 +27,13 @@ public class ClaimChunkoidManager<T extends ClaimChunkoid> extends ChunkoidManag
 	}
 	
 	public void setClaiming(boolean claiming) {
-		Debug.print("inside setClaiming: " + claiming);
 		this.claiming = claiming;
 		setPosition(position);
 	}
 	
 	public void setPosition(Point2D position) {
 		this.position = position;
-		Debug.print(claiming + "= claiming 1");
 		if(claiming) {
-			Debug.print(claiming + "= claiming 2");
 			this.getActionMenu().setError(MenuError.NO_ERROR());
 			try {
 				Chunkoid chunks = new Chunkoid();
@@ -47,6 +43,7 @@ public class ClaimChunkoidManager<T extends ClaimChunkoid> extends ChunkoidManag
 				region = new ChunkRegion(position);
 				chunks.addChunk(region);
 				this.getActionMenu().gov.setLand(chunks);
+				this.getActionMenu().region = (Chunkoid) this.getActionMenu().gov.getRegion().getRegion();
 			} catch (BalanceOutOfBoundsException e) {
 				this.getActionMenu().setError(MenuError.NOT_ENOUGH_MONEY());
 			} catch (InspiredGovTooStrongException e) {

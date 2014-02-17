@@ -15,6 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -87,6 +88,7 @@ public class InspiredNations extends JavaPlugin {
 	}
 	
 	public void onDisable() {
+		Debug.print(HandlerList.getRegisteredListeners(InspiredNations.plugin).size() + "= handlerlist size");
 		SS.Stop();
 	}
 	

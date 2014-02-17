@@ -129,7 +129,8 @@ public class ClaimChunkoid extends InputMenu {
 
 	@Override
 	public InputMenu getSelf() {
-		return new ClaimChunkoid(PDI, previous, gov);
+		return this;
+		//return new ClaimChunkoid(PDI, previous, gov);
 	}
 
 }

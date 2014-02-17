@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.InspiredOne.InspiredNations.Debug;
@@ -42,7 +43,12 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 	@Override
 	public String getName() {
 		String name = this.getItem().getType().name().toLowerCase();
-		name = name.concat(" (" + this.getItem().getDurability() + ")");
+		name = name.concat(" (" + this.getItem().getData().getItemType().name() + ")");
+		if(this.getItem().getItemMeta().hasEnchants()) {
+			for(Enchantment ench:this.getItem().getItemMeta().getEnchants().keySet()) {
+				name = name.concat("*" + ench.getName() + " " + this.getItem().getItemMeta().getEnchantLevel(ench) + "*");
+			}
+		}
 		return name;
 	}
 

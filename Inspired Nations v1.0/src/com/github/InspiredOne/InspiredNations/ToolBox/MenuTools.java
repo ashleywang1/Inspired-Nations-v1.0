@@ -106,8 +106,8 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					BigDecimal converted = Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, receiver.getCurrency()));
-					return makeMessage(sender.getDisplayName(receiver) + makeMessage(" sent you " + converted + " "
-							+ receiver.getCurrency() + "."));
+					return makeMessage(sender.getDisplayName(receiver) + makeMessage(" sent you " +TextColor.VALUE+ converted + " "
+							+ TextColor.UNIT + receiver.getCurrency() + "."));
 				}
 				
 			};
