@@ -23,6 +23,7 @@ import com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.ManageItemsFo
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.ShopLand;
 import com.github.InspiredOne.InspiredNations.Regions.Implem.ShopRegion;
+import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
 public class ChestShop extends Facility {
@@ -32,7 +33,7 @@ public class ChestShop extends Facility {
 	 */
 	private static final long serialVersionUID = -2528500041859238661L;
 	
-	private List<ItemSellable> items = new ArrayList<ItemSellable>();
+	private IndexedSet<ItemSellable> items = new IndexedSet<ItemSellable>();
 
 	public ChestShop() {
 	}
@@ -121,11 +122,11 @@ public class ChestShop extends Facility {
 		}
 	}
 
-	public List<ItemSellable> getItems() {
+	public IndexedSet<ItemSellable> getItems() {
 		return items;
 	}
 
-	public void setItems(List<ItemSellable> items) {
+	public void setItems(IndexedSet<ItemSellable> items) {
 		this.items = items;
 	}
 }

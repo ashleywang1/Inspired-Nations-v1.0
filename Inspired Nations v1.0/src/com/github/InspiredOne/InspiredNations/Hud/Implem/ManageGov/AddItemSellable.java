@@ -37,13 +37,16 @@ public class AddItemSellable extends TabSelectOptionMenu<ItemSellable> {
 				if(stack != null ) {
 					stack = stack.clone();
 					stack.setAmount(1);
-					if(!this.taboptions.contains(new ItemSellable(stack, shop))) {
+					if(!this.taboptions.contains(new ItemSellable(stack, shop)) && !(new ItemSellable(stack, shop)).isForSale()) {
 						this.taboptions.add(new ItemSellable(stack, shop));
 					}
 				}
 			}
 		} catch (NoShopRegionException e) {
 			e.printStackTrace();
+		}
+		if(this.taboptions.size() > 0) {
+			this.options.add(new PickPriceOption(this, "Sell for <price in " + PDI.getCurrency() + ">", this.getData(), shop));
 		}
 	}
 

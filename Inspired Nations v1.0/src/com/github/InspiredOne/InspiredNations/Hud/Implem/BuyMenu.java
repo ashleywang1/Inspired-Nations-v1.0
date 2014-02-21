@@ -27,8 +27,12 @@ public class BuyMenu extends TabSelectOptionMenu<Sellable> {
 
 	@Override
 	public void Init() {
-		// TODO Auto-generated method stub
-		
+		for(Sellable item:market.getSales()) {
+			this.taboptions.add(item);
+		}
+		if(this.taboptions.size() > 0) {
+			this.options.add(new MakePurchaseOption(this, "Buy", this.getData()));
+		}
 	}
 
 	@Override

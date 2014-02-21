@@ -23,7 +23,7 @@ public class ClaimChestShop extends InputMenu {
 	Menu previous;
 	private ClaimChestShopManager manager;
 	private MapManager<ClaimChestShop> mapmanager;
-	
+
 	public ClaimChestShop(PlayerData PDI, Menu previous, InspiredGov gov) {
 		super(PDI);
 		this.gov = gov;
@@ -74,8 +74,19 @@ public class ClaimChestShop extends InputMenu {
 	public String getInstructions() {
 		String output = mapmanager.drawMap(gov, 4);
 		output = MenuTools.addDivider(output);
-		output = output.concat(TextColor.INSTRUCTION + "Left click on the chest that you would like to claim.\n");
-		output = output.concat(manager.region.volume() + " blocks\n");
+		output = output.concat(TextColor.INSTRUCTION + "Left click on the chest that you would like to claim. Type '"
+				+ TextColor.VALUE + "finish" + TextColor.INSTRUCTION +".\n");
+		output = output.concat(TextColor.LABEL + "Selected: " + TextColor.VALUE);
+		if(manager.region.volume() == 0) {
+			output = output.concat("No Chest Selected");
+		}
+		else if(manager.region.volume() == 1) {
+			output = output.concat("Single Chest Selected");
+		}
+		else {
+			output = output.concat("Double Chest Selected");
+		}
+		output = output.concat("\n");
 		return output;
 	}
 

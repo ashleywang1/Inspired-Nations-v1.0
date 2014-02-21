@@ -56,16 +56,17 @@ public class CurrencyAccount implements Payable, Nameable, Serializable {
 	public void transferMoney(BigDecimal amountTake, Currency monType,
 			Payable target) throws BalanceOutOfBoundsException,
 			NegativeMoneyTransferException {
-		BigDecimal amountTemp = InspiredNations.Exchange.getTransferValue(amountTake, monType, curren);
-		if(amountTemp.compareTo(BigDecimal.ZERO) < 0 ) {
+		BigDecimal amountTempup = InspiredNations.Exchange.getTransferValue(amountTake, monType, curren, InspiredNations.Exchange.mcup);
+		BigDecimal amountTempdown = InspiredNations.Exchange.getTransferValue(amountTake, monType, curren, InspiredNations.Exchange.mcdown);
+		if(amountTempdown.compareTo(BigDecimal.ZERO) < 0 ) {
 			throw new NegativeMoneyTransferException();
 		}
-		else if(amount.compareTo(amountTemp) < 0) {
+		else if(amount.compareTo(amountTempdown) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}
 		else {
-			this.amount = amount.subtract(amountTemp);
-			target.addMoney(amountTemp, curren);
+			this.amount = amount.subtract(amountTempdown);
+			target.addMoney(amountTempup, curren);
 		}
 	}
 
@@ -82,7 +83,7 @@ public class CurrencyAccount implements Payable, Nameable, Serializable {
 
 	@Override
 	public BigDecimal getTotalMoney(Currency valueType) {
-		return InspiredNations.Exchange.getExchangeValue(amount, curren, valueType);
+		return InspiredNations.Exchange.getExchangeValue(amount, curren, valueType, InspiredNations.Exchange.mcup);
 	}
 	@Override
 	public void sendNotification(Alert msg) {

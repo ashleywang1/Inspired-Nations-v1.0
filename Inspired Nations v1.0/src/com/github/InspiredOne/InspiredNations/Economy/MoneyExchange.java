@@ -14,9 +14,8 @@ public class MoneyExchange implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -3674609233229292913L;
-	private MathContext mcup = new MathContext(50, RoundingMode.UP);
-	private MathContext mcdown = new MathContext(50, RoundingMode.DOWN);
-//	private MathContext mcoutput = new MathContext(25, RoundingMode.DOWN);
+	public MathContext mcup = new MathContext(50, RoundingMode.UP);
+	public MathContext mcdown = new MathContext(50, RoundingMode.DOWN);
 
 	private HashMap<Currency, BigDecimal> Exchange = new HashMap<Currency, BigDecimal>();
 	
@@ -39,7 +38,7 @@ public class MoneyExchange implements Serializable{
 	 * @param valueType	the type of currency you're using to get mon
 	 * @return
 	 */
-	public final BigDecimal getTransferValue(BigDecimal mon, Currency monType, Currency valueType) {
+	public final BigDecimal getTransferValue(BigDecimal mon, Currency monType, Currency valueType, MathContext round) {
 		BigDecimal output;
 		BigDecimal valueAmount = Exchange.get(valueType);
 		BigDecimal monAmount = Exchange.get(monType);
@@ -47,10 +46,13 @@ public class MoneyExchange implements Serializable{
 			return mon;
 		}
 		BigDecimal difference = monAmount.subtract(mon);
-		output = mon.multiply(valueAmount).divide(difference, mcup);
+		output = mon.multiply(valueAmount).divide(difference, round);
 		
 		return output;
 	}
+	
+	
+	
 	/**
 	 * Gets the total amount of valueType you would recieve if you exchanged mon amount of monType
 	 * @param mon
@@ -59,12 +61,17 @@ public class MoneyExchange implements Serializable{
 	 * @return
 	 */
 	public final BigDecimal getExchangeValue(BigDecimal mon, Currency monType, Currency valueType) {
+		BigDecimal output = this.getExchangeValue(mon, monType, valueType, mcdown);
+		return output;
+	}
+	
+	public final BigDecimal getExchangeValue(BigDecimal mon, Currency monType, Currency valueType, MathContext round) {
+		
 		BigDecimal output;
 		//TODO put these lines back into the else statement.
 		BigDecimal valueAmount = Exchange.get(valueType);
 		BigDecimal monAmount = Exchange.get(monType);
 
-			
 		//TODO end of the lines I need to put back in the else statement.
 		
 		//Remove if(monType.equals(valueType) when you figure it out
@@ -73,18 +80,15 @@ public class MoneyExchange implements Serializable{
 			output = mon;
 		}
 		else {
-
 			BigDecimal monSum = monAmount.add(mon);
-			BigDecimal division = valueAmount.divide(monSum, mcdown);
-			
+			BigDecimal division = valueAmount.divide(monSum, round);
 			output = mon.multiply(division);
-
 		}
 		return output;
 	}
 	
 	public final BigDecimal exchange(BigDecimal mon, Currency monType, Currency valueType) {
-		BigDecimal output = this.getExchangeValue(mon, monType, valueType);
+		BigDecimal output = this.getExchangeValue(mon, monType, valueType, mcup);
 		Exchange.put(monType, Exchange.get(monType).add(mon));
 		Exchange.put(valueType, Exchange.get(valueType).subtract(output));
 		
