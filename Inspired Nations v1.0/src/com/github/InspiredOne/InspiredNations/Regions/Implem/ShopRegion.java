@@ -8,15 +8,18 @@ import org.bukkit.block.Block;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BlockNotChestException;
+import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand.ClaimChestShop;
+import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
+import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
-public class ShopRegion extends Region {
+public class ShopRegion extends NonCummulativeRegion {
 
 	/**
 	 * 
@@ -76,11 +79,6 @@ public class ShopRegion extends Region {
 	}
 
 	@Override
-	public boolean IsIn(NonCummulativeRegion region) {
-		return this.IsIn((Region) region);
-	}
-
-	@Override
 	public boolean IsIn(CummulativeRegion<?> region) {
 		return this.IsIn((Region) region);
 	}
@@ -110,11 +108,6 @@ public class ShopRegion extends Region {
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public boolean Intersects(NonCummulativeRegion region) {
-		return Intersects((Region) region);
 	}
 
 	@Override
@@ -161,6 +154,43 @@ public class ShopRegion extends Region {
 		else {
 			return false;
 		}
+	}
+
+	@Override
+	public Cuboid getBoundingCuboid() {
+		if(this.volume() == 2) {
+			try {
+				return new Cuboid(one,two);
+			} catch (PointsInDifferentWorldException e) {
+				e.printStackTrace();
+			}
+		}
+		else if(this.volume() == 1) {
+			try {
+				return new Cuboid(one,one);
+			} catch (PointsInDifferentWorldException e) {
+				e.printStackTrace();
+			}
+		}
+		return new Cuboid();
+	}
+
+	@Override
+	public WorldID getWorld() {
+		if(this.instantiated()) {
+			return this.one.world;
+		}
+		else return null;
+	}
+
+	@Override
+	protected boolean isIn(NonCummulativeRegion region) {
+		return this.IsIn((Region) region);
+	}
+
+	@Override
+	protected boolean intersects(NonCummulativeRegion region) {
+		return this.Intersects((Region) region);
 	}
 
 }

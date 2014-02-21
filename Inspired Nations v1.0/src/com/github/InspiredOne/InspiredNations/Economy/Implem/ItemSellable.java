@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Economy.Implem;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.enchantments.Enchantment;
@@ -75,16 +76,15 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 	@Override
 	public void transferOwnership(PlayerID playerTo) {
 		int sold = this.getItem().getAmount();
-		HashMap<ItemStack,Integer> selling = new HashMap<ItemStack, Integer>();
+		ArrayList<ItemStack> selling = new ArrayList<ItemStack>();
 		for(ItemStack item:this.shop.getInvetorySellables()) {
 			if(this.getItem().isSimilar(item)) {
+				selling.add(item);
 				if(item.getAmount() >= sold) {
-					selling.put(item, item.getAmount() - sold);
 					sold = 0;
 				}
 				else {
 					sold = sold - item.getAmount();
-					selling.put(item, 0);
 				}
 			}
 			if(sold == 0) break;
@@ -97,8 +97,16 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 					this.getPrice(Currency.DEFAULT).multiply(new BigDecimal(((double) transfer.getAmount())/((double) this.getItem().getAmount())))
 					, Currency.DEFAULT, this.shop.getAccounts());
 			playerTo.getPDI().getPlayer().getWorld().dropItemNaturally(playerTo.getPDI().getPlayer().getLocation(), transfer);
-			for(ItemStack item:selling.keySet()) {
-				item.setAmount(selling.get(item));
+			int tempiter = this.getItem().getAmount();
+			for(ItemStack item:selling) {
+				if(item.getAmount() > tempiter) {
+					item.setAmount(item.getAmount() - tempiter);
+					tempiter = 0;
+				}
+				else {
+					tempiter = tempiter - item.getAmount();
+					item.setAmount(0);
+				}
 			}
 		} catch (BalanceOutOfBoundsException | NegativeMoneyTransferException e) {
 			playerTo.getPDI().getMsg().receiveError(MenuError.NOT_ENOUGH_MONEY());
