@@ -59,7 +59,7 @@ public class PickStackSize extends InputMenu {
 	}
 
 	@Override
-	public void Init() {
+	public void init() {
 
 	}
 

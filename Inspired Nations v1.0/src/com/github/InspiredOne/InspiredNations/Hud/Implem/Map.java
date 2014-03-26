@@ -94,7 +94,7 @@ public class Map extends InputMenu {
 	}
 
 	@Override
-	public void Init() {
+	public void init() {
 		manager = new MapManager<Map>(this);
 		managers.add(manager);		
 	}

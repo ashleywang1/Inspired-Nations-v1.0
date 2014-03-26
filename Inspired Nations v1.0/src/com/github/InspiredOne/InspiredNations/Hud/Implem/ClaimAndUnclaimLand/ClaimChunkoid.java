@@ -120,7 +120,7 @@ public class ClaimChunkoid extends InputMenu {
 	}
 
 	@Override
-	public void Init() {
+	public void init() {
 		this.manager = new ClaimChunkoidManager<ClaimChunkoid>(this, new Point2D(PDI.getPlayer().getLocation().getChunk()));
 		this.mapmanager = new MapManager<ClaimChunkoid>(this);
 		this.managers.add(manager);

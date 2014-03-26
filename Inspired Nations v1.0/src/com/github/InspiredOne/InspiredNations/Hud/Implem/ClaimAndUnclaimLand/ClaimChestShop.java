@@ -91,7 +91,7 @@ public class ClaimChestShop extends InputMenu {
 	}
 
 	@Override
-	public void Init() {
+	public void init() {
 		this.managers.add(manager);
 		this.managers.add(mapmanager);
 	}

@@ -76,7 +76,7 @@ public class ClaimPolygonPrism extends InputMenu {
 	}
 
 	@Override
-	public void Init() {
+	public void init() {
 		manager = new ClaimPolygonPrismManager<ClaimPolygonPrism>(this);
 		mapmanager = new MapManager<ClaimPolygonPrism>(this);
 		this.managers.add(manager);

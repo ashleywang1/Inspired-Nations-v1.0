@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.TabScrollManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
@@ -186,6 +187,15 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			this.data = this.filteredoptions.get(tabcnt);
 		}
 		return this.data;
+	}
+	
+	@Override
+	public void reset() {
+		taboptions = new ArrayList<E>();
+		filteredoptions = new ArrayList<E>();
+		managers = new ArrayList<ActionManager<?>>();
+		managers.add(new TaxTimerManager<ActionMenu>(this));
+		this.options = new ArrayList<Option>();
 	}
 	/**
 	 * Gets the previous menu

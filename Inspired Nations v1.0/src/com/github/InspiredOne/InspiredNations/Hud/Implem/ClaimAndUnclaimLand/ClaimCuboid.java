@@ -55,7 +55,7 @@ public class ClaimCuboid extends InputMenu {
 	}
 
 	@Override
-	public void Init() {
+	public void init() {
 		this.mapmanager = new MapManager<ClaimCuboid>(this);
 		this.manager = new ClaimCuboidManager<ClaimCuboid>(this);
 		this.managers.add(mapmanager);
@@ -110,8 +110,9 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public String getInstructions() {
-		return this.mapmanager.drawMap(gov, 4) + 
-				"Left Click for one corner of the cuboid and Right Click for the other corner.";
+		String output = this.mapmanager.drawMap(gov, 4);
+		output = output.concat("Left Click for one corner of the cuboid and Right Click for the other corner.\n");
+		return output;
 	}
 
 	@Override

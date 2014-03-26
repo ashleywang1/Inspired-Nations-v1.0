@@ -75,7 +75,7 @@ public class PickName<T extends OwnerGov> extends InputMenu {
 	}
 
 	@Override
-	public void Init() {
+	public void init() {
 		
 	}
 

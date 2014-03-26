@@ -109,7 +109,7 @@ public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable, Iterabl
 		return set.put(key, value);
 	}
 	
-	public void put(T key, K value) {
+	public void putValue(T key, K value) {
 		if(set.containsKey(key)) {
 			set.get(key).add(value);
 		}

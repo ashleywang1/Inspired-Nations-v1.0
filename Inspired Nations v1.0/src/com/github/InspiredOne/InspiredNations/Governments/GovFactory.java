@@ -66,7 +66,7 @@ public class GovFactory<T extends InspiredGov> {
 		if(gov instanceof OwnerGov) {
 			((OwnerGov) gov).addOwner(owner);
 		}
-		InspiredNations.regiondata.put(gov.getClass(), gov);
+		InspiredNations.regiondata.putValue(gov.getClass(), gov);
 		InspiredNations.Exchange.registerCurrency(this.getGov().getCurrency(), diamondvalue);
 		//TODO change BigDecimal.ONE to whatever you're going to use for default values for exchanger
 	}

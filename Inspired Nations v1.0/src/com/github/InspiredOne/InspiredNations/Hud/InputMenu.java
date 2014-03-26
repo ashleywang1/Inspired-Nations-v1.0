@@ -1,8 +1,10 @@
 package com.github.InspiredOne.InspiredNations.Hud;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.InputManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
@@ -43,11 +45,12 @@ public abstract class InputMenu extends ActionMenu {
 	}
 	
 	@Override
-	public final void init() {
-		this.Init();
+	public void reset() {
+		managers = new ArrayList<ActionManager<?>>();
+		managers.add(new TaxTimerManager<ActionMenu>(this));
 		managers.add(new InputManager<InputMenu>(this, this.getTabOptions()));
-
 	}
+	
 	/**
 	 * 
 	 * @return	the menu to go to if passBy() returns true
@@ -71,11 +74,7 @@ public abstract class InputMenu extends ActionMenu {
 	 * @return	The text that instructs the player what to input
 	 */
 	public abstract String getInstructions();
-	/**
-	 * Used to do things for the conversation, but only for when the user is directed to it. Use
-	 * for adding options, managers, and tab-completes.
-	 */
-	public abstract void Init();
+
 	/**
 	 * Returns a new instance of itself. Used for user input errors.
 	 * @return	the <code>Menu</code> of itself

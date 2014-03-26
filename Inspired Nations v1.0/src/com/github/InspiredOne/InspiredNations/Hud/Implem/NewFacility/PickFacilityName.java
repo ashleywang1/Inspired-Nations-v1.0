@@ -84,7 +84,7 @@ public class PickFacilityName extends InputMenu {
 	}
 
 	@Override
-	public void Init() {
+	public void init() {
 		
 	}
 

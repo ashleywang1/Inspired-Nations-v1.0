@@ -68,7 +68,7 @@ public class InspiredNations extends JavaPlugin {
 		// if this is first time running plugin, then add the default globalgov to the regiondata
 		// else, put the global gov loaded in the region data back into the global variable.
 		if(regiondata.get(global.getClass()).isEmpty()) {
-			regiondata.put(global.getClass(), global);
+			regiondata.putValue(global.getClass(), global);
 		}
 		else {
 			global = (GlobalGov) regiondata.get(global.getClass()).iterator().next();

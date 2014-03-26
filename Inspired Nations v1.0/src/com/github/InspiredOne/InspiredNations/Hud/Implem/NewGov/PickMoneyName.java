@@ -72,7 +72,7 @@ public class PickMoneyName<T extends OwnerGov> extends InputMenu{
 	}
 
 	@Override
-	public void Init() {
+	public void init() {
 		
 	}
 

@@ -19,7 +19,6 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 	public PlayerData PDI;
 	public InspiredNations plugin;
 	protected boolean initialized = false;
-	protected ActionMenu self;
 	
 	public Menu(PlayerData PDI) {
 		this.PDI = PDI;
@@ -47,27 +46,24 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 	 * Returns a new instance of itself. Used for user input errors.
 	 * @return	the <code>Menu</code> of itself
 	 */
-	public abstract ActionMenu getSelf();
-	/**
-	 * Used to update the menu returned by getSelf() so that
-	 * it has the correct data to be seemless.
-	 * @param menu
-	 */
-	protected final void SyncSelf(ActionMenu menu) {
-		this.syncSelf(menu);
+	public Menu getSelf() {
+
+		this.initialized = false;
+		return this;
 	}
-	
-	protected abstract void syncSelf(ActionMenu menu);
+	/**
+	 * Clear lists, update options, do all the things that need to 
+	 * be done so that this menu is clean again.
+	 */
+	public abstract void reset();
+
 	
 	public final void Initialize() {
-
+		reset();
 		if(!initialized) {
 			this.init();
 			initialized = true;
-			this.self = this.getSelf();
-			this.syncSelf(self);
 		}
-		
 	}
 
 	public final boolean passBy() {
@@ -86,7 +82,7 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 		}
 		else {
 			if(this.getPassTo().initialized) {
-				return this.getPassTo().self;
+				return this.getPassTo().getSelf();
 			}
 			else {
 				return this.getPassTo();
@@ -123,7 +119,7 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 			if(args.length > 1) {
 				PDI.getMsg().sendChatMessage(arg.substring(4));
 			}
-			return this.self;
+			return this.getSelf();
 		}
 		
 		return this.checkNext(arg);
@@ -175,7 +171,7 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 		Menu previous = this.getPreviousMenu();
 		Debug.print("In CheckBack();");
 		if(previous.initialized) {
-			previous = previous.self;
+			previous = previous.getSelf();
 		}
 		if(!previous.passBy()) {
 			Debug.print("In CheckBack() return previous;");
@@ -195,7 +191,7 @@ public abstract  class Menu extends MessagePrompt implements Cloneable {
 	private final Menu checkNext(String input) {
 		Menu next = this.getNextMenu(input);
 		if(next.initialized) {
-			next = next.self;
+			next = next.getSelf();
 		}
 		while(next.passBy()) {
 			next = (Menu) next.getNextPrompt(PDI.getCon().getContext());

@@ -12,11 +12,11 @@ public abstract class ActionMenu extends Menu {
 
 	private String current = "";
 	private boolean registered = false;
-	protected List<ActionManager<?>> managers = new ArrayList<ActionManager<?>>();
+	protected List<ActionManager<?>> managers;
 	
 	public ActionMenu(PlayerData PDI) {
 		super(PDI);
-		managers.add(new TaxTimerManager<ActionMenu>(this));
+		
 	}
 
 	public final void Update() {
@@ -31,11 +31,14 @@ public abstract class ActionMenu extends Menu {
 		else return;
 	}
 	
-	public void syncSelf(ActionMenu menu) {
-		menu.managers = this.getActionManager();
+	@Override
+	public void reset() {
+		managers = new ArrayList<ActionManager<?>>();
+		managers.add(new TaxTimerManager<ActionMenu>(this));
 	}
 	
 	public void register() {
+
 		if(!registered) {
 			for(ActionManager<?> manager:this.getActionManager()) {
 				manager.stopListening();
@@ -51,6 +54,7 @@ public abstract class ActionMenu extends Menu {
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
+
 		registered = false;
 	}
 	

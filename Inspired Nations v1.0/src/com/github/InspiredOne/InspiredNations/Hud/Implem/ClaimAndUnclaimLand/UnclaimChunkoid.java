@@ -94,7 +94,7 @@ public class UnclaimChunkoid extends InputMenu {
 	}
 
 	@Override
-	public void Init() {
+	public void init() {
 		mapmanager = new MapManager<UnclaimChunkoid>(this);
 		manager = new UnclaimChunkoidManager<UnclaimChunkoid>(this, new Point2D(PDI.getPlayer().getLocation().getChunk()));
 		this.managers.add(mapmanager);
