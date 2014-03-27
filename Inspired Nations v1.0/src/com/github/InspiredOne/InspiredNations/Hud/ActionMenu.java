@@ -11,12 +11,11 @@ import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 public abstract class ActionMenu extends Menu {
 
 	private String current = "";
-	private boolean registered = false;
-	protected List<ActionManager<?>> managers;
+	// Menu Persistent
+	protected List<ActionManager<?>> managers = new ArrayList<ActionManager<?>>();
 	
 	public ActionMenu(PlayerData PDI) {
 		super(PDI);
-		
 	}
 
 	public final void Update() {
@@ -29,33 +28,6 @@ public abstract class ActionMenu extends Menu {
 			}
 		}
 		else return;
-	}
-	
-	@Override
-	public void reset() {
-		managers = new ArrayList<ActionManager<?>>();
-		managers.add(new TaxTimerManager<ActionMenu>(this));
-	}
-	
-	public void register() {
-
-		if(!registered) {
-			for(ActionManager<?> manager:this.getActionManager()) {
-				manager.stopListening();
-			}
-			for(ActionManager<?> manager:this.getActionManager()) {
-				manager.startListening();
-			}
-			registered = true;
-		}
-	}
-	public void unregister() {
-		this.setError(MenuError.NO_ERROR());
-		for(ActionManager<?> manager:this.getActionManager()) {
-			manager.stopListening();
-		}
-
-		registered = false;
 	}
 	
 /*	@Override
@@ -77,5 +49,40 @@ public abstract class ActionMenu extends Menu {
 	 * Called whenever the menu is updated.
 	 */
 	public abstract void actionResponse();
+	/**
+	 * Add all teh action managers using this method.
+	 */
+	public abstract void addActionManagers();
 
+	// These methods are overridden by all the super classes. I wish there were a better
+	// way I could do this. Until then, ctrl-c and ctrl-v.
+	@Override
+	public void menuPersistent() {
+		managers.add(new TaxTimerManager<ActionMenu>(this));
+		this.addActionManagers();
+		
+	}
+
+	@Override
+	public void nonPersistent() {
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.startListening();
+		}
+	}
+
+	@Override
+	public void unloadNonPersist() {
+		this.setError(MenuError.NO_ERROR());
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
+	}
+
+	@Override
+	public void unloadPersist() {
+		managers = new ArrayList<ActionManager<?>>();
+	}
 }

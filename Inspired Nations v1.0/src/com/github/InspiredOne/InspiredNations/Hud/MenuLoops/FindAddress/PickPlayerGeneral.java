@@ -20,25 +20,26 @@ public abstract class PickPlayerGeneral extends TabSelectOptionMenu<PlayerID> {
 		return previous;
 	}
 
-	@Override
-	public final void Init() {
-		for(PlayerID player:InspiredNations.playerdata.keySet()) {
-			if(check(player)) {
-				this.taboptions.add(player);
-			}
-		}
-		
-		insertOptions();
-		
-	}
 	/**
 	 * Checks to see if the player should be listed in the tab options list.
 	 * @param player
 	 * @return
 	 */
 	public abstract boolean check(PlayerID player); 
-	/**
-	 * Inserts the options into the 
-	 */
-	public abstract void insertOptions();
+
+
+	@Override
+	public String postTabListPreOptionsText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addTabOptions() {
+		for(PlayerID player:InspiredNations.playerdata.keySet()) {
+			if(check(player)) {
+				this.taboptions.add(player);
+			}
+		}
+	}
 }

@@ -26,23 +26,26 @@ public class BuyMenu extends TabSelectOptionMenu<Sellable> {
 	}
 
 	@Override
-	public void Init() {
+	public String getHeader() {
+		return market.getName();
+	}
+
+	@Override
+	public void addTabOptions() {
 		for(Sellable item:market.getSales()) {
 			this.taboptions.add(item);
 		}
+	}
+
+	@Override
+	public void addOptions() {
 		if(this.taboptions.size() > 0) {
 			this.options.add(new MakePurchaseOption(this, "Buy", this.getData()));
 		}
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new BuyMenu(PDI, market);
-	}
-
-	@Override
-	public String getHeader() {
-		return market.getName();
+	public void addActionManagers() {
 	}
 
 }

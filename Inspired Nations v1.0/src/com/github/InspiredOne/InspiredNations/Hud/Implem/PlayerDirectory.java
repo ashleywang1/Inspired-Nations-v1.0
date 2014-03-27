@@ -11,7 +11,6 @@ public class PlayerDirectory extends TabSelectOptionMenu<PlayerID> {
 
 	public PlayerDirectory(PlayerData PDI) {
 		super(PDI);
-		System.out.println("In PlayerDirectory Constructor");
 	}
 
 	@Override
@@ -25,22 +24,26 @@ public class PlayerDirectory extends TabSelectOptionMenu<PlayerID> {
 	}
 
 	@Override
-	public void Init() {
-		for(PlayerID player:InspiredNations.playerdata.keySet()) {
-			this.taboptions.add(player);
-		}
-		
-		options.add(new PromptOption(this, "Profile", new PlayerProfile(PDI,this)));
-	}
-
-	@Override
 	public String getHeader() {
 		return "Player Directory";
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new PlayerDirectory(PDI);
+	public void addTabOptions() {
+		for(PlayerID player:InspiredNations.playerdata.keySet()) {
+			this.taboptions.add(player);
+		}
+	}
+
+	@Override
+	public void addOptions() {
+		options.add(new PromptOption(this, "Profile", new PlayerProfile(PDI,this)));
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		
 	}
 
 }

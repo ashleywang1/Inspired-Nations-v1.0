@@ -27,8 +27,7 @@ public class ClaimChunkoid extends InputMenu {
 	public ClaimChunkoidManager<ClaimChunkoid> manager;
 	private MapManager<ClaimChunkoid> mapmanager;
 
-	public ClaimChunkoid(PlayerData PDI, Menu previous, InspiredGov gov) {
-		super(PDI);
+	public ClaimChunkoid(Menu previous, InspiredGov gov) {
 		this.previous = previous;
 		this.gov = gov;
 		if(!(gov.getRegion().getRegion() instanceof Chunkoid)) {
@@ -88,12 +87,6 @@ public class ClaimChunkoid extends InputMenu {
 	}
 
 	@Override
-	public List<String> getTabOptions() {
-		List<String> output = new ArrayList<String>();
-		return output;
-	}
-
-	@Override
 	public String getInstructions() {
 		Chunkoid unit = new Chunkoid(new Point2D(0,0,PDI.getPlayer().getWorld()));
 		// Tax paid that is independent of chunks
@@ -120,17 +113,18 @@ public class ClaimChunkoid extends InputMenu {
 	}
 
 	@Override
-	public void init() {
+	public void addTabOptions() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addActionManagers() {
 		this.manager = new ClaimChunkoidManager<ClaimChunkoid>(this, new Point2D(PDI.getPlayer().getLocation().getChunk()));
 		this.mapmanager = new MapManager<ClaimChunkoid>(this);
 		this.managers.add(manager);
 		this.managers.add(mapmanager);
-	}
-
-	@Override
-	public InputMenu getSelf() {
-		return this;
-		//return new ClaimChunkoid(PDI, previous, gov);
+		
 	}
 
 }

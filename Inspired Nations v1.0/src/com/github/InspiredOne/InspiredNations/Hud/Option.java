@@ -13,36 +13,21 @@ public abstract class Option implements Nameable {
 	private String description;
 	private OptionUnavail reason;
 	public Option(OptionMenu menu, String label, OptionUnavail reason) {
-		if(menu.initialized) {
-			this.menu = menu.getSelf();
-		}
-		else {
-			this.menu = menu;
-		}
+		this.menu = menu;
 		this.label = label;
 		this.plugin = this.menu.plugin;
 		this.reason = reason;
 		this.description = "";
 	}
 	public Option(OptionMenu menu, String label) {
-		if(menu.initialized) {
-			this.menu = menu.getSelf();
-		}
-		else {
-			this.menu = menu;
-		}
+		this.menu = menu;
 		this.label = label;
 		this.plugin = this.menu.plugin;
 		this.reason = OptionUnavail.NOT_UNAVAILABLE;
 		this.description = "";
 	}
 	public Option(OptionMenu menu, String label, String description) {
-		if(menu.initialized) {
-			this.menu = menu.getSelf();
-		}
-		else {
-			this.menu = menu;
-		}
+		this.menu = menu;
 		this.label = label;
 		this.plugin = this.menu.plugin;
 		this.description = description;

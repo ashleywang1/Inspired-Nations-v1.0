@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
@@ -49,7 +50,7 @@ public class Map extends InputMenu {
 	@Override
 	public Menu nextMenu() {
 		this.setError(MenuError.NOT_AN_OPTION());
-		return getSelf();
+		return getNewSelf();
 	}
 
 	@Override
@@ -94,13 +95,16 @@ public class Map extends InputMenu {
 	}
 
 	@Override
-	public void init() {
-		manager = new MapManager<Map>(this);
-		managers.add(manager);		
+	public void addTabOptions() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public InputMenu getSelf() {
-		return new Map(PDI);
+	public void addActionManagers() {
+		Debug.print("Inside addManagers");
+		manager = new MapManager<Map>(this);
+		managers.add(manager);
+		
 	}
 }

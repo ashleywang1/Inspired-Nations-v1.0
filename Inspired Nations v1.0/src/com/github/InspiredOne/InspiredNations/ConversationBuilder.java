@@ -40,6 +40,7 @@ public class ConversationBuilder {
 	
 	public Conversation HudConvo() {
 		Menu hud = new MainHud(PDI);
+		hud.PDI = this.PDI;
 		ConversationFactory HudConvo = new ConversationFactory(plugin)
 		.withModality(true)
 		.withFirstPrompt(hud)
@@ -50,9 +51,11 @@ public class ConversationBuilder {
 	}
 	
 	public Conversation MapConvo() {
+		Menu map = new Map(PDI);
+		map.PDI = PDI;
 		ConversationFactory MapConvo = new ConversationFactory(plugin)
 		.withModality(true)
-		.withFirstPrompt(new Map(PDI))
+		.withFirstPrompt(map)
 		.withLocalEcho(false)
 		.withInitialSessionData(initSessionData);
 		return MapConvo.buildConversation((Conversable) plugin.getServer().getPlayerExact(PDI.getName()));

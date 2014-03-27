@@ -43,12 +43,6 @@ public class ManageMoney extends OptionMenu {
 	}
 
 	@Override
-	public void init() {
-		this.options.add(new PromptOption(getSelf(), "Pay", new PayNav(PDI, getSelf(), PDI.getAccounts())));
-		this.options.add(new PromptOption(getSelf(), "Manage Accounts", new ManageAccounts(PDI, getSelf(), PDI.getAccounts())));
-	}
-
-	@Override
 	public boolean getPassBy() {
 		return false;
 	}
@@ -69,8 +63,16 @@ public class ManageMoney extends OptionMenu {
 	}
 
 	@Override
-	public OptionMenu getSelf() {
-		return new ManageMoney(PDI);
+	public void addOptions() {
+		this.options.add(new PromptOption((OptionMenu) getNewSelf(), "Pay", new PayNav(PDI, getNewSelf(), PDI.getAccounts())));
+		this.options.add(new PromptOption((OptionMenu) getNewSelf(), "Manage Accounts", new ManageAccounts(PDI, getNewSelf(), PDI.getAccounts())));
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

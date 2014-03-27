@@ -25,7 +25,12 @@ public class SubjectRequests extends TabSelectOptionMenu<OwnerSubjectGov> {
 	}
 
 	@Override
-	public void Init() {
+	public String getHeader() {
+		return "Subject Requests";
+	}
+	
+	@Override
+	public void addTabOptions() {
 		for(InspiredGov gov:InspiredNations.regiondata) {
 			if(gov instanceof OwnerSubjectGov) {
 				if(((OwnerSubjectGov) gov).getSubjectRequests().contains(PDI.getPlayerID())) {
@@ -33,20 +38,22 @@ public class SubjectRequests extends TabSelectOptionMenu<OwnerSubjectGov> {
 				}
 			}
 		}
+		
+	}
+
+	@Override
+	public void addOptions() {
 		if(this.taboptions.size() != 0) {
 			this.options.add(new IgnoreOfferOption(this, "Remove Request to " + this.getData().getName(), PDI.getPlayerID(), this.getData().getSubjectRequests()));
 		}
 		this.options.add(new PromptOption(this, "Add Request", new PickGovToRequestSubject(PDI,this,this)));
+		
 	}
 
 	@Override
-	public String getHeader() {
-		return "Subject Requests";
-	}
-
-	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new SubjectRequests(PDI);
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

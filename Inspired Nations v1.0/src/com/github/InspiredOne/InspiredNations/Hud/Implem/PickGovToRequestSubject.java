@@ -37,7 +37,18 @@ public class PickGovToRequestSubject extends PickGovGeneral {
 	}
 
 	@Override
-	public void insertOptions() {
+	public String postTabListPreOptionsText() {
+		return "";
+	}
+
+	@Override
+	public String getHeader() {
+		// TODO Auto-generated method stub
+		return "";
+	}
+
+	@Override
+	public void addOptions() {
 		String description = "";
 		if(this.taboptions.size() != 0) {
 			OwnerSubjectGov gov = ((OwnerSubjectGov) this.getData());
@@ -54,23 +65,12 @@ public class PickGovToRequestSubject extends PickGovGeneral {
 				options.add(new RequestSubjectOption(this, "Request " + gov.getSubjectPositionName(), description, gov));
 			}
 		}
-		
 	}
 
 	@Override
-	public String postTabListPreOptionsText() {
-		return "";
-	}
-
-	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new PickGovToRequestSubject(PDI, previous, next, superGov);
-	}
-
-	@Override
-	public String getHeader() {
+	public void addActionManagers() {
 		// TODO Auto-generated method stub
-		return "";
+		
 	}
 
 }

@@ -40,11 +40,6 @@ public abstract class OptionMenu extends ActionMenu {
 		output = output.concat(optionsToText(options));
 		return output;
 	}
-	/**
-	 * Returns a new instance of itself. Used for user input errors.
-	 * @return	the <code>Menu</code> of itself
-	 */
-	public abstract OptionMenu getSelf();
 	
 	@Override
 	public final Menu getNextMenu(String arg) {
@@ -54,7 +49,7 @@ public abstract class OptionMenu extends ActionMenu {
 			answer = Integer.parseInt(args[0]);
 			if(answer > options.size()) {
 				this.setError(MenuError.OUT_OF_RANGE_NUMBER_INPUT());
-				return getSelf();
+				return this.getSelfPersist();
 			}
 			else {
 				return options.get(answer - 1).response(arg.substring(args[0].length()).trim());
@@ -62,7 +57,7 @@ public abstract class OptionMenu extends ActionMenu {
 		}
 		catch (Exception ex) {
 				this.setError(MenuError.INVALID_NUMBER_INPUT());
-				return getSelf();
+				return this.getSelfPersist();
 		}
 	}
 	
@@ -103,10 +98,40 @@ public abstract class OptionMenu extends ActionMenu {
 		
 	}
 	
+	public abstract void addOptions();
+	
+	// These methods are overridden by all the super classes. I wish there were a better
+	// way I could do this. Until then, ctrl-c and ctrl-v.
 	@Override
-	public void reset() {
-		managers = new ArrayList<ActionManager<?>>();
+	public void menuPersistent() {
 		managers.add(new TaxTimerManager<ActionMenu>(this));
+		
+		
+	}
+
+	@Override
+	public void nonPersistent() {
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.startListening();
+		}
+		this.addOptions();
+	}
+
+	@Override
+	public void unloadNonPersist() {
+		this.setError(MenuError.NO_ERROR());
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
 		this.options = new ArrayList<Option>();
 	}
+
+	@Override
+	public void unloadPersist() {
+		managers = new ArrayList<ActionManager<?>>();
+	}
+	
 }

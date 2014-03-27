@@ -3,16 +3,19 @@ package com.github.InspiredOne.InspiredNations.Hud;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.InputManager;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public abstract class InputMenu extends ActionMenu {
 
+	public List<String> tabOptions = new ArrayList<String>();
+	
 	public InputMenu(PlayerData PDI) {
 		super(PDI);
-
 	}
 	
 	@Override
@@ -25,7 +28,7 @@ public abstract class InputMenu extends ActionMenu {
 			return this.nextMenu();
 		}
 		else {
-			return getSelf();
+			return this.getSelfPersist();
 		}
 	}
 
@@ -42,13 +45,6 @@ public abstract class InputMenu extends ActionMenu {
 	@Override
 	public void actionResponse() {
 		
-	}
-	
-	@Override
-	public void reset() {
-		managers = new ArrayList<ActionManager<?>>();
-		managers.add(new TaxTimerManager<ActionMenu>(this));
-		managers.add(new InputManager<InputMenu>(this, this.getTabOptions()));
 	}
 	
 	/**
@@ -68,16 +64,53 @@ public abstract class InputMenu extends ActionMenu {
 	 */
 	public abstract void useInput(String input);
 	
-	public abstract List<String> getTabOptions();
+	public List<String> getTabOptions() {
+		return this.tabOptions;
+	}
+	public abstract void addTabOptions();
 	/**
 	 * 
 	 * @return	The text that instructs the player what to input
 	 */
 	public abstract String getInstructions();
+	
+	// These methods are overridden by all the super classes. I wish there were a better
+	// way I could do this. Until then, ctrl-c and ctrl-v.
+	@Override
+	public void menuPersistent() {
+		managers.add(new TaxTimerManager<ActionMenu>(this));
+		managers.add(new InputManager<InputMenu>(this, this.getTabOptions()));
+		this.addActionManagers();
+		this.addTabOptions();
+	}
 
-	/**
-	 * Returns a new instance of itself. Used for user input errors.
-	 * @return	the <code>Menu</code> of itself
-	 */
-	public abstract InputMenu getSelf();
+	@Override
+	public void nonPersistent() {
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.startListening();
+		}
+	}
+
+	@Override
+	public void unloadNonPersist() {
+		Debug.print("Inside unloadNonPersistent 1");
+		this.setError(MenuError.NO_ERROR());
+		Debug.print("Inside unloadNonPersistent 2");
+		for(ActionManager<?> manager:this.getActionManager()) {
+			Debug.print("Inside unloadNonPersistent 3");
+			manager.stopListening();
+			Debug.print("Inside unloadNonPersistent 4");
+		}
+		Debug.print("Inside unloadNonPersistent 5");
+	}
+
+	@Override
+	public void unloadPersist() {
+		managers = new ArrayList<ActionManager<?>>();
+		tabOptions = new ArrayList<String>();
+	}
+	
 }

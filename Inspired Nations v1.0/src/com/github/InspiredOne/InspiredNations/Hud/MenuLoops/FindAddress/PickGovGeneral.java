@@ -52,31 +52,21 @@ public abstract class PickGovGeneral extends TabSelectOptionMenu<InspiredGov> {
 		*/
 	}
 
-	@Override
-	public final void Init() {
-
-		this.taboptions.clear();
-		this.options.clear();
-		// Iterate over all the sub-gov types.
-		for(InspiredGov govToTest: superGov.getData().getAllSubGovsAndFacilitiesJustBelow()) {
-			if(check(govToTest)) {
-				this.taboptions.add(govToTest);
-			}
-		}
-
-		//Make the options
-		insertOptions();
-
-		
-	}
 	/**
 	 * if it returns true, then the gov it checked is added to the tab-options list.
 	 * @param gov
 	 * @return
 	 */
 	public abstract boolean check(InspiredGov gov);
-	/**
-	 * Use to insert options
-	 */
-	public abstract void insertOptions();
+
+	@Override
+	public void addTabOptions() {
+		for(InspiredGov govToTest: superGov.getData().getAllSubGovsAndFacilitiesJustBelow()) {
+			if(check(govToTest)) {
+				this.taboptions.add(govToTest);
+			}
+		}
+		
+	}
+
 }

@@ -39,10 +39,9 @@ public class PickManageSelfType extends PassByOptionMenu {
 	public String getHeader() {
 		return "Select " + GovFactory.getGovInstance(GovType).getTypeName() + " type.";
 	}
-	
 
 	@Override
-	public void init() {
+	public void addOptions() {
 		for(Class<? extends InspiredGov> gov:GovFactory.getGovInstance(GovType).getSelfGovs()) {
 			GovFactory<? extends InspiredGov> govf = new GovFactory<>(gov);
 			govf.withOwner(PDI.getPlayerID());
@@ -51,17 +50,18 @@ public class PickManageSelfType extends PassByOptionMenu {
 					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickManageSuperGov(PDI, govf.getGov().getClass(), InspiredNations.global)));
 				}
 				else  if(!PDI.getOwnership(govf.getGov().getClass()).isEmpty()){
-					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickManageSelfType(PDI, ((OwnerGov) govf.getGov()).getClass())));
+					this.options.add(new PromptOption(this, govf.getGov().getTypeName(), this.getNewSelf()));
 				}
 			}
 			else  if(!PDI.getOwnership(govf.getGov().getClass()).isEmpty()) {
-				this.options.add(new PromptOption(this, govf.getGov().getTypeName(), new PickManageSelfType(PDI, ((OwnerGov) govf.getGov()).getClass())));
+				this.options.add(new PromptOption(this, govf.getGov().getTypeName(), this.getNewSelf()));
 			}
 		}
+		
 	}
 
 	@Override
-	public PassByOptionMenu getSelf() {
-		return new PickManageSelfType(PDI, GovType);
+	public void addActionManagers() {
+		
 	}
 }

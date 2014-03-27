@@ -43,7 +43,7 @@ public class PromptOption extends Option {
 		}
 		else {
 			this.menu.setError(MenuError.NOT_AN_OPTION());
-			return menu.getSelf();
+			return menu.getSelfPersist();
 		}
 	}
 

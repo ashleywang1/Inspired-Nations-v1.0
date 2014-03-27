@@ -45,7 +45,7 @@ public class PickSelfType<T extends OwnerGov> extends PassByOptionMenu {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void init() {
+	public void addOptions() {
 		for(Class<? extends InspiredGov> gov:GovFactory.getGovInstance(GovType).getSelfGovs()) {
 			GovFactory<T> govf = new GovFactory<T>((Class<T>) gov);
 			govf.withOwner(PDI.getPlayerID());
@@ -65,7 +65,7 @@ public class PickSelfType<T extends OwnerGov> extends PassByOptionMenu {
 	}
 
 	@Override
-	public PassByOptionMenu getSelf() {
-		return new PickSelfType<>(PDI,GovType);
+	public void addActionManagers() {
+		
 	}
 }

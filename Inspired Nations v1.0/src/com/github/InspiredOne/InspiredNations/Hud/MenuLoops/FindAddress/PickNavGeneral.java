@@ -20,13 +20,6 @@ public abstract class PickNavGeneral extends PassByOptionMenu {
 		return previous;
 	}
 
-	@Override
-	public final void init() {
-		this.options.add(new PromptOption(this, this.getPlayerOptionText(), this.getPlayerMenu()));
-		if(!InspiredNations.global.getData().getAllSubGovsAndFacilitiesJustBelow().isEmpty()) {
-			this.options.add(new PromptOption(this, this.getGovOptionText(), this.getGovMenu()));
-		}
-	}
 	/**
 	 * Gets the text to be used for the government option
 	 * @return
@@ -47,5 +40,15 @@ public abstract class PickNavGeneral extends PassByOptionMenu {
 	 * @return
 	 */
 	public abstract Menu getPlayerMenu();
+
+	@Override
+	public void addOptions() {
+		this.options.add(new PromptOption(this, this.getPlayerOptionText(), this.getPlayerMenu()));
+		if(!InspiredNations.global.getData().getAllSubGovsAndFacilitiesJustBelow().isEmpty()) {
+			this.options.add(new PromptOption(this, this.getGovOptionText(), this.getGovMenu()));
+		}
+	}
+
+
 
 }

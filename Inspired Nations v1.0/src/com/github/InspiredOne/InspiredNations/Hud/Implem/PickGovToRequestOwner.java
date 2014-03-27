@@ -37,7 +37,22 @@ public class PickGovToRequestOwner extends PickGovGeneral {
 	}
 
 	@Override
-	public void insertOptions() {
+	public String postTabListPreOptionsText() {
+		return "";
+	}
+
+	@Override
+	public String getHeader() {
+		return "Pick A Government To Request Ownership";
+	}
+
+	@Override
+	public void addTabOptions() {
+		
+	}
+
+	@Override
+	public void addOptions() {
 		String description = "";
 		if(this.taboptions.size() != 0) {
 			OwnerSubjectGov gov = ((OwnerSubjectGov) this.getData());
@@ -57,18 +72,8 @@ public class PickGovToRequestOwner extends PickGovGeneral {
 	}
 
 	@Override
-	public String postTabListPreOptionsText() {
-		return "";
-	}
-
-	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new PickGovToRequestOwner(PDI, previous, next, superGov);
-	}
-
-	@Override
-	public String getHeader() {
-		return "Pick A Government To Request Ownership";
+	public void addActionManagers() {
+		
 	}
 
 }

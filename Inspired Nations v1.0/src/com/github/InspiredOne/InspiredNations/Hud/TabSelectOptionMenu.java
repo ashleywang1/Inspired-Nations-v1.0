@@ -42,21 +42,6 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	}
 
 	@Override
-	public final void init() {
-		manager = new TabScrollManager<TabSelectOptionMenu<E>>(this);
-		this.managers.add(manager);
-		this.filteredoptions = this.taboptions;
-		this.Init();
-		if(this.filteredoptions.size() == 0 && this.taboptions.size() != 0) {
-			this.setError(MenuError.NO_MATCHES_FOUND());
-			return;
-		}
-		else if(this.filteredoptions.size() != 0) {
-			this.data = this.filteredoptions.get(tabcnt);
-		}
-	}
-
-	@Override
 	public boolean getPassBy() {
 		return false;
 	}
@@ -141,9 +126,8 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			}
 			this.setData(this.filteredoptions.get(tabcnt));
 		}
-		this.options.clear();
-		this.taboptions.clear();
-		Init();
+		this.unloadNonPersist();
+		this.nonPersistent();
 	}
 	
 	public int getTabcnt() {
@@ -164,7 +148,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	public final Menu getPreviousMenu() {
 		if(this.taboptions != this.filteredoptions) {
 			this.filteredoptions = this.taboptions;
-			return getSelf();
+			return this.getSelfPersist();
 		}
 		else {
 			return getPreviousPrompt();
@@ -189,14 +173,6 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		return this.data;
 	}
 	
-	@Override
-	public void reset() {
-		taboptions = new ArrayList<E>();
-		filteredoptions = new ArrayList<E>();
-		managers = new ArrayList<ActionManager<?>>();
-		managers.add(new TaxTimerManager<ActionMenu>(this));
-		this.options = new ArrayList<Option>();
-	}
 	/**
 	 * Gets the previous menu
 	 * @return	 the previous menu
@@ -207,20 +183,51 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	 * @return	the text to be inserted
 	 */
 	public abstract String postTabListPreOptionsText();
-	/**
-	 * Used to do things for the conversation, but only for when the user is directed to it.
-	 * Use for adding options, managers, and tab-completes.
-	 */
-	public abstract void Init();
-	/**
-	 * Returns a new instance of itself. Used for user input errors.
-	 * @return	the <code>Menu</code> of itself
-	 */
-	public abstract TabSelectOptionMenu<?> GetSelf();
 	
-	public final TabSelectOptionMenu<?> getSelf() {
-		TabSelectOptionMenu<?> output = this.GetSelf();
-		output.tabcnt = tabcnt;
-		return output;
+	public abstract void addTabOptions();
+	
+	// These methods are overridden by all the super classes. I wish there were a better
+	// way I could do this. Until then, ctrl-c and ctrl-v.
+	@Override
+	public void menuPersistent() {
+		managers.add(new TaxTimerManager<ActionMenu>(this));
+		manager = new TabScrollManager<TabSelectOptionMenu<E>>(this);
+		this.managers.add(manager);
+		this.filteredoptions = this.taboptions;
+		
+	}
+
+	@Override
+	public void nonPersistent() {
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.startListening();
+		}
+		this.addTabOptions();
+		if(this.filteredoptions.size() == 0 && this.taboptions.size() != 0) {
+			this.setError(MenuError.NO_MATCHES_FOUND());
+			return;
+		}
+		else if(this.filteredoptions.size() != 0) {
+			this.data = this.filteredoptions.get(tabcnt);
+		}
+	}
+
+	@Override
+	public void unloadNonPersist() {
+		this.setError(MenuError.NO_ERROR());
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
+		this.options = new ArrayList<Option>();
+		this.taboptions = new ArrayList<E>();
+		this.filteredoptions = new ArrayList<E>();
+	}
+
+	@Override
+	public void unloadPersist() {
+		managers = new ArrayList<ActionManager<?>>();
 	}
 }

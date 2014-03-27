@@ -1,9 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
@@ -24,8 +20,7 @@ public class ClaimChestShop extends InputMenu {
 	private ClaimChestShopManager manager;
 	private MapManager<ClaimChestShop> mapmanager;
 
-	public ClaimChestShop(PlayerData PDI, Menu previous, InspiredGov gov) {
-		super(PDI);
+	public ClaimChestShop(Menu previous, InspiredGov gov) {
 		this.gov = gov;
 		this.previous = previous;
 		manager = new ClaimChestShopManager(this);
@@ -65,12 +60,6 @@ public class ClaimChestShop extends InputMenu {
 	}
 
 	@Override
-	public List<String> getTabOptions() {
-		List<String> output = new ArrayList<String>();
-		return output;
-	}
-
-	@Override
 	public String getInstructions() {
 		String output = mapmanager.drawMap(gov, 4);
 		output = MenuTools.addDivider(output);
@@ -91,17 +80,6 @@ public class ClaimChestShop extends InputMenu {
 	}
 
 	@Override
-	public void init() {
-		this.managers.add(manager);
-		this.managers.add(mapmanager);
-	}
-
-	@Override
-	public InputMenu getSelf() {
-		return new ClaimChestShop(PDI, previous, gov);
-	}
-
-	@Override
 	public String getHeader() {
 		return "Claim Chest Shop";
 	}
@@ -114,5 +92,17 @@ public class ClaimChestShop extends InputMenu {
 	@Override
 	public boolean getPassBy() {
 		return false;
+	}
+
+	@Override
+	public void addTabOptions() {
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		this.managers.add(manager);
+		this.managers.add(mapmanager);
+		
 	}
 }

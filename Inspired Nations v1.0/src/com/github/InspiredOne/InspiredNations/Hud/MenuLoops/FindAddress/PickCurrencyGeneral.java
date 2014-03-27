@@ -26,16 +26,6 @@ public abstract class PickCurrencyGeneral extends TabSelectOptionMenu<Currency> 
 		return "";
 	}
 
-	@Override
-	public void Init() {
-		TreeSet<Currency> currens = new TreeSet<Currency>(InspiredNations.Exchange.getExchangeMap().keySet());
-		for(Currency curren:currens) {
-			if(check(curren)) {
-				this.taboptions.add(curren);
-			}
-		}
-		insertOptions();
-	}
 	/**
 	 * 
 	 * @param curren
@@ -47,7 +37,15 @@ public abstract class PickCurrencyGeneral extends TabSelectOptionMenu<Currency> 
 	public String getHeader() {
 		return "Select Currency";
 	}
-	
-	public abstract void insertOptions();
 
+	@Override
+	public void addTabOptions() {
+		TreeSet<Currency> currens = new TreeSet<Currency>(InspiredNations.Exchange.getExchangeMap().keySet());
+		for(Currency curren:currens) {
+			if(check(curren)) {
+				this.taboptions.add(curren);
+			}
+		}
+		
+	}
 }

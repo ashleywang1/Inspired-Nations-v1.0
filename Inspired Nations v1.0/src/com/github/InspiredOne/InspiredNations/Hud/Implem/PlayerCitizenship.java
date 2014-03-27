@@ -37,16 +37,16 @@ public class PlayerCitizenship extends OptionMenu {
 	}
 
 	@Override
-	public void init() {
+	public void addOptions() {
 		this.options.add(new PromptOption(this, "Ownership Requests and Offers", new OwnerOffers(PDI)));
 		this.options.add(new PromptOption(this, "Citizenship Requests and Offers", new SubjectOffers(PDI)));
-		// owner requests and offers
-		// subject requests and offers
+		
 	}
 
 	@Override
-	public OptionMenu getSelf() {
-		return new PlayerCitizenship(PDI);
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

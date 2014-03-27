@@ -25,7 +25,12 @@ public class SubjectOffers extends TabSelectOptionMenu<OwnerSubjectGov> {
 	}
 
 	@Override
-	public void Init() {
+	public String getHeader() {
+		return "Offers For Citizenship";
+	}
+
+	@Override
+	public void addTabOptions() {
 		for(InspiredGov gov:InspiredNations.regiondata) {
 			if(gov instanceof OwnerSubjectGov) {
 				if(((OwnerSubjectGov) gov).getSubjectOffers().contains(PDI.getPlayerID())) {
@@ -33,21 +38,23 @@ public class SubjectOffers extends TabSelectOptionMenu<OwnerSubjectGov> {
 				}
 			}
 		}
+		
+	}
+
+	@Override
+	public void addOptions() {
 		if(this.taboptions.size() != 0) {
 			this.options.add(new IgnoreOfferOption(this, "Ignore Offer From " + this.getData().getName(), PDI.getPlayerID(), this.getData().getSubjectOffers()));
 			this.options.add(new JoinSubjectGovOption(this, "Accept Offer From " + this.getData().getName(), this.getData(), PDI.getPlayerID()));
 		}
 		this.options.add(new PromptOption(this, "Requests Citizenship", new SubjectRequests(PDI)));
+		
 	}
 
 	@Override
-	public String getHeader() {
-		return "Offers For Citizenship";
-	}
-
-	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new SubjectOffers(PDI);
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

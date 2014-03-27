@@ -2,7 +2,6 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
@@ -33,7 +32,7 @@ public class MainHud extends OptionMenu {
 
 	@Override
 	public Menu getPreviousMenu() {
-		return getSelf();
+		return this.getSelfPersist();
 	}
 
 	@Override
@@ -47,7 +46,7 @@ public class MainHud extends OptionMenu {
 	}
 
 	@Override
-	public void init() {
+	public void addOptions() {
 		this.options.add(new PromptOption(this, "Map", new Map(PDI)));
 		if(!InspiredNations.Markets.isEmpty()) {
 			this.options.add(new PromptOption(this, "Market", new PickMarketplace(PDI)));
@@ -64,17 +63,18 @@ public class MainHud extends OptionMenu {
 				this.options.add(new PromptOption(this, "Manage " + govobj.getTypeName(), new PickManageSelfType(PDI, gov)));
 			}
 		}
-		
+	
 		for(Class<? extends OwnerGov> gov:array) {
 			OwnerGov govobj = (OwnerGov) GovFactory.getGovInstance(gov);
 			if(!PDI.getCitizenship(govobj.getSuperGov()).isEmpty()) {
 				this.options.add(new PromptOption(this, "New " + govobj.getTypeName(), new PickSelfType<>(PDI, gov)));
 			}
 		}
+		
 	}
 
 	@Override
-	public OptionMenu getSelf() {
-		return new MainHud(PDI);
+	public void addActionManagers() {
+		
 	}
 }

@@ -25,7 +25,12 @@ public class OwnerOffers extends TabSelectOptionMenu<OwnerGov> {
 	}
 
 	@Override
-	public void Init() {
+	public String getHeader() {
+		return "Offers For Ownership";
+	}
+
+	@Override
+	public void addTabOptions() {
 		for(InspiredGov gov:InspiredNations.regiondata) {
 			if(gov instanceof OwnerGov) {
 				if(((OwnerGov) gov).getOwnerOffers().contains(PDI.getPlayerID())) {
@@ -33,6 +38,10 @@ public class OwnerOffers extends TabSelectOptionMenu<OwnerGov> {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void addOptions() {
 		if(this.taboptions.size() != 0) {
 			this.options.add(new IgnoreOfferOption(this, "Ignore Offer From " + this.getData().getName(), PDI.getPlayerID(), this.getData().getOwnerOffers()));
 			this.options.add(new JoinOwnerGovOption(this, "Accept Offer From " + this.getData().getName(), this.getData(), PDI.getPlayerID()));
@@ -41,13 +50,8 @@ public class OwnerOffers extends TabSelectOptionMenu<OwnerGov> {
 	}
 
 	@Override
-	public String getHeader() {
-		return "Offers For Ownership";
-	}
-
-	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new OwnerOffers(PDI);
+	public void addActionManagers() {
+		
 	}
 
 }

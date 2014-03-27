@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 /**
  * Used to allow option menus to be bypassed if there is only one option.
@@ -32,15 +33,37 @@ public abstract class PassByOptionMenu extends OptionMenu{
 		return this.getNextMenu("1");
 	}
 	
+	// These methods are overridden by all the super classes. I wish there were a better
+	// way I could do this. Until then, ctrl-c and ctrl-v.
 	@Override
-	public void reset() {
-		managers = new ArrayList<ActionManager<?>>();
+	public void menuPersistent() {
 		managers.add(new TaxTimerManager<ActionMenu>(this));
+
+	}
+
+	@Override
+	public void nonPersistent() {
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.startListening();
+		}
+		this.addOptions();
+	}
+
+	@Override
+	public void unloadNonPersist() {
+		this.setError(MenuError.NO_ERROR());
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
 		this.options = new ArrayList<Option>();
 	}
-	/**
-	 * Returns a new instance of itself. Used for user input errors.
-	 * @return	the <code>Menu</code> of itself
-	 */
-	public abstract PassByOptionMenu getSelf();
+
+	@Override
+	public void unloadPersist() {
+		managers = new ArrayList<ActionManager<?>>();
+	}
+	
 }

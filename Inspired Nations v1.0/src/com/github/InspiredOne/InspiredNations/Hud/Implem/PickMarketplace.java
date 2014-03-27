@@ -15,11 +15,6 @@ public class PickMarketplace extends PassByOptionMenu {
 	}
 
 	@Override
-	public PassByOptionMenu getSelf() {
-		return new PickMarketplace(PDI);
-	}
-
-	@Override
 	public String getPreOptionText() {
 		return "";
 	}
@@ -35,10 +30,15 @@ public class PickMarketplace extends PassByOptionMenu {
 	}
 
 	@Override
-	public void init() {
+	public void addOptions() {
 		for(MarketPlace<?> market:InspiredNations.Markets) {
 			this.options.add(new PromptOption(this, market.getName(), new BuyMenu(PDI, market)));
 		}
+	}
+
+	@Override
+	public void addActionManagers() {
+		
 	}
 
 }
