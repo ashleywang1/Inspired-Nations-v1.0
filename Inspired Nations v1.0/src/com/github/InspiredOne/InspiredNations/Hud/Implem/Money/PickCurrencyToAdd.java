@@ -19,16 +19,6 @@ public class PickCurrencyToAdd extends PickCurrencyGeneral {
 	}
 
 	@Override
-	public void insertOptions() {
-		this.options.add(new AddCurrencyToAccountOption(this,"Add " + this.getData() + " To Your Account",account,this.getData()));
-	}
-
-	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new PickCurrencyToAdd(PDI, previous, account);
-	}
-
-	@Override
 	public boolean check(Currency curren) {
 		if(account.containsCurrency(curren)) {
 			return false;
@@ -36,6 +26,19 @@ public class PickCurrencyToAdd extends PickCurrencyGeneral {
 		else {
 			return true;
 		}
+	}
+
+	@Override
+	public void addOptions() {
+		this.options.add(new AddCurrencyToAccountOption(this,"Add " + this.getData() + " To Your Account",account,this.getData()));
+
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

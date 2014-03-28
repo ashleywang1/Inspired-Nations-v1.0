@@ -27,25 +27,27 @@ public class PickPlayerToOfferCitizenship extends PickPlayerGeneral {
 	}
 
 	@Override
-	public void insertOptions() {
-		if(this.getTabOptions().size() != 0) {
-			this.options.add(new OfferSubjectOption(this, "Offer " + gov.getSubjectPositionName(), this.gov, this.getData()));
-		}
-	}
-
-	@Override
 	public String postTabListPreOptionsText() {
 		return "";
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new PickPlayerToOfferCitizenship(PDI, previous, gov);
+	public String getHeader() {
+		return "Offer " + gov.getSubjectPositionName();
 	}
 
 	@Override
-	public String getHeader() {
-		return "Offer " + gov.getSubjectPositionName();
+	public void addOptions() {
+		if(this.getTabOptions().size() != 0) {
+			this.options.add(new OfferSubjectOption(this, "Offer " + gov.getSubjectPositionName(), this.gov, this.getData()));
+		}
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

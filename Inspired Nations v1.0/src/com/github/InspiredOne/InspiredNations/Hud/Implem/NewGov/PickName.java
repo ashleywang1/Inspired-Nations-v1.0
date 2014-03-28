@@ -44,12 +44,6 @@ public class PickName<T extends OwnerGov> extends InputMenu {
 	}
 
 	@Override
-	public List<String> getTabOptions() {
-		List<String> output = new ArrayList<String>();
-		return output;
-	}
-
-	@Override
 	public String getHeader() {
 		return "Type Name";
 	}
@@ -73,14 +67,15 @@ public class PickName<T extends OwnerGov> extends InputMenu {
 	public boolean getPassBy() {
 		return false;
 	}
-
 	@Override
-	public void init() {
+	public void addTabOptions() {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public InputMenu getSelf() {
-		return new PickName<>(PDI, Govf);
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 }

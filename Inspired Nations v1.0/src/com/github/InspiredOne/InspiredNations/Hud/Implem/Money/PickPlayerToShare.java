@@ -27,11 +27,6 @@ public class PickPlayerToShare extends PickPlayerGeneral {
 	}
 
 	@Override
-	public void insertOptions() {
-		this.options.add(new ShareAccountOption(this, "Share Account With " + this.getData(), account, this.getData().getPDI().getAccounts()));
-	}
-
-	@Override
 	public String postTabListPreOptionsText() {
 		return "";
 	}
@@ -42,8 +37,15 @@ public class PickPlayerToShare extends PickPlayerGeneral {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new PickPlayerToShare(PDI, previous, account);
+	public void addOptions() {
+		this.options.add(new ShareAccountOption(this, "Share Account With " + this.getData(), account, this.getData().getPDI().getAccounts()));
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

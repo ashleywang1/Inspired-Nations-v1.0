@@ -26,19 +26,27 @@ public class SelectNewCurrency extends TabSelectOptionMenu<Currency> {
 	}
 
 	@Override
-	public void Init() {
-		for(Currency curren:InspiredNations.Exchange.getExchangeMap().keySet()) {
-			this.taboptions.add(curren);
-		}
-	}
-
-	@Override
 	public String getHeader() {
 		return "Pick Currency";
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new SelectNewCurrency(PDI, previous);
+	public void addTabOptions() {
+		for(Currency curren:InspiredNations.Exchange.getExchangeMap().keySet()) {
+			this.taboptions.add(curren);
+		}
+		
+	}
+
+	@Override
+	public void addOptions() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 }

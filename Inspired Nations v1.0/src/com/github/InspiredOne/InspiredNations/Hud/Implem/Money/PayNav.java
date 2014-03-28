@@ -51,8 +51,8 @@ public class PayNav extends PickNavGeneral {
 	}
 
 	@Override
-	public PassByOptionMenu getSelf() {
-		return new PayNav(PDI, previous, accounts);
+	public void addActionManagers() {
+		
 	}
 
 }

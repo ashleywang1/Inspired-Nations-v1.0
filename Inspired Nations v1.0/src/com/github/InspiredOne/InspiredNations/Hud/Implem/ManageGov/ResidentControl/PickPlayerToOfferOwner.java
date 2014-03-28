@@ -27,25 +27,27 @@ public class PickPlayerToOfferOwner extends PickPlayerGeneral {
 	}
 
 	@Override
-	public void insertOptions() {
-		if(this.taboptions.size() != 0) {
-			this.options.add(new OfferOwnerOption(this, "Offer " + gov.getOwnerPositionName(), gov, this.getData()));
-		}
-	}
-
-	@Override
 	public String postTabListPreOptionsText() {
 		return "";
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new PickPlayerToOfferOwner(PDI, previous, gov);
+	public String getHeader() {
+		return "Offer " + gov.getOwnerPositionName();
 	}
 
 	@Override
-	public String getHeader() {
-		return "Offer " + gov.getOwnerPositionName();
+	public void addOptions() {
+		if(this.taboptions.size() != 0) {
+			this.options.add(new OfferOwnerOption(this, "Offer " + gov.getOwnerPositionName(), gov, this.getData()));
+		}
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

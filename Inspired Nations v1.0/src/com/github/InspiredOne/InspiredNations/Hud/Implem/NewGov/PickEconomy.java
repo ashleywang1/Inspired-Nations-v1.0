@@ -52,12 +52,6 @@ public class PickEconomy<T extends OwnerGov> extends InputMenu{
 	}
 
 	@Override
-	public List<String> getTabOptions() {
-		List<String> output = new ArrayList<String>();
-		return output;
-	}
-
-	@Override
 	public Menu getPreviousMenu() {
 		return new PickMoneyName<T>(PDI, Govf);
 	}
@@ -81,12 +75,14 @@ public class PickEconomy<T extends OwnerGov> extends InputMenu{
 	}
 
 	@Override
-	public void init() {
+	public void addTabOptions() {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public InputMenu getSelf() {
-		return new PickEconomy<>(PDI, Govf);
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 }

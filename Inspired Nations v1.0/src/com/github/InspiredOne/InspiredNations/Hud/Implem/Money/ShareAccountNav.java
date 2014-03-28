@@ -46,8 +46,9 @@ public class ShareAccountNav extends PickNavGeneral {
 	}
 
 	@Override
-	public PassByOptionMenu getSelf() {
-		return new ShareAccountNav(PDI, previous, account);
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

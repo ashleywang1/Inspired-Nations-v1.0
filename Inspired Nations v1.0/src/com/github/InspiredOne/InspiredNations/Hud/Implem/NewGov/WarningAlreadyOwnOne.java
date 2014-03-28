@@ -45,14 +45,15 @@ public class WarningAlreadyOwnOne<T extends OwnerGov> extends OptionMenu {
 	}
 
 	@Override
-	public void init() {
+	public void addOptions() {
 		options.add(new PromptOption(this, "Yes", new PickName<T>(PDI, Govf.withAccountCollection(PDI.getAccounts()))));
 		options.add(new PromptOption(this, "No", new MainHud(PDI)));
+		
 	}
 
 	@Override
-	public OptionMenu getSelf() {
-		return new WarningAlreadyOwnOne<>(PDI, Govf);
+	public void addActionManagers() {
+		
 	}
 
 }

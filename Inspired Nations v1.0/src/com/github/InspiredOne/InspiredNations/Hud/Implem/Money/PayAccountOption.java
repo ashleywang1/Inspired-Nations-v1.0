@@ -46,11 +46,10 @@ public class PayAccountOption extends Option {
 				menu.setError(MenuError.NEGATIVE_AMOUNTS_NOT_ALLOWED(amount));
 			}
 
-			return menu.getSelf();
+			return menu.getNewSelf();
 		}
 		catch (Exception ex) {
-			ex.printStackTrace();
-			return menu.getSelf().setError(MenuError.INVALID_NUMBER_INPUT());
+			return menu.getNewSelf().setError(MenuError.INVALID_NUMBER_INPUT());
 		}
 	}
 }

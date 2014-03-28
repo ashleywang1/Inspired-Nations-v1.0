@@ -44,10 +44,9 @@ public class PickFacilityType<T extends Facility> extends PassByOptionMenu {
 			return new PickFacilityType<T>(PDI, previous, gov, (Class<T>) govf.getGov().getGeneralGovType());
 		}
 	}
-
 	@SuppressWarnings("unchecked")
 	@Override
-	public void init() {
+	public void addOptions() {
 		Debug.print("in init of PickFacilityType 1");
 		for(Class<? extends InspiredGov> selfgov:GovFactory.getGovInstance(GovType).getSelfGovs()) {
 			Debug.print("in init of PickFacilityType 3");
@@ -75,7 +74,8 @@ public class PickFacilityType<T extends Facility> extends PassByOptionMenu {
 	}
 
 	@Override
-	public PassByOptionMenu getSelf() {
-		return new PickFacilityType<>(PDI, previous, gov, GovType);
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 }

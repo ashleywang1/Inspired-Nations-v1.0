@@ -30,24 +30,30 @@ public class RequestsForOwner extends TabSelectOptionMenu<PlayerID> {
 	}
 
 	@Override
-	public void Init() {
-		Debug.print("Inside RequestForOwner Init();");
-		for(PlayerID player:this.gov.getOwnerRequests()) {
-			this.taboptions.add(player);
-		}
-		this.options.add(new PromptOption(new RequestsForOwner(PDI, previous, gov), gov.getOwnerPositionName() + " Offers",
-				new OffersForOwner(PDI, previous, gov)));
-		Debug.print("Inside RequestForOwner Init(); 2");
-	}
-
-	@Override
 	public String getHeader() {
 		return gov.getOwnerPositionName() + " Requests";
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new RequestsForOwner(PDI, previous, gov);
+	public void addTabOptions() {
+		Debug.print("Inside RequestForOwner Init();");
+		for(PlayerID player:this.gov.getOwnerRequests()) {
+			this.taboptions.add(player);
+		}
+	}
+
+	@Override
+	public void addOptions() {
+		this.options.add(new PromptOption(new RequestsForOwner(PDI, previous, gov), gov.getOwnerPositionName() + " Offers",
+				new OffersForOwner(PDI, previous, gov)));
+		Debug.print("Inside RequestForOwner Init(); 2");
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

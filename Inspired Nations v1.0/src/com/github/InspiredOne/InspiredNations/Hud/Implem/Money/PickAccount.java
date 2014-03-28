@@ -34,22 +34,29 @@ public class PickAccount extends TabSelectOptionMenu<Account> {
 	}
 
 	@Override
-	public void Init() {
-		for(Account account:accounts) {
-			this.taboptions.add(account);
-		}
-		this.options.add(new PromptOption(this, "Pick Currency Account", new PickCurrencyCollection(PDI, this, this.getData(), accountFrom)));
-		this.options.add(new PayAccountOption(PDI, this, "Transfer Money <amount>", accountFrom, this.getData()));
-	}
-
-	@Override
 	public String getHeader() {
 		return "Pick Account To Transfer Money Into";
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new PickAccount(PDI, previous, accounts, accountFrom);
+	public void addTabOptions() {
+		for(Account account:accounts) {
+			this.taboptions.add(account);
+		}
+		
+	}
+
+	@Override
+	public void addOptions() {
+		this.options.add(new PromptOption(this, "Pick Currency Account", new PickCurrencyCollection(PDI, this, this.getData(), accountFrom)));
+		this.options.add(new PayAccountOption(PDI, this, "Transfer Money <amount>", accountFrom, this.getData()));
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

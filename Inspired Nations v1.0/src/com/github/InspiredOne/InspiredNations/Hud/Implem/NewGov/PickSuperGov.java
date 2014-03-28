@@ -45,7 +45,7 @@ public class PickSuperGov<T extends OwnerGov> extends PassByOptionMenu {
 	}
 
 	@Override
-	public void init() {
+	public void addOptions() {
 		OwnerGov superGovObj = GovFactory.getGovInstance(superGov);
 		
 		for(Class<? extends OwnerGov> govCheck:superGovObj.getSubGovs()) {
@@ -65,10 +65,12 @@ public class PickSuperGov<T extends OwnerGov> extends PassByOptionMenu {
 		for(InspiredGov gov:PDI.getCitizenship(Govf.getGov().getSuperGov())) {
 			this.options.add(new PromptOption(this, gov.getName(), new WarningAlreadyOwnOne<T>(PDI, Govf.withSuperGov(gov))));
 		}
+		
 	}
 
 	@Override
-	public PassByOptionMenu getSelf() {
-		return new PickSuperGov<>(PDI, Govf);
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 }

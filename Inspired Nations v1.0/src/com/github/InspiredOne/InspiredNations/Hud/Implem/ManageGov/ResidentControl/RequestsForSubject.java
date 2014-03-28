@@ -31,26 +31,32 @@ public class RequestsForSubject extends TabSelectOptionMenu<PlayerID> {
 	}
 
 	@Override
-	public void Init() {
+	public String getHeader() {
+		return this.gov.getSubjectPositionName() + " Requests";
+	}
+
+	@Override
+	public void addTabOptions() {
 		for(PlayerID player:this.gov.getSubjectRequests()) {
 			this.taboptions.add(player);
 		}
+	}
+
+	@Override
+	public void addOptions() {
 		if(taboptions.size() != 0) {
 			this.options.add(new IgnoreOfferOption(this, "Ignore Request", this.getData(), gov.getSubjectRequests()));
 			this.options.add(new JoinSubjectGovOption(this, "Accept Request", this.gov, this.getData()));
 		}
 		this.options.add(new PromptOption(new RequestsForSubject(PDI, previous, gov), gov.getSubjectPositionName() + " Offers",
 				new OffersForSubject(PDI, previous, gov)));
+		
 	}
 
 	@Override
-	public String getHeader() {
-		return this.gov.getSubjectPositionName() + " Requests";
-	}
-
-	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new RequestsForSubject(PDI, previous, gov);
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

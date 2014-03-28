@@ -29,11 +29,6 @@ public class PickGovernmentToShare extends PickGovGeneral {
 	}
 
 	@Override
-	public void insertOptions() {
-		this.options.add(new ShareAccountOption(this, "Share Account With " + this.getData().getTypeName(), account, this.getData().getAccounts()));
-	}
-
-	@Override
 	public String postTabListPreOptionsText() {
 		return "";
 	}
@@ -44,8 +39,15 @@ public class PickGovernmentToShare extends PickGovGeneral {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new PickGovernmentToShare(PDI, previous, next, account, superGov);
+	public void addOptions() {
+		this.options.add(new ShareAccountOption(this, "Share Account With " + this.getData().getTypeName(), account, this.getData().getAccounts()));
+
+	}
+
+	@Override
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

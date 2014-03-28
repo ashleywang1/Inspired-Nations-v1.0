@@ -27,19 +27,6 @@ public class PickGovToPay extends PickGovGeneral {
 	public boolean check(InspiredGov gov) {
 		return true;
 	}
-
-	@Override
-	public void insertOptions() {
-		if(this.getData().getAllSubGovsAndFacilitiesJustBelow().size() > 0) {
-			this.options.add(new PromptOption(this, "Search Under", new PickGovToPay(PDI, accounts, this, this.next, this.getData())));
-		}
-		if(PDI.getOwnership(this.getData().getClass()).contains(this.getData())) {
-			this.options.add(new PromptOption(this, "Transfer Money", new PickAccount(PDI, this, this.getData().getAccounts(), accounts)));
-		}
-		else {
-			this.options.add(new PayAccountOption(PDI, this, "Pay " + this.getData().getTypeName() + " <amount>", accounts, this.getData().getAccounts()));
-		}
-	}
 	@Override
 	public String postTabListPreOptionsText() {
 		return MenuTools.oneLineWallet("", PDI, accounts);
@@ -49,8 +36,22 @@ public class PickGovToPay extends PickGovGeneral {
 		return "Select Government To Pay";
 	}
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new PickGovToPay(PDI, accounts, previous, next, superGov);
+	public void addOptions() {
+		if(this.getData().getAllSubGovsAndFacilitiesJustBelow().size() > 0) {
+			this.options.add(new PromptOption(this, "Search Under", new PickGovToPay(PDI, accounts, this, this.next, this.getData())));
+		}
+		if(PDI.getOwnership(this.getData().getClass()).contains(this.getData())) {
+			this.options.add(new PromptOption(this, "Transfer Money", new PickAccount(PDI, this, this.getData().getAccounts(), accounts)));
+		}
+		else {
+			this.options.add(new PayAccountOption(PDI, this, "Pay " + this.getData().getTypeName() + " <amount>", accounts, this.getData().getAccounts()));
+		}
+		
+	}
+	@Override
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
