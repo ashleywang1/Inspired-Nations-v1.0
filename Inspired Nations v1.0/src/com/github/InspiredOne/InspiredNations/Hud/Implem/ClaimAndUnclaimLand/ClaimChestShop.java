@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand;
 
+import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
@@ -20,7 +21,8 @@ public class ClaimChestShop extends InputMenu {
 	private ClaimChestShopManager manager;
 	private MapManager<ClaimChestShop> mapmanager;
 
-	public ClaimChestShop(Menu previous, InspiredGov gov) {
+	public ClaimChestShop(PlayerData PDI, Menu previous, InspiredGov gov) {
+		super(PDI);
 		this.gov = gov;
 		this.previous = previous;
 		manager = new ClaimChestShopManager(this);

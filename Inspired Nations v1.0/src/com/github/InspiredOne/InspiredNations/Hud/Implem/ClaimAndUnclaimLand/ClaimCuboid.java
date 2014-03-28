@@ -55,14 +55,6 @@ public class ClaimCuboid extends InputMenu {
 	}
 
 	@Override
-	public void init() {
-		this.mapmanager = new MapManager<ClaimCuboid>(this);
-		this.manager = new ClaimCuboidManager<ClaimCuboid>(this);
-		this.managers.add(mapmanager);
-		this.managers.add(manager);
-	}
-
-	@Override
 	public Menu nextMenu() {
 		this.manager.reset();
 		return previous;
@@ -103,12 +95,6 @@ public class ClaimCuboid extends InputMenu {
 	}
 
 	@Override
-	public List<String> getTabOptions() {
-		List<String> output = new ArrayList<String>();
-		return output;
-	}
-
-	@Override
 	public String getInstructions() {
 		String output = this.mapmanager.drawMap(gov, 4);
 		output = output.concat("Left Click for one corner of the cuboid and Right Click for the other corner.\n");
@@ -116,7 +102,16 @@ public class ClaimCuboid extends InputMenu {
 	}
 
 	@Override
-	public InputMenu getSelf() {
-		return new ClaimCuboid(PDI, previous, gov);
+	public void addTabOptions() {
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		this.mapmanager = new MapManager<ClaimCuboid>(this);
+		this.manager = new ClaimCuboidManager<ClaimCuboid>(this);
+		this.managers.add(mapmanager);
+		this.managers.add(manager);
+		
 	}
 }

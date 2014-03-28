@@ -39,9 +39,7 @@ public class GovernmentRegions extends PassByOptionMenu {
 	}
 
 	@Override
-	public void init() {
-
-
+	public void addOptions() {
 		for(Class<? extends Facility> fac: gov.getGovFacilities()) {
 			Facility facil = GovFactory.getGovInstance(fac);
 
@@ -62,13 +60,12 @@ public class GovernmentRegions extends PassByOptionMenu {
 			}
 			set.add(fac.getClass());
 		}
-			
-		
 	}
 
 	@Override
-	public PassByOptionMenu getSelf() {
-		return new GovernmentRegions(PDI, previous, gov);
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

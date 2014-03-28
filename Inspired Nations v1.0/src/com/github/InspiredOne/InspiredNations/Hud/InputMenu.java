@@ -64,7 +64,7 @@ public abstract class InputMenu extends ActionMenu {
 	 */
 	public abstract void useInput(String input);
 	
-	public List<String> getTabOptions() {
+	public final List<String> getTabOptions() {
 		return this.tabOptions;
 	}
 	public abstract void addTabOptions();

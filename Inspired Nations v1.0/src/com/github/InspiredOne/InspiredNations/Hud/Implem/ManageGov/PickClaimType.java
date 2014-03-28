@@ -37,19 +37,20 @@ public class PickClaimType extends PassByOptionMenu {
 	}
 	
 	@Override
-	public void init() {
+	public void addOptions() {
 		Region temp;
 		Debug.print(gov.getName());
 		for(Class<? extends Region> regiontype:gov.getRegion().getAllowedForms()) {
 			Debug.print(regiontype.toString());
 			temp = Tools.getInstance(regiontype);
 			this.options.add(new PromptOption(this, temp.getTypeName() + ": " + temp.getDescription(), temp.getClaimMenu(PDI, previous, gov)));
-		}
+		}		
 	}
 
 	@Override
-	public PassByOptionMenu getSelf() {
-		return new PickClaimType(PDI, previous, gov);
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

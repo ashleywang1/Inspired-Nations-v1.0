@@ -31,7 +31,12 @@ public class AddItemSellable extends TabSelectOptionMenu<ItemSellable> {
 	}
 
 	@Override
-	public void Init() {
+	public String getHeader() {
+		return "Pick Item To Sell";
+	}
+
+	@Override
+	public void addTabOptions() {
 		try {
 			for(ItemStack stack:shop.getInventory()) {
 				if(stack != null ) {
@@ -45,19 +50,21 @@ public class AddItemSellable extends TabSelectOptionMenu<ItemSellable> {
 		} catch (NoShopRegionException e) {
 			e.printStackTrace();
 		}
+		
+	}
+
+	@Override
+	public void addOptions() {
 		if(this.taboptions.size() > 0) {
 			this.options.add(new PickPriceOption(this, "Sell for <price in " + PDI.getCurrency() + ">", this.getData(), shop));
 		}
+		
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new AddItemSellable(PDI, previous, shop);
-	}
-
-	@Override
-	public String getHeader() {
-		return "Pick Item To Sell";
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

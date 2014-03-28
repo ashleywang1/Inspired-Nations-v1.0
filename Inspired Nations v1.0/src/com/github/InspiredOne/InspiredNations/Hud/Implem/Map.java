@@ -75,20 +75,7 @@ public class Map extends InputMenu {
 	public void useInput(String input) {
 		this.Update();
 	}
-
-	@Override
-	public List<String> getTabOptions() {
-		List<String> options = new ArrayList<String>();
-		for(Class<? extends InspiredGov> govType:InspiredNations.regiondata.keySet()) {
-			InspiredGov gov = GovFactory.getGovInstance(govType);
-			if(gov.getSubGovs().size() !=0) {
-				options.add(gov.getTypeName());
-			}
-		}
-		options.clear();
-		return options;
-	}
-
+	
 	@Override
 	public String getInstructions() {
 		return manager.drawMap(selection, 6);
@@ -96,7 +83,14 @@ public class Map extends InputMenu {
 
 	@Override
 	public void addTabOptions() {
-		// TODO Auto-generated method stub
+		// Trying to use some kind of tab complete thing for selecting the scope of the map?
+		for(Class<? extends InspiredGov> govType:InspiredNations.regiondata.keySet()) {
+			InspiredGov gov = GovFactory.getGovInstance(govType);
+			if(gov.getSubGovs().size() !=0) {
+				tabOptions.add(gov.getTypeName());
+			}
+		}
+		tabOptions.clear();  // this looks counter productive. Fill the list then clear it?
 		
 	}
 

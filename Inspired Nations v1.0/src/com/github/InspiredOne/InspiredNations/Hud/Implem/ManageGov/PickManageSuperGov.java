@@ -8,6 +8,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 
@@ -44,21 +45,21 @@ public class PickManageSuperGov extends PassByOptionMenu {
 	}
 
 	@Override
-	public void init() {
+	public void addOptions() {
 		LinkedHashSet<OwnerGov> options = PDI.getAllSuperGovsBelow(this.GovType, supergov);
 		for(Iterator<OwnerGov> iter = options.iterator(); iter.hasNext();) {
 			OwnerGov gov = iter.next();
 			if(gov.getClass().equals(this.GovType)) {
-				this.options.add(new PromptOption(this.getSelf(), gov.getName(), new ManageGov(PDI, gov)));
+				this.options.add(new PromptOption((OptionMenu) this.getNewSelf(), gov.getName(), new ManageGov(PDI, gov)));
 			}
 			else {
-				this.options.add(new PromptOption(this.getSelf(), gov.getName(), new PickManageSuperGov(PDI, this.GovType, gov)));
+				this.options.add(new PromptOption((OptionMenu) this.getNewSelf(), gov.getName(), new PickManageSuperGov(PDI, this.GovType, gov)));
 			}
 		}
 	}
 
 	@Override
-	public PassByOptionMenu getSelf() {
-		return new PickManageSuperGov(PDI, GovType, supergov);
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
 	}
 }

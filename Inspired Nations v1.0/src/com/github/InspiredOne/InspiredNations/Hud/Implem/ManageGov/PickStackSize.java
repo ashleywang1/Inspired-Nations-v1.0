@@ -46,26 +46,9 @@ public class PickStackSize extends InputMenu {
 		this.item.getItem().setAmount(temp);
 	}
 
-	@Override
-	public List<String> getTabOptions() {
-		List<String> output = new ArrayList<String>();
-		return output;
-	}
-
-	@Override
 	public String getInstructions() {
 		return "Type the amount you would like to sell with each sale. Limit "+ TextColor.VALUE  + "1 - "
 	+ this.item.getItem().getMaxStackSize() + TextColor.INSTRUCTION + ".";
-	}
-
-	@Override
-	public void init() {
-
-	}
-
-	@Override
-	public InputMenu getSelf() {
-		return new PickStackSize(PDI, previous, item, shop);
 	}
 
 	@Override
@@ -81,5 +64,17 @@ public class PickStackSize extends InputMenu {
 	@Override
 	public boolean getPassBy() {
 		return (item.getItem().getMaxStackSize() == 1);
+	}
+
+	@Override
+	public void addTabOptions() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 }

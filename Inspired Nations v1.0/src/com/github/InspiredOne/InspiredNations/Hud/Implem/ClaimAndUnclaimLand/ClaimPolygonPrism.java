@@ -65,22 +65,8 @@ public class ClaimPolygonPrism extends InputMenu {
 	}
 
 	@Override
-	public List<String> getTabOptions() {
-		List<String> output = new ArrayList<String>();
-		return output;
-	}
-
-	@Override
 	public String getInstructions() {
 		return this.mapmanager.drawMap(gov, 4);
-	}
-
-	@Override
-	public void init() {
-		manager = new ClaimPolygonPrismManager<ClaimPolygonPrism>(this);
-		mapmanager = new MapManager<ClaimPolygonPrism>(this);
-		this.managers.add(manager);
-		this.managers.add(mapmanager);
 	}
 
 	@Override
@@ -99,8 +85,18 @@ public class ClaimPolygonPrism extends InputMenu {
 	}
 
 	@Override
-	public InputMenu getSelf() {
-		return new ClaimPolygonPrism(PDI, previous, gov);
+	public void addTabOptions() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		manager = new ClaimPolygonPrismManager<ClaimPolygonPrism>(this);
+		mapmanager = new MapManager<ClaimPolygonPrism>(this);
+		this.managers.add(manager);
+		this.managers.add(mapmanager);
+		
 	}
 
 }

@@ -27,7 +27,8 @@ public class ClaimChunkoid extends InputMenu {
 	public ClaimChunkoidManager<ClaimChunkoid> manager;
 	private MapManager<ClaimChunkoid> mapmanager;
 
-	public ClaimChunkoid(Menu previous, InspiredGov gov) {
+	public ClaimChunkoid(PlayerData PDI, Menu previous, InspiredGov gov) {
+		super(PDI);
 		this.previous = previous;
 		this.gov = gov;
 		if(!(gov.getRegion().getRegion() instanceof Chunkoid)) {

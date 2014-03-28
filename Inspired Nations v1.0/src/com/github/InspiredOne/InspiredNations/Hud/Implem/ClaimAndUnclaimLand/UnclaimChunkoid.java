@@ -60,12 +60,6 @@ public class UnclaimChunkoid extends InputMenu {
 		}
 	}
 
-	@Override
-	public List<String> getTabOptions() {
-		List<String> output = new ArrayList<String>();
-		return output;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public String getInstructions() {
@@ -94,14 +88,6 @@ public class UnclaimChunkoid extends InputMenu {
 	}
 
 	@Override
-	public void init() {
-		mapmanager = new MapManager<UnclaimChunkoid>(this);
-		manager = new UnclaimChunkoidManager<UnclaimChunkoid>(this, new Point2D(PDI.getPlayer().getLocation().getChunk()));
-		this.managers.add(mapmanager);
-		this.managers.add(manager);
-	}
-
-	@Override
 	public String getHeader() {
 		return "Unclaim Chunkoid";
 	}
@@ -117,8 +103,18 @@ public class UnclaimChunkoid extends InputMenu {
 	}
 
 	@Override
-	public InputMenu getSelf() {
-		return new UnclaimChunkoid(PDI, previous, gov);
+	public void addTabOptions() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		mapmanager = new MapManager<UnclaimChunkoid>(this);
+		manager = new UnclaimChunkoidManager<UnclaimChunkoid>(this, new Point2D(PDI.getPlayer().getLocation().getChunk()));
+		this.managers.add(mapmanager);
+		this.managers.add(manager);
+		
 	}
 
 }

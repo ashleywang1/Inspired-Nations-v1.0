@@ -29,26 +29,33 @@ public class ManageItemsForSale extends TabSelectOptionMenu<ItemSellable> {
 	}
 
 	@Override
-	public void Init() {
+	public String getHeader() {
+		return "";
+	}
+
+	@Override
+	public void addTabOptions() {
 		Debug.print(1);
 		for(ItemSellable item:shop.getItems()) {
 			Debug.print(2);
 			this.taboptions.add(item);
 			Debug.print(3);
 		}
+		
+	}
+
+	@Override
+	public void addOptions() {
 		Debug.print(4);
 		this.options.add(new PromptOption(this, "Add Items To Sell", new AddItemSellable(PDI, this, shop)));
 		Debug.print(5);
+		
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new ManageItemsForSale(PDI, previous, shop);
-	}
-
-	@Override
-	public String getHeader() {
-		return "";
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

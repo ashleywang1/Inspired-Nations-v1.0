@@ -27,20 +27,7 @@ public class ManageCitizens extends TabSelectOptionMenu<PlayerID> {
 	public String postTabListPreOptionsText() {
 		return "";
 	}
-
-	@Override
-	public void Init() {
-		for(PlayerID subject:InspiredNations.playerdata) {
-			if(gov.isSubject(subject)) {
-				this.taboptions.add(subject);
-			}
-		}
-		this.options.add(new PromptOption(this, gov.getOwnerPositionName() + " Requests and Offers", new RequestsForOwner(PDI, previous, gov)));
-		if(gov instanceof OwnerSubjectGov) {
-			this.options.add(new PromptOption(this, ((OwnerSubjectGov) gov).getSubjectPositionName() + " Requests and Offers", new RequestsForSubject(PDI, previous, (OwnerSubjectGov) gov)));
-		}
-	}
-
+ 
 	@Override
 	public String getHeader() {
 		if(gov instanceof OwnerSubjectGov) {
@@ -53,7 +40,27 @@ public class ManageCitizens extends TabSelectOptionMenu<PlayerID> {
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new ManageCitizens(PDI, previous, gov);
+	public void addTabOptions() {
+		for(PlayerID subject:InspiredNations.playerdata) {
+			if(gov.isSubject(subject)) {
+				this.taboptions.add(subject);
+			}
+		}
+		
+	}
+
+	@Override
+	public void addOptions() {
+		this.options.add(new PromptOption(this, gov.getOwnerPositionName() + " Requests and Offers", new RequestsForOwner(PDI, previous, gov)));
+		if(gov instanceof OwnerSubjectGov) {
+			this.options.add(new PromptOption(this, ((OwnerSubjectGov) gov).getSubjectPositionName() + " Requests and Offers", new RequestsForSubject(PDI, previous, (OwnerSubjectGov) gov)));
+		}
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -29,18 +29,27 @@ public abstract class Menu extends MessagePrompt {
 		this.PDI = PDI;
 		this.plugin = InspiredNations.plugin;
 	}
-	
+	/**
+	 * When the menu is initialized, all options, tab options, tab selects, and text is
+	 * written up. Menu persistent variables (such as action managers and state data) is loaded
+	 * first. Non-persistent variables like options and tab selects and text is loaded second because
+	 * they rely on valid persistent variables
+	 */
 	public final void Initialize() {
-		Debug.print("Inside Initialize 1");
-		// Initialize the Non-Persistent Variables To be used for Prompt Text
-		this.loadNonPersistent();
+
 		Debug.print("Inside Initialize 2");
 		// Initialize the Menu Persistent Variables To be used for Prompt Text
 		this.loadMenuPersistent();
+		Debug.print("Inside Initialize 1");
+		// Initialize the Non-Persistent Variables To be used for Prompt Text
+		this.loadNonPersistent();
 		
 		Debug.print("Inside Initialize 3");
 
 	}
+	/**
+	 * Loads menu persistent variabls suce as Acton Managers and state data.
+	 */
 	private final void loadMenuPersistent() {
 		if(!loaded) {
 			this.menuPersistent();

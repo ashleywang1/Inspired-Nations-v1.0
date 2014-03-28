@@ -45,21 +45,6 @@ public class ManageGov extends OptionMenu {
 	public Menu getPassTo() {
 		return null;
 	}
-
-	@Override
-	public void init() {
-		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Population", new ManageCitizens(PDI, new ManageGov(PDI, gov), gov)));
-		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Money", new ManageGovMoney(PDI, this, gov)));
-		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Claim Land", new PickClaimType(PDI,new ManageGov(PDI, gov), gov/*.getCommonGovObj().getData()*/)));
-		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Change Protection Level", new ProtectionLevels(PDI, new ManageGov(PDI, gov), gov)));
-		if(gov instanceof OwnerSubjectGov) {
-			this.options.add(new PromptOption(new ManageGov(PDI, gov), "Change Military Level", new MilitaryLevels(PDI, new ManageGov(PDI, gov), (OwnerSubjectGov) gov)));
-		}
-		if(gov.getRegion().getRegion().volume() != 0) {
-			this.options.add(new UnclaimLandOption(new ManageGov(PDI, gov), "Unclaim Land", gov));
-		}
-		ManageGov.addFacilityOptions(PDI, this, gov);
-	}
 	
 	public static void addFacilityOptions(PlayerData PDI, OptionMenu menu, InspiredGov gov) {
 		OptionMenu newman = new ManageGov(PDI, (OwnerGov) gov);
@@ -80,8 +65,24 @@ public class ManageGov extends OptionMenu {
 	}
 
 	@Override
-	public OptionMenu getSelf() {
-		return new ManageGov(PDI, gov);
+	public void addOptions() {
+		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Population", new ManageCitizens(PDI, new ManageGov(PDI, gov), gov)));
+		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Money", new ManageGovMoney(PDI, this, gov)));
+		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Claim Land", new PickClaimType(PDI,new ManageGov(PDI, gov), gov/*.getCommonGovObj().getData()*/)));
+		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Change Protection Level", new ProtectionLevels(PDI, new ManageGov(PDI, gov), gov)));
+		if(gov instanceof OwnerSubjectGov) {
+			this.options.add(new PromptOption(new ManageGov(PDI, gov), "Change Military Level", new MilitaryLevels(PDI, new ManageGov(PDI, gov), (OwnerSubjectGov) gov)));
+		}
+		if(gov.getRegion().getRegion().volume() != 0) {
+			this.options.add(new UnclaimLandOption(new ManageGov(PDI, gov), "Unclaim Land", gov));
+		}
+		ManageGov.addFacilityOptions(PDI, this, gov);
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		
 	}
 
 }

@@ -42,13 +42,15 @@ public class ProtectionLevels extends OptionMenu {
 	}
 
 	@Override
-	public void init() {
+	public void addOptions() {
 		this.options.add(new SetProtectionLevelOption(this, "Set Protection Level <level>", gov));
+		
 	}
 
 	@Override
-	public OptionMenu getSelf() {
-		return new ProtectionLevels(PDI, previous, gov);
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

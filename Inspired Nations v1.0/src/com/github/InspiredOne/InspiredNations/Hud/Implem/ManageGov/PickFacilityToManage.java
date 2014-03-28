@@ -32,19 +32,6 @@ public class PickFacilityToManage<T extends Facility> extends TabSelectOptionMen
 		return "";
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public void Init() {
-		for(Facility fac:supergov.getFacilities()) {
-			if(fac.getClass().equals(factype)) {
-				this.taboptions.add((T) fac);
-			}
-		}
-		if(this.taboptions.size() != 0) {
-			this.options.add(new PromptOption(this, "Manage", new ManageFacility(PDI, getSelf(), this.getSelection())));	
-		}
-	}
-
 	@Override
 	public String getHeader() {
 		return "Pick " + GovFactory.getGovInstance(factype).getTypeName();
@@ -67,9 +54,28 @@ public class PickFacilityToManage<T extends Facility> extends TabSelectOptionMen
 		return new ManageFacility(PDI, previous, this.getData());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new PickFacilityToManage<>(PDI, previous, supergov, factype);
+	public void addTabOptions() {
+		for(Facility fac:supergov.getFacilities()) {
+			if(fac.getClass().equals(factype)) {
+				this.taboptions.add((T) fac);
+			}
+		}		
+	}
+
+	@Override
+	public void addOptions() {
+		if(this.taboptions.size() != 0) {
+			this.options.add(new PromptOption(this, "Manage", new ManageFacility(PDI, this.getNewSelf(), this.getSelection())));	
+		}
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

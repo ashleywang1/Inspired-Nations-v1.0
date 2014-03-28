@@ -30,24 +30,32 @@ public class OffersForSubject extends TabSelectOptionMenu<PlayerID> {
 	}
 
 	@Override
-	public void Init() {
-		for(PlayerID player:gov.getSubjectOffers()) {
-			this.taboptions.add(player);
-		}
-		if(this.taboptions.size() != 0) {
-			this.options.add(new IgnoreOfferOption(this, "Remove Offer", this.getData(), gov.getSubjectOffers()));
-		}
-		this.options.add(new PromptOption(this, "Add Offer", new PickPlayerToOfferCitizenship(PDI, this, gov)));
-	}
-
-	@Override
 	public String getHeader() {
 		return gov.getSubjectPositionName() + " Offers";
 	}
 
 	@Override
-	public TabSelectOptionMenu<?> GetSelf() {
-		return new OffersForSubject(PDI, previous, gov);
+	public void addTabOptions() {
+		for(PlayerID player:gov.getSubjectOffers()) {
+			this.taboptions.add(player);
+		}
+		
+	}
+
+	@Override
+	public void addOptions() {
+		if(this.taboptions.size() != 0) {
+			this.options.add(new IgnoreOfferOption(this, "Remove Offer", this.getData(), gov.getSubjectOffers()));
+		}
+		this.options.add(new PromptOption(this, "Add Offer", new PickPlayerToOfferCitizenship(PDI, this, gov)));
+
+		
+	}
+
+	@Override
+	public void addActionManagers() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
