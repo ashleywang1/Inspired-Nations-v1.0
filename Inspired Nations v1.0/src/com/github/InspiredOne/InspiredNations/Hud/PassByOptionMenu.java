@@ -54,7 +54,6 @@ public abstract class PassByOptionMenu extends OptionMenu{
 
 	@Override
 	public void unloadNonPersist() {
-		this.setError(MenuError.NO_ERROR());
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}

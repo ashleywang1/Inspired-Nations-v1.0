@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.TabScrollManager;
@@ -103,7 +104,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	public void actionResponse() {
 		int tabsize = this.filteredoptions.size();
 		if(this.manager.updateFromTabScroll) {
-			this.setError(MenuError.NO_ERROR());
+			//this.setError(MenuError.NO_ERROR());
 			if(manager.preTabEntry.equalsIgnoreCase("+")) {
 				this.setTabcnt(((this.getTabcnt() - 1) + tabsize) % tabsize);
 			}
@@ -126,8 +127,6 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			}
 			this.setData(this.filteredoptions.get(tabcnt));
 		}
-		this.unloadNonPersist();
-		this.nonPersistent();
 	}
 	
 	public int getTabcnt() {
@@ -146,11 +145,20 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	}
 	@Override
 	public final Menu getPreviousMenu() {
-		if(this.taboptions != this.filteredoptions) {
-			this.filteredoptions = this.taboptions;
+		Debug.print(this.taboptions != this.filteredoptions);
+		Debug.print(this.taboptions.equals(this.filteredoptions));
+		Debug.print(this.filteredoptions.containsAll(taboptions));
+		Debug.print("In getPriveiousMenu 1");
+		Debug.print(taboptions);
+		Debug.print(filteredoptions);
+		if(!this.filteredoptions.containsAll(taboptions)) {
+			Debug.print("In getPriveiousMenu 2");
+			this.manager.preTabEntry = "";
+			Debug.print("In getPriveiousMenu 3");
 			return this.getSelfPersist();
 		}
 		else {
+			Debug.print("In getPriveiousMenu 4");
 			return getPreviousPrompt();
 		}
 	}
@@ -193,8 +201,6 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		managers.add(new TaxTimerManager<ActionMenu>(this));
 		manager = new TabScrollManager<TabSelectOptionMenu<E>>(this);
 		this.managers.add(manager);
-		this.filteredoptions = this.taboptions;
-		
 	}
 
 	@Override
@@ -205,7 +211,9 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.startListening();
 		}
+
 		this.addTabOptions();
+		this.filteredoptions = Tools.filter(manager.preTabEntry, this.taboptions);
 		if(this.filteredoptions.size() == 0 && this.taboptions.size() != 0) {
 			this.setError(MenuError.NO_MATCHES_FOUND());
 			return;
@@ -213,21 +221,23 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		else if(this.filteredoptions.size() != 0) {
 			this.data = this.filteredoptions.get(tabcnt);
 		}
+		this.addOptions();
 	}
 
 	@Override
 	public void unloadNonPersist() {
-		this.setError(MenuError.NO_ERROR());
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
 		this.options = new ArrayList<Option>();
 		this.taboptions = new ArrayList<E>();
 		this.filteredoptions = new ArrayList<E>();
+		
 	}
 
 	@Override
 	public void unloadPersist() {
+
 		managers = new ArrayList<ActionManager<?>>();
 	}
 }

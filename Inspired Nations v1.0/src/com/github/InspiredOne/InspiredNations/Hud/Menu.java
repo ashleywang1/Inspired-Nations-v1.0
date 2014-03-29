@@ -36,15 +36,10 @@ public abstract class Menu extends MessagePrompt {
 	 * they rely on valid persistent variables
 	 */
 	public final void Initialize() {
-
-		Debug.print("Inside Initialize 2");
 		// Initialize the Menu Persistent Variables To be used for Prompt Text
 		this.loadMenuPersistent();
-		Debug.print("Inside Initialize 1");
 		// Initialize the Non-Persistent Variables To be used for Prompt Text
 		this.loadNonPersistent();
-		
-		Debug.print("Inside Initialize 3");
 
 	}
 	/**
@@ -52,6 +47,7 @@ public abstract class Menu extends MessagePrompt {
 	 */
 	private final void loadMenuPersistent() {
 		if(!loaded) {
+			this.setError(MenuError.NO_ERROR());
 			this.menuPersistent();
 			loaded = true;
 		}
@@ -61,11 +57,8 @@ public abstract class Menu extends MessagePrompt {
 		loaded = false;
 	}
 	private final void loadNonPersistent() {
-		Debug.print("Inside loadNonPersistent 1");
 		this.unloadNonPersist();
-		Debug.print("Inside loadNonPersistent 2");
 		this.nonPersistent();
-		Debug.print("Inside loadNonPersistent 3");
 	}
 	/**
 	 * Used to unload the Menu, clearing all Non-Persistent Variables and unregistering events.
@@ -91,11 +84,11 @@ public abstract class Menu extends MessagePrompt {
 	 * Unloads Menu Persistent Variables so that menu is completely refreshed.
 	 * @return
 	 */
-	public Menu getNewSelf() {
+/*	public Menu getNewSelf() {
 		this.unloadNonPersist();
 		this.unloadMenuPersistent();
 		return this;
-	}
+	}*/
 	
 	public final boolean passBy() {
 		this.Initialize();
@@ -104,7 +97,6 @@ public abstract class Menu extends MessagePrompt {
 	
 	@Override
 	public final boolean blocksForInput(ConversationContext arg0) {
-		this.Initialize();
 		return !this.passBy();
 	}
 	
@@ -135,32 +127,25 @@ public abstract class Menu extends MessagePrompt {
 	
 	@Override
 	public final Prompt acceptInput(ConversationContext arg0, String arg) {
-		Debug.print("inside Accept Input");
-		this.setError(MenuError.NO_ERROR());
 		if(arg == null) {
+			Menu output = this.getPassTo();
 			this.unloadNonPersist();
-			return this.getNextPrompt(arg0);
+			return output;
 		}
-		Debug.print("inside Accept Input 2");
 		if (arg.startsWith("/")) {
 			arg = arg.substring(1);
 		}
-		Debug.print("inside Accept Input 3");
 		if (arg.equalsIgnoreCase("back")) {
-			this.unloadNonPersist();
 			return this.checkBack();
 		}
-		Debug.print("inside Accept Input 4");
 		if (arg.equalsIgnoreCase("hud")) {
 			this.unloadNonPersist();
 			return new MainHud(PDI);
 		}
-		Debug.print("inside Accept Input 5");
 		if (arg.equalsIgnoreCase("exit")) {
 			this.unloadNonPersist();
 			return Menu.END_OF_CONVERSATION;
 		}
-		Debug.print("inside Accept Input 6");
 		String[] args = arg.split(" ");
 		if (args[0].equalsIgnoreCase("say"))  {
 			if(args.length > 1) {
@@ -169,7 +154,6 @@ public abstract class Menu extends MessagePrompt {
 			this.unloadNonPersist();
 			return this.getSelfPersist();
 		}
-		Debug.print("inside Accept Input 7");
 		return this.checkNext(arg);
 	}
 	/**
@@ -178,15 +162,13 @@ public abstract class Menu extends MessagePrompt {
 	 * in the menu graph
 	 */
 	private final Menu checkBack() {
-		Menu previous = this.getPreviousMenu();
-		Debug.print("In CheckBack();");
+		Menu previous = this.getPreviousMenu().getSelfPersist();
+		this.unloadNonPersist();
 		if(!previous.passBy()) {
-			Debug.print("In CheckBack() return previous;");
 			previous.PDI = this.PDI;
 			return previous;
 		}
 		else {
-			Debug.print("In CheckBack() return previous.checkback;");
 			return previous.checkBack();
 		}
 	}
@@ -197,18 +179,11 @@ public abstract class Menu extends MessagePrompt {
 	 * in the menu graph
 	 */
 	private final Menu checkNext(String input) {
-		Debug.print("in checkNext");
 		Menu next = this.getNextMenu(input);
-		Debug.print("in checkNext 2");
 		this.unloadNonPersist();
-		PDI.getCon().getContext();
-		Debug.print("in checkNext 3");
 		while(next.passBy()) {
-			Debug.print("in checkNext 5");
-			next = (Menu) next.getNextPrompt(PDI.getCon().getContext());
+			next = (Menu) next.getPassTo();
 		}
-		Debug.print("in checkNext 4");
-		next.PDI = this.PDI;
 		return next;
 	}
 	/**

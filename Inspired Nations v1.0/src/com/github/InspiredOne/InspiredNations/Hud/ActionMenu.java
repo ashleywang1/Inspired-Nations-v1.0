@@ -58,6 +58,7 @@ public abstract class ActionMenu extends Menu {
 	// way I could do this. Until then, ctrl-c and ctrl-v.
 	@Override
 	public void menuPersistent() {
+		this.setError(MenuError.NO_ERROR());
 		managers.add(new TaxTimerManager<ActionMenu>(this));
 		this.addActionManagers();
 		
@@ -75,7 +76,6 @@ public abstract class ActionMenu extends Menu {
 
 	@Override
 	public void unloadNonPersist() {
-		this.setError(MenuError.NO_ERROR());
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}

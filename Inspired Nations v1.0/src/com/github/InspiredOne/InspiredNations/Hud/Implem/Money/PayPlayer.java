@@ -43,10 +43,10 @@ public class PayPlayer extends PickPlayerGeneral {
 	@Override
 	public void addOptions() {
 		if(this.getData().equals(PDI.getPlayerID())) {
-			this.options.add(new PromptOption(this, "Transfer Money", new PickAccount(PDI, getNewSelf(), PDI.getAccounts(), accounts)));
+			this.options.add(new PromptOption(this, "Transfer Money", new PickAccount(PDI, this, PDI.getAccounts(), accounts)));
 		}
 		else {
-			this.options.add(new PayAccountOption(PDI, (OptionMenu) getNewSelf(), "Pay Player <amount>", accounts, this.getData().getPDI().getAccounts()));
+			this.options.add(new PayAccountOption(PDI, this, "Pay Player <amount>", accounts, this.getData().getPDI().getAccounts()));
 		}
 	}
 

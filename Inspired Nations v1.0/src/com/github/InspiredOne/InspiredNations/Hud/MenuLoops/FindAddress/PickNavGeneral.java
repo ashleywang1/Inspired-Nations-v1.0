@@ -1,10 +1,13 @@
 package com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
+import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public abstract class PickNavGeneral extends PassByOptionMenu {
 
@@ -39,14 +42,25 @@ public abstract class PickNavGeneral extends PassByOptionMenu {
 	 * gets the menu to be used for the Player option
 	 * @return
 	 */
-	public abstract Menu getPlayerMenu();
+	public abstract PickPlayerGeneral getPlayerMenu();
 
 	@Override
 	public void addOptions() {
-		this.options.add(new PromptOption(this, this.getPlayerOptionText(), this.getPlayerMenu()));
-		if(!InspiredNations.global.getData().getAllSubGovsAndFacilitiesJustBelow().isEmpty()) {
-			this.options.add(new PromptOption(this, this.getGovOptionText(), this.getGovMenu()));
+		Debug.print("Inside addOptions 1");
+		TabSelectOptionMenu<PlayerID> playermenu = this.getPlayerMenu();
+		Debug.print("Inside addOptions 2");
+		if (!playermenu.getTabOptions().isEmpty()){
+			Debug.print("Inside addOptions 3");
+			this.options.add(new PromptOption(this, this.getPlayerOptionText(), this.getPlayerMenu()));
+			Debug.print("Inside addOptions 4");
 		}
+		Debug.print("Inside addOptions 5");
+		if(!InspiredNations.global.getData().getAllSubGovsAndFacilitiesJustBelow().isEmpty()) {
+			Debug.print("Inside addOptions 6");
+			this.options.add(new PromptOption(this, this.getGovOptionText(), this.getGovMenu()));
+			Debug.print("Inside addOptions 7");
+		}
+		Debug.print("Inside addOptions 1");
 	}
 
 

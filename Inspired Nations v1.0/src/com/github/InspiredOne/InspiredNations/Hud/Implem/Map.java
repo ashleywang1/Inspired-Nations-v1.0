@@ -50,7 +50,7 @@ public class Map extends InputMenu {
 	@Override
 	public Menu nextMenu() {
 		this.setError(MenuError.NOT_AN_OPTION());
-		return getNewSelf();
+		return this.getSelfPersist();
 	}
 
 	@Override

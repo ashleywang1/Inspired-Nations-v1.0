@@ -49,6 +49,7 @@ public class TaxTimer implements Serializable {
 		return output;
 		
 	}
+	
 	public void startTimer() {
 		
 		new BukkitRunnable() {
@@ -56,6 +57,7 @@ public class TaxTimer implements Serializable {
 			@Override
 			public void run() {
 				TaxTimerEvent event = new TaxTimerEvent(InspiredNations.taxTimer);
+				
 				Bukkit.getServer().getPluginManager().callEvent(event);
 				countdown--;
 				if(countdown == 0) {

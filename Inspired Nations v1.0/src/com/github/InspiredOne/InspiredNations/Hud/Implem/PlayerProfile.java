@@ -34,7 +34,7 @@ public class PlayerProfile extends ActionMenu {
 
 	@Override
 	public Menu getNextMenu(String input) {
-		return this.getNewSelf();
+		return this.getSelfPersist();
 	}
 
 	@Override

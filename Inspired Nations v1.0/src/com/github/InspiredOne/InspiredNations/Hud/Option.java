@@ -11,7 +11,7 @@ public abstract class Option implements Nameable {
 	protected InspiredNations plugin;
 	protected OptionMenu menu;
 	private String description;
-	private OptionUnavail reason;
+	protected OptionUnavail reason;
 	public Option(OptionMenu menu, String label, OptionUnavail reason) {
 		this.menu = menu;
 		this.label = label;

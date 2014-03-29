@@ -11,7 +11,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public abstract class OptionMenu extends ActionMenu {
 
-	protected List<Option> options;
+	public List<Option> options;
 	
 	public OptionMenu(PlayerData PDI) {
 		super(PDI);
@@ -85,6 +85,7 @@ public abstract class OptionMenu extends ActionMenu {
 	 * @return	the options for this menu
 	 */
 	public final List<Option> getOptions() {
+		this.Initialize();
 		return this.options;
 	}
 	/**
@@ -105,7 +106,7 @@ public abstract class OptionMenu extends ActionMenu {
 	@Override
 	public void menuPersistent() {
 		managers.add(new TaxTimerManager<ActionMenu>(this));
-		
+		this.addActionManagers();
 		
 	}
 
@@ -122,7 +123,6 @@ public abstract class OptionMenu extends ActionMenu {
 
 	@Override
 	public void unloadNonPersist() {
-		this.setError(MenuError.NO_ERROR());
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}

@@ -31,7 +31,7 @@ public abstract class PickPlayerGeneral extends TabSelectOptionMenu<PlayerID> {
 	@Override
 	public String postTabListPreOptionsText() {
 		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 	@Override

@@ -45,8 +45,8 @@ public class ManageFacility extends OptionMenu {
 	@Override
 	public void addOptions() {
 		this.options.add(new PromptOption(this, "Manage Money", new ManageGovMoney(PDI, this, fac)));
-		this.options.add(new PromptOption(this, "Claim Land", new PickClaimType(PDI, this.getNewSelf(), fac)));
-		this.options.add(new RemoveFacilityOption((OptionMenu) getNewSelf(), "Remove Facility", fac));
+		this.options.add(new PromptOption(this, "Claim Land", new PickClaimType(PDI, this, fac)));
+		this.options.add(new RemoveFacilityOption(this, "Remove Facility", fac));
 		this.fac.setFunctionOptions(PDI, this);
 		
 	}

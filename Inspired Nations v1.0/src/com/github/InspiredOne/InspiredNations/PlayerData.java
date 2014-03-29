@@ -181,9 +181,8 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 		for(InspiredGov gov:InspiredNations.regiondata.get(govType)) {
 			if(gov instanceof OwnerGov) {
 				gov = (OwnerGov) gov;
-				Debug.print("inside the ownership check. 1 of playerdata");
 				if(((OwnerGov) gov).isOwner(this.getPlayerID())) {
-					Debug.print("inside the ownership check. 2 of playerdata");
+
 					output.add((OwnerGov) gov);
 				}
 			}

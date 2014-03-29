@@ -24,7 +24,6 @@ public class TabScrollManager<T extends ActionMenu> extends TabManager<T> {
 		else {
 		}
 		this.getActionMenu().Update();
-		this.preTabEntry = "";
 		this.updateFromTabScroll = false;
 	}
 }

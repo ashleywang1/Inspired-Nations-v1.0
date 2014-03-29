@@ -58,12 +58,12 @@ public class ManageGovMoney extends OptionMenu {
 		Debug.print("in init of manage gov money 1");
 		Debug.print("is gov null? " + (gov == null));
 		Debug.print("la de da");
-		this.options.add(new PromptOption((OptionMenu) getNewSelf(), "Pay", new PayNav(PDI, getNewSelf(), gov.getAccounts())));
-		this.options.add(new PromptOption((OptionMenu) getNewSelf(), "Manage Accounts", new ManageAccounts(PDI, this, gov.getAccounts())));
+		this.options.add(new PromptOption(this, "Pay", new PayNav(PDI, this, gov.getAccounts())));
+		this.options.add(new PromptOption(this, "Manage Accounts", new ManageAccounts(PDI, this, gov.getAccounts())));
 		Debug.print("in init of manage gov money 3");
 		if(this.gov.getAccounts().isLinked()) {
 			Debug.print("in init of manage gov money 4");
-			this.options.add(new SplitAccountOption((OptionMenu) getNewSelf(), "Split " + gov.getTypeName() + " Account", "Separates this account from yours", gov));
+			this.options.add(new SplitAccountOption(this, "Split " + gov.getTypeName() + " Account", "Separates this account from yours", gov));
 			Debug.print("in init of manage gov money 5");
 		}		
 	}

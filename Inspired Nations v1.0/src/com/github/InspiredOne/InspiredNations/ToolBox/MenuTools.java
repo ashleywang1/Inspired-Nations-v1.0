@@ -67,7 +67,8 @@ public class MenuTools {
 	}
 	
 	public enum OptionUnavail {
-		NOT_UNAVAILABLE("");
+		NOT_UNAVAILABLE(""),
+		NOBODY_TO_SHARE_WITH("No governments or people");
 		
 		private String reason;
 		

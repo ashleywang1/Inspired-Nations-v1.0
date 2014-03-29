@@ -20,16 +20,16 @@ public class NewAccountOption extends Option {
 		input = input.trim();
 		if(input.isEmpty()) {
 			menu.setError(MenuError.EMPTY_INPUT());
-			return menu;
+			return menu.getSelfPersist();
 		}
 		for(Account account:accounts){
 			if(account.getName().equalsIgnoreCase(input)) {
 				menu.setError(MenuError.ACCOUNT_NAME_ALREADY_TAKEN());
-				return menu;
+				return menu.getSelfPersist();
 			}
 		}
 		accounts.add(new Account(input));
-		return menu;
+		return menu.getSelfPersist();
 	}
 
 }

@@ -4,6 +4,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickNavGeneral;
+import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickPlayerGeneral;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 
 public class PayNav extends PickNavGeneral {
@@ -46,7 +47,7 @@ public class PayNav extends PickNavGeneral {
 	}
 
 	@Override
-	public Menu getPlayerMenu() {
+	public PickPlayerGeneral getPlayerMenu() {
 		return new PayPlayer(PDI, accounts, previous);
 	}
 

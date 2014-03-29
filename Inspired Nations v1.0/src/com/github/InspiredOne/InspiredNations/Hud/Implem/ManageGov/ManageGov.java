@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
@@ -49,16 +50,16 @@ public class ManageGov extends OptionMenu {
 	public static void addFacilityOptions(PlayerData PDI, OptionMenu menu, InspiredGov gov) {
 		OptionMenu newman = new ManageGov(PDI, (OwnerGov) gov);
 		if(gov.getGovFacilities().size() > 1) {
-			menu.getOptions().add(new PromptOption(newman, gov.getFacilityGroupName(), new GovernmentRegions(PDI, newman, gov)));
+			menu.options.add(new PromptOption(newman, gov.getFacilityGroupName(), new GovernmentRegions(PDI, newman, gov)));
 		}
 		else {
 			for(Class<? extends Facility> factype:gov.getGovFacilities()) {
 				Facility facgov = GovFactory.getGovInstance(factype);
 				if(gov.getFacilities().size() == 0 || !facgov.isUnique()) {
-					menu.getOptions().add(new PromptOption(newman, "New " + facgov.getTypeName(), new PickFacilityType<>(PDI, newman, gov, factype)));
+					menu.options.add(new PromptOption(newman, "New " + facgov.getTypeName(), new PickFacilityType<>(PDI, newman, gov, factype)));
 				}
 				if(gov.getFacilities().size() > 0) {
-					menu.getOptions().add(new PromptOption(newman, "Manage " + facgov.getTypeName(), new PickFacilityToManage<>(PDI, newman, gov, factype)));
+					menu.options.add(new PromptOption(newman, "Manage " + facgov.getTypeName(), new PickFacilityToManage<>(PDI, newman, gov, factype)));
 				}
 			}
 		}
@@ -66,18 +67,23 @@ public class ManageGov extends OptionMenu {
 
 	@Override
 	public void addOptions() {
+		Debug.print("Inside addOptions 1");
 		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Population", new ManageCitizens(PDI, new ManageGov(PDI, gov), gov)));
+		Debug.print("Inside addOptions 2");
 		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Money", new ManageGovMoney(PDI, this, gov)));
 		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Claim Land", new PickClaimType(PDI,new ManageGov(PDI, gov), gov/*.getCommonGovObj().getData()*/)));
 		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Change Protection Level", new ProtectionLevels(PDI, new ManageGov(PDI, gov), gov)));
+		Debug.print("Inside addOptions 3");
 		if(gov instanceof OwnerSubjectGov) {
 			this.options.add(new PromptOption(new ManageGov(PDI, gov), "Change Military Level", new MilitaryLevels(PDI, new ManageGov(PDI, gov), (OwnerSubjectGov) gov)));
 		}
+		Debug.print("Inside addOptions 4");
 		if(gov.getRegion().getRegion().volume() != 0) {
 			this.options.add(new UnclaimLandOption(new ManageGov(PDI, gov), "Unclaim Land", gov));
 		}
+		Debug.print("Inside addOptions 5");
 		ManageGov.addFacilityOptions(PDI, this, gov);
-		
+		Debug.print("Inside addOptions 6");
 	}
 
 	@Override

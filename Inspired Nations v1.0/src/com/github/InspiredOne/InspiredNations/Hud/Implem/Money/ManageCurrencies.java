@@ -46,18 +46,17 @@ public class ManageCurrencies extends TabSelectOptionMenu<CurrencyAccount> {
 		
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void addOptions() {
 		if(this.taboptions.size() > 0) {
-			this.options.add(new PromptOption((OptionMenu) getNewSelf(), "Pay with " + this.getData().getName(), new PayNav(PDI, getNewSelf(), this.getData())));
-			this.options.add(new ChangeTabOrderOption<>((TabSelectOptionMenu<CurrencyAccount>)getNewSelf(), "Change Currency Order <+/->", account.getMoney(), this.getData()));
+			this.options.add(new PromptOption(this, "Pay with " + this.getData().getName(), new PayNav(PDI, this, this.getData())));
+			this.options.add(new ChangeTabOrderOption<>(this, "Change Currency Order <+/->", account.getMoney(), this.getData()));
 			this.options.add(new PromptOption(this, "Transfer " + this.getData().getCurrency(), new PickAccount(PDI, this, accounts, account)));
 			if(this.taboptions.size() > 1) {
-				this.options.add(new RemoveCurrencyOption((OptionMenu) getNewSelf(), "Remove " + this.getData().getCurrency(), account, this.getData()));
+				this.options.add(new RemoveCurrencyOption(this, "Remove " + this.getData().getCurrency(), account, this.getData()));
 			}
 		}
-		this.options.add(new PromptOption(this, "Add Currency", new PickCurrencyToAdd(PDI, getNewSelf(), account)));
+		this.options.add(new PromptOption(this, "Add Currency", new PickCurrencyToAdd(PDI, this , account)));
 
 		
 	}

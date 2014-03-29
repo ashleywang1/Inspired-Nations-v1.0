@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations.Hud;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.InputManager;
@@ -96,15 +95,9 @@ public abstract class InputMenu extends ActionMenu {
 
 	@Override
 	public void unloadNonPersist() {
-		Debug.print("Inside unloadNonPersistent 1");
-		this.setError(MenuError.NO_ERROR());
-		Debug.print("Inside unloadNonPersistent 2");
 		for(ActionManager<?> manager:this.getActionManager()) {
-			Debug.print("Inside unloadNonPersistent 3");
 			manager.stopListening();
-			Debug.print("Inside unloadNonPersistent 4");
 		}
-		Debug.print("Inside unloadNonPersistent 5");
 	}
 
 	@Override

@@ -64,9 +64,8 @@ public class ManageMoney extends OptionMenu {
 
 	@Override
 	public void addOptions() {
-		this.options.add(new PromptOption((OptionMenu) getNewSelf(), "Pay", new PayNav(PDI, getNewSelf(), PDI.getAccounts())));
-		this.options.add(new PromptOption((OptionMenu) getNewSelf(), "Manage Accounts", new ManageAccounts(PDI, getNewSelf(), PDI.getAccounts())));
-		
+		this.options.add(new PromptOption(this, "Pay", new PayNav(PDI, this, PDI.getAccounts())));
+		this.options.add(new PromptOption(this, "Manage Accounts", new ManageAccounts(PDI, this, PDI.getAccounts())));
 	}
 
 	@Override

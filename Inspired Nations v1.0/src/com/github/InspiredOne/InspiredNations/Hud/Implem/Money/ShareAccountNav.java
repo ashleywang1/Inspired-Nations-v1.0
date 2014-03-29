@@ -6,6 +6,7 @@ import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickNavGeneral;
+import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickPlayerGeneral;
 
 public class ShareAccountNav extends PickNavGeneral {
 
@@ -31,7 +32,7 @@ public class ShareAccountNav extends PickNavGeneral {
 	}
 
 	@Override
-	public Menu getPlayerMenu() {
+	public PickPlayerGeneral getPlayerMenu() {
 		return new PickPlayerToShare(PDI, this, account);
 	}
 

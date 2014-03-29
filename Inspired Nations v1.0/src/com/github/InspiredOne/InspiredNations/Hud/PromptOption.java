@@ -1,6 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Hud;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
@@ -18,11 +17,8 @@ public class PromptOption extends Option {
 	
 	public PromptOption(OptionMenu menu, String lable, Menu nextPrompt, OptionUnavail reason) {
 		super(menu, lable, reason);
-		Debug.print("inside Prompt Option constructor 1");
 		this.nextPrompt = nextPrompt;
-		Debug.print("inside Prompt Option constructor 2");
 		this.PDI = this.menu.PDI;
-		Debug.print("inside Prompt Option constructor 3");
 	}
 	public PromptOption(OptionMenu menu, String lable, Menu nextPrompt) {
 		super(menu, lable);
