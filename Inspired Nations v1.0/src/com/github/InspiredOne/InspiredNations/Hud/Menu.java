@@ -127,6 +127,7 @@ public abstract class Menu extends MessagePrompt {
 	
 	@Override
 	public final Prompt acceptInput(ConversationContext arg0, String arg) {
+		this.setError(MenuError.NO_ERROR());
 		if(arg == null) {
 			Menu output = this.getPassTo();
 			this.unloadNonPersist();

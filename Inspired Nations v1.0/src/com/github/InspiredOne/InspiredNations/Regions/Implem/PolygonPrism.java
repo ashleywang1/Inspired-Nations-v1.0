@@ -5,15 +5,9 @@ import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.EnderPearl;
-import org.bukkit.entity.EnderSignal;
-import org.bukkit.util.Vector;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotSimplePolygonException;
 import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldException;
@@ -24,7 +18,6 @@ import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
-import com.github.InspiredOne.InspiredNations.ToolBox.MultiMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
@@ -71,6 +64,13 @@ public class PolygonPrism extends NonCummulativeRegion {
 		}
 		this.reconcilePoints();
 	}
+	
+	public int getMaxHieght() {
+		return ymax;
+	}
+	public int getMinHieght() {
+		return ymin;
+	}
 	ArrayList<Arrow> arrows = new ArrayList<Arrow>();
 //	ArrayList<EnderSignal> eyes = new ArrayList<EnderSignal>();
 	
@@ -92,7 +92,6 @@ public class PolygonPrism extends NonCummulativeRegion {
 			int rotate = 1;
 			int Area = 0; 
 			while(rotate <= 4) {
-				Debug.print(rotate);
 				pointtemp = rotateBlock(point, rotate);
 				polygon.xpoints[iter] = pointtemp.x;
 				polygon.ypoints[iter] = pointtemp.z;
@@ -169,7 +168,6 @@ public class PolygonPrism extends NonCummulativeRegion {
 		else if(!point.world.equals(this.world)) {
 			throw new PointsInDifferentWorldException();
 		}
-		Debug.print(this.ymax +" ymax, " + this.ymin);
 		if(point.y > ymax ) {
 			ymax = point.y;
 		}
@@ -252,8 +250,6 @@ public class PolygonPrism extends NonCummulativeRegion {
 
 		Point3D one = new Point3D(rect.x + rect.width, this.ymin, rect.y + rect.height, this.world);
 		Point3D two = new Point3D(rect.x, this.ymax, rect.y, this.world);
-		Debug.print(one.x + ", " + one.z);
-		Debug.print(two.x + ", " + two.z);
 		try {
 			return new Cuboid(one, two);
 		} catch (PointsInDifferentWorldException e) {
@@ -269,46 +265,34 @@ public class PolygonPrism extends NonCummulativeRegion {
 
 	@Override
 	public boolean IsIn(Region region) {
-		Debug.print("Inside polygonPrism IsIn(Region)");
-		Debug.print(region.getTypeName());
 		Rectangle rect = this.polygon.getBounds();
-		Debug.print(rect.width);
-		Debug.print(rect.height);
-		Debug.print(rect.x);
-		Debug.print(rect.y);
 		for(int x = rect.x; x <= rect.x + rect.width; x++) {
 			for(int z = rect.y; z <= rect.y + rect.height; z++) {
 				for(int y = this.ymax; y >= this.ymin; y--) {
 					Point3D test = new Point3D(x,y,z,this.world);
 					//test.getLocation().getBlock().setType(Material.GOLD_BLOCK);
 					if(this.contains(test) && !region.contains(test)) {
-						Debug.print("is not inside the region");
 						return false;
 					}
 				}
 			}
 		}
-		Debug.print("is inside the region");
 		return true;
 	}
 	
 	@Override
 	public boolean isIn(NonCummulativeRegion region) {
-		Debug.print("Inside PolygonPrism isIn(NonCummulativeRegion)");
 		return IsIn((Region) region);
 	}
 	
 	@Override
 	public boolean IsIn(CummulativeRegion<?> region) {
-		Debug.print("Inside PolygonPrism IsIn(CummulativeRegion)");
 		return IsIn((Region) region);
 	}
 
 	@Override
 	public boolean Intersects(Region region) {
 		Rectangle rect = this.polygon.getBounds();
-		Debug.print(rect.x);
-		Debug.print(rect.y);
 		for(int x = rect.x; x >= rect.x - rect.width; x--) {
 			for(int z = rect.y; z >= rect.y - rect.height; z--) {
 				for(int y = this.ymax; y >= this.ymin; y--) {

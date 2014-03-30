@@ -593,6 +593,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		Debug.print(Tools.cut(cost) + " cost");
 		BigDecimal difference = cost.subtract(reimburse);// positive if owe country money, negative if country owe money
+		Debug.print(Tools.cut(difference) + " = amount paid to government.");
 		// Can they afford it?
 		if(holdings.compareTo(difference) < 0) {
 			throw new BalanceOutOfBoundsException();
@@ -645,7 +646,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		else {
 			try {
 				Debug.print(cost + " second statement of cost");
-				this.paySuper(cost, curren);
+				this.paySuper(difference, curren);
 			} catch (NegativeMoneyTransferException e) {
 				e.printStackTrace();
 			}

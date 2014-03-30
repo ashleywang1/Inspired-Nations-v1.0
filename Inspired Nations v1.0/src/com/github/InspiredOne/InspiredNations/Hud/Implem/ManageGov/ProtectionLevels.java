@@ -1,9 +1,15 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import java.math.BigDecimal;
+
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class ProtectionLevels extends OptionMenu {
 
@@ -18,7 +24,30 @@ public class ProtectionLevels extends OptionMenu {
 
 	@Override
 	public String getPreOptionText() {
-		return "Protection Level = " + gov.getProtectionlevel();
+		BigDecimal taxvalue = gov.currentTaxCycleValue(PDI.getCurrency());
+		BigDecimal reimmburs = gov.taxValue(gov.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(), gov.getProtectionlevel(), PDI.getCurrency());
+		BigDecimal oneLevelUp = gov.taxValue(gov.getRegion().getRegion(), 1, gov.getProtectionlevel()+1, PDI.getCurrency());
+		BigDecimal oneLevelUpCurrentCost = gov.taxValue(gov.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(),
+				gov.getProtectionlevel() + 1, PDI.getCurrency());
+		BigDecimal oneLevelDown = gov.taxValue(gov.getRegion().getRegion(), 1, gov.getProtectionlevel()-1, PDI.getCurrency());
+		BigDecimal oneLevelDownCurrentCost = gov.taxValue(gov.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(),
+				gov.getProtectionlevel() - 1, PDI.getCurrency());
+		
+		String output = TextColor.SUBHEADER + "Pricing:\n";
+		output = output.concat(TextColor.LABEL + "Current Full Reimbursement: " + TextColor.VALUE + Tools.cut(reimmburs) + TextColor.UNIT + " " + PDI.getCurrency() + "\n");
+		output = output.concat(TextColor.LABEL + "+1 Level Cost/Net Cost: " + TextColor.VALUE + Tools.cut(oneLevelUp) +
+				"/" + Tools.cut(oneLevelUpCurrentCost.subtract(reimmburs)) + " "+ TextColor.UNIT + PDI.getCurrency() + "\n");
+		if(gov.getProtectionlevel() >= 1) {
+			output = output.concat(TextColor.LABEL + "-1 Level Cost/Net Reimburs: " +TextColor.VALUE + 
+					Tools.cut(oneLevelDown) + "/" + Tools.cut(reimmburs.subtract(oneLevelDownCurrentCost)) + TextColor.UNIT + " " +
+					PDI.getCurrency() + "\n");
+		}
+		output = output.concat(TextColor.SUBHEADER + "Stats:\n");
+		output = output.concat(TextColor.LABEL + "Current Protection Level: " + TextColor.VALUE + gov.getProtectionlevel() + "\n");
+		output = output.concat(TextColor.LABEL + "Current Total Cost: " + TextColor.VALUE + Tools.cut(taxvalue) +
+				TextColor.UNIT + " " + PDI.getCurrency() + "\n");
+		output = MenuTools.oneLineWallet(output, PDI, gov.getAccounts());
+		return output;
 	}
 
 	@Override

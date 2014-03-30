@@ -64,22 +64,70 @@ public class Tools {
 	}
 	
 	public enum TextColor {
-		HEADER(ChatColor.GOLD + "" + ChatColor.BOLD),
+		/**
+		 * Used exclusively for the menu header.
+		 */
+		HEADER(ChatColor.BLUE + "" + ChatColor.BOLD),
+		/**
+		 * Subheader
+		 */
 		SUBHEADER(ChatColor.YELLOW + "" + ChatColor.ITALIC + "" + ChatColor.BOLD),
-		LABEL(ChatColor.GRAY + ""),
+		/**
+		 * Used to say what the proceeding value is.
+		 */
+		LABEL(ChatColor.RED + ""),
+		/**
+		 * Anything that is calculated information displayed for the viewer 
+		 */
 		VALUE(ChatColor.GOLD + ""),
+		/**
+		 * Additional text describing the value
+		 */
 		VALUEDESCRI(ChatColor.RED + ""),
+		/**
+		 * Used for the divider between sections of the HUD
+		 */
 		DIVIDER(ChatColor.DARK_AQUA + ""),
 		
-		OPTION(ChatColor.GREEN + ""),
-		OPTIONNUMBER(ChatColor.GOLD + ""),
+		/**
+		 * The color of the options
+		 */
+		OPTION(ChatColor.DARK_GREEN + ""),
+		/**
+		 * The color of the number correlating to the option
+		 */
+		OPTIONNUMBER(ChatColor.YELLOW + ""),
+		/**
+		 * Used for text that describes an option
+		 */
 		OPTIONDESCRIP(ChatColor.GRAY + ""),
+		/**
+		 * Color to be used for an unavailable option
+		 */
 		UNAVAILABLE(ChatColor.DARK_GRAY + ""),
+		/**
+		 * Color of text next to unavailable option describing why it's unavailable
+		 */
 		UNAVAILREASON(ChatColor.GRAY + ""),
+		/**
+		 * Used to give instructions
+		 */
 		INSTRUCTION(ChatColor.YELLOW + ""),
+		/**
+		 * Used for error messages through out the plugin
+		 */
 		ERROR(ChatColor.RED + ""),
+		/**
+		 * Used for alert messages through out the plugin
+		 */
 		ALERT(ChatColor.YELLOW + ""),
+		/**
+		 * Used for all units mentioned in the HUD
+		 */
 		UNIT(ChatColor.YELLOW + ""),
+		/**
+		 * Used for the line of text below the HUD
+		 */
 		ENDINSTRU(ChatColor.AQUA + "");
 		
 		private String color;

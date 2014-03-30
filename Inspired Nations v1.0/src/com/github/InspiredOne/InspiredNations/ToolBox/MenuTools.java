@@ -46,7 +46,7 @@ public class MenuTools {
 	 * @return
 	 */
 	public static String oneLineWallet(String text, PlayerData PDI, Payable account) {
-		String output = text.concat(TextColor.VALUEDESCRI + "Holdings: " + TextColor.VALUE +
+		String output = text.concat(TextColor.LABEL + "Holdings: " + TextColor.VALUE +
 				Tools.cut(account.getTotalMoney(PDI.getCurrency())) + TextColor.UNIT +" " + PDI.getCurrency() + "\n");
 		return output;
 	}

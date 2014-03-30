@@ -1,20 +1,29 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.CuboidNotCompletedException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
+import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldException;
 import com.github.InspiredOne.InspiredNations.Exceptions.RegionOutOfEncapsulationBoundsException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.ClaimCuboidManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MapManager;
+import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
+import com.github.InspiredOne.InspiredNations.Regions.nullRegion;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
+import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class ClaimCuboid extends InputMenu {
 
@@ -36,7 +45,7 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public String getHeader() {
-			return "Claim Cuboid 1:" + (int) Math.pow(2, mapmanager.zoom)+ ",   " + manager.getVolume();
+			return "Claim Cuboid 1:" + (int) Math.pow(2, mapmanager.zoom);
 	}
 
 	@Override
@@ -96,8 +105,41 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public String getInstructions() {
-		String output = this.mapmanager.drawMap(gov, 4);
-		output = output.concat("Left Click for one corner of the cuboid and Right Click for the other corner.\n");
+		
+		// Tax paid that is independent of chunks
+		BigDecimal zero = gov.taxValue(new nullRegion(), InspiredNations.taxTimer.getFractionLeft(), gov.getProtectionlevel(), PDI.getCurrency());
+		// Total tax from selection
+		BigDecimal totalcost = Tools.cut(BigDecimal.ZERO);
+		try {
+			totalcost = Tools.cut(gov.taxValue(this.manager.getCuboid(), 1, gov.getProtectionlevel(), PDI.getCurrency()).subtract(zero));
+		} catch (CuboidNotCompletedException e1) {
+		}
+		// Current cost of selection at the current moment
+		BigDecimal currentcost = Tools.cut(BigDecimal.ZERO);
+		try {
+			currentcost = Tools.cut(gov.taxValue(this.manager.getCuboid(), InspiredNations.taxTimer.getFractionLeft()
+					, gov.getProtectionlevel(), PDI.getCurrency()).subtract(gov.taxValue(new nullRegion(), InspiredNations.taxTimer.getFractionLeft()
+							, gov.getProtectionlevel(), PDI.getCurrency())));
+		} catch (CuboidNotCompletedException e1) {
+		}
+		
+		String output = this.mapmanager.drawMap(gov, 3);
+		output = MenuTools.addDivider(output);
+		output = output.concat(TextColor.INSTRUCTION + "Left Click for one corner of the cuboid and Right Click for the other corner.\n");
+		output = MenuTools.oneLineWallet(output, PDI, gov.getAccounts());
+		try {
+			output = output.concat(TextColor.VALUEDESCRI + "Low Point: " + TextColor.VALUE + manager.getCuboid().getPointMin() + "\n");
+		} catch (CuboidNotCompletedException e) {
+			output = output.concat(TextColor.VALUEDESCRI + "Low Point: " + TextColor.VALUE + "Not Selected\n");
+		}
+		try {
+			output = output.concat(TextColor.VALUEDESCRI + "High Point: " + TextColor.VALUE + manager.getCuboid().getPointMax() + "\n");
+		} catch (CuboidNotCompletedException e) {
+			output = output.concat(TextColor.VALUEDESCRI + "High Point: " + TextColor.VALUE + "Not Selected\n");
+		}
+		output = output.concat(TextColor.VALUEDESCRI + "Volume: " + TextColor.VALUE + manager.getVolume() + TextColor.UNIT + " Cubic Meters\n");
+		output = output.concat(TextColor.VALUEDESCRI + "Total/Current: " + TextColor.VALUE + totalcost + "/" + currentcost + " " + TextColor.UNIT +
+				PDI.getCurrency());
 		return output;
 	}
 

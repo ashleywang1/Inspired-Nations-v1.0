@@ -67,23 +67,17 @@ public class ManageGov extends OptionMenu {
 
 	@Override
 	public void addOptions() {
-		Debug.print("Inside addOptions 1");
 		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Population", new ManageCitizens(PDI, new ManageGov(PDI, gov), gov)));
-		Debug.print("Inside addOptions 2");
 		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Money", new ManageGovMoney(PDI, this, gov)));
 		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Claim Land", new PickClaimType(PDI,new ManageGov(PDI, gov), gov/*.getCommonGovObj().getData()*/)));
 		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Change Protection Level", new ProtectionLevels(PDI, new ManageGov(PDI, gov), gov)));
-		Debug.print("Inside addOptions 3");
 		if(gov instanceof OwnerSubjectGov) {
 			this.options.add(new PromptOption(new ManageGov(PDI, gov), "Change Military Level", new MilitaryLevels(PDI, new ManageGov(PDI, gov), (OwnerSubjectGov) gov)));
 		}
-		Debug.print("Inside addOptions 4");
 		if(gov.getRegion().getRegion().volume() != 0) {
 			this.options.add(new UnclaimLandOption(new ManageGov(PDI, gov), "Unclaim Land", gov));
 		}
-		Debug.print("Inside addOptions 5");
 		ManageGov.addFacilityOptions(PDI, this, gov);
-		Debug.print("Inside addOptions 6");
 	}
 
 	@Override
