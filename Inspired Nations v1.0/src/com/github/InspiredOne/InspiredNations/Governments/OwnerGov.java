@@ -1,6 +1,8 @@
 package com.github.InspiredOne.InspiredNations.Governments;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
@@ -41,6 +43,10 @@ public abstract class OwnerGov extends InspiredGov {
 	
 	public void removeOwner(PlayerID player) {
 		this.owners.remove(player);
+		if(InspiredNations.playerdata.get(player).getAccounts() == (this.getAccounts())) {
+			this.getAccounts().setName(this.getName());
+			InspiredNations.playerdata.get(player).setAccounts(new AccountCollection(player.getName()));
+		}
 	}
 	
 	public boolean isOwner(PlayerID player) {

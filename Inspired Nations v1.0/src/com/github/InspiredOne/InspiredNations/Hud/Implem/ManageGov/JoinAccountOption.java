@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
-import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
@@ -14,23 +13,23 @@ import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
 
-public class SplitAccountOption extends Option {
+public class JoinAccountOption extends Option {
 
 	InspiredGov gov;
 	PlayerData PDI;
 	
-	public SplitAccountOption(OptionMenu menu, String label,
+	public JoinAccountOption(OptionMenu menu, String label,
 			OptionUnavail reason, InspiredGov gov) {
 		super(menu, label, reason);
 		this.gov = gov;
 	}
 
-	public SplitAccountOption(OptionMenu menu, String label, InspiredGov gov) {
+	public JoinAccountOption(OptionMenu menu, String label, InspiredGov gov) {
 		super(menu, label);
 		this.gov = gov;
 	}
 
-	public SplitAccountOption(OptionMenu menu, String label, String description, InspiredGov gov) {
+	public JoinAccountOption(OptionMenu menu, String label, String description, InspiredGov gov) {
 		super(menu, label, description);
 		this.gov = gov;
 	}
@@ -38,21 +37,12 @@ public class SplitAccountOption extends Option {
 	@Override
 	public Menu response(String input) {
 		PDI = menu.PDI;
-		if(gov.getAccounts().isLinked()) {
-			PDI.setAccounts(gov.getAccounts().clone());
-			Account dispose = new Account();
-			try {
-				gov.getAccounts().transferMoney(gov.getAccounts().getTotalMoney(Currency.DEFAULT), Currency.DEFAULT, dispose);
-			} catch (BalanceOutOfBoundsException e) {
-				Debug.InformPluginDev();
-				e.printStackTrace();
-			} catch (NegativeMoneyTransferException e) {
-				Debug.InformPluginDev();
-				e.printStackTrace();
-			}
+		if(!gov.getAccounts().isLinked()) {
+			gov.getAccounts().addAll(PDI.getAccounts());
+			PDI.setAccounts(gov.getAccounts());
 		}
 		else {
-			menu.setError(MenuError.ACCOUNT_COLLECTION_NOT_LINKED());
+			menu.setError(MenuError.ACCOUNT_ALREADY_LINKED());
 		}
 		return menu;
 	}

@@ -46,21 +46,14 @@ public abstract class PickNavGeneral extends PassByOptionMenu {
 
 	@Override
 	public void addOptions() {
-		Debug.print("Inside addOptions 1");
 		TabSelectOptionMenu<PlayerID> playermenu = this.getPlayerMenu();
-		Debug.print("Inside addOptions 2");
+		playermenu.Initialize();
 		if (!playermenu.getTabOptions().isEmpty()){
-			Debug.print("Inside addOptions 3");
 			this.options.add(new PromptOption(this, this.getPlayerOptionText(), this.getPlayerMenu()));
-			Debug.print("Inside addOptions 4");
 		}
-		Debug.print("Inside addOptions 5");
 		if(!InspiredNations.global.getData().getAllSubGovsAndFacilitiesJustBelow().isEmpty()) {
-			Debug.print("Inside addOptions 6");
 			this.options.add(new PromptOption(this, this.getGovOptionText(), this.getGovMenu()));
-			Debug.print("Inside addOptions 7");
 		}
-		Debug.print("Inside addOptions 1");
 	}
 
 

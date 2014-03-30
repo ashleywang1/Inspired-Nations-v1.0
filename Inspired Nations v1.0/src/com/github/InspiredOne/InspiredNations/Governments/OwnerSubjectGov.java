@@ -72,7 +72,7 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 		if(militarylevel < 0) {
 			throw new NegativeMilitaryLevelExecption();
 		}
-		else {
+/*		else {
 			BigDecimal refund = this.taxValue(this.getRegion().getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, Currency.DEFAULT);
 			BigDecimal newcost = this.taxValue(this.getRegion().getRegion(),InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, this.getAdditionalCost(militarylevel), this.taxedrate, Currency.DEFAULT);
 			BigDecimal cost = refund.subtract(newcost);
@@ -94,6 +94,9 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 				}
 			}
 			this.militarylevel = militarylevel;
+		}*/
+		else {
+			
 		}
 		this.militarylevel = militarylevel;
 	}

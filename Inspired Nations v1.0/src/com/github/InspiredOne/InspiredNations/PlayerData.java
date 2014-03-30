@@ -138,9 +138,11 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 	 * @param player
 	 */
 	public static void unRegister(PlayerID player) {
-		InspiredNations.playerdata.get(player).getCon().acceptInput("exit");
-		InspiredNations.playerdata.get(player).getCon().abandon();
-		InspiredNations.playerdata.get(player).setCon(null);
+		if(InspiredNations.playerdata.get(player).getCon() != null) {
+			InspiredNations.playerdata.get(player).getCon().acceptInput("exit");
+			InspiredNations.playerdata.get(player).getCon().abandon();
+			InspiredNations.playerdata.get(player).setCon(null);
+		}
 	}
 
 	

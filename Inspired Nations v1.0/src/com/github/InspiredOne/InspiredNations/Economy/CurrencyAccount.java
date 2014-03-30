@@ -12,7 +12,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
-public class CurrencyAccount implements Payable, Nameable, Serializable {
+public class CurrencyAccount implements Payable, Nameable, Serializable, Cloneable {
 
 	/**
 	 * 
@@ -28,6 +28,11 @@ public class CurrencyAccount implements Payable, Nameable, Serializable {
 	public CurrencyAccount(Currency curren, BigDecimal amount) {
 		this.curren = curren;
 		this.amount = amount;
+	}
+	
+	public CurrencyAccount clone() {
+		CurrencyAccount output = new CurrencyAccount(this.curren, this.amount);
+		return output;
 	}
 	
 	public Currency getCurrency() {

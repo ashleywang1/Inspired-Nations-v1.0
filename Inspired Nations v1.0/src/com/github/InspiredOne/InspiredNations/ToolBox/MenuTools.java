@@ -137,6 +137,9 @@ public class MenuTools {
 		public static String NO_ERROR() {
 			return "";
 		}
+		public static String ACCOUNT_ALREADY_LINKED() {
+			return makeMessage("The account is already linked.");
+		}
 		public static String INVALID_NUMBER_INPUT() {
 			return makeMessage("Your entry must be a number.");
 		}

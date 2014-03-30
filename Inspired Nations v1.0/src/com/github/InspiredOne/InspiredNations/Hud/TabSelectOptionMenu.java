@@ -28,6 +28,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu implements Datable<E> {
 
 	private int tabcnt = 0;
+	private String filterword = "";
 	private int rangeBottom = maxLines;
 	private static final int maxLines = 7;
 	protected List<E> taboptions = new ArrayList<E>();
@@ -112,7 +113,8 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 				this.setTabcnt((this.getTabcnt() + 1) % tabsize);
 			}
 			else if(!manager.preTabEntry.isEmpty()) {
-				List<E> tempOptions = Tools.filter(manager.preTabEntry, this.taboptions);
+				this.filterword = manager.preTabEntry;
+				List<E> tempOptions = Tools.filter(filterword, this.taboptions);
 				if(tempOptions.size() <= 0) {
 					this.setError(MenuError.NO_MATCHES_FOUND());
 					return;
@@ -145,20 +147,11 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	}
 	@Override
 	public final Menu getPreviousMenu() {
-		Debug.print(this.taboptions != this.filteredoptions);
-		Debug.print(this.taboptions.equals(this.filteredoptions));
-		Debug.print(this.filteredoptions.containsAll(taboptions));
-		Debug.print("In getPriveiousMenu 1");
-		Debug.print(taboptions);
-		Debug.print(filteredoptions);
 		if(!this.filteredoptions.containsAll(taboptions)) {
-			Debug.print("In getPriveiousMenu 2");
-			this.manager.preTabEntry = "";
-			Debug.print("In getPriveiousMenu 3");
+			filterword = "";
 			return this.getSelfPersist();
 		}
 		else {
-			Debug.print("In getPriveiousMenu 4");
 			return getPreviousPrompt();
 		}
 	}
@@ -213,7 +206,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		}
 
 		this.addTabOptions();
-		this.filteredoptions = Tools.filter(manager.preTabEntry, this.taboptions);
+		this.filteredoptions = Tools.filter(filterword, this.taboptions);
 		if(this.filteredoptions.size() == 0 && this.taboptions.size() != 0) {
 			this.setError(MenuError.NO_MATCHES_FOUND());
 			return;

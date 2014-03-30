@@ -14,7 +14,8 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 
 
-public class AccountCollection extends IndexedSet<Account> implements Payable, Notifyable, Iterable<Account> {
+public class AccountCollection extends IndexedSet<Account> implements Payable, 
+Notifyable, Iterable<Account>, Cloneable {
 	/**
 	 * 
 	 */
@@ -24,6 +25,14 @@ public class AccountCollection extends IndexedSet<Account> implements Payable, N
 	public AccountCollection(String name) {
 		this.name = name;
 		this.add(new Account());
+	}
+	
+	public AccountCollection clone() {
+		AccountCollection output = new AccountCollection(name);
+		for(Account acc:this) {
+			output.add(acc);
+		}
+		return output;	
 	}
 	
 	public BigDecimal getTotalMoney(Currency valueType) {

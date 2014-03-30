@@ -5,6 +5,7 @@ import java.util.LinkedHashSet;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -41,7 +42,7 @@ public class PickManageSuperGov extends PassByOptionMenu {
 
 	@Override
 	public String getHeader() {
-		return "Pick " + supergov.getTypeName();
+		return "Pick " + GovFactory.getGovInstance(GovType).getTypeName();
 	}
 
 	@Override

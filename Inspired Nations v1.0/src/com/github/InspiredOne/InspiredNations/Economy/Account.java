@@ -14,7 +14,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
-public class Account implements Serializable, Nameable, Payable {
+public class Account implements Serializable, Nameable, Payable, Cloneable {
 
 	
 	/**
@@ -38,8 +38,17 @@ public class Account implements Serializable, Nameable, Payable {
 	public String getTypeName() {
 		return typeName;
 	}
+	public Account clone() {
+		Account output = new Account();
+		output.name = this.name;
+		output.AutoExchange = this.AutoExchange;
+		ArrayList<CurrencyAccount> currenaccount = new ArrayList<CurrencyAccount>();
+		for(CurrencyAccount acc:this.money){
+			currenaccount.add(acc.clone());
+		}
+		return output;
+	}
 	/**
-	 * 
 	 * @return	the <code>HashMap</code> with all the money values in it
 	 */
 	public final ArrayList<CurrencyAccount> getMoney() {

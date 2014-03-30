@@ -59,17 +59,20 @@ public class nullRegion extends Region {
 
 	@Override
 	public String getTypeName() {
-		return Debug.InformPluginDev;
+		
+		Debug.InformPluginDev();
+		return null;
 	}
 
 	@Override
 	public String getDescription() {
-		return Debug.InformPluginDev;
+		Debug.InformPluginDev();
+		return null;
 	}
 
 	@Override
 	public Menu getClaimMenu(PlayerData PDI, Menu previous, InspiredGov gov) {
-		Debug.print(Debug.InformPluginDev);
+		Debug.InformPluginDev();
 		return null;
 	}
 
