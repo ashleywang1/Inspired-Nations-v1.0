@@ -7,8 +7,10 @@ import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldE
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand.ClaimCuboid;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Regions.Cuboid;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class ClaimCuboidManager<T extends ClaimCuboid> extends ActionManager<T> {
 
@@ -22,6 +24,8 @@ public class ClaimCuboidManager<T extends ClaimCuboid> extends ActionManager<T> 
 	
 	public void setPoint1(Location local) {
 		point1 = new Point3D(local);
+		this.getActionMenu().setAlert(MenuAlert.MESSAGE_ALERT("Point 1 selected at " + TextColor.VALUE + point1 + 
+				TextColor.ALERT + "."));
 		if(point2 != null) {
 			try {
 				temp = new Cuboid(point1, point2);
@@ -34,6 +38,8 @@ public class ClaimCuboidManager<T extends ClaimCuboid> extends ActionManager<T> 
 	
 	public void setPoint2(Location local) {
 		point2 = new Point3D(local);
+		this.getActionMenu().setAlert(MenuAlert.MESSAGE_ALERT("Point 2 selected at " + TextColor.VALUE + point1 + 
+				TextColor.ALERT + "."));
 		if(point1 != null) {
 			try {
 				temp = new Cuboid(point1, point2);

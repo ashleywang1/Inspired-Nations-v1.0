@@ -69,7 +69,7 @@ public class MessageManager implements Serializable {
 	 */
 	public void sendChatMessage(String msg) {
 		for(PlayerData PDITarget:InspiredNations.playerdata.values()) {
-			if(PDITarget == PDI) {
+			if(PDITarget.getPlayerID() == PDI.getPlayerID()) {
 				PDITarget.getMsg().recieveMessage(msg, PDI);
 			}
 			else {
@@ -90,7 +90,8 @@ public class MessageManager implements Serializable {
 			return;
 		}
 		if(PDI.getPlayer().isConversing()) {
-			this.PDI.getCon().getContext().setSessionData(ContextData.Alert, MenuAlert.makeMessage(msg));
+			this.receiveAlert(MenuAlert.MESSAGE_ALERT(msg));
+			PDI.getCon().outputNextPrompt();
 		}
 	}
 	
@@ -104,7 +105,7 @@ public class MessageManager implements Serializable {
 			return;
 		}
 		if(PDI.getPlayer().isConversing()) {
-			this.PDI.getCon().getContext().setSessionData(ContextData.Alert, MenuAlert.makeMessage(this.MessageConstructor(msg, from)));
+			this.receiveAlert(MenuAlert.MESSAGE_ALERT(this.MessageConstructor(msg, from)));
 			if(from != PDI) {
 				this.PDI.getCon().outputNextPrompt();
 			}

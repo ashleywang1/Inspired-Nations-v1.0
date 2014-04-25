@@ -9,6 +9,7 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
+import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
@@ -139,6 +140,9 @@ public abstract class Menu extends MessagePrompt {
 		if (arg.equalsIgnoreCase("back")) {
 			return this.checkBack();
 		}
+		if (arg.equalsIgnoreCase("help")) {
+			return this.getHelp();
+		}
 		if (arg.equalsIgnoreCase("hud")) {
 			this.unloadNonPersist();
 			return new MainHud(PDI);
@@ -240,6 +244,10 @@ public abstract class Menu extends MessagePrompt {
 		this.PDI.getMsg().receiveError(error);
 		return this;
 	}
+	public final Menu setAlert(Alert alert) {
+		this.PDI.getMsg().receiveAlert(alert);
+		return this;
+	}
 	/**
 	 * 
 	 * @return the <code>ConversationContext</code> of the player using this menu
@@ -251,5 +259,8 @@ public abstract class Menu extends MessagePrompt {
 	
 	public final PlayerData getPlayerData() {
 		return PDI;
+	}
+	public HelpMenu getHelp() {
+		return new HelpMenu(PDI, this);
 	}
 }

@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
 
@@ -215,6 +217,9 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 	}
 
 	public void setAccounts(AccountCollection accounts) {
+		if(this.accounts.isLinked()) {
+			// TODO I have to figure out how to deal with linked account collections.
+		}
 		this.accounts = accounts;
 	}
 
@@ -245,4 +250,22 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 	public void sendNotification(Alert msg) {
 		this.getMsg().receiveAlert(msg);
 	}
+	
+	// Methods used to check if the player has sufficient privilages
+	public boolean breakPlace(Location block) {
+		boolean allowed = false;
+		ArrayList<InspiredGov> isin = new ArrayList<InspiredGov>();
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			if(gov.contains(block)) {
+				isin.add(gov);
+			}
+		}
+		for(InspiredGov gov:isin) {
+			if(!gov.isSubject(this.getPlayerID())) {
+				
+			}
+		}
+		return allowed;
+	}
+
 }

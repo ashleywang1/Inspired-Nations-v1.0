@@ -8,6 +8,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.NameAlreadyTakenException;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 	
@@ -18,13 +19,13 @@ public class Currency implements Serializable, Nameable, Comparable<Currency>{
 	 */
 	private static final long serialVersionUID = 2855995345401677901L;
 	private String name;
-	public static final Currency DEFAULT = new Currency("Coin");
+	public static final Currency DEFAULT = new Currency("Coin");;
 	
 
 	public Currency(String name) {
 		//TODO Remove later, figure out when to add a currency to the exchange
 		//InspiredNations.Exchange.registerCurrency(this, new BigDecimal(500));
-		this.setName(name);
+		this.name = name;
 
 		
 	}
@@ -39,8 +40,14 @@ public class Currency implements Serializable, Nameable, Comparable<Currency>{
 	}
 	
 	@Override
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String name) throws NameAlreadyTakenException {
+		Currency test = new Currency(name);
+		if(InspiredNations.Exchange.getExchangeMap().containsKey(test)) {
+			throw new NameAlreadyTakenException();
+		}
+		else {
+			this.name = name;
+		}
 	}
 	
 	@Override

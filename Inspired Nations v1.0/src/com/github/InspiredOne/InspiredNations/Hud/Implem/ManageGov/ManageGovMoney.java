@@ -63,6 +63,9 @@ public class ManageGovMoney extends OptionMenu {
 		else {
 			this.options.add(new JoinAccountOption(this, "Join " + gov.getTypeName() + " Account", "Joins this account to yours", gov));
 		}
+		if(gov.getCommonEcon().equals(gov.getClass())) {
+			this.options.add(new RenameMoneyOption(this, "Rename Money <name>", gov));
+		}
 	}
 
 	@Override

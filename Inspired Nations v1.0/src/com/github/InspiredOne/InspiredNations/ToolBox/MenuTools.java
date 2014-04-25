@@ -9,6 +9,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 /**
@@ -101,6 +102,16 @@ public class MenuTools {
 				}
 			};
 		}
+		public static Alert REGION_UPDATED_SUCCESSFULY(final Region region, final InspiredGov gov) {
+			return new Alert() {
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					return makeMessage(region.getTypeName() + " of " + gov.getDisplayName(receiver) + " successfully modified.");
+				}
+				
+			};
+		}
 		public static Alert RECEIVED_MONEY(final BigDecimal amount, final Currency curren, final Nameable sender) {
 			return new Alert() {
 
@@ -136,6 +147,9 @@ public class MenuTools {
 		
 		public static String NO_ERROR() {
 			return "";
+		}
+		public static String HELP_PAGE_NOT_AVAILABLE(int maxPages) {
+			return makeMessage("There are only " + maxPages + " pages to this help document. Inputs must be positive.");
 		}
 		public static String ACCOUNT_ALREADY_LINKED() {
 			return makeMessage("The account is already linked.");

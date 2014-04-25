@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NameAlreadyTakenException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
@@ -45,7 +46,7 @@ public class CurrencyAccount implements Payable, Nameable, Serializable, Cloneab
 	}
 
 	@Override
-	public void setName(String name) {
+	public void setName(String name) throws NameAlreadyTakenException {
 		curren.setName(name);
 	}
 

@@ -30,6 +30,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
@@ -652,7 +653,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			}
 		}
 		this.getRegion().addLand(region);
-		Debug.print(10);
+		this.sendNotification(MenuAlert.REGION_UPDATED_SUCCESSFULY(region, this));
 	}
 	/**
 	 * Assumes that this region intersects the region <code>select</code>. 
@@ -660,75 +661,46 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public void removeLand(Region select, boolean check) {
 		Region regionfrom = this.getRegion().getRegion();
-		Debug.print("Inside RemoveLand!); 1");
 		Currency curren = Currency.DEFAULT;
 		BigDecimal reimburse = this.taxValue(this.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
-		Debug.print("Inside RemoveLand!); 2");
 		
 		ArrayList<NonCummulativeRegion> removed = new ArrayList<NonCummulativeRegion>();
-		Debug.print("Inside RemoveLand!); 3");
 		if(regionfrom instanceof CummulativeRegion<?>) {
-			Debug.print("Inside RemoveLand!); 4");
 			for(NonCummulativeRegion region:((CummulativeRegion<?>) regionfrom).getRegions()) {
-				Debug.print("Inside RemoveLand!); 5");
 				if(region.Intersects(select)) {
-					Debug.print("Inside RemoveLand!); 6");
 					removed.add(region);
-					Debug.print("Inside RemoveLand!); 7");
 				}
 			}
-			Debug.print("Inside RemoveLand!); 8");
 			((CummulativeRegion<?>) regionfrom).getRegions().removeAll(removed);
-			Debug.print("Inside RemoveLand!); 9");
 		}
 		else {
-			Debug.print("Inside RemoveLand!); 10");
 			if(check) {
-				Debug.print("Inside RemoveLand!); 11");
 				if(regionfrom.Intersects(select)) {
-					Debug.print("Inside RemoveLand!); 12");
 					removed.add((NonCummulativeRegion) regionfrom);
-					Debug.print("Inside RemoveLand!); 13");
 					this.getRegion().setRegion(new nullRegion());
-					Debug.print("Inside RemoveLand!); 14");
 				}
 			}
 			else {
-				Debug.print("Inside RemoveLand!); 15");
 				removed.add((NonCummulativeRegion) regionfrom);
-				Debug.print("Inside RemoveLand!); 16");
 				this.getRegion().setRegion(new nullRegion());
-				Debug.print("Inside RemoveLand!); 17");
 			}
 		}
-		Debug.print("Inside RemoveLand!); 18");
 		//iterate through all the sub regions of this land
 		for(InspiredGov govtest:this.getAllSubGovsAndFacilitiesJustBelow()) {
-			Debug.print("Inside RemoveLand!); 19");
 			if(govtest.getRegion().getRegion().Intersects(select)) {
-				Debug.print("Inside RemoveLand!); 20");
 				govtest.removeLand(select, false);
-				Debug.print("Inside RemoveLand!); 21");
 			}
 			else if(govtest.getRegion().getEncapsulatingRegions().contains(this.getRegion().getClass())) {
-				Debug.print("Inside RemoveLand!); 22");
 				for(NonCummulativeRegion region:removed) {
-					Debug.print("Inside RemoveLand!); 23");
 					if(govtest.getRegion().getRegion().Intersects(region)) {
-						Debug.print("Inside RemoveLand!); 24");
 						govtest.removeLand(region, false);
-						Debug.print("Inside RemoveLand!); 25");
 					}
 				}
 			}
 		}
-		Debug.print("Inside RemoveLand!); 26");
 		BigDecimal cost = this.taxValue(this.region.getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
-		Debug.print("Inside RemoveLand!); 27");
 		BigDecimal difference = cost.subtract(reimburse);// positive if own country money, negative if country ows money
-		Debug.print("Inside RemoveLand!); 28");
 		if(difference.compareTo(BigDecimal.ZERO) > 0) { 	// If for some reason you ow the country money for this
-			Debug.print("Inside RemoveLand!); 29");
 			try {
 				this.paySuper(difference, curren);			// Pay what you ow
 			} catch (BalanceOutOfBoundsException e) {		//	If you don't have enough
@@ -756,7 +728,6 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				e.printStackTrace();
 			}
 		}
-		Debug.print("Inside RemoveLand!); 50");
 	}
 
 	@Override

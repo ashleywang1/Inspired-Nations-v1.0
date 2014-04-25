@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Economy;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
@@ -104,6 +105,15 @@ Notifyable, Iterable<Account>, Cloneable {
 			}
 		}
 		return false;
+	}
+	public ArrayList<InspiredGov> getLinkedGovs() {
+		ArrayList<InspiredGov> output = new ArrayList<InspiredGov>();
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			if(gov.getAccounts() == this) {
+				output.add(gov);
+			}
+		}
+		return output;
 	}
 	@Override
 	public void sendNotification(Alert msg) {
