@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jardesc>
-    <jar path="C:/Program Files (x86)/Minecraft/Plugin Test Server/plugins/InspiredNations.jar"/>
+    <jar path="/home/jedidiah/.minecraft/servers/plugins/InspiredNations.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/Inspired Nations v1.0/InspiredDescriptionFile.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>

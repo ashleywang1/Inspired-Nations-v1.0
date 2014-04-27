@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
+import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
@@ -21,6 +22,8 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
+import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 
 public class PlayerData implements Serializable, Nameable, Notifyable {
@@ -251,19 +254,49 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 		this.getMsg().receiveAlert(msg);
 	}
 	
+	public int getTierWarLevel(Class<? extends InspiredGov> govtype) {
+		InspiredGov govlevel = GovFactory.getGovInstance(govtype);
+		List<Class<? extends OwnerGov>> possiblegovs = govlevel.getSuperGovObj().getAllSubGovs();
+		int highestLevel = 0;
+		for(Class<? extends InspiredGov> gov:possiblegovs) {
+			int leveltemp = 0;
+			for(InspiredGov citigov:this.getCitizenship(gov)) {
+				if(leveltemp < citigov.getMilitaryLevel()) {
+					leveltemp = citigov.getMilitaryLevel();
+				}
+			}
+			if(leveltemp > highestLevel) highestLevel = leveltemp;
+		}
+		return highestLevel;
+	}
+	/**
+	 * Gets the effective protection level of the input government. Returns zero if citizen of gov.
+	 * @param gov
+	 * @return
+	 */
+	public int effectiveProcLevel(InspiredGov gov) {
+		if(gov.isSubject(getPlayerID())) {
+			return 0;
+		}
+		else {
+		return gov.getMilitaryLevel() - this.getTierWarLevel(gov.getClass()) + gov.getProtectionlevel();
+		}
+	}
+	
+	public boolean getAllowedImigration(InspiredGov gov) {
+		boolean allowed = false;
+		if(ProtectionLevels.IMIGRATION_CONTROL > this.effectiveProcLevel(gov)) {
+			allowed = true;
+		}
+		return allowed;
+	}
+	
 	// Methods used to check if the player has sufficient privilages
 	public boolean breakPlace(Location block) {
 		boolean allowed = false;
-		ArrayList<InspiredGov> isin = new ArrayList<InspiredGov>();
-		for(InspiredGov gov:InspiredNations.regiondata) {
-			if(gov.contains(block)) {
-				isin.add(gov);
-			}
-		}
+		List<InspiredGov> isin = Tools.getGovsThatContain(block);
 		for(InspiredGov gov:isin) {
-			if(!gov.isSubject(this.getPlayerID())) {
-				
-			}
+
 		}
 		return allowed;
 	}

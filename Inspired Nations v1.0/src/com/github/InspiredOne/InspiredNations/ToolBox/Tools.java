@@ -27,10 +27,15 @@ public class Tools {
 		this.plugin = instance;
 	}
 	
-	public Location getCursorLocation(Player player, Block clickedBlock) {
-		Location eyes = player.getEyeLocation();
-		return eyes;
+	public static List<InspiredGov> getGovsThatContain(Location loc) {
+		List<InspiredGov> output = new ArrayList<InspiredGov>();
 		
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			if(gov.contains(loc)) {
+				output.add(gov);
+			}
+		}
+		return output;
 	}
 	
 	public static <T> T getInstance(Class<T> gov) {

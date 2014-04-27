@@ -54,6 +54,11 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 	public String getOwnerPositionName() {
 		return "Caretaker";
 	}
+	
+	public int getMilitaryLevel() {
+		return this.getSuperGovObj().getMilitaryLevel();
+	}
+
 	/**
 	 * Gets all the options that this facility needs to be functional as a facility.
 	 * @return

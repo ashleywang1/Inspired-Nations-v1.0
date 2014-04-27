@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -44,6 +45,7 @@ public class ManageFacility extends OptionMenu {
 
 	@Override
 	public void addOptions() {
+		Debug.print("Inside addOptions of Manage Facility");
 		this.options.add(new PromptOption(this, "Manage Money", new ManageGovMoney(PDI, this, fac)));
 		this.options.add(new PromptOption(this, "Claim Land", new PickClaimType(PDI, this, fac)));
 		this.options.add(new RemoveFacilityOption(this, "Remove Facility", fac));

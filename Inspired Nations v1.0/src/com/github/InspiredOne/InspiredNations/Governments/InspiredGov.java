@@ -496,7 +496,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	}
 	
 	public int getMilitaryLevel() {
-		return this.getSuperGovObj().getMilitaryLevel();
+		return 0;
 	}
 	public final AccountCollection getAccounts() {
 		return accounts;

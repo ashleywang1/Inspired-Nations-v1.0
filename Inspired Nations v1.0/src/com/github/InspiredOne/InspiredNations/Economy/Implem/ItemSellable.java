@@ -44,6 +44,12 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 	public ItemStack getItem() {
 		return saveData.unbox();
 	}
+	
+	public void setAmount(int amount) {
+		ItemStack stack = this.getItem();
+		stack.setAmount(amount);
+		saveData=new CardboardBox(stack);
+	}
 
 	@Override
 	public String getName() {
@@ -66,7 +72,7 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 	public String getDisplayName(PlayerData viewer) {
 		if(this.isForSale()) {
 			return this.getName() + " " + TextColor.VALUE + this.getPrice(viewer.getCurrency()) + " " +
-		TextColor.UNIT + viewer.getCurrency();
+		TextColor.UNIT + viewer.getCurrency() + ":" + this.getItem().getAmount();
 		}
 		else {
 			return this.getName();
@@ -97,23 +103,16 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 					this.getPrice(Currency.DEFAULT).multiply(new BigDecimal(((double) transfer.getAmount())/((double) this.getItem().getAmount())))
 					, Currency.DEFAULT, this.shop.getAccounts());
 			playerTo.getPDI().getPlayer().getWorld().dropItemNaturally(playerTo.getPDI().getPlayer().getLocation(), transfer);
-			int tempiter = this.getItem().getAmount();
-			for(ItemStack item:selling) {
-				if(item.getAmount() > tempiter) {
-					item.setAmount(item.getAmount() - tempiter);
-					tempiter = 0;
-				}
-				else {
-					tempiter = tempiter - item.getAmount();
-					item.setAmount(0);
-				}
+			try {
+				Debug.print(transfer.getAmount() + " transfer amount.");
+				shop.getInventory().removeItem(transfer);
+			} catch (NoShopRegionException e) {
+				e.printStackTrace();
 			}
 		} catch (BalanceOutOfBoundsException | NegativeMoneyTransferException e) {
 			playerTo.getPDI().getMsg().receiveError(MenuError.NOT_ENOUGH_MONEY());
 			
-			e.printStackTrace();
 		}
-		
 		
 		
 	}

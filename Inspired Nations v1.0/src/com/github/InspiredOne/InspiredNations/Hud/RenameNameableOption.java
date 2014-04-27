@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud;
 
+import com.github.InspiredOne.InspiredNations.Exceptions.NameAlreadyTakenException;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
@@ -30,7 +31,11 @@ public abstract class RenameNameableOption extends Option {
 		String error = validate(input);
 		this.menu.setError(error);
 		if(error.equals(MenuError.NO_ERROR())) {
-			this.nameholder.setName(input);
+			try {
+				this.nameholder.setName(input);
+			} catch (NameAlreadyTakenException e) {
+				//TODO Possibly have to move this to the validate method
+			}
 		}
 		return menu;
 	}

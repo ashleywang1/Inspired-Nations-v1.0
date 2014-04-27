@@ -1,8 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Implem.ItemSellable;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.ChestShop;
@@ -42,8 +40,10 @@ public class PickStackSize extends InputMenu {
 
 	@Override
 	public void useInput(String input) {
+		Debug.print(input + " = input amount");
 		int temp = Integer.parseInt(input);
-		this.item.getItem().setAmount(temp);
+		this.item.setAmount(temp);
+		Debug.print("How much ended up in the stack " + this.item.getItem().getAmount());
 	}
 
 	public String getInstructions() {
