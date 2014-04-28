@@ -254,6 +254,22 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 		this.getMsg().receiveAlert(msg);
 	}
 	
+	@SuppressWarnings("static-access")
+	public int getOppossingWarLevel(InspiredGov gov) {
+		List<Class<? extends OwnerGov>> possiblegovs = gov.getSuperGovObj().getAllSubGovs();
+		int highestLevel = 0;
+		for(Class<? extends InspiredGov> govtest:possiblegovs) {
+			int leveltemp = 0;
+			for(InspiredGov citigov:this.getCitizenship(gov.getClass())) {
+				if(leveltemp < citigov.getMilitaryLevel() && citigov.fromSameBranch(citigov, gov)) {
+					leveltemp = citigov.getMilitaryLevel();
+				}
+			}
+			if(leveltemp > highestLevel) highestLevel = leveltemp;
+		}
+		return highestLevel;
+	}
+	
 	public int getTierWarLevel(Class<? extends InspiredGov> govtype) {
 		InspiredGov govlevel = GovFactory.getGovInstance(govtype);
 		List<Class<? extends OwnerGov>> possiblegovs = govlevel.getSuperGovObj().getAllSubGovs();
