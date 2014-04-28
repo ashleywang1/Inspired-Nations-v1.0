@@ -101,5 +101,12 @@ public abstract class Region implements Serializable, Cloneable {
 	 * @return
 	 */
 	public abstract Menu getClaimMenu(PlayerData PDI, Menu previous, InspiredGov gov);
+	/**
+	 * Returns a location that can be used to characterize the region.
+	 * For instance, this point can be used by compassas, or be used
+	 * to calculated the distances from a location.
+	 * @return
+	 */
+	public abstract Location getCharacteristicPoint();
 
 }

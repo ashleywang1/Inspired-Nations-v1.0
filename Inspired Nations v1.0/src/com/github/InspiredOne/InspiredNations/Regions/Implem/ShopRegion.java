@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Regions.Implem;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
@@ -191,6 +192,11 @@ public class ShopRegion extends NonCummulativeRegion {
 	@Override
 	protected boolean intersects(NonCummulativeRegion region) {
 		return this.Intersects((Region) region);
+	}
+
+	@Override
+	public Location getCharacteristicPoint() {
+		return one.getLocation();
 	}
 
 }

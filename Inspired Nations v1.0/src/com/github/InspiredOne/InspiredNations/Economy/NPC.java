@@ -1,64 +1,95 @@
 package com.github.InspiredOne.InspiredNations.Economy;
 
+
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.util.Arrays;
+import java.util.HashMap;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NameAlreadyTakenException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
+import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
+import com.github.InspiredOne.InspiredNations.ToolBox.CardboardBox;
+import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 
-public class NPC {
+public class NPC implements Serializable, Payable{
 
-	public BigDecimal[] buyVector;
-	public BigDecimal[] costVector;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8606492088647654688L;
 	public InspiredNations plugin;
-	public NodeRef node;
-	public ItemIndexes index;
-	
-	public BigDecimal money = new BigDecimal(100);
-	public BigDecimal moneyMultiplyer = new BigDecimal(1);
-	
-	private MathContext mcup = new MathContext(100, RoundingMode.UP);
-	@SuppressWarnings("unused")
-	private MathContext mcdown = new MathContext(100, RoundingMode.DOWN);
-	
-	public NPC(InspiredNations instance) {
-		plugin = instance;
-		buyVector = new BigDecimal[index.index.size()];
-		costVector = new BigDecimal[index.index.size()];
-		Arrays.fill(costVector, new BigDecimal(-1));
-		Arrays.fill(buyVector, BigDecimal.ZERO);
-		node = new NodeRef(this);
+	AccountCollection accounts = new AccountCollection("NPC");
+	HashMap<CardboardBox,Account> buy = new HashMap<CardboardBox, Account>();
+
+	public NPC() {
+		plugin = InspiredNations.plugin;
 	}
 	
-	public void setRawMoney(BigDecimal money) {
-		this.money = money;
+	@Override
+	public String getName() {
+		return "NPC";
 	}
-	
-	public void setMoneyMultiplyer(BigDecimal multiplyer) {
-		this.moneyMultiplyer = multiplyer;
+
+	@Override
+	public void setName(String name) throws NameAlreadyTakenException {
+		
 	}
-	
-	public BigDecimal getRawMoney() {
-		return this.money;
+
+	@Override
+	public String getDisplayName(PlayerData viewer) {
+		return this.getName();
 	}
-	
-	public BigDecimal getMoney() {
-		return this.money.multiply(this.moneyMultiplyer);
+
+	@Override
+	public void sendNotification(Alert msg) {
+		
 	}
-	
-	public void setMoney(BigDecimal money) {
-		this.money = this.money.divide(moneyMultiplyer, mcup);
+
+	@Override
+	public void transferMoney(BigDecimal amount, Currency monType,
+			Payable target) throws BalanceOutOfBoundsException,
+			NegativeMoneyTransferException {
+		if(amount.compareTo(BigDecimal.ZERO) < 0) {
+			throw new NegativeMoneyTransferException();
+		}
+		if(amount.compareTo(accounts.getTotalMoney(monType)) > 0) {
+			amount.subtract(accounts.getTotalMoney(monType));
+			accounts.transferMoney(accounts.getTotalMoney(monType), monType, target);
+			for(Account test:buy.values()) {
+				if(amount.compareTo(test.getTotalMoney(monType)) > 0) {
+					amount.subtract(test.getTotalMoney(monType));
+					test.transferMoney(test.getTotalMoney(monType), monType, target);
+				}
+				else {
+					test.transferMoney(amount, monType, target);
+					amount = BigDecimal.ZERO;
+					break;
+				}
+			}
+		}
+		else {
+			throw new BalanceOutOfBoundsException();
+		}
 	}
-	
-	public BigDecimal getMoneyMultiplyer() {
-		return this.moneyMultiplyer;
+
+	@Override
+	public void addMoney(BigDecimal amount, Currency monType)
+			throws NegativeMoneyTransferException {
+		this.accounts.addMoney(amount, monType);
 	}
-	
-	
-	public void changeMoneyMultiplyer(BigDecimal multiplyer) {
-		BigDecimal money = this.getMoney();
-		this.moneyMultiplyer = multiplyer;
-		this.setMoney(money);
+
+	@Override
+	public BigDecimal getTotalMoney(Currency valueType) {
+		BigDecimal output = accounts.getTotalMoney(valueType);
+		
+		for(Account account:buy.values()) {
+			output.add(account.getTotalMoney(valueType));
+		}
+		return output;
 	}
+
+
 }

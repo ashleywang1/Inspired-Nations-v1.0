@@ -2,6 +2,8 @@ package com.github.InspiredOne.InspiredNations.Economy;
 
 import java.math.BigDecimal;
 
+import org.bukkit.Location;
+
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
@@ -36,6 +38,6 @@ public interface Sellable extends Nameable {
 	 * @param curren
 	 * @return
 	 */
-	public BigDecimal getPrice(Currency curren);
+	public BigDecimal getPrice(Currency curren, Location locale);
 	
 }

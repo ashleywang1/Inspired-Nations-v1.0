@@ -7,7 +7,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
 
@@ -68,6 +67,10 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 	
 	public PlayerID getPlayerID() {
 		return new PlayerID(this.getPlayer());
+	}
+	
+	public Location getPlayerLocation() {
+		return this.getPlayer().getLocation();
 	}
 	
 	public boolean isSubjectOf(Class<? extends InspiredGov> govtype) {

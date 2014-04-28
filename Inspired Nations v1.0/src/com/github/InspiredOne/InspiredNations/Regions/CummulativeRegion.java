@@ -1,12 +1,16 @@
 package com.github.InspiredOne.InspiredNations.Regions;
 
+import java.util.HashMap;
 import java.util.HashSet;
+
+import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
+import com.github.InspiredOne.InspiredNations.ToolBox.WorldID;
 
 public abstract class CummulativeRegion<T extends NonCummulativeRegion> extends Region {
 
@@ -107,5 +111,34 @@ public abstract class CummulativeRegion<T extends NonCummulativeRegion> extends 
 	
 	public abstract <E extends InspiredGov> Menu getUnclaimMenu(PlayerData PDI, Menu previous, E gov);
 
+	@Override
+	public Location getCharacteristicPoint() {
+		double zsum = 0;
+		double ysum = 0;
+		double xsum = 0;
+		HashMap<WorldID, Integer> counter = new HashMap<WorldID, Integer>();
+		for(NonCummulativeRegion reg:this.regions) {
+			zsum = zsum + reg.getCharacteristicPoint().getZ();
+			ysum = ysum + reg.getCharacteristicPoint().getY();
+			xsum = xsum + reg.getCharacteristicPoint().getX();
+			if(counter.containsKey(reg.getWorld())) {
+				counter.put(reg.getWorld(), counter.get(reg.getWorld()) + 1);
+			}
+			else {
+				counter.put(reg.getWorld(), 1);
+			}
+		}
+		double zavg = zsum/this.regions.size();
+		double yavg = ysum/this.regions.size();
+		double xavg = xsum/this.regions.size();
+		WorldID highestFreq = null;
+		int freq = 0;
+		for(WorldID world:counter.keySet()) {
+			if(counter.get(world) > freq) {
+				highestFreq = world;
+			}
+		}
+		return new Location(highestFreq.getWorld(), xavg, yavg, zavg);
+	}
 
 }

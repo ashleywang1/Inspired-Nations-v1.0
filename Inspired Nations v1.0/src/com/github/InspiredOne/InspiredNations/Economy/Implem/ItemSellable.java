@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
@@ -71,7 +72,7 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 	@Override
 	public String getDisplayName(PlayerData viewer) {
 		if(this.isForSale()) {
-			return this.getName() + " " + TextColor.VALUE + this.getPrice(viewer.getCurrency()) + " " +
+			return this.getName() + " " + TextColor.VALUE + this.getPrice(viewer.getCurrency(), viewer.getPlayerLocation()) + " " +
 		TextColor.UNIT + viewer.getCurrency() + ":" + this.getItem().getAmount();
 		}
 		else {
@@ -100,7 +101,7 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 		transfer.setAmount(transfer.getAmount() - sold);
 		try {
 			playerTo.getPDI().getAccounts().transferMoney(
-					this.getPrice(Currency.DEFAULT).multiply(new BigDecimal(((double) transfer.getAmount())/((double) this.getItem().getAmount())))
+					this.getPrice(Currency.DEFAULT, playerTo.getPDI().getPlayerLocation()).multiply(new BigDecimal(((double) transfer.getAmount())/((double) this.getItem().getAmount())))
 					, Currency.DEFAULT, this.shop.getAccounts());
 			playerTo.getPDI().getPlayer().getWorld().dropItemNaturally(playerTo.getPDI().getPlayer().getLocation(), transfer);
 			try {
@@ -145,9 +146,15 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 	}
 
 	@Override
-	public BigDecimal getPrice(Currency curren) {
+	public BigDecimal getPrice(Currency curren, Location locto) {
 		return InspiredNations.Exchange.getTransferValue(price, this.curren, curren, InspiredNations.Exchange.mcup);
 		
+	}
+	public BigDecimal getTransCost(Location locto) {
+		BigDecimal output = BigDecimal.ONE;
+		//TODO think about the transportation cost function.
+		double dist = locto.distance(shop.getRegion().getRegion().getCharacteristicPoint());
+		return new BigDecimal(dist);
 	}
 	
 	public void setPrice(BigDecimal mon, Currency monType) {

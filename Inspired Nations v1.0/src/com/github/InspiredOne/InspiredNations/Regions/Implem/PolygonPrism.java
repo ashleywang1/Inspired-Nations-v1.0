@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
@@ -324,5 +325,19 @@ public class PolygonPrism extends NonCummulativeRegion {
 	@Override
 	public Object clone() {
 		return new PolygonPrism(this);
+	}
+
+	@Override
+	public Location getCharacteristicPoint() {
+		double yavg = (this.getMaxHieght()+this.getMinHieght())/2.0;
+		double zsum = 0;
+		double xsum = 0;
+		for(int i = 0; i<this.polygon.npoints; i++) {
+			zsum = zsum + this.polygon.ypoints[i];
+			xsum = xsum + this.polygon.xpoints[i];
+		}
+		double xavg = xsum/this.polygon.npoints;
+		double zavg = zsum/this.polygon.npoints;
+		return new Location(this.world.getWorld(), xavg, yavg, zavg);
 	}
 }

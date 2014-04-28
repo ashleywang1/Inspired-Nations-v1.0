@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Regions;
 
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 
 import com.github.InspiredOne.InspiredNations.Debug;
@@ -206,5 +207,14 @@ public class Cuboid extends NonCummulativeRegion {
 	@Override
 	public String toString() {
 		return this.pointmax + ", " + this.pointmin;
+	}
+
+	@Override
+	public Location getCharacteristicPoint() {
+		double xavg = (this.pointmax.x + this.pointmin.x)/2.0;
+		double yavg = (this.pointmax.y + this.pointmin.y)/2.0;
+		double zavg = (this.pointmax.z + this.pointmin.z)/2.0;
+		Location locout = new Location(this.getWorld().getWorld(),xavg,yavg,zavg);
+		return locout;
 	}
 }

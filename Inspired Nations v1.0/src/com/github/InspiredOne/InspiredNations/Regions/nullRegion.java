@@ -1,5 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Regions;
 
+import org.bukkit.Location;
+
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
@@ -79,6 +81,11 @@ public class nullRegion extends Region {
 	@Override
 	protected boolean instantiated() {
 		return false;
+	}
+
+	@Override
+	public Location getCharacteristicPoint() {
+		return null;
 	}
 
 }

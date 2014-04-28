@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Regions.Implem;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.PointsInDifferentWorldException;
@@ -146,5 +147,9 @@ public class ChunkRegion extends NonCummulativeRegion {
 	@Override
 	protected boolean instantiated() {
 		return !(this.coordinate == null);
+	}
+	@Override
+	public Location getCharacteristicPoint() {
+		return this.getBoundingCuboid().getCharacteristicPoint();
 	}
 }
