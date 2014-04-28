@@ -150,11 +150,12 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 		return InspiredNations.Exchange.getTransferValue(price, this.curren, curren, InspiredNations.Exchange.mcup);
 		
 	}
-	public BigDecimal getTransCost(Location locto) {
-		BigDecimal output = BigDecimal.ONE;
+	public BigDecimal getTransCost(Currency curren, Location locto) {
 		//TODO think about the transportation cost function.
 		double dist = locto.distance(shop.getRegion().getRegion().getCharacteristicPoint());
-		return new BigDecimal(dist);
+		
+		return InspiredNations.Exchange.getTransferValue((new BigDecimal(dist)).divide((new BigDecimal(100))),
+				Currency.DEFAULT,curren, InspiredNations.Exchange.mcup);
 	}
 	
 	public void setPrice(BigDecimal mon, Currency monType) {
