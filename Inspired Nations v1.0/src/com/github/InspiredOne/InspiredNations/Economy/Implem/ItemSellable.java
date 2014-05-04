@@ -71,7 +71,7 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 	@Override
 	public String getDisplayName(PlayerData viewer) {
 		if(this.isForSale()) {
-			return this.getName() + " " + TextColor.VALUE + this.getPrice(viewer.getCurrency(), viewer.getPlayerLocation()) + " " +
+			return this.getName() + " " + TextColor.VALUE + this.getPrice(viewer.getCurrency(), viewer.getLocation()) + " " +
 		TextColor.UNIT + viewer.getCurrency() + ":" + this.getItem().getAmount();
 		}
 		else {
@@ -80,7 +80,7 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 	}
 
 	@Override
-	public void transferOwnership(PlayerID playerTo) {
+	public void transferOwnership(Buyer buyer) {
 		int sold = this.getItem().getAmount();
 		ArrayList<ItemStack> selling = new ArrayList<ItemStack>();
 		for(ItemStack item:this.shop.getInvetorySellables()) {
@@ -99,10 +99,10 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 		Debug.print("Amount " + transfer.getAmount() + " How many not bought: " + sold);
 		transfer.setAmount(transfer.getAmount() - sold);
 		try {
-			playerTo.getPDI().getAccounts().transferMoney(
-					this.getPrice(Currency.DEFAULT, playerTo.getPDI().getPlayerLocation()).multiply(new BigDecimal(((double) transfer.getAmount())/((double) this.getItem().getAmount())))
+			buyer.transferMoney(
+					this.getPrice(Currency.DEFAULT, buyer.getLocation()).multiply(new BigDecimal(((double) transfer.getAmount())/((double) this.getItem().getAmount())))
 					, Currency.DEFAULT, this.shop.getAccounts());
-			playerTo.getPDI().getPlayer().getWorld().dropItemNaturally(playerTo.getPDI().getPlayer().getLocation(), transfer);
+			((ItemBuyer) buyer).recieveItem(transfer);
 			try {
 				Debug.print(transfer.getAmount() + " transfer amount.");
 				shop.getInventory().removeItem(transfer);
@@ -110,7 +110,9 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 				e.printStackTrace();
 			}
 		} catch (BalanceOutOfBoundsException | NegativeMoneyTransferException e) {
-			playerTo.getPDI().getMsg().receiveError(MenuError.NOT_ENOUGH_MONEY());
+			if(buyer instanceof PlayerData) {
+				((PlayerData) buyer).getMsg().receiveError(MenuError.NOT_ENOUGH_MONEY());
+			}
 			
 		}
 		
@@ -149,6 +151,11 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 		return InspiredNations.Exchange.getTransferValue(price, this.curren, curren, InspiredNations.Exchange.mcup);
 		
 	}
+	
+	public BigDecimal getUnitPrice(Currency curren, Location locto) {
+		return this.getPrice(curren, locto).divide(new BigDecimal(this.getItem().getAmount()));
+	}
+	
 	public BigDecimal getTransCost(Currency curren, Location locto) {
 		//TODO think about the transportation cost function.
 		double dist = locto.distance(shop.getRegion().getRegion().getCharacteristicPoint());

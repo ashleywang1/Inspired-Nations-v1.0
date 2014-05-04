@@ -32,7 +32,7 @@ public class BuyMenu extends TabSelectOptionMenu<Sellable> {
 
 	@Override
 	public void addTabOptions() {
-		for(Sellable item:market.getSales()) {
+		for(Sellable item:market.getSales(this.PDI)) {
 			this.taboptions.add(item);
 		}
 	}

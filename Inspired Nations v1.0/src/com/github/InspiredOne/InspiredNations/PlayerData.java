@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -9,9 +10,14 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.Economy.NPC;
+import com.github.InspiredOne.InspiredNations.Economy.Implem.ItemBuyer;
+import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
@@ -20,12 +26,13 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 
-public class PlayerData implements Serializable, Nameable, Notifyable {
+public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer{
 
 	/**
 	 * 
@@ -38,6 +45,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 	private Currency currency;
 	private MessageManager msg;
 	protected PlayerData PDI;
+	public List<NPC> npcs = new ArrayList<NPC>();
 	
 	public PlayerData(PlayerID id) {
 		this.name = id.getName();
@@ -46,6 +54,9 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 		accounts = new AccountCollection(this.name);
 		msg = new MessageManager(this);
 		PDI = this;
+		for(int i = 0; i < 20; i++) {
+			this.npcs.add(new NPC());
+		}
 	}
 
 	public Conversation getCon() {
@@ -68,8 +79,8 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 	public PlayerID getPlayerID() {
 		return new PlayerID(this.getPlayer());
 	}
-	
-	public Location getPlayerLocation() {
+	@Override
+	public Location getLocation() {
 		return this.getPlayer().getLocation();
 	}
 	
@@ -318,6 +329,31 @@ public class PlayerData implements Serializable, Nameable, Notifyable {
 
 		}
 		return allowed;
+	}
+
+	@Override
+	public void transferMoney(BigDecimal amount, Currency monType,
+			Payable target) throws BalanceOutOfBoundsException,
+			NegativeMoneyTransferException {
+			this.accounts.transferMoney(amount, monType, target);
+		
+	}
+
+	@Override
+	public void addMoney(BigDecimal amount, Currency monType)
+			throws NegativeMoneyTransferException {
+		this.accounts.addMoney(amount, monType);
+		
+	}
+
+	@Override
+	public BigDecimal getTotalMoney(Currency valueType) {
+		return this.accounts.getTotalMoney(valueType);
+	}
+
+	@Override
+	public void recieveItem(ItemStack item) {
+		this.getLocation().getWorld().dropItemNaturally(this.getLocation(), item);
 	}
 
 }

@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Economy.Nodes;
 import java.math.BigDecimal;
 import java.util.Vector;
 
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.NPC;
 
 public class PerfectSubNode extends Node {
@@ -48,10 +49,10 @@ public class PerfectSubNode extends Node {
 	}
 
 	@Override
-	public void buy(BigDecimal amount) {
+	public void buy(BigDecimal amount, Currency curren) {
 		if(choice == null) {
 			this.getCoef();
 		}
-		choice.buy(amount);
+		choice.buy(amount, curren);
 	}
 }

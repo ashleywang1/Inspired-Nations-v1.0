@@ -4,7 +4,12 @@ import java.math.BigDecimal;
 
 import org.bukkit.inventory.ItemStack;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.NPC;
+import com.github.InspiredOne.InspiredNations.Economy.Implem.ItemMarketplace;
+import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 
 public class ItemNode extends Node {
 
@@ -12,19 +17,21 @@ public class ItemNode extends Node {
 	boolean choseThis;
 	ItemStack item;
 	
-	public ItemNode(NPC instance, ItemStack item, Node[] elems) {
+	public ItemNode(NPC npc, ItemStack item, Node[] elems) {
 		/**Only put one node in the list*/
 
-		super(instance, elems);
-		this.cost = npc.costVector[npc.index.get(item)];
+		super(npc, elems);
+		this.cost = ((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(item, npc)
+				.getUnitPrice(npc.getCurrency(), npc.getLocation());
 		this.item = item;
 	}
 	
-	public ItemNode(NPC instance, ItemStack item) {
+	public ItemNode(NPC npc, ItemStack item) {
 		// {
-		super(instance, new Node[] {});
+		super(npc, new Node[] {});
 		choseThis = true;
-		this.cost = npc.costVector[npc.index.get(item)];
+		this.cost = ((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(item, npc)
+				.getUnitPrice(npc.getCurrency(), npc.getLocation());
 		this.item = item;
 		// }
 	}
@@ -55,12 +62,18 @@ public class ItemNode extends Node {
 		}
 	}
 	@Override
-	public void buy(BigDecimal amount) {
+	public void buy(BigDecimal amount, Currency curren) {
 		if(choseThis) {
-			npc.buyVector[this.npc.index.get(item)] = npc.buyVector[this.npc.index.get(item)].add(amount);
+			try {
+				npc.saveMoneyFor(this.item, amount, curren);
+			} catch (BalanceOutOfBoundsException e) {
+				e.printStackTrace();
+			} catch (NegativeMoneyTransferException e) {
+				e.printStackTrace();
+			}
 		}
 		else {
-			elems[0].buy(amount);
+			elems[0].buy(amount, curren);
 		}
 	}
 }

@@ -26,7 +26,7 @@ public class MakePurchaseOption extends Option {
 
 	@Override
 	public Menu response(String input) {
-		this.item.transferOwnership(menu.PDI.getPlayerID());
+		this.item.transferOwnership(menu.PDI);
 		return menu;
 	}
 

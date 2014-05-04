@@ -4,15 +4,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
+
+import org.bukkit.inventory.ItemStack;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.MarketPlace;
-import com.github.InspiredOne.InspiredNations.Economy.Sellable;
-import com.github.InspiredOne.InspiredNations.Exceptions.NameAlreadyTakenException;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.ChestShop;
@@ -28,7 +26,7 @@ public class ItemMarketplace implements MarketPlace<ItemSellable> {
 	}
 
 	@Override
-	public List<ItemSellable> getSales(PlayerData viewer) {
+	public List<ItemSellable> getSales(Buyer viewer) {
 		List<ItemSellable> output = new ArrayList<ItemSellable>();
 		
 		for(Class<? extends InspiredGov> govclass:InspiredNations.regiondata.keySet()) {
@@ -50,6 +48,25 @@ public class ItemMarketplace implements MarketPlace<ItemSellable> {
 		}
 		return output;
 	}
+	
+	public ItemSellable getCheapestUnit(ItemStack stack, Buyer buy) {
+		ItemSellable cheapest = null;
+		for(ItemSellable item:this.getSales(buy)) {
+			if(item.getItem().isSimilar(stack)) {
+				if(cheapest == null) {
+					cheapest = item;
+					continue;
+				}
+				else {
+					if(cheapest.getUnitPrice(buy.getCurrency(), buy.getLocation()).compareTo(item.
+							getUnitPrice(buy.getCurrency(), buy.getLocation())) < 0) {
+						cheapest = item;
+					}
+				}
+			}
+		}
+		return cheapest;
+	}
 
 	@Override
 	public String getName() {
@@ -67,7 +84,7 @@ public class ItemMarketplace implements MarketPlace<ItemSellable> {
 	}
 
 	@Override
-	public List<SortTool<ItemSellable>> getComparators(final PlayerData viewer) {
+	public List<SortTool<ItemSellable>> getComparators(final Buyer viewer) {
 		List<SortTool<ItemSellable>> output = new ArrayList<SortTool<ItemSellable>>();
 		// Alphabetically
 		output.add(new SortTool<ItemSellable>() {
@@ -107,8 +124,8 @@ public class ItemMarketplace implements MarketPlace<ItemSellable> {
 					@Override
 					public int compare(ItemSellable o1, ItemSellable o2) {
 
-						return o1.getPrice(viewer.getCurrency(), viewer.getPlayerLocation()).compareTo(
-								o2.getPrice(viewer.getCurrency(), viewer.getPlayerLocation()));
+						return o1.getPrice(viewer.getCurrency(), viewer.getLocation()).compareTo(
+								o2.getPrice(viewer.getCurrency(), viewer.getLocation()));
 					}
 				};
 			}
@@ -128,9 +145,9 @@ public class ItemMarketplace implements MarketPlace<ItemSellable> {
 
 					@Override
 					public int compare(ItemSellable o1, ItemSellable o2) {
-						BigDecimal o1uprice = o1.getPrice(viewer.getCurrency(), viewer.getPlayerLocation()).
+						BigDecimal o1uprice = o1.getPrice(viewer.getCurrency(), viewer.getLocation()).
 								divide(new BigDecimal(o1.getItem().getAmount()));
-						BigDecimal o2uprice = o2.getPrice(viewer.getCurrency(), viewer.getPlayerLocation()).
+						BigDecimal o2uprice = o2.getPrice(viewer.getCurrency(), viewer.getLocation()).
 								divide(new BigDecimal(o2.getItem().getAmount()));
 						
 						return o1uprice.compareTo(o2uprice);
@@ -153,8 +170,8 @@ public class ItemMarketplace implements MarketPlace<ItemSellable> {
 
 					@Override
 					public int compare(ItemSellable o1, ItemSellable o2) {
-						double distdif = o1.getLocation().getLocation().distance(viewer.getPlayerLocation())
-								- o2.getLocation().getLocation().distance(viewer.getPlayerLocation());
+						double distdif = o1.getLocation().getLocation().distance(viewer.getLocation())
+								- o2.getLocation().getLocation().distance(viewer.getLocation());
 						if(distdif < 0) {
 							return -1;
 						}

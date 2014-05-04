@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Economy.Nodes;
 
 import java.math.BigDecimal;
 
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.NPC;
 
 public class CobDugNode extends Node {
@@ -35,7 +36,7 @@ public class CobDugNode extends Node {
 	}
 
 	@Override
-	public void buy(BigDecimal amount) {
+	public void buy(BigDecimal amount, Currency curren) {
 		double divisor = 0;
 		
 		if(ratios.equals(null)) {
@@ -49,7 +50,7 @@ public class CobDugNode extends Node {
 		}	
 		for(int i = 0; i < elems.length; i++) {
 			if(ratios[i] > 0) {
-				elems[i].buy(amount.multiply(new BigDecimal(power[i])).divide(new BigDecimal(divisor)));
+				elems[i].buy(amount.multiply(new BigDecimal(power[i])).divide(new BigDecimal(divisor)), curren);
 			}
 		}
 	}

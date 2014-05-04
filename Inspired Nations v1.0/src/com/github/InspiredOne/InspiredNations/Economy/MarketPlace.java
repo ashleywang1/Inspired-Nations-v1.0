@@ -2,7 +2,7 @@ package com.github.InspiredOne.InspiredNations.Economy;
 
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Economy.Implem.Buyer;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.SortTool;
 
@@ -14,7 +14,7 @@ public interface MarketPlace<E extends Sellable> extends Nameable{
 	 * if the sellable is for sale.
 	 * @return
 	 */
-	public abstract List<E> getSales(PlayerData viewer);
+	public abstract List<E> getSales(Buyer viewer);
 
 	/**
 	 * Gets the name of the marketplace to be used in Menus
@@ -26,5 +26,5 @@ public interface MarketPlace<E extends Sellable> extends Nameable{
 	 * All the sorting tools that can be used with this Marketplace.
 	 * @return
 	 */
-	public abstract List<SortTool<E>> getComparators(final PlayerData viewer);
+	public abstract List<SortTool<E>> getComparators(final Buyer viewer);
 }

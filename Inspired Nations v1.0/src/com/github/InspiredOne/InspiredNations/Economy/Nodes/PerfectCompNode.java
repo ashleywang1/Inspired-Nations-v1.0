@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Economy.Nodes;
 
 import java.math.BigDecimal;
 
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.NPC;
 
 public class PerfectCompNode extends Node {
@@ -30,7 +31,7 @@ public class PerfectCompNode extends Node {
 	}
 
 	@Override
-	public void buy(BigDecimal amount) {
+	public void buy(BigDecimal amount, Currency curren) {
 		
 		double divisor = 0;
 		for(int i = 0; i < elems.length; i++){
@@ -42,7 +43,7 @@ public class PerfectCompNode extends Node {
 		}
 		
 		for(int i = 0; i< elems.length; i++) {
-			elems[i].buy( amount.multiply(new BigDecimal(ratio[i])).divide(new BigDecimal(divisor)));
+			elems[i].buy( amount.multiply(new BigDecimal(ratio[i])).divide(new BigDecimal(divisor)), curren);
 		}
 
 	}

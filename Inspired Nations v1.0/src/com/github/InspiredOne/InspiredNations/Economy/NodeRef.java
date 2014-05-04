@@ -296,6 +296,10 @@ public class NodeRef {
 		});
 	}
 	
+	public void allocateMoney() {
+		this.Begin.buy(this.npc.getTotalUnallocatedMoney(npc.getCurrency()), npc.getCurrency());
+	}
+	
 	public Node get(int id) {
 		return ref.get(id);
 	}
