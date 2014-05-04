@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations.Economy.Implem;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;
