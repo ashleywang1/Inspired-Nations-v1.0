@@ -8,6 +8,7 @@ import java.util.HashMap;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Implem.ItemBuyer;
@@ -26,12 +27,10 @@ public class NPC implements Serializable, ItemBuyer {
 	 * 
 	 */
 	private static final long serialVersionUID = 8606492088647654688L;
-	public InspiredNations plugin;
 	AccountCollection accounts = new AccountCollection("NPC");
 	HashMap<CardboardBox,Account> buy = new HashMap<CardboardBox, Account>();
 
 	public NPC() {
-		plugin = InspiredNations.plugin;
 		try {
 			this.accounts.addMoney(new BigDecimal(100000), Currency.DEFAULT);
 		} catch (NegativeMoneyTransferException e) {
@@ -75,6 +74,7 @@ public class NPC implements Serializable, ItemBuyer {
 		if(amount.compareTo(BigDecimal.ZERO) < 0) {
 			throw new NegativeMoneyTransferException();
 		}
+		Debug.print(amount.toString() + " is greater than " + accounts.getTotalMoney(monType).toString());
 		if(amount.compareTo(accounts.getTotalMoney(monType)) > 0) {
 			amount.subtract(accounts.getTotalMoney(monType));
 			accounts.transferMoney(accounts.getTotalMoney(monType), monType, target);
@@ -89,6 +89,9 @@ public class NPC implements Serializable, ItemBuyer {
 					break;
 				}
 			}
+		}
+		else if(amount.compareTo(accounts.getTotalMoney(monType)) < 0) {
+			accounts.transferMoney(amount, monType, target);
 		}
 		else {
 			throw new BalanceOutOfBoundsException();
@@ -118,12 +121,13 @@ public class NPC implements Serializable, ItemBuyer {
 	public void saveMoneyFor(ItemStack stack, BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
 		ItemStack stackkey = stack.clone();
 		stackkey.setAmount(1);
-		if(this.buy.containsKey(new CardboardBox(stack))) {
-			this.transferMoney(amount, curren, buy.get(new CardboardBox(stack)));
+		Debug.print("saveMoney amount " +amount.toString());
+		if(this.buy.containsKey(new CardboardBox(stackkey))) {
+			this.transferMoney(amount, curren, buy.get(new CardboardBox(stackkey)));
 		}
 		else {
-			this.buy.put(new CardboardBox(stack), new Account());
-			this.saveMoneyFor(stackkey, amount, curren);
+			this.buy.put(new CardboardBox(stackkey), new Account());
+			this.saveMoneyFor(stack, amount, curren);
 		}
 	}
 	
@@ -151,8 +155,10 @@ public class NPC implements Serializable, ItemBuyer {
 	 * the npc can afford.
 	 */
 	public void buyOut() {
+		Debug.print("In buyOut of NPC");
 		NodeRef noderef = new NodeRef(this);
 		noderef.allocateMoney();
+		Debug.print("buy hashmap size: " + this.buy.size());
 		for(CardboardBox boxitem : this.buy.keySet()) {
 			ItemStack stack = boxitem.unbox();
 			ItemSellable cheapest =((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(stack, this);

@@ -6,3 +6,5 @@ commands:
     description: The HUD
   map:
     description: The Map
+  npc:
+    description: Makes the NPCs buy

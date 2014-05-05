@@ -148,11 +148,13 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 
 	@Override
 	public BigDecimal getPrice(Currency curren, Location locto) {
+		Debug.print("Inside getPrice " + InspiredNations.Exchange.getTransferValue(price, this.curren, curren, InspiredNations.Exchange.mcup));
 		return InspiredNations.Exchange.getTransferValue(price, this.curren, curren, InspiredNations.Exchange.mcup);
 		
 	}
 	
 	public BigDecimal getUnitPrice(Currency curren, Location locto) {
+		Debug.print("Inside getUnitPrice" + this.getPrice(curren, locto).divide(new BigDecimal(this.getItem().getAmount())));
 		return this.getPrice(curren, locto).divide(new BigDecimal(this.getItem().getAmount()));
 	}
 	

@@ -31,11 +31,11 @@ public class ItemMarketplace implements MarketPlace<ItemSellable> {
 		
 		for(Class<? extends InspiredGov> govclass:InspiredNations.regiondata.keySet()) {
 			for(InspiredGov busi:InspiredNations.regiondata.get(govclass)) {
-				GoodBusiness good = (GoodBusiness) busi;
-				for(Facility fac:good.getFacilities()) {
+				
+				for(Facility fac:busi.getFacilities()) {
 					if(fac instanceof ChestShop) {
 						for(ItemSellable item:((ChestShop) fac).getItems()) {
-							if(item.isForSale()) {
+							if(item.isForSale() && !output.contains(item)) {
 								output.add(item);
 							}
 						}

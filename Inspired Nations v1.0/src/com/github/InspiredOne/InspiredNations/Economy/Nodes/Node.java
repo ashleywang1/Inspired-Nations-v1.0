@@ -8,14 +8,12 @@ import com.github.InspiredOne.InspiredNations.Economy.NPC;
 
 public abstract class Node {
 
-	InspiredNations plugin;
 	NPC npc;
 	double thresh = 0.0000001;
 	Node[] elems;
 	
 	public Node(NPC instance, Node[] elems) {
 		npc = instance;
-		plugin = npc.plugin;
 		this.elems = elems;
 	}
 	

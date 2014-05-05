@@ -156,14 +156,11 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		}
 	}
 	
-	public E getSelection() {
-		return this.filteredoptions.get(tabcnt);
-	}
-	
 	public void setData(E data) {
 		this.data = data;
 	}
 	
+	@Override
 	public E getData() {
 		if(data == null) {
 			if(tabcnt >= this.filteredoptions.size()) {
@@ -230,7 +227,6 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 
 	@Override
 	public void unloadPersist() {
-
 		managers = new ArrayList<ActionManager<?>>();
 	}
 }

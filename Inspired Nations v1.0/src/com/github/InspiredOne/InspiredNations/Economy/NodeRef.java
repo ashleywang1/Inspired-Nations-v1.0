@@ -1,9 +1,11 @@
 package com.github.InspiredOne.InspiredNations.Economy;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 import org.bukkit.inventory.ItemStack;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.Nodes.CobDugNode;
 import com.github.InspiredOne.InspiredNations.Economy.Nodes.ItemNode;
@@ -183,7 +185,7 @@ public class NodeRef {
 					}),
 					// }
 					// { Shovel
-					new PerfectSubNode(npc, new double[] {1,2,4,7}, new Node[] { // Shovel
+					new PerfectSubNode(npc, new double[] {1,2,4,5,7}, new Node[] { // Shovel
 							new ItemNode(npc, new ItemStack(269, 1, (short) 0), new Node[] { // Wooden Shovel
 								new PerfectCompNode(npc, new double[] {2,1}, new Node[] {
 										item.stick,
@@ -217,7 +219,7 @@ public class NodeRef {
 					}),
 					// }
 					// { Axe
-					new PerfectSubNode(npc, new double[] {1,2,4,7}, new Node[] { // Axe
+					new PerfectSubNode(npc, new double[] {1,2,4,5,7}, new Node[] { // Axe
 							new ItemNode(npc, new ItemStack(271, 1, (short) 0), new Node[] { // Wooden Axe
 								new PerfectCompNode(npc, new double[] {2,3}, new Node[] {
 										item.stick,
@@ -258,7 +260,7 @@ public class NodeRef {
 					}),
 					// }
 					// { Hoe
-					new PerfectSubNode(npc, new double[] {1,2,2.3,2.4}, new Node[] { // Hoe
+					new PerfectSubNode(npc, new double[] {1,2,2.3,2.3,2.4}, new Node[] { // Hoe
 							new ItemNode(npc, new ItemStack(290, 1, (short) 0), new Node[] { // Wooden Hoe
 								new PerfectCompNode(npc, new double[] {2,2}, new Node[] {
 										item.stick,
@@ -296,8 +298,10 @@ public class NodeRef {
 		});
 	}
 	
-	public void allocateMoney() {
-		this.Begin.buy(this.npc.getTotalUnallocatedMoney(npc.getCurrency()), npc.getCurrency());
+	public void allocateMoney() { 
+		BigDecimal money = this.npc.getTotalUnallocatedMoney(npc.getCurrency()).divide(new BigDecimal(50));
+		Debug.print(money.toString());
+		this.Begin.buy(this.npc.getTotalUnallocatedMoney(npc.getCurrency()).divide(new BigDecimal(50)), npc.getCurrency());
 	}
 	
 	public Node get(int id) {

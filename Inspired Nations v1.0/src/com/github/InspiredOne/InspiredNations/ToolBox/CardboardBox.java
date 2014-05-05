@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
  
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
  
@@ -48,5 +51,36 @@ public class CardboardBox implements Serializable {
         item.addUnsafeEnchantments(map);
  
         return item;
+    }
+	@Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
+            // if deriving: appendSuper(super.hashCode()).
+            append(type).
+            append(amount).
+            append(damage).
+            append(data).
+            append(enchants).
+            toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (!(obj instanceof CardboardBox))
+            return false;
+
+        CardboardBox rhs = (CardboardBox) obj;
+        return new EqualsBuilder().
+            // if deriving: appendSuper(super.equals(obj)).
+            append(type, rhs.type).
+            append(amount, rhs.amount).
+            append(damage, rhs.damage).
+            append(data, rhs.data).
+            append(enchants, rhs.enchants).
+            isEquals();
     }
 }

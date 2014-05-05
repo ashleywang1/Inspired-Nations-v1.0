@@ -27,6 +27,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.MarketPlace;
 import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
+import com.github.InspiredOne.InspiredNations.Economy.NPC;
 import com.github.InspiredOne.InspiredNations.Economy.TaxTimer;
 import com.github.InspiredOne.InspiredNations.Economy.Implem.ItemMarketplace;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
@@ -75,6 +76,7 @@ public class InspiredNations extends JavaPlugin {
 		}
 		this.getCommand("hud").setExecutor(CM);
 		this.getCommand("map").setExecutor(CM);
+		this.getCommand("npc").setExecutor(CM);
 		for(HashSet<InspiredGov> set:regiondata.values()) {
 			for(Iterator<InspiredGov> iter = set.iterator(); iter.hasNext();){
 				InspiredGov gov = iter.next();
@@ -161,6 +163,11 @@ public class InspiredNations extends JavaPlugin {
 				Conversation conversation = convo.MapConvo();
 				PDI.setCon(conversation);
 				conversation.begin();
+			}
+			else if(CommandLable.equalsIgnoreCase("npc")) {
+				for(NPC npc:PDI.npcs) {
+					npc.buyOut();
+				}
 			}
 			else return false;
 			return false;

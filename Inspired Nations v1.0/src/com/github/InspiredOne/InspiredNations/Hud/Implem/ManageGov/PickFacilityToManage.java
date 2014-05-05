@@ -67,7 +67,7 @@ public class PickFacilityToManage<T extends Facility> extends TabSelectOptionMen
 	@Override
 	public void addOptions() {
 		if(this.taboptions.size() != 0) {
-			this.options.add(new PromptOption(this, "Manage", new ManageFacility(PDI, this, this.getSelection())));	
+			this.options.add(new PromptOption(this, "Manage", new ManageFacility(PDI, this, this.getData())));	
 		}
 		
 	}
