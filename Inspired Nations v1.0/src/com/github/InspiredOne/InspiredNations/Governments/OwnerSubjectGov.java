@@ -3,11 +3,10 @@ package com.github.InspiredOne.InspiredNations.Governments;
 import java.math.BigDecimal;
 
 import com.github.InspiredOne.InspiredNations.Debug;
-import com.github.InspiredOne.InspiredNations.InspiredNations;
-import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMilitaryLevelExecption;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeProtectionLevelException;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
@@ -54,6 +53,7 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 		this.subjects.remove(player);
 	}
 	
+	@Override
 	protected IndexedSet<PlayerID> getSubjects() {
 		subjects.addAll(this.getOwners());
 		return subjects;
@@ -61,6 +61,44 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 
 	public void setSubjects(IndexedSet<PlayerID> subjects) {
 		this.subjects = subjects;
+	}
+	
+	public void payTaxes() {
+		for(Class<? extends InspiredGov> govtype:this.getAllSubGovs()) {
+			for(InspiredGov subgov:this.getAllSubGovs(govtype)) {
+				subgov.payTaxes();
+			}
+		}
+		while(this.getTotalMoney(this.getCurrency()).compareTo(this.currentTaxCycleValue(this.getCurrency())) < 0 &&
+				this.getMilitaryLevel() > 0) {
+				try {
+					this.setMilitaryLevel(this.getMilitaryLevel() - 1);
+				} catch (NegativeMilitaryLevelExecption e) {
+					e.printStackTrace();
+				} catch (BalanceOutOfBoundsException e) {
+					e.printStackTrace();
+				}
+		}
+		while(this.getTotalMoney(this.getCurrency()).compareTo(this.currentTaxCycleValue(this.getCurrency())) < 0 &&
+				this.getProtectionlevel() > 0) {
+			try {
+				this.setProtectionlevel(this.getProtectionlevel() - 1);
+			} catch (NegativeProtectionLevelException e) {
+				e.printStackTrace();
+			} catch (BalanceOutOfBoundsException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			this.paySuper(this.currentTaxCycleValue(getCurrency()), this.getCurrency());
+		} catch (BalanceOutOfBoundsException e) {
+			e.printStackTrace();
+		} catch (NegativeMoneyTransferException e) {
+			e.printStackTrace();
+		}
+		for(Facility fac:this.getFacilities()) {
+			fac.payTaxes();
+		}
 	}
 
 	@Override

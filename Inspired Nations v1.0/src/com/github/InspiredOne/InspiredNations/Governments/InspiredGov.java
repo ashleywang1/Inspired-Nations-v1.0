@@ -33,6 +33,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
@@ -46,7 +47,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
  * @author InspiredOne
  *
  */
-public abstract class InspiredGov implements Serializable, Nameable, Datable<InspiredGov>, Notifyable {
+public abstract class InspiredGov implements Serializable, Nameable, Datable<InspiredGov>, Notifyable, Payable {
 
 	/**
 	 * 
@@ -345,7 +346,6 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
 		this.accounts.transferMoney(amount, curren, this.getSuperGovObj().accounts);
-		
 	}
 	/**
 	 * 
@@ -373,6 +373,35 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		}
 		return output;
 	}
+	
+	public void payTaxes() {
+		for(Class<? extends InspiredGov> govtype:this.getAllSubGovs()) {
+			for(InspiredGov subgov:this.getAllSubGovs(govtype)) {
+				subgov.payTaxes();
+			}
+		}
+		while(this.getTotalMoney(currency).compareTo(this.currentTaxCycleValue(currency)) < 0 &&
+				this.getProtectionlevel() > 0) {
+			try {
+				this.setProtectionlevel(this.getProtectionlevel() - 1);
+			} catch (NegativeProtectionLevelException e) {
+				e.printStackTrace();
+			} catch (BalanceOutOfBoundsException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			this.paySuper(this.currentTaxCycleValue(getCurrency()), this.getCurrency());
+		} catch (BalanceOutOfBoundsException e) {
+			e.printStackTrace();
+		} catch (NegativeMoneyTransferException e) {
+			e.printStackTrace();
+		}
+		for(Facility fac:this.getFacilities()) {
+			fac.payTaxes();
+		}
+	}
+	
 	/**
 	 * Returns a list of all govs that are subgovs of the parameter and
 	 * are super govs of this gov or are this gov.
@@ -740,5 +769,21 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @return	Owner Position Name
 	 */
 	public abstract String getOwnerPositionName();
+	
+	@Override
+	public void transferMoney(BigDecimal amount, Currency curren, Payable accountTo) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
+		this.accounts.transferMoney(amount, curren, accountTo);
+	}
+	
+	@Override
+	public void addMoney(BigDecimal amount, Currency monType)
+			throws NegativeMoneyTransferException {
+		this.accounts.addMoney(amount, monType);
+	}
+
+	@Override
+	public BigDecimal getTotalMoney(Currency valueType) {
+		return this.accounts.getTotalMoney(valueType);
+	}
 	
 }

@@ -5,13 +5,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.Economy.NPC;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
-import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 /**
  * Facilities cannot have subgovs
  * @author Jedidiah E. Phillips
@@ -42,12 +44,25 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 	
 	@Override
 	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
-		this.getAccounts().transferMoney(amount, curren, this.getSuperGovObj().getSuperGovObj().getAccounts());
+		if(this.getSuperGovObj().getSuperGovObj() instanceof GlobalGov) {
+			int npccount = 0;
+			for(PlayerID player:this.getSuperGovObj().getSubjects()) {
+				npccount += player.getPDI().npcs.size();
+			}
+			BigDecimal payment = amount.divide(new BigDecimal(npccount), InspiredNations.Exchange.mcdown);
+			for(PlayerID player:this.getSuperGovObj().getSubjects()) {
+				for(NPC npc:player.getPDI().npcs) {
+					this.transferMoney(payment, curren, npc);
+				}
+			}
+		}
+		this.transferMoney(amount, curren, this.getSuperGovObj().getSuperGovObj());
 	}
 
 	@Override
 	public void pullFromSuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
-		this.getAccounts().transferMoney(amount, curren, this.getSuperGovObj().getSuperGovObj().getAccounts());
+		this.getSuperGovObj().getSuperGovObj().transferMoney(amount, curren, this);
+		//this.transferMoney(amount, curren, this.getSuperGovObj().getSuperGovObj()); I'm not sure why this is like this rather than the line above.
 	}
 	
 	@Override

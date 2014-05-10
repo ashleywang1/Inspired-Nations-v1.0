@@ -1,8 +1,14 @@
 package com.github.InspiredOne.InspiredNations.Governments;
 
+import java.math.BigDecimal;
+
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.Economy.NPC;
+import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
@@ -56,6 +62,26 @@ public abstract class OwnerGov extends InspiredGov {
 	@Override
 	protected IndexedSet<PlayerID> getSubjects() {
 		return this.owners;
+	}
+	
+	@Override
+	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
+		if(this.getSuperGovObj() instanceof GlobalGov) {
+			int npccount = 0;
+			for(PlayerID player:this.getSubjects()) {
+				npccount += player.getPDI().npcs.size();
+			}
+			BigDecimal payment = amount.divide(new BigDecimal(npccount), InspiredNations.Exchange.mcdown);
+			for(PlayerID player:this.getSubjects()) {
+				for(NPC npc:player.getPDI().npcs) {
+					this.transferMoney(payment, curren, npc);
+				}
+			}
+		}
+		else {
+			this.transferMoney(amount, curren, this.getSuperGovObj());
+		}
+		
 	}
 	
 	@Override

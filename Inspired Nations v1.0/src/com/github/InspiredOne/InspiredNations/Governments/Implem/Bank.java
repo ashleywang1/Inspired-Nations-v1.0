@@ -1,9 +1,12 @@
 package com.github.InspiredOne.InspiredNations.Governments.Implem;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
