@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -313,9 +314,9 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 		}
 	}
 	
-	public boolean getAllowedImigration(InspiredGov gov) {
+	public boolean getAllowedImmigration(InspiredGov gov) {
 		boolean allowed = false;
-		if(ProtectionLevels.IMIGRATION_CONTROL > this.effectiveProcLevel(gov)) {
+		if(ProtectionLevels.IMMIGRATION_CONTROL > this.effectiveProcLevel(gov)) {
 			allowed = true;
 		}
 		return allowed;
@@ -336,7 +337,6 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 			Payable target) throws BalanceOutOfBoundsException,
 			NegativeMoneyTransferException {
 			this.accounts.transferMoney(amount, monType, target);
-		
 	}
 
 	@Override
@@ -353,7 +353,12 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 
 	@Override
 	public void recieveItem(ItemStack item) {
-		this.getLocation().getWorld().dropItemNaturally(this.getLocation(), item);
+		HashMap<Integer,ItemStack> leftover = this.getPlayer().getInventory().addItem(item);
+		for(ItemStack stack:leftover.values()) {
+			this.getLocation().getWorld().dropItemNaturally(this.getLocation(), stack);
+		}
+		
+
 	}
 
 }

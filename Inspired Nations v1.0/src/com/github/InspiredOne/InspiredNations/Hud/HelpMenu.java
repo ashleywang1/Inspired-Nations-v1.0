@@ -101,5 +101,10 @@ public class HelpMenu extends InputMenu {
 	public String getHeader() {
 		return "Help Docs";
 	}
+	
+	public HelpMenu addPage(String text) {
+		this.docs.add(text);
+		return this;
+	}
 
 }

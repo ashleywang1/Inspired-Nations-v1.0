@@ -1,10 +1,10 @@
 package com.github.InspiredOne.InspiredNations.Hud;
 
+import org.bukkit.ChatColor;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -22,6 +22,7 @@ public abstract class Menu extends MessagePrompt {
 	public InspiredNations plugin;
 	// Menu Persistent: Only initialized once for this menu instance.
 	private boolean loaded = false;
+	public HelpMenu help;
 	
 	// Non-Persistent: Refreshed for every return back to this menu
 	
@@ -262,6 +263,6 @@ public abstract class Menu extends MessagePrompt {
 		return PDI;
 	}
 	public HelpMenu getHelp() {
-		return new HelpMenu(PDI, this);
+		return help;
 	}
 }
