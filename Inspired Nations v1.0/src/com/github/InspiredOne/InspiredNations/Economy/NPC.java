@@ -20,6 +20,7 @@ import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferEx
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.CardboardBox;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 public class NPC implements Serializable, ItemBuyer {
 
@@ -32,7 +33,7 @@ public class NPC implements Serializable, ItemBuyer {
 
 	public NPC() {
 		try {
-			this.accounts.addMoney(new BigDecimal(100000), Currency.DEFAULT);
+			this.accounts.addMoney(new BigDecimal(100), Currency.DEFAULT);
 		} catch (NegativeMoneyTransferException e) {
 			e.printStackTrace();
 		}
@@ -71,10 +72,10 @@ public class NPC implements Serializable, ItemBuyer {
 	public void transferMoney(BigDecimal amount, Currency monType,
 			Payable target) throws BalanceOutOfBoundsException,
 			NegativeMoneyTransferException {
+		Debug.print("NPC transfering money: " + amount.toString() + monType);
 		if(amount.compareTo(BigDecimal.ZERO) < 0) {
 			throw new NegativeMoneyTransferException();
 		}
-		Debug.print(amount.toString() + " is greater than " + accounts.getTotalMoney(monType).toString());
 		if(amount.compareTo(accounts.getTotalMoney(monType)) > 0) {
 			amount.subtract(accounts.getTotalMoney(monType));
 			accounts.transferMoney(accounts.getTotalMoney(monType), monType, target);
@@ -121,7 +122,6 @@ public class NPC implements Serializable, ItemBuyer {
 	public void saveMoneyFor(ItemStack stack, BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
 		ItemStack stackkey = stack.clone();
 		stackkey.setAmount(1);
-		Debug.print("saveMoney amount " +amount.toString());
 		if(this.buy.containsKey(new CardboardBox(stackkey))) {
 			this.transferMoney(amount, curren, buy.get(new CardboardBox(stackkey)));
 		}
@@ -138,12 +138,20 @@ public class NPC implements Serializable, ItemBuyer {
 
 	@Override
 	public Location getLocation() {
+		if(this.getPlayer() == null) {
+			return new Location(InspiredNations.plugin.getServer().getWorld("world"),0,0,0);
+		}
 		return this.getPlayer().getLocation();
 	}
 
 	@Override
 	public Currency getCurrency() {
-		return this.getPlayer().getCurrency();
+		if(this.getPlayer() == null) {
+			return Currency.DEFAULT;
+		}
+		else {
+			return this.getPlayer().getCurrency();
+		}
 	}
 
 	@Override
@@ -155,16 +163,27 @@ public class NPC implements Serializable, ItemBuyer {
 	 * the npc can afford.
 	 */
 	public void buyOut() {
-		Debug.print("In buyOut of NPC");
-		NodeRef noderef = new NodeRef(this);
-		noderef.allocateMoney();
-		Debug.print("buy hashmap size: " + this.buy.size());
+		NodeRef noderef = new NodeRef();
+		noderef.allocateMoney(this);
+		Debug.print("Cardboardbox size: " + buy.size());
 		for(CardboardBox boxitem : this.buy.keySet()) {
 			ItemStack stack = boxitem.unbox();
 			ItemSellable cheapest =((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(stack, this);
-			if(this.buy.get(boxitem).getTotalMoney(this.getCurrency()).compareTo(cheapest
-					.getPrice(this.getCurrency(), getLocation())) >= 0) {
-				cheapest.transferOwnership(this);
+			Debug.print(stack.getData().getItemType().toString() + ": " + Tools.cut(this.buy.get(boxitem).getTotalMoney(getCurrency())) + " " +this.getCurrency());
+			if(cheapest != null) {
+				//Debug.print("Enough money? " + (this.buy.get(boxitem).getTotalMoney(this.getCurrency()).compareTo(cheapest
+				//		.getPrice(this.getCurrency(), getLocation())) >= 0));
+				while(this.buy.get(boxitem).getTotalMoney(this.getCurrency()).compareTo(cheapest
+						.getPrice(this.getCurrency(), getLocation())) >= 0) {
+				//	Debug.print("We're doing it! We're making it hapen!!!" );
+					cheapest.transferOwnership(this, this.buy.get(boxitem));
+					if(((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(stack, this)==null) {
+						break;
+					}
+					else {
+						cheapest = ((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(stack, this);
+					}
+				}	
 			}
 		}
 	}

@@ -174,4 +174,8 @@ public class InspiredNations extends JavaPlugin {
 		}
 		
 	}
+	
+	public static PlayerData getTestingPlayer() {
+		return InspiredNations.playerdata.get(InspiredNations.playerdata.getIndex(0));
+	}
 }

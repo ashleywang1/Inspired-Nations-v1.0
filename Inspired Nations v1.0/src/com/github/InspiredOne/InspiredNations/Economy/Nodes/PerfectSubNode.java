@@ -1,66 +1,75 @@
 package com.github.InspiredOne.InspiredNations.Economy.Nodes;
 
 import java.math.BigDecimal;
-import java.util.Vector;
+
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.NPC;
+import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 
 public class PerfectSubNode extends Node {
 
 	double[] coefs;
 	Node choice = null;
 	
-	public PerfectSubNode(NPC instance, double[] coefs, Node[] elems) {
-		super(instance, elems);
+	public PerfectSubNode(double[] coefs, Node[] elems) {
+		super(elems);
 		this.coefs = coefs;
 	}
 
 	@Override
-	public double getCoef() {
-		
+	public double getCoef(NPC npc) {
+		String output = "Min(";
+		Node.tier++;
 		double coefTemp = 0;
-		Vector<Node> ids = new Vector<Node>();
-		Debug.print("elems length" + elems.length);
+		IndexedMap<Node,Double> ids = new IndexedMap<Node, Double>();
 		for(int i = 0; i < elems.length; i++) {
-			double holder = elems[i].getCoef()*coefs[i];
+			double holder = elems[i].getCoef(npc)*coefs[i];
+			output = output.concat(holder + "*X" + i + ", ");
 			if(holder > coefTemp) {
 				ids.clear();
-				ids.add(elems[i]);
+				ids.put(elems[i], holder);
 				coefTemp = holder;
 			}
 			else if(holder == coefTemp) {
-				ids.add(elems[i]);
+				ids.put(elems[i],holder);
 			}
 		}
-		Debug.print("Ids size " + ids.size());
-		
-		if(ids.size() > 1) {
+		if(ids.size() >= 1) {
 			int rand = ids.size();
-			while(rand == ids.size()) {
-				rand = (int) Math.floor(Math.random()*ids.size());
-			}
-			choice = ids.get(rand);
-			return ids.get(rand).getCoef();
-		}
-
-		else if (ids.size() == 1) {
-			Debug.print("PefectSubNode coeff of: " + ids.get(0).getCoef());
-			choice = ids.get(0);
-			return ids.get(0).getCoef();
+			rand = (int) Math.floor(Math.random()*ids.size());
+			choice = ids.getIndex(rand);
+			coefTemp = ids.get(choice);
 		}
 		else {
-			Debug.print("PefectSubNode coeff 0");
-			return 0;
+			coefTemp = 0;
 		}
+		if(output.length() > 2) {
+			Debug.node("PerfectSubNode: " + output.substring(0, output.length()-2));
+		}
+		else {
+			Debug.node("PerfectSubNode: No Subnodes");
+		}
+		return coefTemp;
 	}
 
 	@Override
-	public void buy(BigDecimal amount, Currency curren) {
+	public void buy(BigDecimal amount, Currency curren, NPC npc) {
 		if(choice == null) {
-			this.getCoef();
+			this.getCoef(npc);
 		}
-		choice.buy(amount, curren);
+		choice.buy(amount, curren, npc);
+	}
+
+	@Override
+	public void writeToConfig(String addr, YamlConfiguration output) {
+		int id = 0;
+		for(Node elem:this.elems) {
+			elem.writeToConfig(addr +"PerfectSub." + id, output);
+			id++;
+		}
+		
 	}
 }

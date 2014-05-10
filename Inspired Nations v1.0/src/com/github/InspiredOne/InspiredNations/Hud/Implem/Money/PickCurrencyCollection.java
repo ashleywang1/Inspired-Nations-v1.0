@@ -48,7 +48,7 @@ public class PickCurrencyCollection extends TabSelectOptionMenu<CurrencyAccount>
 	@Override
 	public void addOptions() {
 		if(taboptions.size() > 0) {
-			this.options.add(new PayAccountOption(PDI, new PickCurrencyCollection(PDI, previous, account, accountFrom), "Transfer Funds <amount>", accountFrom, this.getData()));
+			this.options.add(new PayAccountOption(PDI, this, "Transfer Funds <amount>", accountFrom, this.getData()));
 		}
 		
 	}

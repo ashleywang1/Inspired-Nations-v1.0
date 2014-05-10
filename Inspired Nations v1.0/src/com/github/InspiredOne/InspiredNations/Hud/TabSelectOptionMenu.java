@@ -162,11 +162,20 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	
 	@Override
 	public E getData() {
-		if(data == null) {
-			if(tabcnt >= this.filteredoptions.size()) {
-				tabcnt = this.filteredoptions.size()-1;
+		
+		while(data==null && tabcnt >=0) {
+			try {
+				this.data = this.filteredoptions.get(tabcnt);
 			}
+			catch (Exception ex) {
+				tabcnt--;
+			}
+		}
+		try{
 			this.data = this.filteredoptions.get(tabcnt);
+		}
+		catch (Exception ex) {
+			return null;
 		}
 		return this.data;
 	}
@@ -201,7 +210,6 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.startListening();
 		}
-
 		this.addTabOptions();
 		this.filteredoptions = Tools.filter(filterword, this.taboptions);
 		if(this.filteredoptions.size() == 0 && this.taboptions.size() != 0) {
@@ -209,7 +217,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			return;
 		}
 		else if(this.filteredoptions.size() != 0) {
-			this.data = this.filteredoptions.get(tabcnt);
+			this.data = this.getData();
 		}
 		this.addOptions();
 	}

@@ -50,7 +50,7 @@ public abstract class ActionMenu extends Menu {
 	 */
 	public abstract void actionResponse();
 	/**
-	 * Add all teh action managers using this method.
+	 * Add all the action managers using this method.
 	 */
 	public abstract void addActionManagers();
 

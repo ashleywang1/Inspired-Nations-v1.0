@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Economy.Nodes;
 
 import java.math.BigDecimal;
 
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.InspiredOne.InspiredNations.Debug;
@@ -15,80 +16,81 @@ import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferEx
 
 public class ItemNode extends Node {
 
-	BigDecimal cost;
-	boolean choseThis;
+	BigDecimal cost = BigDecimal.ZERO;
+	boolean choseThis = false;
 	boolean available = true;
 	ItemStack item;
 	
-	public ItemNode(NPC npc, ItemStack item, Node[] elems) {
+	public ItemNode(ItemStack item, Node[] elems) {
 		/**Only put one node in the list*/
 
-		super(npc, elems);
+		super(elems);
 		this.item = item;
-		if(((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(item, npc) != null) {
-			ItemSellable temp =((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(item, npc);
-			Debug.print("Item type = " + this.item.getData().getItemType().toString());
-			cost = temp.getUnitPrice(npc.getCurrency(), npc.getLocation());
-		}
-		else {
-			available = false;
-		}
 		
 	}
 	
-	public ItemNode(NPC npc, ItemStack item) {
+	public ItemNode(ItemStack item) {
 		// {
-		super(npc, new Node[] {});
+		super(new Node[] {});
 		this.item = item;
 		choseThis = true;
-		if(((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(item, npc) != null) {
-			ItemSellable temp =((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(item, npc);
-			Debug.print("Item type = " + this.item.getData().getItemType().toString());
-			cost = temp.getUnitPrice(npc.getCurrency(), npc.getLocation());
-		}
-		else {
-			available = false;
-		}
 		
 		// }
 	}
 	
 	@Override
-	public double getCoef() {
-
-		if(!available) {
-			Debug.print("Not available");
-			return 0;
+	public double getCoef(NPC npc) {
+		String output = "";
+		Node.tier++;
+		
+		if(((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(item, npc) != null) {
+			ItemSellable temp =((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(item, npc);
+			cost = temp.getUnitPrice(npc.getCurrency(), npc.getLocation());
 		}
+		else {
+			available = false;
+		}
+		
 		if(cost.compareTo(new BigDecimal(thresh)) < 0) {
 			cost = new BigDecimal(thresh);
 		}
+		double itemcoef = BigDecimal.ONE.divide(cost, InspiredNations.Exchange.mcup).doubleValue();
+		double subcoef = 0;
+		if(elems.length >0) {
+			subcoef = elems[0].getCoef(npc);
+		}
+		if(!available) {
+			Debug.node("ItemNode: " + item.getData().getItemType() + " not available.");
+			return subcoef;
+		}
 		
-		if(choseThis) {
-			Debug.print("available  chose this" + this.item.getData().getItemType().toString());
-			return BigDecimal.ONE.divide(cost).doubleValue();
-		}
-			
-		if(elems[0].getCoef() > BigDecimal.ONE.divide(cost).doubleValue()) {
-			Debug.print("available other pieces cheaper" + this.item.getData().getItemType().toString());
-			choseThis = false;
-			return elems[0].getCoef();
-		}
+		Debug.node("ItemNode: " + itemcoef + "*" + item.getData().getItemType().toString() + " + " + subcoef + "*X1");
 		
 
+		
+		if(choseThis) {
+			return itemcoef;
+		}
+			
+		if(elems.length > 0) {
+			if(elems[0].getCoef(npc) > itemcoef) {
+				choseThis = false;
+				return subcoef;
+			}
+			else {
+				choseThis = true;
+				return itemcoef;
+			}
+		}
 		else {
-			Debug.print("available else" + this.item.getData().getItemType().toString() + BigDecimal.ONE.divide(cost).doubleValue());
 			choseThis = true;
-			return BigDecimal.ONE.divide(cost).doubleValue();
+			return itemcoef;
 		}
 	}
-	@SuppressWarnings("deprecation")
 	@Override
-	public void buy(BigDecimal amount, Currency curren) {
-		Debug.print("Inside buy of " + this.item.getData().getItemType().toString());
+	public void buy(BigDecimal amount, Currency curren, NPC npc) {
 		if(choseThis) {
 			try {
-				Debug.print("Inside choose this for: " + this.item.getData().getItemTypeId());
 				npc.saveMoneyFor(this.item, amount, curren);
 			} catch (BalanceOutOfBoundsException e) {
 				e.printStackTrace();
@@ -97,7 +99,17 @@ public class ItemNode extends Node {
 			}
 		}
 		else {
-			elems[0].buy(amount, curren);
+			elems[0].buy(amount, curren, npc);
 		}
+	}
+
+	@Override
+	public void writeToConfig(String addr, YamlConfiguration output) {
+		output.addDefault(addr + "ItemNode.item",item.getData().getItemType().toString());
+		int id = 0;
+		for(Node elem:this.elems) {
+			elem.writeToConfig(addr + "ItemNode." + id, output);
+		}
+		
 	}
 }

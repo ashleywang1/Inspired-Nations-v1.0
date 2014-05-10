@@ -8,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
@@ -19,9 +18,9 @@ import com.github.InspiredOne.InspiredNations.Exceptions.NoShopRegionException;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.ChestShop;
 import com.github.InspiredOne.InspiredNations.ToolBox.CardboardBox;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
+import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
-import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
 public class ItemSellable implements Sellable, Nameable, Serializable {
@@ -80,7 +79,7 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 	}
 
 	@Override
-	public void transferOwnership(Buyer buyer) {
+	public void transferOwnership(Buyer buyer, Payable account) {
 		int sold = this.getItem().getAmount();
 		ArrayList<ItemStack> selling = new ArrayList<ItemStack>();
 		for(ItemStack item:this.shop.getInvetorySellables()) {
@@ -96,15 +95,14 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 			if(sold == 0) break;
 		}
 		ItemStack transfer = getItem().clone();
-		Debug.print("Amount " + transfer.getAmount() + " How many not bought: " + sold);
+
 		transfer.setAmount(transfer.getAmount() - sold);
 		try {
-			buyer.transferMoney(
-					this.getPrice(Currency.DEFAULT, buyer.getLocation()).multiply(new BigDecimal(((double) transfer.getAmount())/((double) this.getItem().getAmount())))
-					, Currency.DEFAULT, this.shop.getAccounts());
+			account.transferMoney(
+					this.getPrice(this.curren, buyer.getLocation()).multiply(new BigDecimal(((double) transfer.getAmount())/((double) this.getItem().getAmount())))
+					, this.curren, this.shop.getAccounts());
 			((ItemBuyer) buyer).recieveItem(transfer);
 			try {
-				Debug.print(transfer.getAmount() + " transfer amount.");
 				shop.getInventory().removeItem(transfer);
 			} catch (NoShopRegionException e) {
 				e.printStackTrace();
@@ -115,10 +113,12 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 			}
 			
 		}
-		
-		
 	}
-
+	
+	public void transferOwnership(PlayerData PDI) {
+		this.transferOwnership(PDI, PDI);
+	}
+	
 	@Override
 	public boolean isForSale() {
 		if(this.shop.getItems().contains(this)) {
@@ -148,14 +148,13 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 
 	@Override
 	public BigDecimal getPrice(Currency curren, Location locto) {
-		Debug.print("Inside getPrice " + InspiredNations.Exchange.getTransferValue(price, this.curren, curren, InspiredNations.Exchange.mcup));
 		return InspiredNations.Exchange.getTransferValue(price, this.curren, curren, InspiredNations.Exchange.mcup);
 		
 	}
 	
 	public BigDecimal getUnitPrice(Currency curren, Location locto) {
-		Debug.print("Inside getUnitPrice" + this.getPrice(curren, locto).divide(new BigDecimal(this.getItem().getAmount())));
-		return this.getPrice(curren, locto).divide(new BigDecimal(this.getItem().getAmount()));
+		//Debug.print("Inside getUnitPrice" + this.getPrice(curren, locto).divide(new BigDecimal(this.getItem().getAmount())));
+		return this.getPrice(curren, locto).divide(new BigDecimal(this.getItem().getAmount()), InspiredNations.Exchange.mcup);
 	}
 	
 	public BigDecimal getTransCost(Currency curren, Location locto) {

@@ -6,6 +6,7 @@ import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.Economy.Implem.Buyer;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
 
@@ -19,7 +20,7 @@ public interface Sellable extends Nameable {
 	 * on the ground around the buyer.
 	 * @param player
 	 */
-	public void transferOwnership(Buyer buyer);
+	public void transferOwnership(Buyer buyer, Payable account);
 	
 	/**
 	 * Returns true if the item is for sale

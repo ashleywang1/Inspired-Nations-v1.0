@@ -16,7 +16,11 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 public class CurrencyAccount implements Payable, Nameable, Serializable, Cloneable {
 
 	/**
+	 * Currency Discipline
 	 * 
+	 * 1. Every money value must be paired with a money type.
+	 * 2. Negative transfers are never allowed.
+	 * 3. Any money you receive is rounded up. Any money you give is rounded down.
 	 */
 	private static final long serialVersionUID = 6553887792904870042L;
 	private Currency curren;

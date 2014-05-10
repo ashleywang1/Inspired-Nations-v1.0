@@ -1,5 +1,7 @@
 package com.github.InspiredOne.InspiredNations;
 
+import com.github.InspiredOne.InspiredNations.Economy.Nodes.Node;
+
 
 public class Debug {
 
@@ -16,6 +18,10 @@ public class Debug {
 	
 	public static void InformPluginDev() {
 		InspiredNations.plugin.logger.info(InformPluginDev);
+	}
+	public static void node(Object msg) {
+		//InspiredNations.plugin.logger.info("Node Tier " + Node.tier + ": " + msg.toString());
+		Node.tier--;
 	}
 	
 	

@@ -3,16 +3,23 @@ package com.github.InspiredOne.InspiredNations;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.instrument.Instrumentation;
+import java.math.BigDecimal;
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
+import com.github.InspiredOne.InspiredNations.Economy.NPC;
+import com.github.InspiredOne.InspiredNations.Economy.NodeRef;
 import com.github.InspiredOne.InspiredNations.Economy.TaxTimer;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
@@ -28,10 +35,26 @@ public class StartStop {
 		plugin = instance;
 	}
 	
+	public void EconMap() {
+		YamlConfiguration file = null;
+		file = new YamlConfiguration();
+		File utilityfile = new File(plugin.getDataFolder(), "utilityfunction.yml");
+		file.options().copyDefaults(true);
+		NodeRef ref = new NodeRef();
+		ref.Begin.writeToConfig("top.", file);
+		try {
+			file.save(utilityfile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	// Handles Start-up of plugin
 	@SuppressWarnings("unchecked")
 	public void Start() {
-
+		
 		PluginDescriptionFile pdf = plugin.getDescription();
 		plugin.getLogger().info(pdf.getName() + " version " + pdf.getVersion() + " has been enabled.");
 		
@@ -53,27 +76,6 @@ public class StartStop {
 	        InspiredNations.taxTimer = (TaxTimer) rin.readObject();
 	        rin.close();
 	        regionIn.close();
-	        
-/*	        File playerfile = new File(plugin.getDataFolder(), "playerdata.yml");
-	        FileInputStream playerIn = new FileInputStream(playerfile);
-	        ObjectInputStream pin = new ObjectInputStream(playerIn);
-	        InspiredNations.playerdata = (IndexedMap<PlayerID, PlayerData>) pin.readObject();
-	        pin.close();
-	        playerIn.close();
-	        
-	        File econfile = new File(plugin.getDataFolder(), "econdata.yml");
-	        FileInputStream econIn = new FileInputStream(econfile);
-	        ObjectInputStream ein = new ObjectInputStream(econIn);
-	        InspiredNations.Exchange = (MoneyExchange) ein.readObject();
-	        ein.close();
-	        econIn.close();
-	        
-	        File taxfile = new File(plugin.getDataFolder(), "tax.yml");
-	        FileInputStream taxIn = new FileInputStream(taxfile);
-	        ObjectInputStream tin = new ObjectInputStream(taxIn);
-	        InspiredNations.taxTimer = (TaxTimer) tin.readObject();
-	        tin.close();
-	        taxIn.close();*/
 		}
 		catch(Exception ex) {
 			
@@ -94,7 +96,21 @@ public class StartStop {
 	
 	// Handles Shut-down of plugin
 	public void Stop() {
+		//TODO Delete this. It resets the NPC money every time the server is reloaded
 		
+		for(PlayerData PDI:InspiredNations.playerdata.values()) {
+			for(NPC npc:PDI.npcs) {
+				try {
+					npc.addMoney(new BigDecimal(100), Currency.DEFAULT);
+				} catch (NegativeMoneyTransferException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		// End of things to delete
+		this.EconMap();
 		try {
 			Player[] online = plugin.getServer().getOnlinePlayers();
 			for (int i = 0; i < online.length; i++) {
@@ -121,27 +137,6 @@ public class StartStop {
 		        rout.writeObject(InspiredNations.taxTimer);
 		        rout.close();
 		        regionOut.close();
-/*		        
-		        File playerfile = new File(plugin.getDataFolder(), "playerdata.yml");
-		        FileOutputStream playerOut = new FileOutputStream(playerfile);
-		        ObjectOutputStream pout = new ObjectOutputStream(playerOut);
-		        pout.writeObject(InspiredNations.playerdata);
-				pout.close();
-				playerOut.close();
-				
-		        File econfile = new File(plugin.getDataFolder(), "econdata.yml");
-		        FileOutputStream econOut = new FileOutputStream(econfile);
-		        ObjectOutputStream eout = new ObjectOutputStream(econOut);
-		        eout.writeObject(InspiredNations.Exchange);
-		        eout.close();
-		        econOut.close();
-		        
-		        File taxfile = new File(plugin.getDataFolder(), "tax.yml");
-		        FileOutputStream taxOut = new FileOutputStream(taxfile);
-		        ObjectOutputStream tout = new ObjectOutputStream(taxOut);
-		        tout.writeObject(InspiredNations.taxTimer);
-		        tout.close();
-		        taxOut.close();*/
 			}
 			catch(Exception ex) {
 				ex.printStackTrace();

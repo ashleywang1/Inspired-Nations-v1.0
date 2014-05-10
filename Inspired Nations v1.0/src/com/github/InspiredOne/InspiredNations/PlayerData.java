@@ -54,7 +54,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 		accounts = new AccountCollection(this.name);
 		msg = new MessageManager(this);
 		PDI = this;
-		for(int i = 0; i < 20; i++) {
+		for(int i = 0; i < 1; i++) {
 			this.npcs.add(new NPC());
 		}
 	}

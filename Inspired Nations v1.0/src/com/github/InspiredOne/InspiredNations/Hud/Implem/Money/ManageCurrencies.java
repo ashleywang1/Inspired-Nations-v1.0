@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -48,16 +49,17 @@ public class ManageCurrencies extends TabSelectOptionMenu<CurrencyAccount> {
 
 	@Override
 	public void addOptions() {
+		Debug.print("Inside addOptions of ManageCurrencies");
 		if(this.taboptions.size() > 0) {
 			this.options.add(new PromptOption(this, "Pay with " + this.getData().getName(), new PayNav(PDI, this, this.getData())));
 			this.options.add(new ChangeTabOrderOption<>(this, "Change Currency Order <+/->", account.getMoney(), this.getData()));
-			this.options.add(new PromptOption(this, "Transfer " + this.getData().getCurrency(), new PickAccount(PDI, this, accounts, account)));
+			this.options.add(new PromptOption(this, "Transfer " + this.getData().getCurrency(), new PickAccount(PDI, this, accounts, this.getData())));
 			if(this.taboptions.size() > 1) {
 				this.options.add(new RemoveCurrencyOption(this, "Remove " + this.getData().getCurrency(), account, this.getData()));
 			}
 		}
 		this.options.add(new PromptOption(this, "Add Currency", new PickCurrencyToAdd(PDI, this , account)));
-
+		Debug.print("Exiting addOptions of ManageCurreiciens");
 		
 	}
 

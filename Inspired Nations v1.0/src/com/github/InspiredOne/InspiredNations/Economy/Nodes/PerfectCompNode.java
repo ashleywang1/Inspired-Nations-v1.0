@@ -2,6 +2,10 @@ package com.github.InspiredOne.InspiredNations.Economy.Nodes;
 
 import java.math.BigDecimal;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import com.github.InspiredOne.InspiredNations.Debug;
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.NPC;
 
@@ -9,33 +13,42 @@ public class PerfectCompNode extends Node {
 
 	double[] ratio;
 	
-	public PerfectCompNode(NPC instance, double[] ratio, Node[] elems) {
-		super(instance, elems);
+	public PerfectCompNode(double[] ratio, Node[] elems) {
+		super(elems);
 		this.ratio = ratio;
 	}
 
 	@Override
-	public double getCoef() {
+	public double getCoef(NPC npc) {
+		String output = "";
+		Node.tier++;
 		double coeftemp = 0;
 		for(int i = 0; i < elems.length;i++) {
-			double holder = elems[i].getCoef()*ratio[i];
+			double holder = elems[i].getCoef(npc)*ratio[i];
+			output = output.concat(holder + "*X" + i + " + ");
 			if(holder >= thresh) {
 				coeftemp += holder;
 			}
 			else {
-				return 0;
+				coeftemp = 0;
+				break;
 			}
 		}
-		
+		if(output.length() > 2) {
+			Debug.node("PerfectComp: " + output.substring(0, output.length()-2));
+		}
+		else {
+			Debug.node("PerfectComp: No subnodes");
+		}
 		return coeftemp;
 	}
 
 	@Override
-	public void buy(BigDecimal amount, Currency curren) {
+	public void buy(BigDecimal amount, Currency curren, NPC npc) {
 		
 		double divisor = 0;
 		for(int i = 0; i < elems.length; i++){
-			double holder = elems[i].getCoef()*ratio[i];
+			double holder = elems[i].getCoef(npc)*ratio[i];
 			divisor += holder;
 		}
 		if(divisor <= thresh) {
@@ -43,9 +56,18 @@ public class PerfectCompNode extends Node {
 		}
 		
 		for(int i = 0; i< elems.length; i++) {
-			elems[i].buy( amount.multiply(new BigDecimal(ratio[i])).divide(new BigDecimal(divisor)), curren);
+			elems[i].buy(amount.multiply(new BigDecimal(ratio[i])).divide(new BigDecimal(divisor), InspiredNations.Exchange.mcup), curren, npc);
 		}
 
+	}
+
+	@Override
+	public void writeToConfig(String addr, YamlConfiguration output) {
+		int id = 0;
+		for(Node elem:this.elems) {
+			elem.writeToConfig(addr + "PerfectComp." + id, output);
+			id++;
+		}
 	}
 
 }

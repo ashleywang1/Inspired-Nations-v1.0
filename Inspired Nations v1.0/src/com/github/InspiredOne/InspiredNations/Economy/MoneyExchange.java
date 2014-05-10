@@ -47,11 +47,16 @@ public class MoneyExchange implements Serializable{
 		}
 		BigDecimal difference = monAmount.subtract(mon);
 		output = mon.multiply(valueAmount).divide(difference, round);
-		
 		return output;
 	}
 	
-	
+	public void tempfunction() {
+		Currency test = InspiredNations.getTestingPlayer().getCurrency();
+		for(int i = 0;i<400; i +=2) {
+			BigDecimal Transvalue = this.getTransferValue(new BigDecimal(i), Currency.DEFAULT, test, mcup);
+			//BigDecimal ExchangeValue = this.getExchangeValue(Transvalue, test, );
+		}
+	}
 	
 	/**
 	 * Gets the total amount of valueType you would recieve if you exchanged mon amount of monType
@@ -61,7 +66,8 @@ public class MoneyExchange implements Serializable{
 	 * @return
 	 */
 	public final BigDecimal getExchangeValue(BigDecimal mon, Currency monType, Currency valueType) {
-		BigDecimal output = this.getExchangeValue(mon, monType, valueType, mcdown);
+		//TODO I'm still not sure about having mcup here. Maybe it should be mcdown.
+		BigDecimal output = this.getExchangeValue(mon, monType, valueType, mcup);
 		return output;
 	}
 	
