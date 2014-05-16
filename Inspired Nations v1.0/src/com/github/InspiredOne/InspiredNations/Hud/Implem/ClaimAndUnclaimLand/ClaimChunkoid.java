@@ -1,11 +1,10 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -89,7 +88,12 @@ public class ClaimChunkoid extends InputMenu {
 
 	@Override
 	public String getInstructions() {
-		Chunkoid unit = new Chunkoid(new Point2D(0,0,PDI.getPlayer().getWorld()));
+		Chunkoid unit = null;
+		try {
+			unit = new Chunkoid(new Point2D(0,0,PDI.getPlayer().getWorld()));
+		} catch (PlayerOfflineException e) {
+			e.printStackTrace();
+		}
 		// Tax paid that is independent of chunks
 		BigDecimal zero = gov.taxValue(new nullRegion(), InspiredNations.taxTimer.getFractionLeft(), gov.getProtectionlevel(), PDI.getCurrency());
 		// Total tax from chunks
@@ -121,7 +125,11 @@ public class ClaimChunkoid extends InputMenu {
 
 	@Override
 	public void addActionManagers() {
-		this.manager = new ClaimChunkoidManager<ClaimChunkoid>(this, new Point2D(PDI.getPlayer().getLocation().getChunk()));
+		try {
+			this.manager = new ClaimChunkoidManager<ClaimChunkoid>(this, new Point2D(PDI.getPlayer().getLocation().getChunk()));
+		} catch (PlayerOfflineException e) {
+			e.printStackTrace();
+		}
 		this.mapmanager = new MapManager<ClaimChunkoid>(this);
 		this.managers.add(manager);
 		this.managers.add(mapmanager);

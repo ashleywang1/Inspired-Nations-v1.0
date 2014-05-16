@@ -298,10 +298,10 @@ public class NodeRef {
 	}
 	
 	public void allocateMoney(NPC npc) { 
-		BigDecimal money = npc.getTotalUnallocatedMoney(npc.getCurrency()).divide(new BigDecimal(50));
-		Debug.print(money.toString());
+		BigDecimal money = npc.getTotalUnallocatedMoney(npc.getCurrency()).divide(new BigDecimal(5));
+		Debug.print(money.toString() + npc.getCurrency());
 		Debug.print("///////////////////////////New NPC\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
-		this.Begin.buy(npc.getTotalUnallocatedMoney(npc.getCurrency()).divide(new BigDecimal(50)), npc.getCurrency(), npc);
+		this.Begin.buy(money, npc.getCurrency(), npc);
 	}
 	
 	public Node get(int id) {

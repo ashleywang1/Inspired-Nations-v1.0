@@ -20,6 +20,7 @@ import com.github.InspiredOne.InspiredNations.Economy.Implem.ItemBuyer;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NotASuperGovException;
+import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
@@ -29,6 +30,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
+import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
@@ -45,6 +47,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	private AccountCollection accounts;
 	private Currency currency;
 	private MessageManager msg;
+	private Point3D lastLoc;
 	protected PlayerData PDI;
 	public List<NPC> npcs = new ArrayList<NPC>();
 	
@@ -72,17 +75,29 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 		return name;
 	}
 	
-	public Player getPlayer() {
+	public Player getPlayer() throws PlayerOfflineException {
 		InspiredNations plugin = InspiredNations.plugin;
-		return plugin.getServer().getPlayer(name);
+		
+		Player output = plugin.getServer().getPlayer(name);
+		if(output == null) {
+			throw new PlayerOfflineException();
+		}
+		else {
+			return output;
+		}
 	}
 	
 	public PlayerID getPlayerID() {
-		return new PlayerID(this.getPlayer());
+		for(PlayerID PID:InspiredNations.playerdata.keySet()) {
+			if(InspiredNations.playerdata.get(PID) == this) {
+				return PID;
+			}
+		}
+		return null;
 	}
 	@Override
 	public Location getLocation() {
-		return this.getPlayer().getLocation();
+		return this.lastLoc.getLocation();
 	}
 	
 	public boolean isSubjectOf(Class<? extends InspiredGov> govtype) {
@@ -158,7 +173,9 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	 * @param player
 	 */
 	public static void unRegister(PlayerID player) {
+		Debug.print("Inside UnRegister");
 		if(InspiredNations.playerdata.get(player).getCon() != null) {
+			Debug.print("Exiting the conversation");
 			InspiredNations.playerdata.get(player).getCon().acceptInput("exit");
 			InspiredNations.playerdata.get(player).getCon().abandon();
 			InspiredNations.playerdata.get(player).setCon(null);
@@ -269,6 +286,45 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 		this.getMsg().receiveAlert(msg);
 	}
 	
+	public int getTier(InspiredGov gov) {
+		int tier = 0;
+		while(gov.getSuperGovObj() != InspiredNations.global) {
+			tier++;
+			gov = gov.getSuperGovObj();
+		}
+		return tier;
+	}
+	public int effectiveProtLevel(int militaryvict, int protvict, int militaryattack) {
+		return Math.min(militaryvict-militaryattack, 0) + protvict;
+	}
+	private boolean breakBlock(InspiredGov gov, InspiredGov govtest, Location loc) {
+		boolean canbreak = false;
+		if(gov == govtest) {
+			return true;
+		}
+		if(this.getTier(gov) > this.getTier(govtest)) {
+			return this.breakBlock(gov.getSuperGovObj(), govtest, loc);
+		}
+		else if(this.getTier(gov) < this.getTier(govtest)) {
+			return this.breakBlock(gov, govtest.getSuperGovObj(), loc);
+		}
+		else {
+			if(gov.getSuperGovObj() == govtest.getSuperGovObj()) {
+				if(gov.getSuperGovObj().contains(loc)) {
+					return effectiveProtLevel(gov.getMilitaryLevel(), gov.getProtectionlevel(), 
+							govtest.getMilitaryLevel()) < ProtectionLevels.BREAK_AND_PLACE;
+				}
+				else {
+					return true;
+				}
+			}
+			else {
+				return breakBlock(gov.getSuperGovObj(), govtest.getSuperGovObj(), loc);
+			}
+		}
+	}
+	
+	
 	@SuppressWarnings("static-access")
 	public int getOppossingWarLevel(InspiredGov gov) {
 		List<Class<? extends OwnerGov>> possiblegovs = gov.getSuperGovObj().getAllSubGovs();
@@ -305,31 +361,52 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	 * @param gov
 	 * @return
 	 */
-	public int effectiveProcLevel(InspiredGov gov) {
+	public int effectiveProtLevel(InspiredGov gov) {
 		if(gov.isSubject(getPlayerID())) {
 			return 0;
 		}
 		else {
-		return gov.getMilitaryLevel() - this.getTierWarLevel(gov.getClass()) + gov.getProtectionlevel();
+			return Math.min(gov.getMilitaryLevel() - this.getTierWarLevel(gov.getClass()),0) + gov.getProtectionlevel();
 		}
+	}
+	
+	private boolean breakBlock(InspiredGov gov, Location block) {
+		for(Class<? extends InspiredGov> selfgovtype:InspiredNations.regiondata.keySet()) {
+			for(InspiredGov selfgov:this.getCitizenship(selfgovtype)) {
+				if(selfgov == InspiredNations.global) {
+					continue;
+				}
+				if(this.breakBlock(gov, selfgov, block)) {
+					return true;
+				}
+			}
+		}
+		return false;
+		
 	}
 	
 	public boolean getAllowedImmigration(InspiredGov gov) {
 		boolean allowed = false;
-		if(ProtectionLevels.IMMIGRATION_CONTROL > this.effectiveProcLevel(gov)) {
+		if(ProtectionLevels.IMMIGRATION_CONTROL > this.effectiveProtLevel(gov)) {
 			allowed = true;
 		}
 		return allowed;
-	}
+	}	
 	
-	// Methods used to check if the player has sufficient privilages
-	public boolean breakPlace(Location block) {
-		boolean allowed = false;
+	/**
+	 * Determines if this player can interact with the block clicked.
+	 * @param block	The location of the block clicked
+	 * @return true if player can interact.
+	 */
+	public boolean getAllowedInteract(Location block) {
 		List<InspiredGov> isin = Tools.getGovsThatContain(block);
+		Debug.print("Govs that block is inside: " + isin.size());
 		for(InspiredGov gov:isin) {
-
+			if(!breakBlock(gov, block)) {
+				return false;
+			}
 		}
-		return allowed;
+		return true;
 	}
 
 	@Override
@@ -353,10 +430,18 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 
 	@Override
 	public void recieveItem(ItemStack item) {
-		HashMap<Integer,ItemStack> leftover = this.getPlayer().getInventory().addItem(item);
-		for(ItemStack stack:leftover.values()) {
-			this.getLocation().getWorld().dropItemNaturally(this.getLocation(), stack);
+		HashMap<Integer, ItemStack> leftover = null;
+		try {
+			leftover = this.getPlayer().getInventory().addItem(item);
+			for(ItemStack stack:leftover.values()) {
+				this.getLocation().getWorld().dropItemNaturally(this.getLocation(), stack);
+			}
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (PlayerOfflineException e) {
+			e.printStackTrace();
 		}
+
 		
 
 	}

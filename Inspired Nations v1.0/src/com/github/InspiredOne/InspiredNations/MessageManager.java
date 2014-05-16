@@ -6,9 +6,9 @@ import java.math.BigDecimal;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.ContextData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
@@ -58,7 +58,7 @@ public class MessageManager implements Serializable {
 	
 	
 	public String MessageConstructor(String msg, PlayerData from) {
-		return from.getPlayer().getDisplayName() + ": " + conditionForMoney(msg, from);
+		return from.getDisplayName(this.PDI) + ": " + conditionForMoney(msg, from);
 	}
 	
 
@@ -69,7 +69,7 @@ public class MessageManager implements Serializable {
 	 */
 	public void sendChatMessage(String msg) {
 		for(PlayerData PDITarget:InspiredNations.playerdata.values()) {
-			if(PDITarget.getPlayerID() == PDI.getPlayerID()) {
+			if(PDITarget == PDI) {
 				PDITarget.getMsg().recieveMessage(msg, PDI);
 			}
 			else {
@@ -86,12 +86,14 @@ public class MessageManager implements Serializable {
 	 * @param from
 	 */
 	public void recieveMessage(String msg) {
-		if(PDI.getPlayer() == null) {
-			return;
-		}
-		if(PDI.getPlayer().isConversing()) {
-			this.receiveAlert(MenuAlert.MESSAGE_ALERT(msg));
-			PDI.getCon().outputNextPrompt();
+
+		try {
+			if(PDI.getPlayer().isConversing()) {
+				this.receiveAlert(MenuAlert.MESSAGE_ALERT(msg));
+				PDI.getCon().outputNextPrompt();
+			}
+		} catch (PlayerOfflineException e) {
+			
 		}
 	}
 	
@@ -101,30 +103,33 @@ public class MessageManager implements Serializable {
 	 * @param from
 	 */
 	public void recieveMessage(String msg, PlayerData from) {
-		if(PDI.getPlayer() == null) {
-			return;
-		}
-		if(PDI.getPlayer().isConversing()) {
-			this.receiveAlert(MenuAlert.MESSAGE_ALERT(this.MessageConstructor(msg, from)));
-			if(from != PDI) {
-				this.PDI.getCon().outputNextPrompt();
+		try {
+			if(PDI.getPlayer().isConversing()) {
+				this.receiveAlert(MenuAlert.MESSAGE_ALERT(this.MessageConstructor(msg, from)));
+				if(from != PDI) {
+					this.PDI.getCon().outputNextPrompt();
+				}
 			}
-		}
-		else {
-			PDI.getPlayer().sendMessage(this.MessageConstructor(msg, from));
+			else {
+				PDI.getPlayer().sendMessage(this.MessageConstructor(msg, from));
+			}
+		} catch (PlayerOfflineException e) {
+
 		}
 		InspiredNations.plugin.getServer().getLogger().info(this.MessageConstructor(msg, from));
 
 	}
 	
 	public void recieveChatMessage(String msg, PlayerData from) {
-		if(PDI.getPlayer() == null) {
-			return;
+		try {
+			PDI.getPlayer().sendMessage(this.MessageConstructor(msg, from));
+		} catch (PlayerOfflineException e) {
+
 		}
-		PDI.getPlayer().sendMessage(this.MessageConstructor(msg, from));
 	}
 	/**
-	 * Takes the input string and replaces every instances of $(amount) with the exchanged value relevant
+	 * Takes the input string and replaces every instances of $(amount)
+	 *  with the exchanged value relevant
 	 * to the player looking at it.
 	 * @param input	
 	 * @param target	the player who sees the message;

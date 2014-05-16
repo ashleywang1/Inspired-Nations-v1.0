@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -30,9 +31,11 @@ import com.github.InspiredOne.InspiredNations.Economy.MoneyExchange;
 import com.github.InspiredOne.InspiredNations.Economy.NPC;
 import com.github.InspiredOne.InspiredNations.Economy.TaxTimer;
 import com.github.InspiredOne.InspiredNations.Economy.Implem.ItemMarketplace;
+import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
@@ -126,6 +129,16 @@ public class InspiredNations extends JavaPlugin {
 			event.setCancelled(true);
 			InspiredNations.playerdata.get(new PlayerID(event.getPlayer())).getMsg().sendChatMessage(msg);;
 		}
+		@EventHandler
+		public void onPlayerBreakBlock(BlockBreakEvent event) {
+			Debug.print("Player is breaking block.11");
+			PlayerData player = this.plugin.playerdata.get(new PlayerID(event.getPlayer()));
+			Debug.print("Player is breaking block.22");
+			if(!player.getAllowedInteract(event.getBlock().getLocation())) {
+				Debug.print(player.getName() + " is trying to break a block s/he is not allowed to.");
+				event.setCancelled(true);
+			}
+		}
 	}
 	
 	public class TempCommandListener implements CommandExecutor {
@@ -147,8 +160,12 @@ public class InspiredNations extends JavaPlugin {
 			PlayerData PDI = InspiredNations.playerdata.get(new PlayerID((Player) sender));
 			if (CommandLable.equalsIgnoreCase("hud")) {
 				// Handles Commands
-				if(PDI.getPlayer().isConversing()) {
-					return false;
+				try {
+					if(PDI.getPlayer().isConversing()) {
+						return false;
+					}
+				} catch (PlayerOfflineException e) {
+					e.printStackTrace();
 				}
 				ConversationBuilder convo = new ConversationBuilder(PDI);
 				Conversation conversation = convo.HudConvo();
@@ -156,8 +173,12 @@ public class InspiredNations extends JavaPlugin {
 				conversation.begin();
 			}
 			else if(CommandLable.equalsIgnoreCase("map")) {
-				if(PDI.getPlayer().isConversing()) {
-					return false;
+				try {
+					if(PDI.getPlayer().isConversing()) {
+						return false;
+					}
+				} catch (PlayerOfflineException e) {
+					e.printStackTrace();
 				}
 				ConversationBuilder convo = new ConversationBuilder(PDI);
 				Conversation conversation = convo.MapConvo();

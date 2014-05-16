@@ -6,6 +6,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Listeners.InspiredListener;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
 public class MapListener<T extends MapManager<?>> extends InspiredListener<T> {
@@ -15,9 +16,14 @@ public class MapListener<T extends MapManager<?>> extends InspiredListener<T> {
 	Point3D position;
 	public MapListener(T manager) {
 		super(manager);
-		yaw = this.getPlayerData().getPlayer().getLocation().getYaw();
-		position = new Point3D(this.getPlayerData().getPlayer().getLocation());
-		rotacount = getRotaCount(yaw);
+		try {
+			yaw = this.getPlayerData().getPlayer().getLocation().getYaw();
+			position = new Point3D(this.getPlayerData().getPlayer().getLocation());
+			rotacount = getRotaCount(yaw);
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	public int getRotaCount(double yawValue)	{
@@ -31,8 +37,8 @@ public class MapListener<T extends MapManager<?>> extends InspiredListener<T> {
 	
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent event) {
-
-		if(this.getPlayerData().getPlayer() != event.getPlayer()) {
+		PlayerID whodunit = new PlayerID(event.getPlayer());
+		if(!this.getPlayerData().getPlayerID().equals(whodunit)) {
 			return;
 		}
 		else {

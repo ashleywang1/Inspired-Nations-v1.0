@@ -5,6 +5,7 @@ import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 
 import com.github.InspiredOne.InspiredNations.Listeners.InspiredListener;
 import com.github.InspiredOne.InspiredNations.Listeners.TabManager;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class TabListener<T extends TabManager<?>> extends InspiredListener<T> {
 
@@ -15,7 +16,7 @@ public class TabListener<T extends TabManager<?>> extends InspiredListener<T> {
 	
 	@EventHandler
 	public void onChatTabPress(PlayerChatTabCompleteEvent event) {
-		if(this.getPlayerData().getPlayer() != event.getPlayer()) {
+		if(!this.getPlayerData().getPlayerID().equals(new PlayerID(event.getPlayer()))) {
 			return;
 		}
 		event.getTabCompletions().clear();

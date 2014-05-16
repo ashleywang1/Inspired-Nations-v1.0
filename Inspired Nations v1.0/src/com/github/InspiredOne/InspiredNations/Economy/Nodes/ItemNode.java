@@ -93,7 +93,9 @@ public class ItemNode extends Node {
 			try {
 				npc.saveMoneyFor(this.item, amount, curren);
 			} catch (BalanceOutOfBoundsException e) {
-				e.printStackTrace();
+				Debug.print("NPC has: " + npc.getTotalUnallocatedMoney(curren).toString() + curren);
+				Debug.print("NPC trying to spend: " + amount.toString() + curren);
+				//e.printStackTrace();
 			} catch (NegativeMoneyTransferException e) {
 				e.printStackTrace();
 			}

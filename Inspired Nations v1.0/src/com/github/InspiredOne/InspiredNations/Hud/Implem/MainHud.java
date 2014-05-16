@@ -12,7 +12,7 @@ import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.PickManageSelfType;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Money.ManageMoney;
-import cpom.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.PickSelfType;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov.PickSelfType;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class MainHud extends OptionMenu {
@@ -20,12 +20,12 @@ public class MainHud extends OptionMenu {
 
 	public MainHud(PlayerData PDI) {
 		super(PDI);
-/*		help = new HelpMenu(PDI, this).addPage(
+		help = new HelpMenu(PDI, this).addPage(
 				"Welcome to the main HUD. This documentation will help get you "
 				+ "familiar with how to use the HUD. You can navigate these help "
 				+ "docs by typing a page number in chat and hitting " + TextColor.VALUE
 				+ "Enter" + TextColor.INSTRUCTION +". "
-				);*/
+				);
 	}
 
 	@Override

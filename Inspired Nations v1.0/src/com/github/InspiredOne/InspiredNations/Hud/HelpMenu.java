@@ -53,7 +53,7 @@ public class HelpMenu extends InputMenu {
 	@Override
 	public String getInstructions() {
 		String output = "Type the page number you want to read. Pages available: \n";
-		output = output.concat(pageNumList());
+		output = output.concat(pageNumList() + "\n");
 		if(docs.size() > 0) {
 			output = MenuTools.addDivider(output);
 			output = output.concat(TextColor.INSTRUCTION + docs.get(pagenum));

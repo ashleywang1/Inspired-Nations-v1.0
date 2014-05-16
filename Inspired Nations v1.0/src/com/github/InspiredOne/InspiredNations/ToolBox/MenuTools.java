@@ -118,7 +118,7 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					BigDecimal converted = Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, receiver.getCurrency()));
-					return makeMessage(sender.getDisplayName(receiver) + makeMessage(" sent you " +TextColor.VALUE+ converted + " "
+					return makeMessage(sender.getDisplayName(receiver) + makeMessage(" paid you " +TextColor.VALUE+ converted + " "
 							+ TextColor.UNIT + receiver.getCurrency() + "."));
 				}
 				
@@ -130,10 +130,9 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					BigDecimal converted = Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, receiver.getCurrency()));
-					return makeMessage(sender.getDisplayName(receiver) + " successfully transfered " + converted +
-							" " + receiver.getCurrency() + " to " + paid.getDisplayName(receiver));
+					return makeMessage(sender.getDisplayName(receiver) + " paid " + TextColor.VALUE + converted +
+							" " + TextColor.UNIT + receiver.getCurrency() + TextColor.ALERT + " to " + paid.getDisplayName(receiver));
 				}
-				
 			};
 		}
 		

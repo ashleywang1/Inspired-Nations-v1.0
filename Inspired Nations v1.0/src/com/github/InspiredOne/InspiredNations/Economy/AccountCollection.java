@@ -13,6 +13,8 @@ import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 
 public class AccountCollection extends IndexedSet<Account> implements Payable, 
@@ -80,7 +82,10 @@ Notifyable, Iterable<Account>, Cloneable {
 	
 	@Override
 	public String getDisplayName(PlayerData PDI) {
-		return this.getName() + " (" + this.getTotalMoney(PDI.getCurrency()) + " " + PDI.getCurrency() + ")";
+		
+		return this.getName() + " (" + TextColor.VALUE + 
+				Tools.cut(this.getTotalMoney(PDI.getCurrency())) +TextColor.UNIT
+				+ " " + PDI.getCurrency() + ")";
 	}
 	public boolean isLinked() {
 		boolean oneFound = false;
@@ -123,6 +128,7 @@ Notifyable, Iterable<Account>, Cloneable {
 			}
 		}
 	}
+	
 	
 	public IndexedMap<Class<? extends InspiredGov>, BigDecimal> getTaxes(Currency curren) {
 		IndexedMap<Class<? extends InspiredGov>, BigDecimal> output = new IndexedMap<Class<? extends InspiredGov>, BigDecimal>();

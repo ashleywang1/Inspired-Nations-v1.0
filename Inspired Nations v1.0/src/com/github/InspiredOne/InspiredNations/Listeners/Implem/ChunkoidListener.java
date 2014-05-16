@@ -4,6 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.github.InspiredOne.InspiredNations.Listeners.InspiredListener;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point2D;
 
 public class ChunkoidListener<T extends ChunkoidManager<?>> extends InspiredListener<T> {
@@ -14,7 +15,7 @@ public class ChunkoidListener<T extends ChunkoidManager<?>> extends InspiredList
 	
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent event) {
-		if(this.getPlayerData().getPlayer() != event.getPlayer()) {
+		if(!this.getPlayerData().getPlayerID().equals(new PlayerID(event.getPlayer()))) {
 			return;
 		}
 		Point2D from = this.manager.getPosition();

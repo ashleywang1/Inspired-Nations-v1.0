@@ -8,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 /**
@@ -53,8 +54,8 @@ public class PlayerID implements Serializable, Nameable {
             return true;
         if (!(obj instanceof PlayerID))
             return false;
-
         PlayerID rhs = (PlayerID) obj;
+
         return new EqualsBuilder().
             // if deriving: appendSuper(super.equals(obj)).
             append(name, rhs.getName()).

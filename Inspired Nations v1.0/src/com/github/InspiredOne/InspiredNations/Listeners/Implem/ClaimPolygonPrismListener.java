@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Listeners.InspiredListener;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
 public class ClaimPolygonPrismListener<T extends ClaimPolygonPrismManager<?>> extends InspiredListener<T> {
@@ -21,7 +22,7 @@ public class ClaimPolygonPrismListener<T extends ClaimPolygonPrismManager<?>> ex
 	
 	@EventHandler
 	public void onPlayerClickBlock(PlayerInteractEvent event) {
-		if(this.getPlayerData().getPlayer() != event.getPlayer()) {
+		if(!this.getPlayerData().getPlayerID().equals(new PlayerID(event.getPlayer()))) {
 			return;
 		}
 		if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {

@@ -5,6 +5,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.github.InspiredOne.InspiredNations.Listeners.InspiredListener;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class ClaimCuboidListener<T extends ClaimCuboidManager<?>> extends InspiredListener<T> {
 
@@ -14,7 +15,7 @@ public class ClaimCuboidListener<T extends ClaimCuboidManager<?>> extends Inspir
 	
 	@EventHandler
 	public void onPlayerClick(PlayerInteractEvent event) {
-		if(this.getPlayerData().getPlayer() != event.getPlayer()) {
+		if(!this.getPlayerData().getPlayerID().equals(new PlayerID(event.getPlayer()))) {
 			return;
 		}
 		if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {

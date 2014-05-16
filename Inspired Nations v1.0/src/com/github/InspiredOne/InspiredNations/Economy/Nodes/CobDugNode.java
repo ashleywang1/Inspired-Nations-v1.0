@@ -63,8 +63,11 @@ public class CobDugNode extends Node {
 		}	
 		for(int i = 0; i < elems.length; i++) {
 			if(available[i]) {
+				BigDecimal amountout = amount.multiply(new BigDecimal(power[i])).divide(new BigDecimal(divisor),
+						InspiredNations.Exchange.mcup);
 				elems[i].buy(amount.multiply(new BigDecimal(power[i])).divide(new BigDecimal(divisor),
 						InspiredNations.Exchange.mcup), curren, npc);
+				Debug.print("cob duglas fraction: " + amountout.toString() + curren);
 			}
 		}
 	}

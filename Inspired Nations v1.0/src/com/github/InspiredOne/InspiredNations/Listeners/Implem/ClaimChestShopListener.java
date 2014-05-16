@@ -8,6 +8,7 @@ import com.github.InspiredOne.InspiredNations.Economy.Implem.ItemSellable;
 import com.github.InspiredOne.InspiredNations.Exceptions.BlockNotChestException;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.ChestShop;
 import com.github.InspiredOne.InspiredNations.Listeners.InspiredListener;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class ClaimChestShopListener extends InspiredListener<ClaimChestShopManager> {
@@ -21,7 +22,7 @@ public class ClaimChestShopListener extends InspiredListener<ClaimChestShopManag
 
 	@EventHandler
 	public void onPlayerLeftClick(PlayerInteractEvent event) {
-		if(this.getPlayerData().getPlayer() != event.getPlayer()) {
+		if(!this.getPlayerData().getPlayerID().equals(new PlayerID(event.getPlayer()))) {
 			return;
 		}
 		if(event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {

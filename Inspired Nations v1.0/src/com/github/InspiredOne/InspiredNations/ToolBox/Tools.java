@@ -8,11 +8,10 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 /**
  * Includes Text Style and color enums and a fully generalized ascii Map drawer.
@@ -170,7 +169,12 @@ public class Tools {
 	public static String drawMap(PlayerData PDI, int res, Class<? extends InspiredGov> gov, int size) {
 		
 		String output = "";
-		Location location = PDI.getPlayer().getLocation();
+		Location location = null;
+		try {
+			location = PDI.getPlayer().getLocation();
+		} catch (PlayerOfflineException e) {
+			e.printStackTrace();
+		}
 
 		
 		HashMap<InspiredGov, ChatColor> superGov = new HashMap<InspiredGov, ChatColor>();
