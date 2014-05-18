@@ -120,7 +120,8 @@ public class ClaimCuboid extends InputMenu {
 		
 		String output = this.mapmanager.drawMap(gov, 3);
 		output = MenuTools.addDivider(output);
-		output = output.concat(TextColor.INSTRUCTION + "Left Click for one corner of the cuboid and Right Click for the other corner.\n");
+		output = output.concat(TextColor.INSTRUCTION + "Left Click for one corner of the cuboid and Right Click for the other corner. Type "
+				+ TextColor.VALUE + "'Finish'" + TextColor.INSTRUCTION + " when you are done.\n");
 		output = MenuTools.oneLineWallet(output, PDI, gov.getAccounts());
 		try {
 			output = output.concat(TextColor.VALUEDESCRI + "Low Point: " + TextColor.VALUE + manager.getCuboid().getPointMin() + "\n");

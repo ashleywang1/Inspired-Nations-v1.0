@@ -17,6 +17,7 @@ public class TaxTimer implements Serializable {
 	
 	private int cycleLength;
 	private int countdown;
+	public boolean taxreadout = true;
 
 	
 	public TaxTimer(){
@@ -58,8 +59,9 @@ public class TaxTimer implements Serializable {
 			@Override
 			public void run() {
 				TaxTimerEvent event = new TaxTimerEvent(InspiredNations.taxTimer);
-				
-				Bukkit.getServer().getPluginManager().callEvent(event);
+				if(taxreadout) {
+					Bukkit.getServer().getPluginManager().callEvent(event);
+				}
 				countdown--;
 				if(countdown == 0) {
 					countdown = cycleLength;

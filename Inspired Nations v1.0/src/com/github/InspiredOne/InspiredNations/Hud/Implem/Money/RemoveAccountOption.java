@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
@@ -38,7 +39,7 @@ public class RemoveAccountOption extends Option {
 	public Menu response(String input) {
 		superAcc.remove(account);
 		try {
-			account.transferMoney(account.getTotalMoney(Currency.DEFAULT), Currency.DEFAULT, superAcc);
+			account.transferMoney(account.getTotalMoney(Currency.DEFAULT, InspiredNations.Exchange.mcdown), Currency.DEFAULT, superAcc);
 		} catch (BalanceOutOfBoundsException e) {
 			e.printStackTrace();
 		} catch (NegativeMoneyTransferException e) {

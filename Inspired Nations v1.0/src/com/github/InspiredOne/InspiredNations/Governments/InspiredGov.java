@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Governments;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -380,7 +381,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				subgov.payTaxes();
 			}
 		}
-		while(this.getTotalMoney(currency).compareTo(this.currentTaxCycleValue(currency)) < 0 &&
+		while(this.getTotalMoney(currency, InspiredNations.Exchange.mcdown).compareTo(this.currentTaxCycleValue(currency)) < 0 &&
 				this.getProtectionlevel() > 0) {
 			try {
 				this.setProtectionlevel(this.getProtectionlevel() - 1);
@@ -515,7 +516,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				} catch (NegativeMoneyTransferException e) {
 				} catch (BalanceOutOfBoundsException e) {
 					try {
-						this.pullFromSuper(this.getSuperGovObj().getAccounts().getTotalMoney(Currency.DEFAULT), Currency.DEFAULT);
+						this.pullFromSuper(this.getSuperGovObj().getAccounts().getTotalMoney(Currency.DEFAULT, InspiredNations.Exchange.mcdown), Currency.DEFAULT);
 					} catch (NegativeMoneyTransferException e1) {
 					}
 				}
@@ -577,8 +578,9 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @return
 	 */
 	public BigDecimal currentTaxCycleValue(Currency curren) {
-		return this.taxValue(this.getRegion().getRegion(), 1, this.protectionlevel, this.getAdditionalCost(),
+		BigDecimal output = this.taxValue(this.getRegion().getRegion(), 1, this.protectionlevel, this.getAdditionalCost(),
 				this.getSuperGovObj().getTaxrates().get(this.getClass()), curren);
+		return output;
 	}
 	/**
 	 * Returns the amount of money that the parameters would costs
@@ -593,7 +595,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		BigDecimal output = BigDecimal.ZERO;
 		// Basically... multiply them all together and it gets you the value in Defualt currency
 		//TODO come up with some kind of war money function
-		output = (new BigDecimal(region.volume()/10000).multiply(new BigDecimal(taxfrac))).multiply(new BigDecimal(taxrate));
+		output = (new BigDecimal(region.volume()/10000.).multiply(new BigDecimal(taxfrac))).multiply(new BigDecimal(taxrate));
 		output = output.multiply(new BigDecimal(protect)).add(additionalcost);
 		output = InspiredNations.Exchange.getExchangeValue(output, Currency.DEFAULT, curren);
 		return output;
@@ -617,7 +619,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public void setLand(Region region) throws BalanceOutOfBoundsException, InspiredGovTooStrongException, RegionOutOfEncapsulationBoundsException, InsufficientRefundAccountBalanceException {
 		Currency curren = Currency.DEFAULT;
-		BigDecimal holdings = this.accounts.getTotalMoney(curren);
+		BigDecimal holdings = this.accounts.getTotalMoney(curren, InspiredNations.Exchange.mcdown);
 		BigDecimal reimburse = this.taxValue(this.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		Debug.print(Tools.cut(reimburse) + " reimbursment");
 		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
@@ -663,7 +665,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			}
 			catch (BalanceOutOfBoundsException ex) {
 				try {
-					this.pullFromSuper(this.getSuperGovObj().getAccounts().getTotalMoney(curren), curren);
+					this.pullFromSuper(this.getSuperGovObj().getAccounts().getTotalMoney(curren, InspiredNations.Exchange.mcdown), curren);
 				} catch (NegativeMoneyTransferException e) {
 					e.printStackTrace();
 				}
@@ -734,7 +736,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				this.paySuper(difference, curren);			// Pay what you ow
 			} catch (BalanceOutOfBoundsException e) {		//	If you don't have enough
 				try {
-					this.paySuper(this.accounts.getTotalMoney(curren), curren);	// Pay what you have
+					this.paySuper(this.accounts.getTotalMoney(curren, InspiredNations.Exchange.mcdown), curren);	// Pay what you have
 				} catch (BalanceOutOfBoundsException
 						| NegativeMoneyTransferException e1) {
 				}
@@ -747,7 +749,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				this.pullFromSuper(difference.negate(), curren);	// Pull the reimbursment from them
 			} catch (BalanceOutOfBoundsException e) {	// If they don't have enough
 				try {
-					this.pullFromSuper(this.getSuperGovObj().accounts.getTotalMoney(curren), curren); // Pull all they have
+					this.pullFromSuper(this.getSuperGovObj().accounts.getTotalMoney(curren, InspiredNations.Exchange.mcdown), curren); // Pull all they have
 				} catch (BalanceOutOfBoundsException e1) {	// Should not encounter
 					e1.printStackTrace();	
 				} catch (NegativeMoneyTransferException e1) { // Should not encounter
@@ -782,8 +784,8 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	}
 
 	@Override
-	public BigDecimal getTotalMoney(Currency valueType) {
-		return this.accounts.getTotalMoney(valueType);
+	public BigDecimal getTotalMoney(Currency valueType, MathContext round) {
+		return this.accounts.getTotalMoney(valueType, round);
 	}
 	
 }

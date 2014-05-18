@@ -66,7 +66,7 @@ public class ClaimChestShop extends InputMenu {
 		String output = mapmanager.drawMap(gov, 4);
 		output = MenuTools.addDivider(output);
 		output = output.concat(TextColor.INSTRUCTION + "Left click on the chest that you would like to claim. Type '"
-				+ TextColor.VALUE + "finish" + TextColor.INSTRUCTION +".\n");
+				+ TextColor.VALUE + "finish" + TextColor.INSTRUCTION +"' when you are done.\n");
 		output = output.concat(TextColor.LABEL + "Selected: " + TextColor.VALUE);
 		if(manager.region.volume() == 0) {
 			output = output.concat("No Chest Selected");

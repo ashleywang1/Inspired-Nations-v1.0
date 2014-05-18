@@ -45,9 +45,10 @@ public class ManageFacility extends OptionMenu {
 
 	@Override
 	public void addOptions() {
-		Debug.print("Inside addOptions of Manage Facility");
 		this.options.add(new PromptOption(this, "Manage Money", new ManageGovMoney(PDI, this, fac)));
 		this.options.add(new PromptOption(this, "Claim Land", new PickClaimType(PDI, this, fac)));
+		this.options.add(new PromptOption(this, "Change Protection Level", new ProtectionLevels(PDI, this, fac),
+				"(" +fac.getProtectionlevel() +")"));
 		this.options.add(new RemoveFacilityOption(this, "Remove Facility", fac));
 		this.fac.setFunctionOptions(PDI, this);
 		

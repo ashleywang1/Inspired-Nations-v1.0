@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Economy;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.HashMap;
 
 import org.bukkit.Location;
@@ -30,7 +31,8 @@ public class NPC implements Serializable, ItemBuyer {
 	private static final long serialVersionUID = 8606492088647654688L;
 	AccountCollection accounts = new AccountCollection("NPC");
 	HashMap<CardboardBox,Account> buy = new HashMap<CardboardBox, Account>();
-
+	MathContext mcdown = InspiredNations.Exchange.mcdown;
+	MathContext mcup = InspiredNations.Exchange.mcup;
 	public NPC() {
 		try {
 			this.accounts.addMoney(new BigDecimal(100), Currency.DEFAULT);
@@ -72,17 +74,23 @@ public class NPC implements Serializable, ItemBuyer {
 	public void transferMoney(BigDecimal amount, Currency monType,
 			Payable target) throws BalanceOutOfBoundsException,
 			NegativeMoneyTransferException {
-		Debug.print("NPC transfering money: " + amount.toString() + monType);
 		if(amount.compareTo(BigDecimal.ZERO) < 0) {
 			throw new NegativeMoneyTransferException();
 		}
-		if(amount.compareTo(accounts.getTotalMoney(monType)) > 0) {
-			amount.subtract(accounts.getTotalMoney(monType));
-			accounts.transferMoney(accounts.getTotalMoney(monType), monType, target);
+		if(amount.compareTo(this.getTotalMoney(monType, mcup)) <= 0) {
+			if(amount.compareTo(this.getTotalUnallocatedMoney(monType)) > 0) {
+				amount = amount.subtract(accounts.getTotalMoney(monType, mcdown));
+				accounts.transferMoney(accounts.getTotalMoney(monType, mcup), monType, target);
+			}
+			else {
+				accounts.transferMoney(amount, monType, target);
+				amount = BigDecimal.ZERO;
+			}
+
 			for(Account test:buy.values()) {
-				if(amount.compareTo(test.getTotalMoney(monType)) > 0) {
-					amount.subtract(test.getTotalMoney(monType));
-					test.transferMoney(test.getTotalMoney(monType), monType, target);
+				if(amount.compareTo(test.getTotalMoney(monType,mcup)) > 0) {
+					amount = amount.subtract(test.getTotalMoney(monType,mcdown));
+					test.transferMoney(test.getTotalMoney(monType,mcup), monType, target);
 				}
 				else {
 					test.transferMoney(amount, monType, target);
@@ -91,9 +99,7 @@ public class NPC implements Serializable, ItemBuyer {
 				}
 			}
 		}
-		else if(amount.compareTo(accounts.getTotalMoney(monType)) < 0) {
-			accounts.transferMoney(amount, monType, target);
-		}
+
 		else {
 			throw new BalanceOutOfBoundsException();
 		}
@@ -106,17 +112,17 @@ public class NPC implements Serializable, ItemBuyer {
 	}
 
 	@Override
-	public BigDecimal getTotalMoney(Currency valueType) {
-		BigDecimal output = accounts.getTotalMoney(valueType);
+	public BigDecimal getTotalMoney(Currency valueType, MathContext round) {
+		BigDecimal output = accounts.getTotalMoney(valueType, round);
 		
 		for(Account account:buy.values()) {
-			output.add(account.getTotalMoney(valueType));
+			output = output.add(account.getTotalMoney(valueType, round));
 		}
 		return output;
 	}
 	
 	public BigDecimal getTotalUnallocatedMoney(Currency valueType) {
-		return accounts.getTotalMoney(valueType);
+		return accounts.getTotalMoney(valueType, InspiredNations.Exchange.mcdown);
 	}
 	
 	public void saveMoneyFor(ItemStack stack, BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
@@ -169,14 +175,15 @@ public class NPC implements Serializable, ItemBuyer {
 		for(CardboardBox boxitem : this.buy.keySet()) {
 			ItemStack stack = boxitem.unbox();
 			ItemSellable cheapest =((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(stack, this);
-			Debug.print(stack.getData().getItemType().toString() + ": " + Tools.cut(this.buy.get(boxitem).getTotalMoney(getCurrency())) + " " +this.getCurrency());
+			Debug.print(stack.getData().getItemType().toString() + ": " + Tools.cut(this.buy.get(boxitem).getTotalMoney(getCurrency(), mcdown)) + " " +this.getCurrency());
 			if(cheapest != null) {
 				//Debug.print("Enough money? " + (this.buy.get(boxitem).getTotalMoney(this.getCurrency()).compareTo(cheapest
 				//		.getPrice(this.getCurrency(), getLocation())) >= 0));
-				while(this.buy.get(boxitem).getTotalMoney(this.getCurrency()).compareTo(cheapest
+				while(this.buy.get(boxitem).getTotalMoney(this.getCurrency(), mcdown).compareTo(cheapest
 						.getPrice(this.getCurrency(), getLocation())) >= 0) {
 				//	Debug.print("We're doing it! We're making it hapen!!!" );
 					cheapest.transferOwnership(this, this.buy.get(boxitem));
+					Debug.print("Looping! " + this.buy.get(boxitem).getTotalMoney(this.getCurrency(), mcdown));
 					if(((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(stack, this)==null) {
 						break;
 					}

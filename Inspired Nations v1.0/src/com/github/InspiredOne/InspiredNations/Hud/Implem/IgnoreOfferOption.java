@@ -2,7 +2,6 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
 import java.util.ArrayList;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
@@ -33,7 +32,6 @@ public class IgnoreOfferOption extends Option {
 
 	@Override
 	public Menu response(String input) {
-		Debug.print("Does the list contain the item? " + this.list.contains(item));
 		
 		this.list.remove(item);
 		return menu;

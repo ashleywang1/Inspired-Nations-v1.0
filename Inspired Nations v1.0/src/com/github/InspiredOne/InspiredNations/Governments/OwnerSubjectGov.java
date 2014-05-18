@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Governments;
 import java.math.BigDecimal;
 
 import com.github.InspiredOne.InspiredNations.Debug;
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMilitaryLevelExecption;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
@@ -54,7 +55,7 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 	}
 	
 	@Override
-	protected IndexedSet<PlayerID> getSubjects() {
+	public IndexedSet<PlayerID> getSubjects() {
 		subjects.addAll(this.getOwners());
 		return subjects;
 	}
@@ -69,7 +70,7 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 				subgov.payTaxes();
 			}
 		}
-		while(this.getTotalMoney(this.getCurrency()).compareTo(this.currentTaxCycleValue(this.getCurrency())) < 0 &&
+		while(this.getTotalMoney(this.getCurrency(), InspiredNations.Exchange.mcdown).compareTo(this.currentTaxCycleValue(this.getCurrency())) < 0 &&
 				this.getMilitaryLevel() > 0) {
 				try {
 					this.setMilitaryLevel(this.getMilitaryLevel() - 1);
@@ -79,7 +80,7 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 					e.printStackTrace();
 				}
 		}
-		while(this.getTotalMoney(this.getCurrency()).compareTo(this.currentTaxCycleValue(this.getCurrency())) < 0 &&
+		while(this.getTotalMoney(this.getCurrency(), InspiredNations.Exchange.mcdown).compareTo(this.currentTaxCycleValue(this.getCurrency())) < 0 &&
 				this.getProtectionlevel() > 0) {
 			try {
 				this.setProtectionlevel(this.getProtectionlevel() - 1);

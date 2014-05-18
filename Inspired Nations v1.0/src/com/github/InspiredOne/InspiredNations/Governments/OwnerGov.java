@@ -60,7 +60,7 @@ public abstract class OwnerGov extends InspiredGov {
 	}
 	
 	@Override
-	protected IndexedSet<PlayerID> getSubjects() {
+	public IndexedSet<PlayerID> getSubjects() {
 		return this.owners;
 	}
 	

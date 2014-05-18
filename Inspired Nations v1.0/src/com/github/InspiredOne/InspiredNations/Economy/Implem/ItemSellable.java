@@ -70,8 +70,9 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 	@Override
 	public String getDisplayName(PlayerData viewer) {
 		if(this.isForSale()) {
-			return this.getName() + " " + TextColor.VALUE + this.getPrice(viewer.getCurrency(), viewer.getLocation()) + " " +
+			String output = this.getName() + " " + TextColor.VALUE + this.getPrice(viewer.getCurrency(), viewer.getLocation()) + " " +
 		TextColor.UNIT + viewer.getCurrency() + ":" + this.getItem().getAmount();
+			return output;
 		}
 		else {
 			return this.getName();
@@ -98,9 +99,9 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 
 		transfer.setAmount(transfer.getAmount() - sold);
 		try {
-			account.transferMoney(
-					this.getPrice(this.curren, buyer.getLocation()).multiply(new BigDecimal(((double) transfer.getAmount())/((double) this.getItem().getAmount())))
-					, this.curren, this.shop.getAccounts());
+			BigDecimal price = this.getPrice(this.curren, buyer.getLocation()).multiply(new BigDecimal((double) transfer.getAmount()).
+					divide(new BigDecimal((double) this.getItem().getAmount()),InspiredNations.Exchange.mcup));
+			account.transferMoney(price, this.curren, this.shop.getAccounts());
 			((ItemBuyer) buyer).recieveItem(transfer);
 			try {
 				shop.getInventory().removeItem(transfer);
@@ -111,6 +112,7 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 			if(buyer instanceof PlayerData) {
 				((PlayerData) buyer).getMsg().receiveError(MenuError.NOT_ENOUGH_MONEY());
 			}
+			e.printStackTrace();
 			
 		}
 	}
@@ -143,7 +145,7 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 	@Override
 	public Point3D getLocation() {
 		
-		return null;
+		return new Point3D(shop.getRegion().getRegion().getCharacteristicPoint());
 	}
 
 	@Override
@@ -159,7 +161,7 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 	
 	public BigDecimal getTransCost(Currency curren, Location locto) {
 		//TODO think about the transportation cost function.
-		double dist = locto.distance(shop.getRegion().getRegion().getCharacteristicPoint());
+		double dist = locto.distance(this.getLocation().getLocation());
 		
 		return InspiredNations.Exchange.getTransferValue((new BigDecimal(dist)).divide((new BigDecimal(100))),
 				Currency.DEFAULT,curren, InspiredNations.Exchange.mcup);

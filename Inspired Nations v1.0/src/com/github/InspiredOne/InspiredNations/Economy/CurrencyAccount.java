@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Economy;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
@@ -56,7 +57,7 @@ public class CurrencyAccount implements Payable, Nameable, Serializable, Cloneab
 
 	@Override
 	public String getDisplayName(PlayerData viewer) {
-		return curren.getName() + " (" + Tools.cut(this.getTotalMoney(this.curren)) + "~"
+		return curren.getName() + " (" + Tools.cut(this.getTotalMoney(this.curren, InspiredNations.Exchange.mcdown)) + "~"
 				+ Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, viewer.getCurrency()))
 				+ " " + viewer.getCurrency() + ":1.00 " + "~" + Tools.cut(InspiredNations.Exchange.getExchangeValue(BigDecimal.ONE, curren, viewer.getCurrency()))
 				+ " " + viewer.getCurrency() + ")";
@@ -66,6 +67,7 @@ public class CurrencyAccount implements Payable, Nameable, Serializable, Cloneab
 	public void transferMoney(BigDecimal amountTake, Currency monType,
 			Payable target) throws BalanceOutOfBoundsException,
 			NegativeMoneyTransferException {
+		
 		BigDecimal amountTempup = InspiredNations.Exchange.getTransferValue(amountTake, monType, curren, InspiredNations.Exchange.mcup);
 		BigDecimal amountTempdown = InspiredNations.Exchange.getTransferValue(amountTake, monType, curren, InspiredNations.Exchange.mcdown);
 		if(amountTempdown.compareTo(BigDecimal.ZERO) < 0 ) {
@@ -92,8 +94,8 @@ public class CurrencyAccount implements Payable, Nameable, Serializable, Cloneab
 	}
 
 	@Override
-	public BigDecimal getTotalMoney(Currency valueType) {
-		return InspiredNations.Exchange.getExchangeValue(amount, curren, valueType, InspiredNations.Exchange.mcup);
+	public BigDecimal getTotalMoney(Currency valueType, MathContext round) {
+		return InspiredNations.Exchange.getExchangeValue(amount, curren, valueType, round);
 	}
 	@Override
 	public void sendNotification(Alert msg) {

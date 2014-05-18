@@ -16,6 +16,17 @@ public class PerfectCompNode extends Node {
 	public PerfectCompNode(double[] ratio, Node[] elems) {
 		super(elems);
 		this.ratio = ratio;
+	
+/*		double tot = 0;
+		for(double item:ratio) {
+			tot += item;
+		}
+		for(int index = 0;index < ratio.length;index++) {
+			if(tot<=0) {
+				break;
+			}
+			ratio[index] = ratio[index]/tot;
+		}*/
 	}
 
 	@Override
@@ -56,7 +67,9 @@ public class PerfectCompNode extends Node {
 		}
 		
 		for(int i = 0; i< elems.length; i++) {
-			elems[i].buy(amount.multiply(new BigDecimal(ratio[i])).divide(new BigDecimal(divisor), InspiredNations.Exchange.mcup), curren, npc);
+			BigDecimal amountout = amount.multiply(new BigDecimal(elems[i].getCoef(npc)*ratio[i]).divide(new BigDecimal(divisor), InspiredNations.Exchange.mcup));
+			
+			elems[i].buy(amountout, curren, npc);
 		}
 
 	}

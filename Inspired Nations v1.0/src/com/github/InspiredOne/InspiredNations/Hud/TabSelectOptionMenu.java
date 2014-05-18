@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.TabScrollManager;
@@ -84,11 +83,10 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 				continue;
 			}
 		}
-		
 		// write the text
 		for(int iter = 0; iter<filteredoptions.size(); iter++) {
 			output = output.concat(ChatColor.RESET + "");
-			Nameable option = filteredoptions.get(iter); 
+			Nameable option = filteredoptions.get(iter);
 			if(iter >= rangeBottom - maxLines && iter < rangeBottom) {
 				if(tabcnt == iter) {
 					output = output.concat(TextColor.LABEL.toString() + "=> " + option.getDisplayName(this.PDI) + "\n");
@@ -177,6 +175,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		catch (Exception ex) {
 			return null;
 		}
+		
 		return this.data;
 	}
 	
@@ -230,7 +229,6 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		this.options = new ArrayList<Option>();
 		this.taboptions = new ArrayList<E>();
 		this.filteredoptions = new ArrayList<E>();
-		
 	}
 
 	@Override

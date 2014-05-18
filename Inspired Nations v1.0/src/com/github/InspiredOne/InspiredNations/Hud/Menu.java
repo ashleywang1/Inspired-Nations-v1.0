@@ -1,6 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Hud;
 
-import org.bukkit.ChatColor;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;

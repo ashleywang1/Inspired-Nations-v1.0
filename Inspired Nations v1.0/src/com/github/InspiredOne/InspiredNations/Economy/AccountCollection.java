@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Economy;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
@@ -38,28 +39,31 @@ Notifyable, Iterable<Account>, Cloneable {
 		return output;	
 	}
 	
-	public BigDecimal getTotalMoney(Currency valueType) {
+	@Override
+	public BigDecimal getTotalMoney(Currency valueType, MathContext round) {
 		BigDecimal output = BigDecimal.ZERO;
 		for(Account valueCheck:this) {
-			output = output.add(valueCheck.getTotalMoney(valueType));
+			output = output.add(valueCheck.getTotalMoney(valueType, round));
 		}
 		return output;
 	}
 
 	public void transferMoney(BigDecimal amount, Currency monType, Payable accountTo) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
 		
-		if(this.getTotalMoney(monType).compareTo(amount) < 0) {
+		if(this.getTotalMoney(monType, InspiredNations.Exchange.mcdown).compareTo(amount) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}
 		else {
 			for(Account handle:this) {
-				if(handle.getTotalMoney(monType).compareTo(amount) >= 0) {
+				if(handle.getTotalMoney(monType, InspiredNations.Exchange.mcdown).compareTo(amount) >= 0) {
 					handle.transferMoney(amount, monType, accountTo);
 					break;
 				}
 				else {
-					handle.transferMoney(handle.getTotalMoney(monType), monType, accountTo);
+					amount = amount.subtract(handle.getTotalMoney(monType, InspiredNations.Exchange.mcdown));
+					handle.transferMoney(handle.getTotalMoney(monType, InspiredNations.Exchange.mcdown), monType, accountTo);
 				}
+				
 			}
 		}
 	}
@@ -84,7 +88,7 @@ Notifyable, Iterable<Account>, Cloneable {
 	public String getDisplayName(PlayerData PDI) {
 		
 		return this.getName() + " (" + TextColor.VALUE + 
-				Tools.cut(this.getTotalMoney(PDI.getCurrency())) +TextColor.UNIT
+				Tools.cut(this.getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown)) +TextColor.UNIT
 				+ " " + PDI.getCurrency() + ")";
 	}
 	public boolean isLinked() {

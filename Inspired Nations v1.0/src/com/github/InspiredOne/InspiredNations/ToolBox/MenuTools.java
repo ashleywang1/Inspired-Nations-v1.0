@@ -48,7 +48,7 @@ public class MenuTools {
 	 */
 	public static String oneLineWallet(String text, PlayerData PDI, Payable account) {
 		String output = text.concat(TextColor.LABEL + "Holdings: " + TextColor.VALUE +
-				Tools.cut(account.getTotalMoney(PDI.getCurrency())) + TextColor.UNIT +" " + PDI.getCurrency() + "\n");
+				Tools.cut(account.getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown)) + TextColor.UNIT +" " + PDI.getCurrency() + "\n");
 		return output;
 	}
 	/**

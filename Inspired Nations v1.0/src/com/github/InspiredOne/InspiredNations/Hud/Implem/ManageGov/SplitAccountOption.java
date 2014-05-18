@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
 import com.github.InspiredOne.InspiredNations.Debug;
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -42,7 +43,7 @@ public class SplitAccountOption extends Option {
 			PDI.setAccounts(gov.getAccounts().clone());
 			Account dispose = new Account();
 			try {
-				gov.getAccounts().transferMoney(gov.getAccounts().getTotalMoney(Currency.DEFAULT), Currency.DEFAULT, dispose);
+				gov.getAccounts().transferMoney(gov.getAccounts().getTotalMoney(Currency.DEFAULT, InspiredNations.Exchange.mcdown), Currency.DEFAULT, dispose);
 			} catch (BalanceOutOfBoundsException e) {
 				Debug.InformPluginDev();
 				e.printStackTrace();

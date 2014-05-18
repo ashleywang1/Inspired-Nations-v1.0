@@ -21,6 +21,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,7 +36,6 @@ import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
 import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
@@ -128,6 +128,11 @@ public class InspiredNations extends JavaPlugin {
 			String msg = event.getMessage();
 			event.setCancelled(true);
 			InspiredNations.playerdata.get(new PlayerID(event.getPlayer())).getMsg().sendChatMessage(msg);;
+		}
+		@EventHandler
+		public void onPlayerMove(PlayerMoveEvent event) {
+			PlayerData PDI = InspiredNations.playerdata.get(new PlayerID(event.getPlayer()));
+			PDI.setLocation(event.getTo());
 		}
 		@EventHandler
 		public void onPlayerBreakBlock(BlockBreakEvent event) {

@@ -78,7 +78,6 @@ public class ProtectionLevels extends OptionMenu {
 
 	@Override
 	public void addActionManagers() {
-		// TODO Auto-generated method stub
 		
 	}
 

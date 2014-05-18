@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Economy;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
@@ -68,7 +69,7 @@ public class Account implements Serializable, Nameable, Payable, Cloneable {
 		boolean contains = curren != null;
 		
 		if(contains) {
-			return exch.getExchangeValue(curren.getTotalMoney(getType), getType, valueType);
+			return exch.getExchangeValue(curren.getTotalMoney(getType, InspiredNations.Exchange.mcdown), getType, valueType);
 		}
 		else {
 			money.add(new CurrencyAccount(getType, BigDecimal.ZERO));
@@ -76,10 +77,10 @@ public class Account implements Serializable, Nameable, Payable, Cloneable {
 		}
 	}
 	
-	public final BigDecimal getTotalMoney(Currency valueType) {
+	public final BigDecimal getTotalMoney(Currency valueType, MathContext round) {
 		BigDecimal output = BigDecimal.ZERO;
 		for(CurrencyAccount curren:money) {
-			output = output.add(curren.getTotalMoney(valueType));
+			output = output.add(curren.getTotalMoney(valueType, round));
 		}
 		return output;
 	}
@@ -89,11 +90,8 @@ public class Account implements Serializable, Nameable, Payable, Cloneable {
 			throw new NegativeMoneyTransferException();
 		}
 
-		
-		
 		// looks to see if accountCollection has MonType
 		CurrencyAccount account = getCurrenAccount(monType);
-		boolean contains = account != null;
 		
 		if(this.AutoExchange) {
 			if(this.money.isEmpty()) {
@@ -101,28 +99,24 @@ public class Account implements Serializable, Nameable, Payable, Cloneable {
 			}
 			money.get(0).addMoney(mon, monType);
 		}
-		else if(contains) {
-			account.addMoney(mon, monType);
-		}
 		else {
-
-			money.add(new CurrencyAccount(monType, BigDecimal.ZERO));
-			this.addMoney(mon, monType);
+			account.addMoney(mon, monType);
 		}
 	}
 	
 	public final void transferMoney(BigDecimal mon, Currency monType, Payable accountTo) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
-		if(getTotalMoney(monType).compareTo(mon) < 0) {
+		if(getTotalMoney(monType, InspiredNations.Exchange.mcdown).compareTo(mon) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}
 		else {
 			for(CurrencyAccount curren:money) {
-				BigDecimal amount = curren.getTotalMoney(monType);
+				BigDecimal amountup = curren.getTotalMoney(monType, InspiredNations.Exchange.mcup);
+				BigDecimal amountdown = curren.getTotalMoney(monType, InspiredNations.Exchange.mcdown);
 				
-				if(amount.compareTo(mon) < 0) {
-					curren.transferMoney(amount, monType, accountTo);
+				if(mon.compareTo(amountdown) >= 0) {
+					curren.transferMoney(amountup, monType, accountTo);
 					money.set(money.indexOf(curren), new CurrencyAccount(curren.getCurrency()));
-					mon = mon.subtract(amount);
+					mon = mon.subtract(amountdown);
 				}
 				else {
 					curren.transferMoney(mon, monType, accountTo);
@@ -133,13 +127,13 @@ public class Account implements Serializable, Nameable, Payable, Cloneable {
 	}
 	
 	private CurrencyAccount getCurrenAccount(Currency monType) {
-		CurrencyAccount account = null;
+		CurrencyAccount account = new CurrencyAccount(monType);
 		for(CurrencyAccount curren:this.money) {
 			if(curren.getCurrency().equals(monType)) {
-				account = curren;
-				break;
+				return curren;
 			}
 		}
+		this.money.add(account);
 		return account;
 	}
 	
@@ -204,10 +198,10 @@ public class Account implements Serializable, Nameable, Payable, Cloneable {
 	@Override
 	public String getDisplayName(PlayerData PDI) {
 		if(isShared()){
-			return this.getName() + " (" + Tools.cut(this.getTotalMoney(PDI.getCurrency())) +" " + PDI.getCurrency() + ") Shared";
+			return this.getName() + " (" + Tools.cut(this.getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown)) +" " + PDI.getCurrency() + ") Shared";
 		}
 		else {
-			return this.getName() + " (" + Tools.cut(this.getTotalMoney(PDI.getCurrency())) +" " + PDI.getCurrency() + ")";
+			return this.getName() + " (" + Tools.cut(this.getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown)) +" " + PDI.getCurrency() + ")";
 		}
 	}
 	

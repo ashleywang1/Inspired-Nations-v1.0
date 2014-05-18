@@ -1,13 +1,10 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
-import com.github.InspiredOne.InspiredNations.Exceptions.CuboidNotCompletedException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
 import com.github.InspiredOne.InspiredNations.Exceptions.RegionOutOfEncapsulationBoundsException;
@@ -86,7 +83,9 @@ public class ClaimPolygonPrism extends InputMenu {
 		
 		String output = this.mapmanager.drawMap(gov, 3);
 		output = MenuTools.addDivider(output);
-		output = output.concat(TextColor.INSTRUCTION + "Left Click for one corner of the cuboid and Right Click for the other corner.\n");
+		output = output.concat(TextColor.INSTRUCTION + "Left click each corner of the polygon. The highest and lowest points"
+				+ " are top and bottom. Type "+TextColor.VALUE + "'Finish'"
+				+ TextColor.INSTRUCTION + " when you are done.\n");
 		output = MenuTools.oneLineWallet(output, PDI, gov.getAccounts());
 		output = output.concat(TextColor.VALUEDESCRI + "Top: " + TextColor.VALUE + manager.prism.getMaxHieght() + "\n");
 		output = output.concat(TextColor.VALUEDESCRI + "Bottom: " + TextColor.VALUE + manager.prism.getMinHieght() + "\n");

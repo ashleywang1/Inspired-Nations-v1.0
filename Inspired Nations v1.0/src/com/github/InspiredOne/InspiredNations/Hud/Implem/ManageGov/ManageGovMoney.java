@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
 import com.github.InspiredOne.InspiredNations.Debug;
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
@@ -28,7 +29,7 @@ public class ManageGovMoney extends OptionMenu {
 			InspiredGov govtemp = GovFactory.getGovInstance(govtype);
 			output = output.concat(govtemp.getTypeName() + " Tax: " + gov.getTaxrates().get(govtype) + "\n");
 		}
-		output = output.concat(Tools.cut(gov.getAccounts().getTotalMoney(PDI.getCurrency())).toString() + " " + PDI.getCurrency());
+		output = output.concat(Tools.cut(gov.getAccounts().getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown)).toString() + " " + PDI.getCurrency());
 		return output;
 		
 	}

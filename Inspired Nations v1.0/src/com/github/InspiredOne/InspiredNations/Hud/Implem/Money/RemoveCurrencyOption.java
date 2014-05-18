@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.CurrencyAccount;
@@ -41,7 +42,7 @@ public class RemoveCurrencyOption extends Option {
 		this.account.getMoney().remove(curren);
 		account.setAutoExchange(true);
 		try {
-			curren.transferMoney(curren.getTotalMoney(Currency.DEFAULT), Currency.DEFAULT, account);
+			curren.transferMoney(curren.getTotalMoney(curren.getCurrency(), InspiredNations.Exchange.mcdown), curren.getCurrency(), account);
 		} catch (BalanceOutOfBoundsException e) {
 			e.printStackTrace();
 		} catch (NegativeMoneyTransferException e) {

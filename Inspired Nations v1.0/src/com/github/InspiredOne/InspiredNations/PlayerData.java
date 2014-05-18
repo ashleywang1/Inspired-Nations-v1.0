@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -97,7 +98,15 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	}
 	@Override
 	public Location getLocation() {
-		return this.lastLoc.getLocation();
+		try {
+			return this.getPlayer().getLocation();
+		} catch (PlayerOfflineException e) {
+			return this.lastLoc.getLocation();
+		}
+	}
+	
+	public void setLocation(Location loc) {
+		this.lastLoc = new Point3D(loc);
 	}
 	
 	public boolean isSubjectOf(Class<? extends InspiredGov> govtype) {
@@ -424,8 +433,8 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	}
 
 	@Override
-	public BigDecimal getTotalMoney(Currency valueType) {
-		return this.accounts.getTotalMoney(valueType);
+	public BigDecimal getTotalMoney(Currency valueType, MathContext round) {
+		return this.accounts.getTotalMoney(valueType, round);
 	}
 
 	@Override

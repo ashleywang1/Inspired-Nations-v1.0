@@ -1,6 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
-import com.github.InspiredOne.InspiredNations.Debug;
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
@@ -12,6 +12,7 @@ import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.ResidentControl.ManageCitizens;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.NewFacility.PickFacilityType;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 public class ManageGov extends OptionMenu {
 
@@ -67,12 +68,16 @@ public class ManageGov extends OptionMenu {
 
 	@Override
 	public void addOptions() {
-		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Population", new ManageCitizens(PDI, new ManageGov(PDI, gov), gov)));
-		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Money", new ManageGovMoney(PDI, this, gov)));
+		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Population", new ManageCitizens(PDI, new ManageGov(PDI, gov), gov),
+				"(" + gov.getSubjects().size() + ")"));
+		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Manage Money", new ManageGovMoney(PDI, this, gov),
+				"(" + Tools.cut(gov.getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown))+" "+PDI.getCurrency()+")"));
 		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Claim Land", new PickClaimType(PDI,new ManageGov(PDI, gov), gov/*.getCommonGovObj().getData()*/)));
-		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Change Protection Level", new ProtectionLevels(PDI, new ManageGov(PDI, gov), gov)));
+		this.options.add(new PromptOption(new ManageGov(PDI, gov), "Change Protection Level", new ProtectionLevels(PDI, new ManageGov(PDI, gov), gov),
+				"(" +gov.getProtectionlevel() +")"));
 		if(gov instanceof OwnerSubjectGov) {
-			this.options.add(new PromptOption(new ManageGov(PDI, gov), "Change Military Level", new MilitaryLevels(PDI, new ManageGov(PDI, gov), (OwnerSubjectGov) gov)));
+			this.options.add(new PromptOption(new ManageGov(PDI, gov), "Change Military Level", new MilitaryLevels(PDI, new ManageGov(PDI, gov), (OwnerSubjectGov) gov)
+			,"(" + gov.getMilitaryLevel() + ")"));
 		}
 		if(gov.getRegion().getRegion().volume() != 0) {
 			this.options.add(new UnclaimLandOption(new ManageGov(PDI, gov), "Unclaim Land", gov));

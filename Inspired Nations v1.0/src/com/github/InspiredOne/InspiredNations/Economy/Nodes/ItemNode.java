@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.NPC;
@@ -40,7 +39,6 @@ public class ItemNode extends Node {
 	
 	@Override
 	public double getCoef(NPC npc) {
-		String output = "";
 		Node.tier++;
 		
 		if(((ItemMarketplace) InspiredNations.Markets.get(0)).getCheapestUnit(item, npc) != null) {
@@ -60,13 +58,8 @@ public class ItemNode extends Node {
 			subcoef = elems[0].getCoef(npc);
 		}
 		if(!available) {
-			Debug.node("ItemNode: " + item.getData().getItemType() + " not available.");
 			return subcoef;
 		}
-		
-		Debug.node("ItemNode: " + itemcoef + "*" + item.getData().getItemType().toString() + " + " + subcoef + "*X1");
-		
-
 		
 		if(choseThis) {
 			return itemcoef;
@@ -93,9 +86,7 @@ public class ItemNode extends Node {
 			try {
 				npc.saveMoneyFor(this.item, amount, curren);
 			} catch (BalanceOutOfBoundsException e) {
-				Debug.print("NPC has: " + npc.getTotalUnallocatedMoney(curren).toString() + curren);
-				Debug.print("NPC trying to spend: " + amount.toString() + curren);
-				//e.printStackTrace();
+				e.printStackTrace();
 			} catch (NegativeMoneyTransferException e) {
 				e.printStackTrace();
 			}

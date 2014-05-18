@@ -39,14 +39,31 @@ public class MoneyExchange implements Serializable{
 	 * @return
 	 */
 	public final BigDecimal getTransferValue(BigDecimal mon, Currency monType, Currency valueType, MathContext round) {
-		BigDecimal output;
-		BigDecimal valueAmount = Exchange.get(valueType);
-		BigDecimal monAmount = Exchange.get(monType);
+		BigDecimal output = BigDecimal.ZERO;
+		BigDecimal B = Exchange.get(valueType);
+		BigDecimal A = Exchange.get(monType);
 		if(monType.equals(valueType)) {
 			return mon;
 		}
-		BigDecimal difference = monAmount.subtract(mon);
-		output = mon.multiply(valueAmount).divide(difference, round);
+		if(mon.compareTo(BigDecimal.ZERO) <= 0) {
+			return BigDecimal.ZERO;
+		}
+		//Figure out the value of things after the exchange
+/*		BigDecimal c = mon.multiply(B.pow(2));
+		BigDecimal b = ((new BigDecimal(2)).multiply(B)).add(
+				mon.multiply(B).subtract(A.multiply(B)));
+		BigDecimal a = (new BigDecimal(2)).multiply(mon);
+		
+		Debug.print("Transfer Value a: " + Tools.cut(a));
+		Debug.print("Transfer Value b: " + Tools.cut(b));
+		Debug.print("Transfer Value c: " + Tools.cut(c));
+		
+		return BigDecimalUtils.quad(a, b, c, round);*/
+		
+		
+
+		BigDecimal difference = A.subtract(mon);
+		output = mon.multiply(B).divide(difference, round);
 		return output;
 	}
 	
@@ -57,6 +74,7 @@ public class MoneyExchange implements Serializable{
 			//BigDecimal ExchangeValue = this.getExchangeValue(Transvalue, test, );
 		}
 	}
+
 	
 	/**
 	 * Gets the total amount of valueType you would recieve if you exchanged mon amount of monType
@@ -94,11 +112,12 @@ public class MoneyExchange implements Serializable{
 	}
 	
 	public final BigDecimal exchange(BigDecimal mon, Currency monType, Currency valueType) {
-		BigDecimal output = this.getExchangeValue(mon, monType, valueType, mcup);
+		BigDecimal outputup = this.getExchangeValue(mon, monType, valueType, mcup);
+		BigDecimal outputdown = this.getExchangeValue(mon, monType, valueType, mcdown); //added outputdown
 		Exchange.put(monType, Exchange.get(monType).add(mon));
-		Exchange.put(valueType, Exchange.get(valueType).subtract(output));
+		Exchange.put(valueType, Exchange.get(valueType).subtract(outputdown));
 		
-		return output;
+		return outputup;
 	}
 	
 	@SuppressWarnings("unchecked")
