@@ -52,6 +52,9 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 		Debug.print("Inside removeSubject of OwnerSubjectGov");
 		this.removeOwner(player);
 		this.subjects.remove(player);
+		if(this.isSubjectLess()) {
+			this.unregister();
+		}
 	}
 	
 	@Override

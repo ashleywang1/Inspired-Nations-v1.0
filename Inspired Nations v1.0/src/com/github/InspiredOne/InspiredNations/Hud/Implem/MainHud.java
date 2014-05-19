@@ -104,7 +104,6 @@ public class MainHud extends OptionMenu {
 				this.options.add(new PromptOption(this, "New " + govobj.getTypeName(), new PickSelfType<>(PDI, gov)));
 			}
 		}
-
 	}
 
 	@Override

@@ -34,6 +34,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 
 
 public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer{
@@ -199,8 +200,20 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	 * @param class1
 	 * @return
 	 */
-	public List<InspiredGov> getCitizenship(Class<? extends InspiredGov> class1) {
+	public List<OwnerGov> getCitizenship(Class<? extends OwnerGov> class1) {
 		return getCitizenship(class1, InspiredNations.regiondata.get(class1));
+	}
+	
+	public List<OwnerGov> getCitizenship() {
+		ArrayList<OwnerGov> output = new ArrayList<OwnerGov>();
+		for(Class<? extends InspiredGov> govtype:InspiredNations.regiondata.keySet()) {
+			for(InspiredGov gov:InspiredNations.regiondata.get(govtype)) {
+				if(gov.isSubject(this.getPlayerID())) {
+					output.add((OwnerGov) gov);
+				}
+			}
+		}
+		return output;
 	}
 	/**
 	 * Gets all governments in which a player is a citizen. Uses the HashSet input to check.
@@ -208,12 +221,12 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	 * @param govDir	all the governments to check
 	 * @return	a list off all the governments in which the player is a citizen
 	 */
-	public List<InspiredGov> getCitizenship(Class<? extends InspiredGov> govType, HashSet<? extends InspiredGov> govDir) {
-		List<InspiredGov> output = new ArrayList<InspiredGov>();
+	public List<OwnerGov> getCitizenship(Class<? extends OwnerGov> govType, HashSet<? extends InspiredGov> govDir) {
+		List<OwnerGov> output = new ArrayList<OwnerGov>();
 
 		for(InspiredGov gov:govDir) {
 			if(gov.isSubject(this.getPlayerID()) && gov.getClass().equals(govType)) {
-				output.add(gov);
+				output.add((OwnerGov) gov);
 			}
 		}
 		return output;
@@ -295,39 +308,47 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 		this.getMsg().receiveAlert(msg);
 	}
 	
-	public int getTier(InspiredGov gov) {
-		int tier = 0;
-		while(gov.getSuperGovObj() != InspiredNations.global) {
-			tier++;
-			gov = gov.getSuperGovObj();
-		}
-		return tier;
-	}
 	public int effectiveProtLevel(int militaryvict, int protvict, int militaryattack) {
 		return Math.min(militaryvict-militaryattack, 0) + protvict;
 	}
 	private boolean breakBlock(InspiredGov gov, InspiredGov govtest, Location loc) {
 		boolean canbreak = false;
 		if(gov == govtest) {
+			Debug.print("Can break because " + gov.getName() + " equals " + gov.getName());
 			return true;
 		}
-		if(this.getTier(gov) > this.getTier(govtest)) {
+		else if(gov.getSuperGovObj() == govtest) {
+			canbreak = gov.getProtectionlevel() < ProtectionLevels.BREAK_AND_PLACE;
+			Debug.print("Attacker's gov is the super gov of the victims gov. Can break? " + (gov.getProtectionlevel() < ProtectionLevels.BREAK_AND_PLACE));
+			return canbreak;
+		}
+		else if(govtest.getSuperGovObj() == gov) {
+			Debug.print("Can break because " + govtest.getName() +" is attacker and is sub of " + gov.getName());
+			return true;
+		}
+		if(gov.getTier() > govtest.getTier()) {
+			Debug.print("Not same teir, switching to victim's supergov");
 			return this.breakBlock(gov.getSuperGovObj(), govtest, loc);
 		}
-		else if(this.getTier(gov) < this.getTier(govtest)) {
+		else if(gov.getTier() < govtest.getTier()) {
+			Debug.print("Not same teir, switching to attacker's supergov");
 			return this.breakBlock(gov, govtest.getSuperGovObj(), loc);
 		}
 		else {
 			if(gov.getSuperGovObj() == govtest.getSuperGovObj()) {
 				if(gov.getSuperGovObj().contains(loc)) {
+					Debug.print("Super Gov's match. Can break? " + (effectiveProtLevel(gov.getMilitaryLevel(), gov.getProtectionlevel(), 
+							govtest.getMilitaryLevel()) < ProtectionLevels.BREAK_AND_PLACE));
 					return effectiveProtLevel(gov.getMilitaryLevel(), gov.getProtectionlevel(), 
 							govtest.getMilitaryLevel()) < ProtectionLevels.BREAK_AND_PLACE;
 				}
 				else {
+					Debug.print("Can break because victim, " + gov.getName() + ", is not in supergov.");
 					return true;
 				}
 			}
 			else {
+				Debug.print("Super gov's don't match so looking to next super govs up");
 				return breakBlock(gov.getSuperGovObj(), govtest.getSuperGovObj(), loc);
 			}
 		}
@@ -335,10 +356,10 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	
 	
 	@SuppressWarnings("static-access")
-	public int getOppossingWarLevel(InspiredGov gov) {
+	public int getOppossingWarLevel(OwnerGov gov) {
 		List<Class<? extends OwnerGov>> possiblegovs = gov.getSuperGovObj().getAllSubGovs();
 		int highestLevel = 0;
-		for(Class<? extends InspiredGov> govtest:possiblegovs) {
+		for(Class<? extends OwnerGov> govtest:possiblegovs) {
 			int leveltemp = 0;
 			for(InspiredGov citigov:this.getCitizenship(gov.getClass())) {
 				if(leveltemp < citigov.getMilitaryLevel() && citigov.fromSameBranch(citigov, gov)) {
@@ -354,7 +375,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 		InspiredGov govlevel = GovFactory.getGovInstance(govtype);
 		List<Class<? extends OwnerGov>> possiblegovs = govlevel.getSuperGovObj().getAllSubGovs();
 		int highestLevel = 0;
-		for(Class<? extends InspiredGov> gov:possiblegovs) {
+		for(Class<? extends OwnerGov> gov:possiblegovs) {
 			int leveltemp = 0;
 			for(InspiredGov citigov:this.getCitizenship(gov)) {
 				if(leveltemp < citigov.getMilitaryLevel()) {
@@ -380,14 +401,11 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	}
 	
 	private boolean breakBlock(InspiredGov gov, Location block) {
-		for(Class<? extends InspiredGov> selfgovtype:InspiredNations.regiondata.keySet()) {
-			for(InspiredGov selfgov:this.getCitizenship(selfgovtype)) {
-				if(selfgov == InspiredNations.global) {
-					continue;
-				}
-				if(this.breakBlock(gov, selfgov, block)) {
-					return true;
-				}
+		//Iterates over all the govs this person is a citizen lives in, and if any can break
+		//inside the input gov, then returns true.
+		for(OwnerGov selfgov:this.getCitizenship()) {
+			if(this.breakBlock(gov, selfgov, block)) {
+				return true;
 			}
 		}
 		return false;
@@ -408,10 +426,13 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	 * @return true if player can interact.
 	 */
 	public boolean getAllowedInteract(Location block) {
+		//Iterates over all the goves that a gov contains and if any single one of them
+		//has enough protection on the block to stop interaction, then returns false
 		List<InspiredGov> isin = Tools.getGovsThatContain(block);
 		Debug.print("Govs that block is inside: " + isin.size());
 		for(InspiredGov gov:isin) {
 			if(!breakBlock(gov, block)) {
+				this.sendNotification(MenuAlert.CANNOT_INTERACT(gov));
 				return false;
 			}
 		}

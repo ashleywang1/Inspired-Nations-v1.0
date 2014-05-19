@@ -68,6 +68,7 @@ public class InspiredNations extends JavaPlugin {
 		InspiredNations.Exchange.registerCurrency(Currency.DEFAULT, new BigDecimal(500));
 		pm.registerEvents(PL, this);
 		global = GovFactory.getGovInstance(GlobalGov.class);
+
 		global.register();
 		// if this is first time running plugin, then add the default globalgov to the regiondata
 		// else, put the global gov loaded in the region data back into the global variable.
@@ -77,6 +78,7 @@ public class InspiredNations extends JavaPlugin {
 		else {
 			global = (GlobalGov) regiondata.get(global.getClass()).iterator().next();
 		}
+		global.setName("Global");
 		this.getCommand("hud").setExecutor(CM);
 		this.getCommand("map").setExecutor(CM);
 		this.getCommand("npc").setExecutor(CM);
@@ -136,9 +138,8 @@ public class InspiredNations extends JavaPlugin {
 		}
 		@EventHandler
 		public void onPlayerBreakBlock(BlockBreakEvent event) {
-			Debug.print("Player is breaking block.11");
-			PlayerData player = this.plugin.playerdata.get(new PlayerID(event.getPlayer()));
-			Debug.print("Player is breaking block.22");
+			Debug.print("Player is breaking block.");
+			PlayerData player = InspiredNations.playerdata.get(new PlayerID(event.getPlayer()));
 			if(!player.getAllowedInteract(event.getBlock().getLocation())) {
 				Debug.print(player.getName() + " is trying to break a block s/he is not allowed to.");
 				event.setCancelled(true);

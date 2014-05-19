@@ -127,6 +127,8 @@ public class MessageManager implements Serializable {
 
 		}
 	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * Takes the input string and replaces every instances of $(amount)
 	 *  with the exchanged value relevant

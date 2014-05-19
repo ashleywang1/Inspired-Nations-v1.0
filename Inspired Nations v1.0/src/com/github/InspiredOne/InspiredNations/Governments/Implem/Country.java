@@ -57,7 +57,7 @@ public class Country extends OwnerSubjectGov {
 	}
 
 	@Override
-	public Class<? extends InspiredGov> getCommonGov() {
+	public Class<? extends OwnerGov> getCommonGov() {
 		return this.getClass();
 	}
 

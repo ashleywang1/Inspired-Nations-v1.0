@@ -9,6 +9,8 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
@@ -89,6 +91,37 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					return "";
+				}
+				
+			};
+		}
+		public static Alert CANNOT_INTERACT(final InspiredGov attacked) {
+			return new Alert() {
+				
+				@Override
+				public String getMessage(PlayerData receiver) {
+					return makeMessage("You cannot interact in " + attacked.getDisplayName(receiver) 
+							+ ". Their protection is too high.");
+				}
+			};
+		}
+		public static Alert LOST_OWNERSHIP(final OwnerGov govlost) {
+			return new Alert() {
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					return makeMessage("You are no longer " + govlost.getOwnerPositionName() + " of " + govlost.getName());
+				}
+				
+			};
+		}
+		public static Alert LOST_CITIZENSHIP(final OwnerSubjectGov govlost) {
+			return new Alert() {
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					return makeMessage("You are no longer " + govlost.getSubjectPositionName()
+							+ " of " + govlost.getName() + ".");
 				}
 				
 			};

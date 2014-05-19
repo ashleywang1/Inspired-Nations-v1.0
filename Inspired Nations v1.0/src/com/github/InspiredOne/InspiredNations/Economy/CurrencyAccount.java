@@ -95,8 +95,9 @@ public class CurrencyAccount implements Payable, Nameable, Serializable, Cloneab
 
 	@Override
 	public BigDecimal getTotalMoney(Currency valueType, MathContext round) {
-		return InspiredNations.Exchange.getExchangeValue(amount, curren, valueType, round);
+		return InspiredNations.Exchange.getExchangeValue(amount, curren, valueType, InspiredNations.Exchange.mcdown);
 	}
+	
 	@Override
 	public void sendNotification(Alert msg) {
 		for(PlayerData player:InspiredNations.playerdata.values()) {

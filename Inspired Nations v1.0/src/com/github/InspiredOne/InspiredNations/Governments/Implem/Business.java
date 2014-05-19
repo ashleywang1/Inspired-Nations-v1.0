@@ -42,7 +42,7 @@ public class Business extends OwnerSubjectGov {
 	}
 	
 	@Override
-	public Class<? extends InspiredGov> getCommonGov() {
+	public Class<? extends OwnerGov> getCommonGov() {
 		return Country.class;
 	}
 

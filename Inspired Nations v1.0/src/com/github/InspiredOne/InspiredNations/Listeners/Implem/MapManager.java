@@ -19,6 +19,7 @@ public class MapManager<T extends ActionMenu> extends TabManager<T> {
 	
 	public String drawMap(InspiredGov gov, int size) {
 		if(gov.getSuperGov().equals(GlobalGov.class)) {
+			
 			return drawMap(gov.getClass(), size);
 		}
 		else {
@@ -46,4 +47,5 @@ public class MapManager<T extends ActionMenu> extends TabManager<T> {
 	public void textChange() {
 		maplis.rotacount = maplis.getRotaCount(maplis.yaw);
 	}
+	
 }

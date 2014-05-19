@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Governments;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
@@ -71,7 +72,7 @@ public class GlobalGov extends OwnerSubjectGov {
 	}
 
 	@Override
-	public Class<? extends InspiredGov> getCommonGov() {
+	public Class<? extends OwnerGov> getCommonGov() {
 		return this.getClass();
 	}
 
@@ -98,5 +99,8 @@ public class GlobalGov extends OwnerSubjectGov {
 	public InspiredGov getSuperGovObj() {
 		return this;
 	}
-
+	@Override
+	public boolean contains(Location location) {
+		return true;
+	}
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
@@ -32,6 +33,7 @@ public class Tools {
 		for(InspiredGov gov:InspiredNations.regiondata) {
 			if(gov.contains(loc)) {
 				output.add(gov);
+				Debug.print(gov.getName());
 			}
 		}
 		return output;

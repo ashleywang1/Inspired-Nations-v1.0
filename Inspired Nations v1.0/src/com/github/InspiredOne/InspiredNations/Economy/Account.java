@@ -114,7 +114,7 @@ public class Account implements Serializable, Nameable, Payable, Cloneable {
 				BigDecimal amountdown = curren.getTotalMoney(monType, InspiredNations.Exchange.mcdown);
 				
 				if(mon.compareTo(amountdown) >= 0) {
-					curren.transferMoney(amountup, monType, accountTo);
+					curren.transferMoney(amountdown, monType, accountTo);
 					money.set(money.indexOf(curren), new CurrencyAccount(curren.getCurrency()));
 					mon = mon.subtract(amountdown);
 				}

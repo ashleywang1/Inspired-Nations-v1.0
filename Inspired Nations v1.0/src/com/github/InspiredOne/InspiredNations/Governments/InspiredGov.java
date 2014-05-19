@@ -127,6 +127,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	public void setRegion(InspiredRegion region) {
 		this.region = region;
 	}
+
 	/**
 	 * If supergov has not been defined yet, then returns a new instance of type
 	 * that getSuperGov() returns.
@@ -137,9 +138,20 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			return GovFactory.getGovInstance(this.getSuperGov());
 		}
 		else {
-
 			return supergov;
 		}
+	}
+	public InspiredGov getSuperGovObj(Class<? extends OwnerGov> govtype) {
+		InspiredGov govtest = this;
+		while(govtest != InspiredNations.global) {
+			if(govtest.getClass().equals(govtype)) {
+				return govtest;
+			}
+			else {
+				govtest = govtest.getSuperGovObj();
+			}
+		}
+		return null;
 	}
 	/**
 	 * 
@@ -148,6 +160,31 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	public void setSuperGovObj(InspiredGov supergov) {
 		this.supergov = supergov;
 	}
+	/**
+	 * Finds if there are any govs within it that still have citizens.
+	 * @return
+	 */
+	public boolean isSubjectLess() {
+		if(this.getSubjects().isEmpty()) {
+			for(Class<? extends InspiredGov> govtype:this.getSubGovs()) {
+				for(InspiredGov govtest:this.getAllSubGovs(govtype)) {
+					if(!govtest.isSubjectLess()) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	public void unregister() {
+		InspiredNations.regiondata.removeValue(this);
+		for(InspiredGov gov:this.getAllSubGovsAndFacilitiesJustBelow()) {
+			gov.unregister();
+		}
+	}
 
 	/**
 	 * Returns the set containing the names of all players who
@@ -155,7 +192,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @return	the <code>HashSet</code> of all subject names
 	 */
 	protected IndexedSet<PlayerID> getSubjects() {
-		return this.getSuperGovObj().getSubjects();
+		return new IndexedSet<PlayerID>();
 	}
 	public final boolean isSubject(PlayerID player) {
 		return this.getSubjects().contains(player);
@@ -166,7 +203,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	public abstract void updateTaxRate();
 	/**
 	 * Returns a <code>List</code> of all <code>InspiredGovs</code> that have been created under this government.
-	 * It does this by searching through the <code>HashMap</code> in the plugin class
+	 * It does this by searching 6666through the <code>HashMap</code> in the plugin class
 	 * for any <code>InspiredGov</code> instance that returns this <code>InspiredGov</code> instance
 	 * from <code>getSuperGovObj()</code>.
 	 * @param key	the Class of InspiredGovs to find
@@ -786,6 +823,29 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	@Override
 	public BigDecimal getTotalMoney(Currency valueType, MathContext round) {
 		return this.accounts.getTotalMoney(valueType, round);
+	}
+	/**
+	 * Returns all the governments of a given tier. Tier 0 is global gov. Tier 1 is countries
+	 * @param tier
+	 * @return
+	 */
+	public static List<InspiredGov> getTierGovs(int tier) {
+		List<InspiredGov> output = new ArrayList<InspiredGov>();
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			if(gov.getTier() == tier) {
+				output.add(gov);
+			}
+		}
+		return output;
+	}
+	public int getTier() {
+		int tier = 0;
+		InspiredGov gov = this;
+		while(gov.getSuperGovObj() != InspiredNations.global) {
+			tier++;
+			gov = gov.getSuperGovObj();
+		}
+		return tier;
 	}
 	
 }

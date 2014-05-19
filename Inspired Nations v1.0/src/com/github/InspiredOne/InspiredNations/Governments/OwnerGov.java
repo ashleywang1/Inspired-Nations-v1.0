@@ -1,7 +1,9 @@
 package com.github.InspiredOne.InspiredNations.Governments;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -10,6 +12,7 @@ import com.github.InspiredOne.InspiredNations.Economy.NPC;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public abstract class OwnerGov extends InspiredGov {
@@ -31,13 +34,13 @@ public abstract class OwnerGov extends InspiredGov {
 	}
 	
 	public void addOwner(PlayerID player) {
-		if(!this.canAddWithoutConsequence(player.getPDI())) {
-			for(InspiredGov gov:player.getPDI().getCitizenship(this.getClass())) {
-				if(!gov.equals(this)) {
-					((OwnerGov) gov).removeOwner(player);
-					if(gov instanceof OwnerSubjectGov) {
-						((OwnerSubjectGov) gov).removeSubject(player);
-					}
+		for(OwnerGov gov:player.getPDI().getCitizenship()) {
+			for(OwnerGov govlost:gov.getGovsLost(this)) {
+				govlost.removeOwner(player);
+				player.getPDI().sendNotification(MenuAlert.LOST_OWNERSHIP(govlost));
+				if(govlost instanceof OwnerSubjectGov) {
+					((OwnerSubjectGov) govlost).removeSubject(player);
+					player.getPDI().sendNotification(MenuAlert.LOST_CITIZENSHIP((OwnerSubjectGov) govlost));
 				}
 			}
 		}
@@ -53,6 +56,44 @@ public abstract class OwnerGov extends InspiredGov {
 			this.getAccounts().setName(this.getName());
 			InspiredNations.playerdata.get(player).setAccounts(new AccountCollection(player.getName()));
 		}
+		if(this.isSubjectLess()) {
+			this.unregister();
+		}
+		
+	}
+	
+
+	public OwnerGov getCommonGovObj() {
+		boolean found = false;
+		OwnerGov test = this;
+		while(!found) {
+			if(test.getClass().equals(this.getCommonGov())) {
+				return test;
+			}
+			else test = (OwnerGov) test.getSuperGovObj();
+		}
+		return null;
+	}
+	/**
+	 * Gets a list of all the govs that would be lost if this player were to
+	 * switch to this govTo
+	 * @param govTo
+	 * @return
+	 */
+	public ArrayList<OwnerGov> getGovsLost(OwnerGov govTo) {
+		ArrayList<OwnerGov> output = new ArrayList<OwnerGov>();
+			if(this.getCommonGovObj() != govTo.getSuperGovObj(this.getCommonGov())) {
+				output.add(this);
+				Debug.print("Gov that will be lost: " + this.getName());
+			}
+			for(Class<? extends InspiredGov> govtype: this.getSubGovs()) {
+				for(InspiredGov subgovtest:this.getAllSubGovs(govtype)) {
+					if(subgovtest instanceof OwnerGov) {
+						output.addAll(((OwnerGov) subgovtest).getGovsLost(govTo));
+					}
+				}
+			}
+		return output;
 	}
 	
 	public boolean isOwner(PlayerID player) {
@@ -95,7 +136,14 @@ public abstract class OwnerGov extends InspiredGov {
 	 * @return 	<code>true</code> if no consequence
 	 */
 	public boolean canAddWithoutConsequence(PlayerData PDI) {
-		OwnerGov gov = this;
+		for(OwnerGov gov:PDI.getCitizenship()) {
+			if(!gov.getGovsLost(this).isEmpty()) {
+				return false;
+			}
+		}
+		return true;
+		
+		/*		OwnerGov gov = this;
 		if(!PDI.getCitizenship(gov.getCommonGov()).isEmpty()) {
 			if(gov.getCommonGovObj() != PDI.getCitizenship(gov.getCommonGov()).get(0)) {
 				return false;
@@ -104,20 +152,10 @@ public abstract class OwnerGov extends InspiredGov {
 				return true;
 			}
 		}
-		return true;
+		return true;*/
 	}
 	
-	public InspiredGov getCommonGovObj() {
-		boolean found = false;
-		InspiredGov test = this;
-		while(!found) {
-			if(test.getClass().equals(this.getCommonGov())) {
-				return test;
-			}
-			else test = test.getSuperGovObj();
-		}
-		return null;
-	}
+
 	/**Returns the gov of citizenship that must be common for both the player and this gov
 	 * Returns self if you're only allowed to have one
 	 * Regions that do not have owners or subjects are excluded
@@ -125,7 +163,7 @@ public abstract class OwnerGov extends InspiredGov {
 	 * @return	<code>Class<? extends InspiredGov></code>
 	 * 
 	 * */	
-	public abstract Class<? extends InspiredGov> getCommonGov();
+	public abstract Class<? extends OwnerGov> getCommonGov();
 	/**
 	 * Gets all the requests made by other players to join this government's owners.
 	 * @return

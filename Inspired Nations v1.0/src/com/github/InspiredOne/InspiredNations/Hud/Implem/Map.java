@@ -1,8 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
@@ -96,7 +93,6 @@ public class Map extends InputMenu {
 
 	@Override
 	public void addActionManagers() {
-		Debug.print("Inside addManagers");
 		manager = new MapManager<Map>(this);
 		managers.add(manager);
 		
