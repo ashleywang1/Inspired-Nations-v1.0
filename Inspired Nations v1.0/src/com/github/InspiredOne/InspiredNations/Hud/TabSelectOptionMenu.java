@@ -27,9 +27,11 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu implements Datable<E> {
 
 	private int tabcnt = 0;
+	protected int sort = 0;
 	private String filterword = "";
 	private int rangeBottom = maxLines;
 	private static final int maxLines = 7;
+	public int linesperitem = 1;
 	protected List<E> taboptions = new ArrayList<E>();
 	private List<E> filteredoptions = new ArrayList<E>();
 	private E data;
@@ -70,15 +72,16 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	
 	public String tabOptionsToText(List<? extends Nameable> taboptions, int tabcnt) {
 		String output = "";
+		int realmaxLines=maxLines/linesperitem;
 		//int iter = 0; // Used to identify which option to highlight
 
 		// loop to set range that is displayed
-		while(tabcnt >= rangeBottom || tabcnt < rangeBottom - maxLines) {
+		while(tabcnt >= rangeBottom || tabcnt < rangeBottom - realmaxLines) {
 			if(tabcnt >= rangeBottom) {
 				rangeBottom++;
 				continue;
 			}
-			if(tabcnt < rangeBottom - maxLines) {
+			if(tabcnt < rangeBottom - realmaxLines) {
 				rangeBottom--;
 				continue;
 			}
@@ -87,7 +90,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		for(int iter = 0; iter<filteredoptions.size(); iter++) {
 			output = output.concat(ChatColor.RESET + "");
 			Nameable option = filteredoptions.get(iter);
-			if(iter >= rangeBottom - maxLines && iter < rangeBottom) {
+			if(iter >= rangeBottom - realmaxLines && iter < rangeBottom) {
 				if(tabcnt == iter) {
 					output = output.concat(TextColor.LABEL.toString() + "=> " + option.getDisplayName(this.PDI) + "\n");
 				}
@@ -109,6 +112,9 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			}
 			else if(manager.preTabEntry.equalsIgnoreCase("-")) {
 				this.setTabcnt((this.getTabcnt() + 1) % tabsize);
+			}
+			else if(manager.preTabEntry.equalsIgnoreCase("=")) {
+				sort++;
 			}
 			else if(!manager.preTabEntry.isEmpty()) {
 				this.filterword = manager.preTabEntry;

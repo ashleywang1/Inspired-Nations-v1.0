@@ -105,7 +105,7 @@ public class ClaimChunkoid extends InputMenu {
 				, gov.getProtectionlevel(), PDI.getCurrency()).subtract(gov.taxValue(new nullRegion(), InspiredNations.taxTimer.getFractionLeft()
 						, gov.getProtectionlevel(), PDI.getCurrency())));
 		
-		String output = this.mapmanager.drawMap(gov,4);
+		String output = this.mapmanager.drawMap(4);
 		output = MenuTools.addDivider(output);
 		output = output.concat(TextColor.INSTRUCTION + "Type '" + TextColor.VALUE + "begin" + TextColor.INSTRUCTION
 				+ "' and walk around to claim. Type '" + TextColor.VALUE + "stop" + TextColor.INSTRUCTION + "' to stop.\n");
@@ -130,7 +130,7 @@ public class ClaimChunkoid extends InputMenu {
 		} catch (PlayerOfflineException e) {
 			e.printStackTrace();
 		}
-		this.mapmanager = new MapManager<ClaimChunkoid>(this);
+		this.mapmanager = new MapManager<ClaimChunkoid>(this, gov.getSuperGovObj().getTier(), 4);
 		this.managers.add(manager);
 		this.managers.add(mapmanager);
 		

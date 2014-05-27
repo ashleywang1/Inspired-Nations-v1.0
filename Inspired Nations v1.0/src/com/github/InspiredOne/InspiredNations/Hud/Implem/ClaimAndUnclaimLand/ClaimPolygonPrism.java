@@ -40,7 +40,6 @@ public class ClaimPolygonPrism extends InputMenu {
 	@Override
 	public String validate(String input) {
 		PolygonPrism prism = (PolygonPrism) manager.prism.clone();
-		manager.prism = new PolygonPrism();
 		if(input.equalsIgnoreCase("finish")) {
 			try {
 				if(prism.isSimple()) {
@@ -81,7 +80,7 @@ public class ClaimPolygonPrism extends InputMenu {
 				, gov.getProtectionlevel(), PDI.getCurrency()).subtract(gov.taxValue(new nullRegion(), InspiredNations.taxTimer.getFractionLeft()
 						, gov.getProtectionlevel(), PDI.getCurrency())));
 		
-		String output = this.mapmanager.drawMap(gov, 3);
+		String output = this.mapmanager.drawMap(3);
 		output = MenuTools.addDivider(output);
 		output = output.concat(TextColor.INSTRUCTION + "Left click each corner of the polygon. The highest and lowest points"
 				+ " are top and bottom. Type "+TextColor.VALUE + "'Finish'"
@@ -119,7 +118,7 @@ public class ClaimPolygonPrism extends InputMenu {
 	@Override
 	public void addActionManagers() {
 		manager = new ClaimPolygonPrismManager<ClaimPolygonPrism>(this);
-		mapmanager = new MapManager<ClaimPolygonPrism>(this);
+		mapmanager = new MapManager<ClaimPolygonPrism>(this, gov.getSuperGovObj().getTier(), 2);
 		this.managers.add(manager);
 		this.managers.add(mapmanager);
 		

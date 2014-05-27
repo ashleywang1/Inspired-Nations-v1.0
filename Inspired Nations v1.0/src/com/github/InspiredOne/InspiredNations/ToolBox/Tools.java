@@ -168,7 +168,7 @@ public class Tools {
 	 * @param gov		the highest government that will be shown on the map
 	 * @return			the <code>String</code> that includes the map
 	 */
-	public static String drawMap(PlayerData PDI, int res, Class<? extends InspiredGov> gov, int size) {
+	public static String drawMap(PlayerData PDI, int res, int tier, int size) {
 		
 		String output = "";
 		Location location = null;
@@ -186,12 +186,12 @@ public class Tools {
 		ChatColor[] superColors = {ChatColor.GREEN, ChatColor.RED, ChatColor.DARK_BLUE, ChatColor.DARK_GREEN, ChatColor.DARK_RED, ChatColor.GOLD, ChatColor.WHITE,
 				ChatColor.AQUA, ChatColor.YELLOW, ChatColor.DARK_AQUA, ChatColor.DARK_PURPLE, ChatColor.LIGHT_PURPLE};
 		int subIter = 0;// for iterating through subGov Char choices
-		String[] subChars = {"#", "$", "%", "&", "S"};
+		String[] subChars = {"#", "$", "%", "&", "S", "~", "=", "+", "B", "T", "G"};
 
 		ChatColor colorInit = ChatColor.DARK_GRAY;
 		String characterInit = "/";
 		ChatColor selfcolor = ChatColor.GRAY;
-		String selfchar = "@";
+		String selfchar = ">";
 		
 		int above = size;
 		int below = size + 1;
@@ -212,9 +212,8 @@ public class Tools {
 				}
 				
 				//Loop through the superGovs to see if any of them contain loctest
-				for(Iterator<InspiredGov> iter1 = InspiredNations.regiondata.get(gov).iterator(); iter1.hasNext();) {
-					InspiredGov govtest = iter1.next();
-					if(govtest.contains(loctest)) {
+				for(InspiredGov govtest:InspiredNations.regiondata) {
+					if(govtest.contains(loctest) && govtest.getTier()==tier) {
 						if(!superGov.containsKey(govtest)) {
 							superGov.put(govtest, superColors[superIter]);
 							superIter++;
@@ -226,20 +225,17 @@ public class Tools {
 						color = superGov.get(govtest);
 						
 						//Loop through the subGovs to see if any of them contain loctest
-						for(Class<? extends InspiredGov> subgovclass: govtest.getSubGovs()) {
-							for(Iterator<InspiredGov> iter2 = InspiredNations.regiondata.get(subgovclass).iterator(); iter2.hasNext();) {
-								InspiredGov subtest = iter2.next();
-								if(subtest.contains(loctest)) {
-									if(!subGov.containsKey(subtest)) {
-										subGov.put(subtest, subChars[subIter]);
-										subIter++;
-										if(subIter == subChars.length) {
-											subIter = 0;
-										}
+						for(InspiredGov subtest: govtest.getAllSubGovsAndFacilitiesJustBelow()) {
+							if(subtest.contains(loctest)) {
+								if(!subGov.containsKey(subtest)) {
+									subGov.put(subtest, subChars[subIter]);
+									subIter++;
+									if(subIter == subChars.length) {
+										subIter = 0;
 									}
-									character = subGov.get(subtest);
-									break;
 								}
+								character = subGov.get(subtest);
+								break;
 							}
 						}
 						break;

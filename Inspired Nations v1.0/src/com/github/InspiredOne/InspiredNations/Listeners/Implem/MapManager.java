@@ -1,23 +1,24 @@
 package com.github.InspiredOne.InspiredNations.Listeners.Implem;
 
-import com.github.InspiredOne.InspiredNations.Governments.GlobalGov;
-import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Listeners.TabManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 public class MapManager<T extends ActionMenu> extends TabManager<T> {
 
-	public int zoom = 4;
+	public int zoom;
+	public int tier;
 	MapListener<MapManager<T>> maplis;
-	public MapManager(T menu) {
+	public MapManager(T menu, int InitialTier, int InitialZoom) {
 		super(menu);
+		tier = InitialTier;
+		zoom = InitialZoom;
 		maplis = new MapListener<MapManager<T>>(this);
 		listeners.add(maplis);
 		listeners.add(new TabListener<MapManager<T>>(this));
 	}
 	
-	public String drawMap(InspiredGov gov, int size) {
+/*	public String drawMap(int tier, int size) {
 		if(gov.getSuperGov().equals(GlobalGov.class)) {
 			
 			return drawMap(gov.getClass(), size);
@@ -25,10 +26,10 @@ public class MapManager<T extends ActionMenu> extends TabManager<T> {
 		else {
 			return drawMap(gov.getSuperGov(), size);
 		}
-	}
+	}*/
 	
-	public String drawMap(Class<? extends InspiredGov> gov, int size) {
-		return Tools.drawMap(this.getPlayerData(), (int) Math.pow(2, zoom), gov, size);
+	public String drawMap(int size) {
+		return Tools.drawMap(this.getPlayerData(), (int) Math.pow(2, zoom), tier, size);
 	}
 	
 	@Override
@@ -38,6 +39,14 @@ public class MapManager<T extends ActionMenu> extends TabManager<T> {
 		}
 		else if(this.preTabEntry.equalsIgnoreCase("-") && zoom < 8) {
 			zoom++;
+		}
+		else {
+			try {
+				this.tier = Integer.parseInt(preTabEntry);
+			}
+			catch (Exception ex) {
+				
+			}
 		}
 		this.getActionMenu().Update();
 		this.preTabEntry = "";

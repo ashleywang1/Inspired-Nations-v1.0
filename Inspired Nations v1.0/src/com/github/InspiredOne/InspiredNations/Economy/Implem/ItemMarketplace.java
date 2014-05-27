@@ -14,7 +14,6 @@ import com.github.InspiredOne.InspiredNations.Economy.MarketPlace;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.ChestShop;
-import com.github.InspiredOne.InspiredNations.Governments.Implem.GoodBusiness;
 import com.github.InspiredOne.InspiredNations.ToolBox.SortTool;
 
 public class ItemMarketplace implements MarketPlace<ItemSellable> {
@@ -146,9 +145,9 @@ public class ItemMarketplace implements MarketPlace<ItemSellable> {
 					@Override
 					public int compare(ItemSellable o1, ItemSellable o2) {
 						BigDecimal o1uprice = o1.getPrice(viewer.getCurrency(), viewer.getLocation()).
-								divide(new BigDecimal(o1.getItem().getAmount()));
+								divide(new BigDecimal(o1.getItem().getAmount()), InspiredNations.Exchange.mcup);
 						BigDecimal o2uprice = o2.getPrice(viewer.getCurrency(), viewer.getLocation()).
-								divide(new BigDecimal(o2.getItem().getAmount()));
+								divide(new BigDecimal(o2.getItem().getAmount()), InspiredNations.Exchange.mcup);
 						
 						return o1uprice.compareTo(o2uprice);
 					}

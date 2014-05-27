@@ -1,11 +1,9 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
-import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MapManager;
@@ -14,7 +12,8 @@ import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 public class Map extends InputMenu {
 
 	private MapManager<Map> manager;
-	Class<? extends InspiredGov> selection = Country.class;
+	private int initialtier = 1;
+	private int initialzoom = 4;
 	
 	public Map(PlayerData PDI) {
 		super(PDI);
@@ -22,7 +21,7 @@ public class Map extends InputMenu {
 
 	@Override
 	public String getHeader() {
-		return "Map 1:" + (int) Math.pow(2, manager.zoom);
+		return "Map 1:" + (int) Math.pow(2, manager.zoom)+ " Viewing Tier " + manager.tier + " and " + (manager.tier+1) + " governments.";
 	}
 
 	@Override
@@ -46,14 +45,23 @@ public class Map extends InputMenu {
 
 	@Override
 	public Menu nextMenu() {
-		this.setError(MenuError.NOT_AN_OPTION());
+		//this.setError(MenuError.NOT_AN_OPTION());
 		return this.getSelfPersist();
 	}
 
 	@Override
 	public String validate(String input) {
 		
-		for(String test:this.getTabOptions()) {
+		try{
+			int answer = Integer.parseInt(input);
+			this.manager.tier = answer;
+			return MenuError.NO_ERROR();
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			return MenuError.INVALID_NUMBER_INPUT();
+		}
+/*		for(String test:this.getTabOptions()) {
 			if(test.equalsIgnoreCase(input)) {
 				for(Class<? extends InspiredGov> govType:InspiredNations.regiondata.keySet()) {
 					InspiredGov gov = GovFactory.getGovInstance(govType);
@@ -65,7 +73,7 @@ public class Map extends InputMenu {
 			}
 		}
 
-		return MenuError.NOT_AN_OPTION();
+		return MenuError.NOT_AN_OPTION();*/
 	}
 
 	@Override
@@ -75,7 +83,7 @@ public class Map extends InputMenu {
 	
 	@Override
 	public String getInstructions() {
-		return manager.drawMap(selection, 6);
+		return manager.drawMap(6);
 	}
 
 	@Override
@@ -93,7 +101,7 @@ public class Map extends InputMenu {
 
 	@Override
 	public void addActionManagers() {
-		manager = new MapManager<Map>(this);
+		manager = new MapManager<Map>(this, initialtier, initialzoom);
 		managers.add(manager);
 		
 	}

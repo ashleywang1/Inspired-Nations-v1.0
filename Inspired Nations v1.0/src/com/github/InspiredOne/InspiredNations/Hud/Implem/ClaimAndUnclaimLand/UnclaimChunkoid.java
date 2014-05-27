@@ -81,7 +81,7 @@ public class UnclaimChunkoid extends InputMenu {
 				, gov.getProtectionlevel(), PDI.getCurrency()).subtract(gov.taxValue(new nullRegion(), InspiredNations.taxTimer.getFractionLeft()
 						, gov.getProtectionlevel(), PDI.getCurrency())));
 		
-		String output = this.mapmanager.drawMap(gov,4);
+		String output = this.mapmanager.drawMap(4);
 		output = MenuTools.addDivider(output);
 		output = output.concat(TextColor.INSTRUCTION + "Type '" + TextColor.VALUE + "begin" + TextColor.INSTRUCTION
 				+ "' and walk around to unclaim. Type '" + TextColor.VALUE + "stop" + TextColor.INSTRUCTION + "' to stop.\n");
@@ -116,7 +116,7 @@ public class UnclaimChunkoid extends InputMenu {
 
 	@Override
 	public void addActionManagers() {
-		mapmanager = new MapManager<UnclaimChunkoid>(this);
+		mapmanager = new MapManager<UnclaimChunkoid>(this, gov.getSuperGovObj().getTier(), 4);
 		try {
 			manager = new UnclaimChunkoidManager<UnclaimChunkoid>(this, new Point2D(PDI.getPlayer().getLocation().getChunk()));
 		} catch (PlayerOfflineException e) {

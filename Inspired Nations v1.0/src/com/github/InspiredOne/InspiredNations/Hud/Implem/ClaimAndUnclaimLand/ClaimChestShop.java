@@ -26,7 +26,7 @@ public class ClaimChestShop extends InputMenu {
 		this.gov = gov;
 		this.previous = previous;
 		manager = new ClaimChestShopManager(this);
-		mapmanager = new MapManager<ClaimChestShop>(this);
+		mapmanager = new MapManager<ClaimChestShop>(this, gov.getSuperGovObj().getTier(), 1);
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class ClaimChestShop extends InputMenu {
 
 	@Override
 	public String getInstructions() {
-		String output = mapmanager.drawMap(gov, 4);
+		String output = mapmanager.drawMap(4);
 		output = MenuTools.addDivider(output);
 		output = output.concat(TextColor.INSTRUCTION + "Left click on the chest that you would like to claim. Type '"
 				+ TextColor.VALUE + "finish" + TextColor.INSTRUCTION +"' when you are done.\n");

@@ -841,7 +841,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	public int getTier() {
 		int tier = 0;
 		InspiredGov gov = this;
-		while(gov.getSuperGovObj() != InspiredNations.global) {
+		while(gov != InspiredNations.global) {
 			tier++;
 			gov = gov.getSuperGovObj();
 		}

@@ -118,7 +118,7 @@ public class ClaimCuboid extends InputMenu {
 		} catch (CuboidNotCompletedException e1) {
 		}
 		
-		String output = this.mapmanager.drawMap(gov, 3);
+		String output = this.mapmanager.drawMap(3);
 		output = MenuTools.addDivider(output);
 		output = output.concat(TextColor.INSTRUCTION + "Left Click for one corner of the cuboid and Right Click for the other corner. Type "
 				+ TextColor.VALUE + "'Finish'" + TextColor.INSTRUCTION + " when you are done.\n");
@@ -156,7 +156,7 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public void addActionManagers() {
-		this.mapmanager = new MapManager<ClaimCuboid>(this);
+		this.mapmanager = new MapManager<ClaimCuboid>(this, gov.getSuperGovObj().getTier(), 2);
 		this.manager = new ClaimCuboidManager<ClaimCuboid>(this);
 		this.managers.add(mapmanager);
 		this.managers.add(manager);

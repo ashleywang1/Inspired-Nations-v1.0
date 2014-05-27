@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Economy.Implem;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;
@@ -19,6 +20,7 @@ import com.github.InspiredOne.InspiredNations.Governments.Implem.ChestShop;
 import com.github.InspiredOne.InspiredNations.ToolBox.CardboardBox;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
@@ -52,13 +54,24 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 
 	@Override
 	public String getName() {
-		String name = this.getItem().getType().name().toLowerCase();
-		name = name.concat(" (" + this.getItem().getData().getItemType().name() + ")");
+		String enchantments ="";
 		if(this.getItem().getItemMeta().hasEnchants()) {
+			enchantments = " [";
+			for(Entry<Enchantment, Integer> ench:this.getItem().getEnchantments().entrySet()) {
+				if(ench.getValue() > 0) {
+					enchantments = enchantments.concat(ench.getKey().getName() + " " + ench.getValue()+",").toLowerCase().replace("_", " ");
+				}
+			}
+			enchantments = enchantments.substring(0, enchantments.length()-2).concat("]");	
+		}
+		
+		String name = this.getItem().getType().name().toLowerCase().replace('_', ' ') + enchantments;
+		//name = name.concat(" (" + this.getItem().getData().getItemType().name() + ")");
+/*		if(this.getItem().getItemMeta().hasEnchants()) {
 			for(Enchantment ench:this.getItem().getItemMeta().getEnchants().keySet()) {
 				name = name.concat("*" + ench.getName() + " " + this.getItem().getItemMeta().getEnchantLevel(ench) + "*");
 			}
-		}
+		}*/
 		return name;
 	}
 
@@ -70,8 +83,8 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 	@Override
 	public String getDisplayName(PlayerData viewer) {
 		if(this.isForSale()) {
-			String output = this.getName() + " " + TextColor.VALUE + this.getPrice(viewer.getCurrency(), viewer.getLocation()) + " " +
-		TextColor.UNIT + viewer.getCurrency() + ":" + this.getItem().getAmount();
+			String output = this.getName() + "\n" + TextColor.VALUE + Tools.cut(this.getPrice(viewer.getCurrency(), viewer.getLocation())) + " " +
+		TextColor.UNIT + viewer.getCurrency() + ": " + TextColor.UNIT + this.getItem().getAmount();
 			return output;
 		}
 		else {
