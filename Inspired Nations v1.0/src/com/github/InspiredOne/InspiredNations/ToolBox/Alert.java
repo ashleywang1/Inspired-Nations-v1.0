@@ -1,18 +1,65 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 
+import org.bukkit.scheduler.BukkitRunnable;
+
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 
-public abstract class Alert implements Nameable{
+public abstract class Alert implements Nameable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8148726689920578981L;
 	public Calendar calendar;
+	public boolean menuVisible = true;
+	private boolean expired = false; //turned to true when expires.
+	private int timerid = -1;
+	transient public static SortTool<Alert> ageSort = new SortTool<Alert>() {
+
+		@Override
+		public String getName() {
+			return "Age";
+		}
+
+		@Override
+		public Comparator<Alert> getComparator() {
+			
+			return new Comparator<Alert>() {
+
+				@Override
+				public int compare(Alert o1, Alert o2) {
+					return o1.calendar.compareTo(o2.calendar);
+				}
+				
+			};
+		};
+	};
 	
 	public Alert() {
 		calendar = Calendar.getInstance();
 	}
 
+	public boolean expired() {
+		BukkitRunnable Timer = new BukkitRunnable() {
+			@Override
+			public void run() {
+				expired = true;
+			}
+		};
+		if(timerid == -1) {
+			timerid = Timer.runTaskLater(InspiredNations.plugin, 100).getTaskId();
+		}
+		return expired;
+	}
+	
 	public abstract String getMessage(PlayerData receiver);
 	
 	@Override
@@ -29,14 +76,18 @@ public abstract class Alert implements Nameable{
 	public String getDisplayName(PlayerData viewer) {
 		int end = 20;
 		String msg = this.getMessage(viewer);
-		if(msg.length() <= 20) {
+		if(msg.length() <= end) {
 			end = msg.length() - 1;
 			return getName() + " " + msg.substring(0, end);
 		}
 		else {
 			return getName() + " " + msg.substring(0, end) + "...";	
 		}
-		
 	}
 
+	public static List<SortTool<Alert>> getComparators() {
+		List<SortTool<Alert>> output = new ArrayList<SortTool<Alert>>();
+		output.add(Alert.ageSort);
+		return output;
+	}
 }

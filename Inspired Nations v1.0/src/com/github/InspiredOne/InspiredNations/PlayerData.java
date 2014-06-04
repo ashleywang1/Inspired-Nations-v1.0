@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
@@ -300,7 +301,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	@Override
 	public String getDisplayName(PlayerData PDI) {
 		//TODO make this name the one used for messages and everything.
-		return this.getName();
+		return ChatColor.RESET + this.getName();
 	}
 
 	@Override
@@ -353,8 +354,8 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 			}
 		}
 	}
-	
-	
+
+
 	@SuppressWarnings("static-access")
 	public int getOppossingWarLevel(OwnerGov gov) {
 		List<Class<? extends OwnerGov>> possiblegovs = gov.getSuperGovObj().getAllSubGovs();

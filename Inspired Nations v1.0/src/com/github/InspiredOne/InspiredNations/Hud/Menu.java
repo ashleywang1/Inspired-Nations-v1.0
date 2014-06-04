@@ -4,13 +4,14 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
+import com.github.InspiredOne.InspiredNations.ToolBox.Message;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public abstract class Menu extends MessagePrompt {
@@ -49,7 +50,7 @@ public abstract class Menu extends MessagePrompt {
 	private final void loadMenuPersistent() {
 		//this.unloadMenuPersistent();
 		if(!loaded) {
-			this.setError(MenuError.NO_ERROR());
+			this.PDI.getMsg().clearMenuVisible();
 			this.menuPersistent();
 			loaded = true;
 		}
@@ -117,8 +118,10 @@ public abstract class Menu extends MessagePrompt {
 		String main = MenuTools.header(this.getHeader() + " " + InspiredNations.taxTimer.getTimeLeftReadout());
 		String filler = this.getFiller();
 		String end = footer;
-		String errmsg = this.getError();
-		
+		String errmsg = this.PDI.getMsg().pushMessageContent();
+		if(!errmsg.isEmpty()) {
+			end = end.concat("\n");
+		}
 		return space + main + filler + end + errmsg;
 	}
 
@@ -129,7 +132,7 @@ public abstract class Menu extends MessagePrompt {
 	
 	@Override
 	public final Prompt acceptInput(ConversationContext arg0, String arg) {
-		this.setError(MenuError.NO_ERROR());
+		this.PDI.getMsg().clearMenuVisible();
 		if(arg == null) {
 			Menu output = this.getPassTo();
 			this.unloadNonPersist();
@@ -155,7 +158,7 @@ public abstract class Menu extends MessagePrompt {
 		String[] args = arg.split(" ");
 		if (args[0].equalsIgnoreCase("say"))  {
 			if(args.length > 1) {
-				PDI.getMsg().sendChatMessage(arg.substring(4));
+				PDI.getMsg().receiveAlert(new Message(true, PDI.getPlayerID(), arg.substring(4)));
 			}
 			this.unloadNonPersist();
 			return this.getSelfPersist();
@@ -214,15 +217,6 @@ public abstract class Menu extends MessagePrompt {
 	 * @return	the menu passed to
 	 */
 	public abstract Menu getPassTo();
-	
-	/**
-	 * 
-	 * @return	the <code>String</code> to be used for the error in the menu
-	 */
-	private final String getError() {
-		String output = this.PDI.getMsg().getNotif();		
-		return output;
-	}
 
 	/**
 	 * 
