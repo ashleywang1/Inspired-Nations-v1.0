@@ -88,9 +88,20 @@ public class MenuTools {
 		public static Alert NO_ALERT() {
 			return new Alert() {
 
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 3618500001516080580L;
+
 				@Override
 				public String getMessage(PlayerData receiver) {
 					return "";
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					// TODO Auto-generated method stub
+					return false;
 				}
 				
 			};
@@ -98,19 +109,41 @@ public class MenuTools {
 		public static Alert CANNOT_INTERACT(final InspiredGov attacked) {
 			return new Alert() {
 				
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -2499830621442259952L;
+
 				@Override
 				public String getMessage(PlayerData receiver) {
 					return makeMessage("You cannot interact in " + attacked.getDisplayName(receiver) 
 							+ ". Their protection is too high.");
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					// TODO Auto-generated method stub
+					return false;
 				}
 			};
 		}
 		public static Alert LOST_OWNERSHIP(final OwnerGov govlost) {
 			return new Alert() {
 
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 6630552666164107410L;
+
 				@Override
 				public String getMessage(PlayerData receiver) {
 					return makeMessage("You are no longer " + govlost.getOwnerPositionName() + " of " + govlost.getName());
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					// TODO Auto-generated method stub
+					return false;
 				}
 				
 			};
@@ -118,10 +151,21 @@ public class MenuTools {
 		public static Alert LOST_CITIZENSHIP(final OwnerSubjectGov govlost) {
 			return new Alert() {
 
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 5356796387575937695L;
+
 				@Override
 				public String getMessage(PlayerData receiver) {
 					return makeMessage("You are no longer " + govlost.getSubjectPositionName()
 							+ " of " + govlost.getName() + ".");
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					// TODO Auto-generated method stub
+					return false;
 				}
 				
 			};
@@ -129,18 +173,40 @@ public class MenuTools {
 		public static Alert MESSAGE_ALERT(final String msg) {
 			return new Alert() {
 				
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 2410593640115800320L;
+
 				@Override
 				public String getMessage(PlayerData reciever) {
 					return makeMessage(msg);
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					// TODO Auto-generated method stub
+					return false;
 				}
 			};
 		}
 		public static Alert REGION_UPDATED_SUCCESSFULY(final Region region, final InspiredGov gov) {
 			return new Alert() {
 
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -8470406903932530715L;
+
 				@Override
 				public String getMessage(PlayerData receiver) {
 					return makeMessage(region.getTypeName() + " of " + gov.getDisplayName(receiver) + " successfully modified.");
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					// TODO Auto-generated method stub
+					return false;
 				}
 				
 			};
@@ -148,11 +214,22 @@ public class MenuTools {
 		public static Alert RECEIVED_MONEY(final BigDecimal amount, final Currency curren, final Nameable sender) {
 			return new Alert() {
 
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -8611525947131654856L;
+
 				@Override
 				public String getMessage(PlayerData receiver) {
 					BigDecimal converted = Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, receiver.getCurrency()));
 					return makeMessage(sender.getDisplayName(receiver) + makeMessage(" paid you " +TextColor.VALUE+ converted + " "
 							+ TextColor.UNIT + receiver.getCurrency() + "."));
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					// TODO Auto-generated method stub
+					return false;
 				}
 				
 			};
@@ -160,12 +237,44 @@ public class MenuTools {
 		public static Alert TRANSFER_SUCCESSFUL(final BigDecimal amount, final Currency curren, final Nameable sender, final Nameable paid) {
 			return new Alert() {
 
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 8894522114770201993L;
+
 				@Override
 				public String getMessage(PlayerData receiver) {
 					BigDecimal converted = Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, receiver.getCurrency()));
 					return makeMessage(sender.getDisplayName(receiver) + " paid " + TextColor.VALUE + converted +
 							" " + TextColor.UNIT + receiver.getCurrency() + TextColor.ALERT + " to " + paid.getDisplayName(receiver));
 				}
+
+				@Override
+				public boolean menuPersistent() {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			};
+		}
+		
+		public static Alert GOV_MADE_SUCCESSFULLY(final InspiredGov gov) {
+			return new Alert() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					return makeMessage(gov.getTypeName() + " created successfully.");
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					return true;
+				}
+				
 			};
 		}
 		

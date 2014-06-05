@@ -8,6 +8,10 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 
 public class Message extends Alert implements Nameable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6130859000755211465L;
 	PlayerID from;
 	String msg;
 	
@@ -83,6 +87,11 @@ public class Message extends Alert implements Nameable {
 		else {
 			return input;
 		}
+	}
+
+	@Override
+	public boolean menuPersistent() {
+		return false;
 	}
 	
 	

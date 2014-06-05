@@ -29,7 +29,7 @@ public class PolygonPrism extends NonCummulativeRegion {
 	 */
 	private static final long serialVersionUID = 6427556511666509346L;
 	private static final String typeName = "Polygon Prism";
-	private static final String description = "";
+	private static final String description = "A prism volume of any shape.";
 	private int ymin;
 	private int ymax;
 	private WorldID world;

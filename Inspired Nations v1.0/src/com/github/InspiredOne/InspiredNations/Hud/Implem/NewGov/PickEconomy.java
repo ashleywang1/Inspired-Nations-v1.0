@@ -10,6 +10,7 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public class PickEconomy<T extends OwnerGov> extends InputMenu{
@@ -25,6 +26,7 @@ public class PickEconomy<T extends OwnerGov> extends InputMenu{
 	public Menu nextMenu() {
 		Govf.registerGov();
 		PDI.setCurrency(Govf.getGov().getCurrency());
+		PDI.sendNotification(MenuAlert.GOV_MADE_SUCCESSFULLY(Govf.getGov()));
 		return new MainHud(PDI);
 	}
 

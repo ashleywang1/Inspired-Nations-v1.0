@@ -23,7 +23,7 @@ public abstract class Alert implements Nameable, Serializable {
 	private boolean expired = false; //turned to true when expires.
 	private int timerid = -1;
 	transient public static SortTool<Alert> ageSort = new SortTool<Alert>() {
-
+		
 		@Override
 		public String getName() {
 			return "Age";
@@ -61,6 +61,12 @@ public abstract class Alert implements Nameable, Serializable {
 	}
 	
 	public abstract String getMessage(PlayerData receiver);
+	
+	/**
+	 * Returns true if the alert should remain after the player switches to a new menu.
+	 * @return
+	 */
+	public abstract boolean  menuPersistent();
 	
 	@Override
 	public String getName() {

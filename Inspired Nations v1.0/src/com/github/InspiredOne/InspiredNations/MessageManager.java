@@ -40,6 +40,11 @@ public class MessageManager implements Serializable {
 			public String getMessage(PlayerData receiver) {
 				return msg;
 			}
+
+			@Override
+			public boolean menuPersistent() {
+				return false;
+			}
 		};
 		if(!msg.isEmpty()) {
 			Debug.print("message is: " + msg);
@@ -50,7 +55,7 @@ public class MessageManager implements Serializable {
 	public void clearMenuVisible() {
 		List<Alert> removeList = new ArrayList<Alert>();
 		for(Alert alert:messages) {
-			if(alert.menuVisible) {
+			if(alert.menuVisible && !alert.menuPersistent()) {
 				removeList.add(alert);
 			}
 		}
