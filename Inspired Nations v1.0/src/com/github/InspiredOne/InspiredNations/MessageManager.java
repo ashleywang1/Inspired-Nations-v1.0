@@ -36,6 +36,11 @@ public class MessageManager implements Serializable {
 	}
 	public void receiveError(final String msg) {
 		Alert error = new Alert() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 9202786487465493637L;
+
 			@Override
 			public String getMessage(PlayerData receiver) {
 				return msg;
@@ -72,7 +77,6 @@ public class MessageManager implements Serializable {
 			Player player = PDI.getPlayer();
 			Collections.sort(messages, Alert.ageSort.getComparator());
 			for(Alert alert:messages) {
-
 				if(alert.menuVisible || !player.isConversing()) {
 					output = output.concat(alert.getMessage(PDI) + "\n");
 					if(alert.expired() || !player.isConversing()) {
@@ -91,7 +95,10 @@ public class MessageManager implements Serializable {
 	
 	public void pushMessage() {
 		try {
-			PDI.getPlayer().sendRawMessage(this.pushMessageContent());
+			String output = this.pushMessageContent();
+			if(!output.isEmpty()) {
+				PDI.getPlayer().sendRawMessage(output);
+			}
 		}
 		catch (Exception ex) {
 			
