@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.bukkit.Location;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -151,7 +150,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				govtest = govtest.getSuperGovObj();
 			}
 		}
-		return null;
+		return InspiredNations.global;
 	}
 	/**
 	 * 
@@ -658,11 +657,8 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		Currency curren = Currency.DEFAULT;
 		BigDecimal holdings = this.accounts.getTotalMoney(curren, InspiredNations.Exchange.mcdown);
 		BigDecimal reimburse = this.taxValue(this.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
-		Debug.print(Tools.cut(reimburse) + " reimbursment");
 		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
-		Debug.print(Tools.cut(cost) + " cost");
 		BigDecimal difference = cost.subtract(reimburse);// positive if owe country money, negative if country owe money
-		Debug.print(Tools.cut(difference) + " = amount paid to government.");
 		// Can they afford it?
 		if(holdings.compareTo(difference) < 0) {
 			throw new BalanceOutOfBoundsException();
@@ -697,7 +693,6 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		
 		if(difference.compareTo(BigDecimal.ZERO) < 0) {
 			try{
-				Debug.print(Tools.cut(difference).toString());
 				this.pullFromSuper(difference.negate(), curren);
 			}
 			catch (BalanceOutOfBoundsException ex) {
@@ -714,7 +709,6 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		}
 		else {
 			try {
-				Debug.print(cost + " second statement of cost");
 				this.paySuper(difference, curren);
 			} catch (NegativeMoneyTransferException e) {
 				e.printStackTrace();

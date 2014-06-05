@@ -48,7 +48,6 @@ public class WarningAlreadyOwnOne<T extends OwnerGov> extends OptionMenu {
 	public void addOptions() {
 		options.add(new PromptOption(this, "Yes", new PickName<T>(PDI, Govf.withAccountCollection(PDI.getAccounts()))));
 		options.add(new PromptOption(this, "No", new MainHud(PDI)));
-		
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations.Governments;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -82,10 +81,8 @@ public abstract class OwnerGov extends InspiredGov {
 	 */
 	public ArrayList<OwnerGov> getGovsLost(OwnerGov govTo) {
 		ArrayList<OwnerGov> output = new ArrayList<OwnerGov>();
-		Debug.print("govTo supergovobj = " + govTo.getSuperGovObj(this.getCommonGov()));
 			if(this.getCommonGovObj() != govTo.getSuperGovObj(this.getCommonGov())) {
 				output.add(this);
-				Debug.print("Gov that will be lost: " + this.getName());
 			}
 			for(Class<? extends InspiredGov> govtype: this.getSubGovs()) {
 				for(InspiredGov subgovtest:this.getAllSubGovs(govtype)) {
