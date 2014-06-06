@@ -34,6 +34,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
+import com.github.InspiredOne.InspiredNations.ToolBox.Theme;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 
@@ -53,6 +54,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	private Point3D lastLoc;
 	protected PlayerData PDI;
 	public List<NPC> npcs = new ArrayList<NPC>();
+	public Theme theme;
 	
 	public PlayerData(PlayerID id) {
 		this.name = id.getName();
