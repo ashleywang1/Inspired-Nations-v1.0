@@ -78,6 +78,7 @@ public class PlayerProfile extends OptionMenu {
 }
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -91,20 +92,26 @@ import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 public class PlayerProfile extends OptionMenu {
 
 	PlayerData PDITarget;
-	Datable<PlayerID> data;
+	//Datable<PlayerID> data;
 	
 	public <T extends Datable<PlayerID>> PlayerProfile(PlayerData PDI, T PDITarget) {
 		super(PDI);
-		this.data = PDITarget;
+		Debug.print("before this.data");
+		//this.data = PDITarget;
+		Debug.print("after this.data");
+		this.PDITarget = PDITarget.getData().getPDI();
+		Debug.print("after PDITarget");
 	}
 
 	@Override
 	public String getHeader() {
+		Debug.print("before profile");
 		return "Profile: " + PDITarget.getName();
 	}
 
 	@Override
 	public Menu getPreviousMenu() {
+		Debug.print("poop");
 		return new PlayerDirectory(PDI);
 	}
 
@@ -116,6 +123,7 @@ public class PlayerProfile extends OptionMenu {
 
 	@Override
 	public Menu getPassTo() {
+		Debug.print("getPassTo");
 		return this.getSelfPersist();
 	}
 
@@ -133,23 +141,29 @@ public class PlayerProfile extends OptionMenu {
 	// way I could do this. Until then, ctrl-c and ctrl-v.
 	@Override
 	public void menuPersistent() {
+		Debug.print("m-p-1");
 		managers.add(new TaxTimerManager<ActionMenu>(this));
+<<<<<<< Upstream, based on jeds_version/master
 		managers.add(new MenuUpdateManager<ActionMenu>(this));
+=======
+		Debug.print("mp2");
+>>>>>>> dea35e7 Menu Color Themes
 		this.addActionManagers();
-		this.PDITarget = this.data.getData().getPDI();
+		Debug.print("mp3");
+		//this.PDITarget = this.data.getData().getPDI();
 	}
 
 	@Override
 	public String getPreOptionText() {
+		Debug.print("profile");
 		return "Here is your profile:";
 	}
 
 	@Override
 	public void addOptions() {
+		Debug.print("options");
 		// TODO Auto-generated method stub
-		this.options.add(new PromptOption(this, "Set Menu Colors", new ColorMenu(PDI)));
-		//go to set theme and make another menu
-		
+		this.options.add(new PromptOption(this, "Set Menu Colors", new ColorMenu(PDI)));		
 		
 	}
 
