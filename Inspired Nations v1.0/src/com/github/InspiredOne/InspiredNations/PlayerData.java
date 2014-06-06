@@ -27,6 +27,7 @@ import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
+import com.github.InspiredOne.InspiredNations.Hud.LightTheme;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
@@ -54,7 +55,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	private Point3D lastLoc;
 	protected PlayerData PDI;
 	public List<NPC> npcs = new ArrayList<NPC>();
-	public Theme theme;
+	public Theme theme = new LightTheme("L");
 	
 	public PlayerData(PlayerID id) {
 		this.name = id.getName();
