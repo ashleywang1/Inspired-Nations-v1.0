@@ -67,7 +67,7 @@ public class ColorMenu extends OptionMenu {
 	@Override
 	public void addOptions() {
 		//this.options.add(new PromptOption(this, "Citizenship Requests and Offers", new SubjectOffers(PDI)));
-		
+		this.options.add(new )
 	}
 
 	@Override

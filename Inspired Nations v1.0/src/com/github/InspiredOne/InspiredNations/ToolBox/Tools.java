@@ -72,24 +72,36 @@ public class Tools {
 		/**
 		 * Used exclusively for the menu header.
 		 */
+<<<<<<< Upstream, based on jeds_version/master
 		public static String HEADER(PlayerData PDI) {
 			//ChatColor.BLUE + "" + ChatColor.BOLD
 			return PDI.theme.HEADER();
 		}
+=======
+		HEADER(ChatColor.GREEN + "" + ChatColor.BOLD),
+>>>>>>> 50ae38f Color menus
 		/**
 		 * Subheader
 		 */
+<<<<<<< Upstream, based on jeds_version/master
 		public static String SUBHEADER(PlayerData PDI) {
 			//ChatColor.YELLOW + "" + ChatColor.ITALIC + "" + ChatColor.BOLD
 			return PDI.theme.SUBHEADER();
 		}
+=======
+		SUBHEADER(ChatColor.DARK_GREEN + "" + ChatColor.ITALIC + "" + ChatColor.BOLD),
+>>>>>>> 50ae38f Color menus
 		/**
 		 * Used to say what the proceeding value is.
 		 */
+<<<<<<< Upstream, based on jeds_version/master
 		public static String LABEL(PlayerData PDI) {
 			//ChatColor.RED + ""
 			return PDI.theme.LABEL();
 		}
+=======
+		LABEL(ChatColor.BLUE + ""),
+>>>>>>> 50ae38f Color menus
 		/**
 		 * Anything that is calculated information displayed for the viewer 
 		 */
