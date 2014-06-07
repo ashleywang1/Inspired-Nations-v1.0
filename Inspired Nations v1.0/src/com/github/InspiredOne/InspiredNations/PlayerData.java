@@ -55,7 +55,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	private Point3D lastLoc;
 	protected PlayerData PDI;
 	public List<NPC> npcs = new ArrayList<NPC>();
-	public Theme theme = new LightTheme("L");
+	public Theme theme = new LightTheme("Light Theme");
 	
 	public PlayerData(PlayerID id) {
 		this.name = id.getName();
