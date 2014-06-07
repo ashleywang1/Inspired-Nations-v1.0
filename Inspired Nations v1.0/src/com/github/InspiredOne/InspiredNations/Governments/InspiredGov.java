@@ -842,4 +842,9 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		return tier;
 	}
 	
+	@Override
+	public String toString() {
+		return this.getName();
+	}
+	
 }

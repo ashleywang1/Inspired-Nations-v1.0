@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Governments;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -34,7 +35,7 @@ public abstract class OwnerGov extends InspiredGov {
 	
 	public void addOwner(PlayerID player) {
 		for(OwnerGov gov:player.getPDI().getCitizenship()) {
-			for(OwnerGov govlost:gov.getGovsLost(this)) {
+			for(OwnerGov govlost:gov.getGovsLost(this, player)) {
 				govlost.removeOwner(player);
 				player.getPDI().sendNotification(MenuAlert.LOST_OWNERSHIP(govlost));
 				if(govlost instanceof OwnerSubjectGov) {
@@ -79,15 +80,20 @@ public abstract class OwnerGov extends InspiredGov {
 	 * @param govTo
 	 * @return
 	 */
-	public ArrayList<OwnerGov> getGovsLost(OwnerGov govTo) {
+	public ArrayList<OwnerGov> getGovsLost(OwnerGov govTo, PlayerID PID) {
 		ArrayList<OwnerGov> output = new ArrayList<OwnerGov>();
 			if(this.getCommonGovObj() != govTo.getSuperGovObj(this.getCommonGov())) {
+				Debug.print("These are not equal");
+				Debug.print(this.getCommonGovObj() + " is not equal to " + govTo.getSuperGovObj(this.getCommonGov()));
+				
 				output.add(this);
 			}
 			for(Class<? extends InspiredGov> govtype: this.getSubGovs()) {
 				for(InspiredGov subgovtest:this.getAllSubGovs(govtype)) {
 					if(subgovtest instanceof OwnerGov) {
-						output.addAll(((OwnerGov) subgovtest).getGovsLost(govTo));
+						if(subgovtest.isSubject(PID)) {
+							output.addAll(((OwnerGov) subgovtest).getGovsLost(govTo, PID));
+						}
 					}
 				}
 			}
@@ -135,7 +141,8 @@ public abstract class OwnerGov extends InspiredGov {
 	 */
 	public boolean canAddWithoutConsequence(PlayerData PDI) {
 		for(OwnerGov gov:PDI.getCitizenship()) {
-			if(!gov.getGovsLost(this).isEmpty()) {
+			Debug.print("///////" + gov.getName() + "/////////");
+			if(!gov.getGovsLost(this, PDI.getPlayerID()).isEmpty()) {
 				return false;
 			}
 		}

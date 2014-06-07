@@ -4,14 +4,12 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
-import com.github.InspiredOne.InspiredNations.ToolBox.Message;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public abstract class Menu extends MessagePrompt {
@@ -132,12 +130,21 @@ public abstract class Menu extends MessagePrompt {
 	
 	@Override
 	public final Prompt acceptInput(ConversationContext arg0, String arg) {
-		this.PDI.getMsg().clearMenuVisible();
+		
 		if(arg == null) {
 			Menu output = this.getPassTo();
 			this.unloadNonPersist();
 			return output;
 		}
+		String[] args = arg.split(" ");
+		if (args[0].equalsIgnoreCase("say"))  {
+			if(args.length > 1) {
+				PDI.getMsg().sendChatMessage(arg.substring(4));
+			}
+			this.unloadNonPersist();
+			return this.getSelfPersist();
+		}
+		this.PDI.getMsg().clearMenuVisible();
 		if (arg.startsWith("/")) {
 			arg = arg.substring(1);
 		}
@@ -154,14 +161,6 @@ public abstract class Menu extends MessagePrompt {
 		if (arg.equalsIgnoreCase("exit")) {
 			this.unloadNonPersist();
 			return Menu.END_OF_CONVERSATION;
-		}
-		String[] args = arg.split(" ");
-		if (args[0].equalsIgnoreCase("say"))  {
-			if(args.length > 1) {
-				PDI.getMsg().receiveAlert(new Message(true, PDI.getPlayerID(), arg.substring(4)));
-			}
-			this.unloadNonPersist();
-			return this.getSelfPersist();
 		}
 		return this.checkNext(arg);
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
+import com.github.InspiredOne.InspiredNations.Listeners.Implem.MenuUpdateManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
@@ -106,6 +107,7 @@ public abstract class OptionMenu extends ActionMenu {
 	@Override
 	public void menuPersistent() {
 		managers.add(new TaxTimerManager<ActionMenu>(this));
+		managers.add(new MenuUpdateManager<ActionMenu>(this));
 		this.addActionManagers();
 		
 	}

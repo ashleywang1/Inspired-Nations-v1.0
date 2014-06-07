@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
+import com.github.InspiredOne.InspiredNations.Hud.MenuUpdateEvent;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Message;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
@@ -97,11 +99,15 @@ public class MessageManager implements Serializable {
 		try {
 			String output = this.pushMessageContent();
 			if(!output.isEmpty()) {
-				PDI.getPlayer().sendRawMessage(output);
+				Debug.print("inside Push Message");
+				PDI.getPlayer().sendMessage(output);
+				MenuUpdateEvent event = new MenuUpdateEvent(PDI.getPlayerID());
+				Bukkit.getServer().getPluginManager().callEvent(event);
+				Debug.print("Event has been called");
 			}
 		}
 		catch (Exception ex) {
-			
+			ex.printStackTrace();
 		}
 	}
 
@@ -109,7 +115,12 @@ public class MessageManager implements Serializable {
 		for(PlayerID playerid:InspiredNations.playerdata.keySet()) {
 			try {
 				Player player = playerid.getPDI().getPlayer();
-				playerid.getPDI().getMsg().receiveAlert(new Message(false, PDI.getPlayerID(), msg));
+				if(playerid.equals(PDI.getPlayerID())) {
+					playerid.getPDI().getMsg().receiveAlert(new Message(true, PDI.getPlayerID(), msg));
+				}
+				else {
+					playerid.getPDI().getMsg().receiveAlert(new Message(false, PDI.getPlayerID(), msg));
+				}
 			}
 			catch (Exception ex) {
 				

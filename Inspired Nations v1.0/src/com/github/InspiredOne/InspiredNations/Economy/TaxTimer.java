@@ -1,3 +1,4 @@
+
 package com.github.InspiredOne.InspiredNations.Economy;
 
 import java.io.Serializable;

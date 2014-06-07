@@ -4,6 +4,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.TaxTimerManager;
+import com.github.InspiredOne.InspiredNations.Listeners.Implem.MenuUpdateManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
@@ -62,6 +63,7 @@ public class PlayerProfile extends ActionMenu {
 	@Override
 	public void menuPersistent() {
 		managers.add(new TaxTimerManager<ActionMenu>(this));
+		managers.add(new MenuUpdateManager<ActionMenu>(this));
 		this.addActionManagers();
 		this.PDITarget = this.data.getData().getPDI();
 	}

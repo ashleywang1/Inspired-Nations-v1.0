@@ -7,6 +7,7 @@ import java.util.List;
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
+import com.github.InspiredOne.InspiredNations.Listeners.Implem.MenuUpdateManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 public abstract class ActionMenu extends Menu {
@@ -69,6 +70,7 @@ public abstract class ActionMenu extends Menu {
 	public void menuPersistent() {
 		this.setError(MenuError.NO_ERROR());
 		managers.add(new TaxTimerManager<ActionMenu>(this));
+		managers.add(new MenuUpdateManager<ActionMenu>(this));
 		this.addActionManagers();
 		
 	}
