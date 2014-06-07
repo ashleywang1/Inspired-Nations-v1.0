@@ -84,6 +84,7 @@ public class Tools {
 		 * Subheader
 		 */
 <<<<<<< Upstream, based on jeds_version/master
+<<<<<<< Upstream, based on jeds_version/master
 		public static String SUBHEADER(PlayerData PDI) {
 			//ChatColor.YELLOW + "" + ChatColor.ITALIC + "" + ChatColor.BOLD
 			return PDI.theme.SUBHEADER();
@@ -91,6 +92,9 @@ public class Tools {
 =======
 		SUBHEADER(ChatColor.DARK_GREEN + "" + ChatColor.ITALIC + "" + ChatColor.BOLD),
 >>>>>>> 50ae38f Color menus
+=======
+		SUBHEADER(ChatColor.DARK_BLUE + "" + ChatColor.ITALIC + "" + ChatColor.BOLD),
+>>>>>>> 1469d9d Color Menu 'back' option added
 		/**
 		 * Used to say what the proceeding value is.
 		 */
