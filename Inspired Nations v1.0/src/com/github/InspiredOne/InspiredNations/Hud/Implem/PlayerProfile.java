@@ -143,11 +143,9 @@ public class PlayerProfile extends OptionMenu {
 	public void menuPersistent() {
 		Debug.print("m-p-1");
 		managers.add(new TaxTimerManager<ActionMenu>(this));
-<<<<<<< Upstream, based on jeds_version/master
+		Debug.print("afterTTM");
 		managers.add(new MenuUpdateManager<ActionMenu>(this));
-=======
 		Debug.print("mp2");
->>>>>>> dea35e7 Menu Color Themes
 		this.addActionManagers();
 		Debug.print("mp3");
 		//this.PDITarget = this.data.getData().getPDI();
