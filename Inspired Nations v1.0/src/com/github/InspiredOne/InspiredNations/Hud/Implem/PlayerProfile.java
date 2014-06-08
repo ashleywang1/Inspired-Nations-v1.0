@@ -3,12 +3,14 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
+import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TaxTimerManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MenuUpdateManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
-public class PlayerProfile extends ActionMenu {
+public class PlayerProfile extends OptionMenu {
 
 	PlayerData PDITarget;
 	Datable<PlayerID> data;
@@ -24,19 +26,10 @@ public class PlayerProfile extends ActionMenu {
 	}
 
 	@Override
-	public String getFiller() {
-		return "";
-	}
-
-	@Override
 	public Menu getPreviousMenu() {
 		return new PlayerDirectory(PDI);
 	}
 
-	@Override
-	public Menu getNextMenu(String input) {
-		return this.getSelfPersist();
-	}
 
 	@Override
 	public boolean getPassBy() {
@@ -45,7 +38,7 @@ public class PlayerProfile extends ActionMenu {
 
 	@Override
 	public Menu getPassTo() {
-		return null;
+		return this.getSelfPersist();
 	}
 
 	@Override
@@ -66,6 +59,20 @@ public class PlayerProfile extends ActionMenu {
 		managers.add(new MenuUpdateManager<ActionMenu>(this));
 		this.addActionManagers();
 		this.PDITarget = this.data.getData().getPDI();
+	}
+
+	@Override
+	public String getPreOptionText() {
+		return "Here is your profile:";
+	}
+
+	@Override
+	public void addOptions() {
+		// TODO Auto-generated method stub
+		this.options.add(new PromptOption(this, "Set Menu Colors", new ColorMenu(PDI)));
+		//go to set theme and make another menu
+		
+		
 	}
 
 }
