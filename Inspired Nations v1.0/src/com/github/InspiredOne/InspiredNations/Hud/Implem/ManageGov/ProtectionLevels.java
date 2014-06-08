@@ -33,19 +33,19 @@ public class ProtectionLevels extends OptionMenu {
 		BigDecimal oneLevelDownCurrentCost = gov.taxValue(gov.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(),
 				gov.getProtectionlevel() - 1, PDI.getCurrency());
 		
-		String output = TextColor.SUBHEADER + "Pricing:\n";
-		output = output.concat(TextColor.LABEL + "Current Full Reimbursement: " + TextColor.VALUE + Tools.cut(reimmburs) + TextColor.UNIT + " " + PDI.getCurrency() + "\n");
-		output = output.concat(TextColor.LABEL + "+1 Level Cost/Net Cost: " + TextColor.VALUE + Tools.cut(oneLevelUp) +
-				"/" + Tools.cut(oneLevelUpCurrentCost.subtract(reimmburs)) + " "+ TextColor.UNIT + PDI.getCurrency() + "\n");
+		String output = TextColor.SUBHEADER(PDI) + "Pricing:\n";
+		output = output.concat(TextColor.LABEL(PDI) + "Current Full Reimbursement: " + TextColor.VALUE(PDI) + Tools.cut(reimmburs) + TextColor.UNIT(PDI) + " " + PDI.getCurrency() + "\n");
+		output = output.concat(TextColor.LABEL(PDI) + "+1 Level Cost/Net Cost: " + TextColor.VALUE(PDI) + Tools.cut(oneLevelUp) +
+				"/" + Tools.cut(oneLevelUpCurrentCost.subtract(reimmburs)) + " "+ TextColor.UNIT(PDI) + PDI.getCurrency() + "\n");
 		if(gov.getProtectionlevel() >= 1) {
-			output = output.concat(TextColor.LABEL + "-1 Level Cost/Net Reimburs: " +TextColor.VALUE + 
-					Tools.cut(oneLevelDown) + "/" + Tools.cut(reimmburs.subtract(oneLevelDownCurrentCost)) + TextColor.UNIT + " " +
+			output = output.concat(TextColor.LABEL(PDI) + "-1 Level Cost/Net Reimburs: " +TextColor.VALUE(PDI) + 
+					Tools.cut(oneLevelDown) + "/" + Tools.cut(reimmburs.subtract(oneLevelDownCurrentCost)) + TextColor.UNIT(PDI) + " " +
 					PDI.getCurrency() + "\n");
 		}
-		output = output.concat(TextColor.SUBHEADER + "Stats:\n");
-		output = output.concat(TextColor.LABEL + "Current Protection Level: " + TextColor.VALUE + gov.getProtectionlevel() + "\n");
-		output = output.concat(TextColor.LABEL + "Current Total Cost: " + TextColor.VALUE + Tools.cut(taxvalue) +
-				TextColor.UNIT + " " + PDI.getCurrency() + "\n");
+		output = output.concat(TextColor.SUBHEADER(PDI) + "Stats:\n");
+		output = output.concat(TextColor.LABEL(PDI) + "Current Protection Level: " + TextColor.VALUE(PDI) + gov.getProtectionlevel() + "\n");
+		output = output.concat(TextColor.LABEL(PDI) + "Current Total Cost: " + TextColor.VALUE(PDI) + Tools.cut(taxvalue) +
+				TextColor.UNIT(PDI) + " " + PDI.getCurrency() + "\n");
 		output = MenuTools.oneLineWallet(output, PDI, gov.getAccounts());
 		return output;
 	}

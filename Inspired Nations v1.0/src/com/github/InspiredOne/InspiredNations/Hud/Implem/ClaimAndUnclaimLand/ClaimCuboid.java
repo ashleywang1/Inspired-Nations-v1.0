@@ -74,22 +74,22 @@ public class ClaimCuboid extends InputMenu {
 				
 			} catch (BalanceOutOfBoundsException e) {
 				this.manager.reset();
-				return MenuError.NOT_ENOUGH_MONEY();
+				return MenuError.NOT_ENOUGH_MONEY(this.PDI);
 			} catch (InspiredGovTooStrongException e) {
 				this.manager.reset();
-				return MenuError.GOV_TOO_STRONG(e.gov);
+				return MenuError.GOV_TOO_STRONG(e.gov,this.PDI);
 			} catch (RegionOutOfEncapsulationBoundsException e) {
 				this.manager.reset();
-				return MenuError.CLAIM_OUT_OF_BOUNDS(e.gov);
+				return MenuError.CLAIM_OUT_OF_BOUNDS(e.gov,this.PDI);
 			} catch (InsufficientRefundAccountBalanceException e) {
 				// TODO figure out what to do here.
-				return MenuError.MONEY_NAME_ALREADY_TAKEN();
+				return MenuError.MONEY_NAME_ALREADY_TAKEN(this.PDI);
 			} catch (CuboidNotCompletedException e) {
-				return MenuError.CUBOID_NOT_FULLY_SELECTED();
+				return MenuError.CUBOID_NOT_FULLY_SELECTED(this.PDI);
 			}
 		}
 		else {
-			return MenuError.NOT_AN_OPTION();
+			return MenuError.NOT_AN_OPTION(this.PDI);
 		}
 	}
 
@@ -119,32 +119,32 @@ public class ClaimCuboid extends InputMenu {
 		}
 		
 		String output = this.mapmanager.drawMap(3);
-		output = MenuTools.addDivider(output);
-		output = output.concat(TextColor.INSTRUCTION + "Left Click for one corner of the cuboid and Right Click for the other corner. Type "
-				+ TextColor.VALUE + "'Finish'" + TextColor.INSTRUCTION + " when you are done.\n");
+		output = MenuTools.addDivider(output, this.PDI);
+		output = output.concat(TextColor.INSTRUCTION(this.PDI) + "Left Click for one corner of the cuboid and Right Click for the other corner. Type "
+				+ TextColor.VALUE(this.PDI) + "'Finish'" + TextColor.INSTRUCTION(this.PDI) + " when you are done.\n");
 		output = MenuTools.oneLineWallet(output, PDI, gov.getAccounts());
 		try {
-			output = output.concat(TextColor.VALUEDESCRI + "Low Point: " + TextColor.VALUE + manager.getCuboid().getPointMin() + "\n");
+			output = output.concat(TextColor.VALUEDESCRI(this.PDI) + "Low Point: " + TextColor.VALUE(this.PDI) + manager.getCuboid().getPointMin() + "\n");
 		} catch (CuboidNotCompletedException e) {
 			try {
-				output = output.concat(TextColor.VALUEDESCRI + "Low Point: " + TextColor.VALUE + manager.point1.toString() + "\n");
+				output = output.concat(TextColor.VALUEDESCRI(this.PDI) + "Low Point: " + TextColor.VALUE(this.PDI) + manager.point1.toString() + "\n");
 			}
 			catch (Exception ex) {
-				output = output.concat(TextColor.VALUEDESCRI + "Low Point: " + TextColor.VALUE + "Not Selected\n");
+				output = output.concat(TextColor.VALUEDESCRI(this.PDI) + "Low Point: " + TextColor.VALUE(this.PDI) + "Not Selected\n");
 			}
 		}
 		try {
-			output = output.concat(TextColor.VALUEDESCRI + "High Point: " + TextColor.VALUE + manager.getCuboid().getPointMax() + "\n");
+			output = output.concat(TextColor.VALUEDESCRI(this.PDI) + "High Point: " + TextColor.VALUE(this.PDI) + manager.getCuboid().getPointMax() + "\n");
 		} catch (CuboidNotCompletedException e) {
 			try {
-				output = output.concat(TextColor.VALUEDESCRI + "High Point: " + TextColor.VALUE + manager.point2.toString() + "\n");
+				output = output.concat(TextColor.VALUEDESCRI(this.PDI) + "High Point: " + TextColor.VALUE(this.PDI) + manager.point2.toString() + "\n");
 			}
 			catch (Exception ex) {
-				output = output.concat(TextColor.VALUEDESCRI + "High Point: " + TextColor.VALUE + "Not Selected\n");
+				output = output.concat(TextColor.VALUEDESCRI(this.PDI) + "High Point: " + TextColor.VALUE(this.PDI) + "Not Selected\n");
 			}
 		}
-		output = output.concat(TextColor.VALUEDESCRI + "Volume: " + TextColor.VALUE + manager.getVolume() + TextColor.UNIT + " Cubic Meters\n");
-		output = output.concat(TextColor.VALUEDESCRI + "Total/Current: " + TextColor.VALUE + totalcost + "/" + currentcost + " " + TextColor.UNIT +
+		output = output.concat(TextColor.VALUEDESCRI(this.PDI) + "Volume: " + TextColor.VALUE(this.PDI) + manager.getVolume() + TextColor.UNIT(this.PDI) + " Cubic Meters\n");
+		output = output.concat(TextColor.VALUEDESCRI(this.PDI) + "Total/Current: " + TextColor.VALUE(this.PDI) + totalcost + "/" + currentcost + " " + TextColor.UNIT(this.PDI) +
 				PDI.getCurrency());
 		return output;
 	}

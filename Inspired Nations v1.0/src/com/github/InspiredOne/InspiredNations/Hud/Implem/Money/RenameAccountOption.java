@@ -28,7 +28,7 @@ public class RenameAccountOption extends RenameNameableOption {
 		for(Account account:menu.PDI.getAccounts()) {
 			
 			if(account.getName().equalsIgnoreCase(input) && account != nameholder) {
-				return MenuError.ACCOUNT_NAME_ALREADY_TAKEN();
+				return MenuError.ACCOUNT_NAME_ALREADY_TAKEN(menu.PDI);
 			}
 		}
 		return MenuError.NO_ERROR();

@@ -35,11 +35,11 @@ public class SetMilitaryLevelOption extends Option {
 		try {
 			this.gov.setMilitaryLevel(Integer.parseInt(input));
 		} catch (NumberFormatException e) {
-			this.menu.setError(MenuError.INVALID_NUMBER_INPUT());
+			this.menu.setError(MenuError.INVALID_NUMBER_INPUT(menu.PDI));
 		} catch (NegativeMilitaryLevelExecption e) {
-			this.menu.setError(MenuError.NEGATIVE_MILITARY_LEVEL_NOT_ALLOWED());
+			this.menu.setError(MenuError.NEGATIVE_MILITARY_LEVEL_NOT_ALLOWED(menu.PDI));
 		} catch (BalanceOutOfBoundsException e) {
-			this.menu.setError(MenuError.NOT_ENOUGH_MONEY());
+			this.menu.setError(MenuError.NOT_ENOUGH_MONEY(menu.PDI));
 		}
 		return menu;
 	}

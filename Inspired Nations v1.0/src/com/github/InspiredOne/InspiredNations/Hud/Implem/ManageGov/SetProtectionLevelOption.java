@@ -36,11 +36,11 @@ public class SetProtectionLevelOption extends Option {
 			Debug.print("protection input" + input);
 			gov.setProtectionlevel(Integer.parseInt(input));
 		} catch (NumberFormatException e) {
-			menu.setError(MenuError.INVALID_NUMBER_INPUT());
+			menu.setError(MenuError.INVALID_NUMBER_INPUT(menu.PDI));
 		} catch (NegativeProtectionLevelException e) {
-			menu.setError(MenuError.NEGATIVE_PROTECTION_LEVEL_NOT_ALLOWED());
+			menu.setError(MenuError.NEGATIVE_PROTECTION_LEVEL_NOT_ALLOWED(menu.PDI));
 		} catch (BalanceOutOfBoundsException e) {
-			menu.setError(MenuError.NOT_ENOUGH_MONEY());
+			menu.setError(MenuError.NOT_ENOUGH_MONEY(menu.PDI));
 		}
 		return menu;
 	}

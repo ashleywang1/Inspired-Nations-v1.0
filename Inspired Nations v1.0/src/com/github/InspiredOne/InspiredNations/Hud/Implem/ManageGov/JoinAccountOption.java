@@ -42,7 +42,7 @@ public class JoinAccountOption extends Option {
 			PDI.setAccounts(gov.getAccounts());
 		}
 		else {
-			menu.setError(MenuError.ACCOUNT_ALREADY_LINKED());
+			menu.setError(MenuError.ACCOUNT_ALREADY_LINKED(this.PDI));
 		}
 		return menu;
 	}

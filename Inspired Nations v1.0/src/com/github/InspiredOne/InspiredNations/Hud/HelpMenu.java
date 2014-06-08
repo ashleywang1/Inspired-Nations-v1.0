@@ -28,7 +28,7 @@ public class HelpMenu extends InputMenu {
 		try{
 			int page = Integer.parseInt(input);
 			if(page > docs.size() || page < 1) {
-				return MenuError.HELP_PAGE_NOT_AVAILABLE(docs.size());
+				return MenuError.HELP_PAGE_NOT_AVAILABLE(docs.size(), PDI);
 			}
 			else {
 				pagenum = page;
@@ -36,7 +36,7 @@ public class HelpMenu extends InputMenu {
 			}
 		}
 		catch (Exception ex) {
-			return MenuError.INVALID_NUMBER_INPUT();
+			return MenuError.INVALID_NUMBER_INPUT(PDI);
 		}
 	}
 
@@ -55,24 +55,24 @@ public class HelpMenu extends InputMenu {
 		String output = "Type the page number you want to read. Pages available: \n";
 		output = output.concat(pageNumList() + "\n");
 		if(docs.size() > 0) {
-			output = MenuTools.addDivider(output);
-			output = output.concat(TextColor.INSTRUCTION + docs.get(pagenum));
+			output = MenuTools.addDivider(output,PDI);
+			output = output.concat(TextColor.INSTRUCTION(PDI) + docs.get(pagenum));
 		}
 		return output;
 	}
 	
 	private String pageNumList() {
 		if(docs.size() == 0) {
-			return TextColor.ERROR + "There are no help docs for this topic.";
+			return TextColor.ERROR(PDI) + "There are no help docs for this topic.";
 		}
 		else {
 			String output = "";
 			for(int i = 0; i < docs.size(); i++) {
 				if(i == pagenum -1) {
-					output = output.concat(TextColor.VALUE.toString() + (i + 1) + ", ");
+					output = output.concat(TextColor.VALUE(PDI).toString() + (i + 1) + ", ");
 				}
 				else {
-					output = output.concat(TextColor.VALUEDESCRI.toString() + (i + 1) + ", ");
+					output = output.concat(TextColor.VALUEDESCRI(PDI).toString() + (i + 1) + ", ");
 				}
 			}
 			output = output.substring(0, output.length() - 2);

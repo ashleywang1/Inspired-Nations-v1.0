@@ -41,15 +41,15 @@ public class PayAccountOption extends Option {
 			} catch (BalanceOutOfBoundsException e) {
 				e.printStackTrace();
 				Debug.print("Inside BalanceOutOfBoundsException in the PayAccountOption Menu");
-				menu.setError(MenuError.NOT_ENOUGH_MONEY());
+				menu.setError(MenuError.NOT_ENOUGH_MONEY(this.PDI));
 			} catch (NegativeMoneyTransferException e) {
-				menu.setError(MenuError.NEGATIVE_AMOUNTS_NOT_ALLOWED(amount));
+				menu.setError(MenuError.NEGATIVE_AMOUNTS_NOT_ALLOWED(amount, this.PDI));
 			}
 
 			return menu;
 		}
 		catch (Exception ex) {
-			return menu.setError(MenuError.INVALID_NUMBER_INPUT());
+			return menu.setError(MenuError.INVALID_NUMBER_INPUT(this.PDI));
 		}
 	}
 }

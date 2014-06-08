@@ -47,19 +47,19 @@ public class ClaimPolygonPrism extends InputMenu {
 					return MenuError.NO_ERROR();
 				}
 				else {
-					return (MenuError.POLYGON_NOT_SIMPLE_SHAPE());
+					return (MenuError.POLYGON_NOT_SIMPLE_SHAPE(this.PDI));
 				}
 			} catch (BalanceOutOfBoundsException e) {
-				return (MenuError.NOT_ENOUGH_MONEY());
+				return (MenuError.NOT_ENOUGH_MONEY(this.PDI));
 			} catch (InspiredGovTooStrongException e) {
-				return (MenuError.GOV_TOO_STRONG(e.gov));
+				return (MenuError.GOV_TOO_STRONG(e.gov, this.PDI));
 			} catch (RegionOutOfEncapsulationBoundsException e) {
-				return (MenuError.CLAIM_OUT_OF_BOUNDS(e.gov));
+				return (MenuError.CLAIM_OUT_OF_BOUNDS(e.gov, this.PDI));
 			} catch (InsufficientRefundAccountBalanceException e) {
 				//TODO do something with this.
 			}
 		}
-		return MenuError.NOT_AN_OPTION();
+		return MenuError.NOT_AN_OPTION(this.PDI);
 	}
 
 	@Override
@@ -81,15 +81,15 @@ public class ClaimPolygonPrism extends InputMenu {
 						, gov.getProtectionlevel(), PDI.getCurrency())));
 		
 		String output = this.mapmanager.drawMap(3);
-		output = MenuTools.addDivider(output);
-		output = output.concat(TextColor.INSTRUCTION + "Left click each corner of the polygon. The highest and lowest points"
-				+ " are top and bottom. Type "+TextColor.VALUE + "'Finish'"
-				+ TextColor.INSTRUCTION + " when you are done.\n");
+		output = MenuTools.addDivider(output, this.PDI);
+		output = output.concat(TextColor.INSTRUCTION(this.PDI) + "Left click each corner of the polygon. The highest and lowest points"
+				+ " are top and bottom. Type "+TextColor.VALUE(this.PDI) + "'Finish'"
+				+ TextColor.INSTRUCTION(this.PDI) + " when you are done.\n");
 		output = MenuTools.oneLineWallet(output, PDI, gov.getAccounts());
-		output = output.concat(TextColor.VALUEDESCRI + "Top: " + TextColor.VALUE + manager.prism.getMaxHieght() + "\n");
-		output = output.concat(TextColor.VALUEDESCRI + "Bottom: " + TextColor.VALUE + manager.prism.getMinHieght() + "\n");
-		output = output.concat(TextColor.VALUEDESCRI + "Volume: " + TextColor.VALUE + manager.prism.volume()+ TextColor.UNIT + " Cubic Meters\n");
-		output = output.concat(TextColor.VALUEDESCRI + "Total/Current: " + TextColor.VALUE + totalcost + "/" + currentcost + " " + TextColor.UNIT +
+		output = output.concat(TextColor.VALUEDESCRI(this.PDI) + "Top: " + TextColor.VALUE(this.PDI) + manager.prism.getMaxHieght() + "\n");
+		output = output.concat(TextColor.VALUEDESCRI(this.PDI) + "Bottom: " + TextColor.VALUE(this.PDI) + manager.prism.getMinHieght() + "\n");
+		output = output.concat(TextColor.VALUEDESCRI(this.PDI) + "Volume: " + TextColor.VALUE(this.PDI) + manager.prism.volume()+ TextColor.UNIT(this.PDI) + " Cubic Meters\n");
+		output = output.concat(TextColor.VALUEDESCRI(this.PDI) + "Total/Current: " + TextColor.VALUE(this.PDI) + totalcost + "/" + currentcost + " " + TextColor.UNIT(this.PDI) +
 				PDI.getCurrency());
 		return output;
 	}

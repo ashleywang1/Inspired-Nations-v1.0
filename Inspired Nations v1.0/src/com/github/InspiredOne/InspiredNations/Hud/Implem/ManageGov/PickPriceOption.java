@@ -38,7 +38,7 @@ public class PickPriceOption extends Option {
 		try{
 			BigDecimal price = new BigDecimal(input);
 			if(price.compareTo(BigDecimal.ZERO) < 0) {
-				menu.setError(MenuError.NEGATIVE_AMOUNTS_NOT_ALLOWED(price.negate()));
+				menu.setError(MenuError.NEGATIVE_AMOUNTS_NOT_ALLOWED(price.negate(), menu.PDI));
 				return menu;
 			}
 			else {
@@ -46,7 +46,7 @@ public class PickPriceOption extends Option {
 			}
 		}
 		catch (Exception ex) {
-			menu.setError(MenuError.INVALID_NUMBER_INPUT());
+			menu.setError(MenuError.INVALID_NUMBER_INPUT(menu.PDI));
 			return menu;
 		}
 		

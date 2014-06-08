@@ -39,7 +39,7 @@ public abstract class InputMenu extends ActionMenu {
 	
 	@Override
 	public String getFiller() {
-		return TextColor.INSTRUCTION + this.getInstructions() + "\n";
+		return TextColor.INSTRUCTION(PDI) + this.getInstructions() + "\n";
 	}
 	
 	@Override

@@ -83,8 +83,8 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 	@Override
 	public String getDisplayName(PlayerData viewer) {
 		if(this.isForSale()) {
-			String output = this.getName() + "\n" + TextColor.VALUE + Tools.cut(this.getPrice(viewer.getCurrency(), viewer.getLocation())) + " " +
-		TextColor.UNIT + viewer.getCurrency() + ": " + TextColor.UNIT + this.getItem().getAmount();
+			String output = this.getName() + "\n" + TextColor.VALUE(viewer) + Tools.cut(this.getPrice(viewer.getCurrency(), viewer.getLocation())) + " " +
+		TextColor.UNIT(viewer) + viewer.getCurrency() + ": " + TextColor.UNIT(viewer) + this.getItem().getAmount();
 			return output;
 		}
 		else {
@@ -123,7 +123,7 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 			}
 		} catch (BalanceOutOfBoundsException | NegativeMoneyTransferException e) {
 			if(buyer instanceof PlayerData) {
-				((PlayerData) buyer).getMsg().receiveError(MenuError.NOT_ENOUGH_MONEY());
+				((PlayerData) buyer).getMsg().receiveError(MenuError.NOT_ENOUGH_MONEY((PlayerData) buyer));
 			}
 			e.printStackTrace();
 			

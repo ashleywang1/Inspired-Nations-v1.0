@@ -60,11 +60,11 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		String output = "";
 		if(!tabOptionsToText(taboptions, tabcnt).isEmpty()) {
 			output = output.concat(tabOptionsToText(taboptions, tabcnt));
-			output = MenuTools.addDivider(output);
-			output = output.concat(TextColor.INSTRUCTION + "Press '+' + TAB or '-' + TAB to cycle through the list.");
+			output = MenuTools.addDivider(output, this.getPlayerData());
+			output = output.concat(TextColor.INSTRUCTION(this.getPlayerData()) + "Press '+' + TAB or '-' + TAB to cycle through the list.");
 		}
 		if(!this.postTabListPreOptionsText().isEmpty()) {
-			output = MenuTools.addDivider(output.concat("\n"));
+			output = MenuTools.addDivider(output.concat("\n"),this.getPlayerData());
 			output = output.concat(this.postTabListPreOptionsText() + "\n");
 		}
 		return output;
@@ -92,10 +92,10 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			Nameable option = filteredoptions.get(iter);
 			if(iter >= rangeBottom - realmaxLines && iter < rangeBottom) {
 				if(tabcnt == iter) {
-					output = output.concat(TextColor.LABEL.toString() + "=> " + option.getDisplayName(this.PDI) + "\n");
+					output = output.concat(TextColor.LABEL(this.getPlayerData()) + "=> " + option.getDisplayName(this.PDI) + "\n");
 				}
 				else {
-					output = output.concat(TextColor.LABEL + option.getDisplayName(this.PDI) + "\n");
+					output = output.concat(TextColor.LABEL(this.getPlayerData()) + option.getDisplayName(this.PDI) + "\n");
 				}
 			}
 		}
@@ -120,7 +120,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 				this.filterword = manager.preTabEntry;
 				List<E> tempOptions = Tools.filter(filterword, this.taboptions);
 				if(tempOptions.size() <= 0) {
-					this.setError(MenuError.NO_MATCHES_FOUND());
+					this.setError(MenuError.NO_MATCHES_FOUND(this.getPlayerData()));
 					return;
 				}
 				else {
@@ -218,7 +218,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		this.addTabOptions();
 		this.filteredoptions = Tools.filter(filterword, this.taboptions);
 		if(this.filteredoptions.size() == 0 && this.taboptions.size() != 0) {
-			this.setError(MenuError.NO_MATCHES_FOUND());
+			this.setError(MenuError.NO_MATCHES_FOUND(this.getPlayerData()));
 			return;
 		}
 		else if(this.filteredoptions.size() != 0) {

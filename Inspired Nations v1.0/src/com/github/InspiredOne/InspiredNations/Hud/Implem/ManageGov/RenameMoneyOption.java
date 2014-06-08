@@ -32,7 +32,7 @@ public class RenameMoneyOption extends Option {
 		try {
 			this.gov.getCurrency().setName(input);
 		} catch (NameAlreadyTakenException e) {
-			menu.setError(MenuError.MONEY_NAME_ALREADY_TAKEN());
+			menu.setError(MenuError.MONEY_NAME_ALREADY_TAKEN(menu.PDI));
 		}
 		
 		return menu;

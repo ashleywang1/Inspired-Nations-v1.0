@@ -53,7 +53,7 @@ public class SplitAccountOption extends Option {
 			}
 		}
 		else {
-			menu.setError(MenuError.ACCOUNT_COLLECTION_NOT_LINKED());
+			menu.setError(MenuError.ACCOUNT_COLLECTION_NOT_LINKED(menu.PDI));
 		}
 		return menu;
 	}

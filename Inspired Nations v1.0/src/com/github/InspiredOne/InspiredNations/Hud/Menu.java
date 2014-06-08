@@ -15,7 +15,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 public abstract class Menu extends MessagePrompt {
 
 	// Conversation Persistent
-	private static final String footer = MenuTools.addDivider("") + TextColor.ENDINSTRU + "Type 'exit' to leave, 'say' to chat, or 'back'/'hud' to go back.";
+	private static String footer;
 	public PlayerData PDI;
 	public InspiredNations plugin;
 	// Menu Persistent: Only initialized once for this menu instance.
@@ -28,6 +28,7 @@ public abstract class Menu extends MessagePrompt {
 	public Menu(PlayerData PDI) {
 		this.PDI = PDI;
 		this.plugin = InspiredNations.plugin;
+		this.footer = MenuTools.addDivider("",PDI) + TextColor.ENDINSTRU(PDI) + "Type 'exit' to leave, 'say' to chat, or 'back'/'hud' to go back.";
 	}
 	/**
 	 * When the menu is initialized, all options, tab options, tab selects, and text is
@@ -113,7 +114,7 @@ public abstract class Menu extends MessagePrompt {
 	 */
 	public final String getPromptText() {
 		String space = MenuTools.space();
-		String main = MenuTools.header(this.getHeader() + " " + InspiredNations.taxTimer.getTimeLeftReadout());
+		String main = MenuTools.header(this.getHeader() + " " + InspiredNations.taxTimer.getTimeLeftReadout(), PDI);
 		String filler = this.getFiller();
 		String end = footer;
 		String errmsg = this.PDI.getMsg().pushMessageContent();

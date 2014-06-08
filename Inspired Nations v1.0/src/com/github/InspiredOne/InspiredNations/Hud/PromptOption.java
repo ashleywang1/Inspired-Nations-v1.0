@@ -38,7 +38,7 @@ public class PromptOption extends Option {
 			return this.nextPrompt;
 		}
 		else {
-			this.menu.setError(MenuError.NOT_AN_OPTION());
+			this.menu.setError(MenuError.NOT_AN_OPTION(menu.getPlayerData()));
 			return menu.getSelfPersist();
 		}
 	}

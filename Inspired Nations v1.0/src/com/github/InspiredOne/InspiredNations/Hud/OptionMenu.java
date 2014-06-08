@@ -33,12 +33,12 @@ public abstract class OptionMenu extends ActionMenu {
 	public final String getFiller() {
 		String output = "";
 		if(!this.getPreOptionText().isEmpty()) {
-			output = output.concat(TextColor.INSTRUCTION + this.getPreOptionText() + "\n");
-			if(!optionsToText(options).isEmpty()) {
-				output = MenuTools.addDivider(output);
+			output = output.concat(TextColor.INSTRUCTION(PDI) + this.getPreOptionText() + "\n");
+			if(!optionsToText(options, PDI).isEmpty()) {
+				output = MenuTools.addDivider(output, PDI);
 			}
 		}
-		output = output.concat(optionsToText(options));
+		output = output.concat(optionsToText(options, PDI));
 		return output;
 	}
 	
@@ -49,7 +49,7 @@ public abstract class OptionMenu extends ActionMenu {
 			String[] args = arg.split(" ");
 			answer = Integer.parseInt(args[0]);
 			if(answer > options.size()) {
-				this.setError(MenuError.OUT_OF_RANGE_NUMBER_INPUT());
+				this.setError(MenuError.OUT_OF_RANGE_NUMBER_INPUT(PDI));
 				return this.getSelfPersist();
 			}
 			else {
@@ -57,23 +57,23 @@ public abstract class OptionMenu extends ActionMenu {
 			}
 		}
 		catch (Exception ex) {
-				this.setError(MenuError.INVALID_NUMBER_INPUT());
+				this.setError(MenuError.INVALID_NUMBER_INPUT(PDI));
 				return this.getSelfPersist();
 		}
 	}
 	
-	public static String optionsToText(List<Option> options) {
+	public static String optionsToText(List<Option> options, PlayerData PDI) {
 		String output = "";
 		int iter = 1;
 		
 		for(Option option:options)  {
 			if(option.isAvailable()) {
-				output = output.concat(TextColor.OPTION + "(" + TextColor.OPTIONNUMBER + iter + TextColor.OPTION + ") "
-			+ option.getName() + TextColor.OPTIONDESCRIP + " " + option.getDescription() + "\n");
+				output = output.concat(TextColor.OPTION(PDI) + "(" + TextColor.OPTIONNUMBER(PDI) + iter + TextColor.OPTION(PDI) + ") "
+			+ option.getName() + TextColor.OPTIONDESCRIP(PDI) + " " + option.getDescription() + "\n");
 			}
 			else {
-				output = output.concat(TextColor.UNAVAILABLE + "(" + TextColor.UNAVAILREASON + iter + TextColor.UNAVAILABLE + ") " + option.getName() +
-					TextColor.UNAVAILREASON + option.getUnvailReason() + "\n");
+				output = output.concat(TextColor.UNAVAILABLE(PDI) + "(" + TextColor.UNAVAILREASON(PDI) + iter + TextColor.UNAVAILABLE(PDI) + ") " + option.getName() +
+					TextColor.UNAVAILREASON(PDI) + option.getUnvailReason() + "\n");
 			}
 			iter ++;
 		}

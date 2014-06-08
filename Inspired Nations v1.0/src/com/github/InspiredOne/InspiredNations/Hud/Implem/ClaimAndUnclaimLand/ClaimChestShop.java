@@ -41,18 +41,18 @@ public class ClaimChestShop extends InputMenu {
 				gov.setLand(manager.region);
 				return MenuError.NO_ERROR();
 			} catch (BalanceOutOfBoundsException e) {
-				return MenuError.NOT_ENOUGH_MONEY();
+				return MenuError.NOT_ENOUGH_MONEY(this.PDI);
 			} catch (InspiredGovTooStrongException e) {
-				return MenuError.GOV_TOO_STRONG(e.gov);
+				return MenuError.GOV_TOO_STRONG(e.gov,this.PDI);
 			} catch (RegionOutOfEncapsulationBoundsException e) {
-				return MenuError.CLAIM_OUT_OF_BOUNDS(e.gov);
+				return MenuError.CLAIM_OUT_OF_BOUNDS(e.gov,this.PDI);
 			} catch (InsufficientRefundAccountBalanceException e) {
 				e.printStackTrace();
 			}
 			return MenuError.NO_ERROR();
 		}
 		else {
-			return MenuError.NOT_AN_OPTION();
+			return MenuError.NOT_AN_OPTION(this.PDI);
 		}
 	}
 
@@ -64,10 +64,10 @@ public class ClaimChestShop extends InputMenu {
 	@Override
 	public String getInstructions() {
 		String output = mapmanager.drawMap(4);
-		output = MenuTools.addDivider(output);
-		output = output.concat(TextColor.INSTRUCTION + "Left click on the chest that you would like to claim. Type '"
-				+ TextColor.VALUE + "finish" + TextColor.INSTRUCTION +"' when you are done.\n");
-		output = output.concat(TextColor.LABEL + "Selected: " + TextColor.VALUE);
+		output = MenuTools.addDivider(output, this.PDI);
+		output = output.concat(TextColor.INSTRUCTION(this.PDI) + "Left click on the chest that you would like to claim. Type '"
+				+ TextColor.VALUE(this.PDI) + "finish" + TextColor.INSTRUCTION(this.PDI) +"' when you are done.\n");
+		output = output.concat(TextColor.LABEL(this.PDI) + "Selected: " + TextColor.VALUE(this.PDI));
 		if(manager.region.volume() == 0) {
 			output = output.concat("No Chest Selected");
 		}

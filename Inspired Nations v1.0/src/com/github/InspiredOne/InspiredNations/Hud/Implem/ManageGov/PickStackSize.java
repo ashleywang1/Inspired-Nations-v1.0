@@ -33,7 +33,7 @@ public class PickStackSize extends InputMenu {
 			Integer.parseInt(input);
 		}
 		catch (Exception ex) {
-			return MenuError.INVALID_NUMBER_INPUT();
+			return MenuError.INVALID_NUMBER_INPUT(PDI);
 		}
 		return MenuError.NO_ERROR();
 	}
@@ -47,8 +47,8 @@ public class PickStackSize extends InputMenu {
 	}
 
 	public String getInstructions() {
-		return "Type the amount you would like to sell with each sale. Limit "+ TextColor.VALUE  + "1 - "
-	+ this.item.getItem().getMaxStackSize() + TextColor.INSTRUCTION + ".";
+		return "Type the amount you would like to sell with each sale. Limit "+ TextColor.VALUE(PDI)  + "1 - "
+	+ this.item.getItem().getMaxStackSize() + TextColor.INSTRUCTION(PDI) + ".";
 	}
 
 	@Override

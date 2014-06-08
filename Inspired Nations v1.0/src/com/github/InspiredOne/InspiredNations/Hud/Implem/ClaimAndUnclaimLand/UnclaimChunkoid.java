@@ -47,7 +47,7 @@ public class UnclaimChunkoid extends InputMenu {
 			return MenuError.NO_ERROR();
 		}
 		else {
-			return MenuError.NOT_AN_OPTION();
+			return MenuError.NOT_AN_OPTION(this.PDI);
 		}
 	}
 
@@ -82,14 +82,14 @@ public class UnclaimChunkoid extends InputMenu {
 						, gov.getProtectionlevel(), PDI.getCurrency())));
 		
 		String output = this.mapmanager.drawMap(4);
-		output = MenuTools.addDivider(output);
-		output = output.concat(TextColor.INSTRUCTION + "Type '" + TextColor.VALUE + "begin" + TextColor.INSTRUCTION
-				+ "' and walk around to unclaim. Type '" + TextColor.VALUE + "stop" + TextColor.INSTRUCTION + "' to stop.\n");
+		output = MenuTools.addDivider(output, this.PDI);
+		output = output.concat(TextColor.INSTRUCTION(this.PDI) + "Type '" + TextColor.VALUE(this.PDI) + "begin" + TextColor.INSTRUCTION(this.PDI)
+				+ "' and walk around to unclaim. Type '" + TextColor.VALUE(this.PDI) + "stop" + TextColor.INSTRUCTION(this.PDI) + "' to stop.\n");
 		output = MenuTools.oneLineWallet(output, PDI, gov.getAccounts());
-		output = output.concat(TextColor.VALUEDESCRI + "Total Chunks: " + TextColor.VALUE + ((CummulativeRegion<ChunkRegion>) gov.getRegion().getRegion()).getRegions().size()
-				+ TextColor.UNIT + " Chunks\n");
-		output = output.concat(TextColor.VALUEDESCRI + "Total/Unit/Current: " + TextColor.VALUE +
-				totalcost + "/" + unitcost + "/" + currenccost + TextColor.UNIT + " " + PDI.getCurrency() + "\n");
+		output = output.concat(TextColor.VALUEDESCRI(this.PDI) + "Total Chunks: " + TextColor.VALUE(this.PDI) + ((CummulativeRegion<ChunkRegion>) gov.getRegion().getRegion()).getRegions().size()
+				+ TextColor.UNIT(this.PDI) + " Chunks\n");
+		output = output.concat(TextColor.VALUEDESCRI(this.PDI) + "Total/Unit/Current: " + TextColor.VALUE(this.PDI) +
+				totalcost + "/" + unitcost + "/" + currenccost + TextColor.UNIT(this.PDI) + " " + PDI.getCurrency() + "\n");
 		return output;
 	}
 
