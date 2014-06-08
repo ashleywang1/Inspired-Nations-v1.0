@@ -45,11 +45,11 @@ public class ClaimChunkoidManager<T extends ClaimChunkoid> extends ChunkoidManag
 				this.getActionMenu().gov.setLand(chunks);
 				this.getActionMenu().region = (Chunkoid) this.getActionMenu().gov.getRegion().getRegion();
 			} catch (BalanceOutOfBoundsException e) {
-				this.getActionMenu().setError(MenuError.NOT_ENOUGH_MONEY());
+				this.getActionMenu().setError(MenuError.NOT_ENOUGH_MONEY(this.getPlayerData()));
 			} catch (InspiredGovTooStrongException e) {
-				this.getActionMenu().setError(MenuError.GOV_TOO_STRONG(e.gov));
+				this.getActionMenu().setError(MenuError.GOV_TOO_STRONG(e.gov, this.getPlayerData()));
 			} catch (RegionOutOfEncapsulationBoundsException e) {
-				this.getActionMenu().setError(MenuError.CLAIM_OUT_OF_BOUNDS(e.gov));
+				this.getActionMenu().setError(MenuError.CLAIM_OUT_OF_BOUNDS(e.gov, this.getPlayerData()));
 			} catch (InsufficientRefundAccountBalanceException e) {
 				// TODO Figure out what to do here.
 			};

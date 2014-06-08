@@ -29,7 +29,7 @@ public class PickMoneyName<T extends OwnerGov> extends InputMenu{
 	public String validate(String input) {
 		for(Currency currency:InspiredNations.Exchange.getExchangeMap().keySet()) {
 			if(currency.getName().equalsIgnoreCase(input)) {
-				return MenuError.MONEY_NAME_ALREADY_TAKEN();
+				return MenuError.MONEY_NAME_ALREADY_TAKEN(this.getPlayerData());
 			}
 		}
 		return MenuError.NO_ERROR();

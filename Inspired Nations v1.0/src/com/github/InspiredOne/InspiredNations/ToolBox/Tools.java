@@ -69,72 +69,119 @@ public class Tools {
 		return output;
 	}
 	
-	public enum TextColor {
+	public static class TextColor {
 		/**
 		 * Used exclusively for the menu header.
 		 */
-		HEADER(ChatColor.BLUE + "" + ChatColor.BOLD),
+		public static String HEADER(PlayerData PDI) {
+			//ChatColor.BLUE + "" + ChatColor.BOLD
+			return PDI.theme.HEADER();
+		}
 		/**
 		 * Subheader
 		 */
-		SUBHEADER(ChatColor.YELLOW + "" + ChatColor.ITALIC + "" + ChatColor.BOLD),
+		public static String SUBHEADER(PlayerData PDI) {
+			//ChatColor.YELLOW + "" + ChatColor.ITALIC + "" + ChatColor.BOLD
+			return PDI.theme.SUBHEADER();
+		}
 		/**
 		 * Used to say what the proceeding value is.
 		 */
-		LABEL(ChatColor.RED + ""),
+		public static String LABEL(PlayerData PDI) {
+			//ChatColor.RED + ""
+			return PDI.theme.LABEL();
+		}
 		/**
 		 * Anything that is calculated information displayed for the viewer 
 		 */
-		VALUE(ChatColor.GOLD + ""),
+		public static String VALUE(PlayerData PDI) {
+			//ChatColor.GOLD + ""
+			return PDI.theme.VALUE();
+		}
 		/**
 		 * Additional text describing the value
 		 */
-		VALUEDESCRI(ChatColor.RED + ""),
+		public static String VALUEDESCRI(PlayerData PDI) {
+			//ChatColor.RED + ""
+			return PDI.theme.VALUEDESCRI();
+		}
 		/**
 		 * Used for the divider between sections of the HUD
 		 */
-		DIVIDER(ChatColor.DARK_AQUA + ""),
-		
+		public static String DIVIDER(PlayerData PDI){
+			//ChatColor.DARK_AQUA + ""
+			return PDI.theme.DIVIDER();
+		}
 		/**
 		 * The color of the options
 		 */
-		OPTION(ChatColor.DARK_GREEN + ""),
+		public static String OPTION(PlayerData PDI) {
+			//ChatColor.DARK_GREEN + ""
+			return PDI.theme.OPTION();
+		}
 		/**
 		 * The color of the number correlating to the option
 		 */
-		OPTIONNUMBER(ChatColor.YELLOW + ""),
+		public static String OPTIONNUMBER(PlayerData PDI) {
+			//ChatColor.YELLOW + ""
+			return PDI.theme.OPTIONNUMBER();
+		}
 		/**
 		 * Used for text that describes an option
 		 */
-		OPTIONDESCRIP(ChatColor.GRAY + ""),
+		public static String OPTIONDESCRIP(PlayerData PDI) {
+			//ChatColor.GRAY + ""
+			return PDI.theme.OPTIONDESCRIP();
+		}
 		/**
 		 * Color to be used for an unavailable option
 		 */
-		UNAVAILABLE(ChatColor.DARK_GRAY + ""),
+		public static String UNAVAILABLE(PlayerData PDI) {
+			//ChatColor.DARK_GRAY + ""
+			return PDI.theme.UNAVAILABLE();
+		}
 		/**
 		 * Color of text next to unavailable option describing why it's unavailable
 		 */
-		UNAVAILREASON(ChatColor.GRAY + ""),
+		public static String UNAVAILREASON(PlayerData PDI) {
+			//ChatColor.GRAY + ""
+			return PDI.theme.UNAVAILREASON();
+		}
 		/**
 		 * Used to give instructions
 		 */
-		INSTRUCTION(ChatColor.YELLOW + ""),
+		public static String INSTRUCTION(PlayerData PDI) {
+			//ChatColor.YELLOW + ""
+			return PDI.theme.INSTRUCTION();
+		}
 		/**
 		 * Used for error messages through out the plugin
 		 */
-		ERROR(ChatColor.RED + ""),
+		public static String ERROR(PlayerData PDI) {
+			//ChatColor.RED + ""
+			return PDI.theme.ERROR();
+		}
 		/**
 		 * Used for alert messages through out the plugin
 		 */
-		ALERT(ChatColor.YELLOW + ""),
+		public static String ALERT(PlayerData PDI) {
+			//ChatColor.YELLOW + ""
+			return PDI.theme.ALERT();
+		}
 		/**
 		 * Used for all units mentioned in the HUD
 		 */
-		UNIT(ChatColor.YELLOW + ""),
+		public static String UNIT(PlayerData PDI) {
+			//ChatColor.YELLOW + ""
+			return PDI.theme.UNIT();
+		}
 		/**
 		 * Used for the line of text below the HUD
 		 */
-		ENDINSTRU(ChatColor.AQUA + "");
+		public static String ENDINSTRU(PlayerData PDI) {
+			//ChatColor.AQUA + ""
+			return PDI.theme.ENDINSTRU();
+		}
 		
 		private String color;
 		

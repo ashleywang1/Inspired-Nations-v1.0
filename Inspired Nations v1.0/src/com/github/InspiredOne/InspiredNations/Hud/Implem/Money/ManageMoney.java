@@ -31,12 +31,12 @@ public class ManageMoney extends OptionMenu {
 		String output = MenuTools.oneLineWallet("", PDI, PDI.getAccounts());
 		IndexedMap<Class<? extends InspiredGov>, BigDecimal> taxmap = PDI.getAccounts().getTaxes(PDI.getCurrency());
 		if(!taxmap.isEmpty()) {
-			output = output.concat(TextColor.SUBHEADER + "Taxes\n");
+			output = output.concat(TextColor.SUBHEADER(this.getPlayerData()) + "Taxes\n");
 		}
 		for(Class<? extends InspiredGov> govtype:taxmap) {
 			InspiredGov gov = GovFactory.getGovInstance(govtype);
-			output = output.concat(TextColor.VALUEDESCRI + gov.getTypeName() + ": " + TextColor.VALUE +
-					Tools.cut(taxmap.get(govtype))) + TextColor.UNIT + " " + PDI.getCurrency() +"\n";
+			output = output.concat(TextColor.VALUEDESCRI(this.getPlayerData()) + gov.getTypeName() + ": " + TextColor.VALUE(this.getPlayerData()) +
+					Tools.cut(taxmap.get(govtype))) + TextColor.UNIT(this.getPlayerData()) + " " + PDI.getCurrency() +"\n";
 		}
 		
 		

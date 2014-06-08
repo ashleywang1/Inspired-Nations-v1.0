@@ -21,7 +21,7 @@ public class ClaimPolygonPrismManager<T extends ClaimPolygonPrism> extends Actio
 		try {
 			prism.addVertex(listener.position);
 		} catch (PointsInDifferentWorldException e) {
-			this.getActionMenu().setError(MenuError.POINTS_IN_DIFFERENT_WORLDS());
+			this.getActionMenu().setError(MenuError.POINTS_IN_DIFFERENT_WORLDS(this.getPlayerData()));
 			e.printStackTrace();
 		}
 		this.getActionMenu().setError(MenuError.NO_ERROR());

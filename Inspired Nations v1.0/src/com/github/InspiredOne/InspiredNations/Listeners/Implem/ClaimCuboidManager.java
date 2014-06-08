@@ -24,28 +24,28 @@ public class ClaimCuboidManager<T extends ClaimCuboid> extends ActionManager<T> 
 	
 	public void setPoint1(Location local) {
 		point1 = new Point3D(local);
-		this.getActionMenu().setAlert(MenuAlert.MESSAGE_ALERT("Point 1 selected at " + TextColor.VALUE + point1 + 
-				TextColor.ALERT + "."));
+		this.getActionMenu().setAlert(MenuAlert.MESSAGE_ALERT("Point 1 selected at " + TextColor.VALUE(this.getPlayerData()) + point1 + 
+				TextColor.ALERT(this.getPlayerData()) + "."));
 		if(point2 != null) {
 			try {
 				temp = new Cuboid(point1, point2);
 			} catch (PointsInDifferentWorldException e) {
 				this.reset();
-				this.getActionMenu().setError(MenuError.POINTS_IN_DIFFERENT_WORLDS());
+				this.getActionMenu().setError(MenuError.POINTS_IN_DIFFERENT_WORLDS(this.getPlayerData()));
 			}
 		}
 	}
 	
 	public void setPoint2(Location local) {
 		point2 = new Point3D(local);
-		this.getActionMenu().setAlert(MenuAlert.MESSAGE_ALERT("Point 2 selected at " + TextColor.VALUE + point1 + 
-				TextColor.ALERT + "."));
+		this.getActionMenu().setAlert(MenuAlert.MESSAGE_ALERT("Point 2 selected at " + TextColor.VALUE(this.getPlayerData()) + point1 + 
+				TextColor.ALERT(this.getPlayerData()) + "."));
 		if(point1 != null) {
 			try {
 				temp = new Cuboid(point1, point2);
 			} catch (PointsInDifferentWorldException e) {
 				this.reset();
-				this.getActionMenu().setError(MenuError.POINTS_IN_DIFFERENT_WORLDS());
+				this.getActionMenu().setError(MenuError.POINTS_IN_DIFFERENT_WORLDS(this.getPlayerData()));
 			}
 		}
 	}

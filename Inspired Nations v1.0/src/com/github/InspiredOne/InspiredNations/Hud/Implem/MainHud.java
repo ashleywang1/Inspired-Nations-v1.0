@@ -25,8 +25,8 @@ public class MainHud extends OptionMenu {
 		help = new HelpMenu(PDI, this).addPage(
 				"Welcome to the main HUD. This documentation will help get you "
 				+ "familiar with how to use the HUD. You can navigate these help "
-				+ "docs by typing a page number in chat and hitting " + TextColor.VALUE
-				+ "Enter" + TextColor.INSTRUCTION +". The HUD is the source of all your "
+				+ "docs by typing a page number in chat and hitting " + TextColor.VALUE(this.getPlayerData())
+				+ "Enter" + TextColor.INSTRUCTION(this.getPlayerData()) +". The HUD is the source of all your "
 				+ "information. It gives you access to "
 				+ "your money, government, and other players. You can even make purchases "
 				+ "through the HUD! To learn how to use the HUD and about its features, "
@@ -37,7 +37,7 @@ public class MainHud extends OptionMenu {
 				+ "executes them. Typically you are presented with a list of numbered "
 				+ "options. To select an option, you just type the number that appears "
 				+ "beside it. For instance:\n"
-				+ TextColor.OPTION + ""
+				+ TextColor.OPTION(this.getPlayerData()) + ""
 				);
 		
 	}

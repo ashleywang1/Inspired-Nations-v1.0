@@ -38,7 +38,7 @@ public class AddCurrencyToAccountOption extends Option {
 	@Override
 	public Menu response(String input) {
 		if(account.containsCurrency(curren)) {
-			menu.setError(MenuError.ACCOUNT_ALREADY_HAS_THAT_CURRENCY());
+			menu.setError(MenuError.ACCOUNT_ALREADY_HAS_THAT_CURRENCY(menu.getPlayerData()));
 		}
 		else {
 			this.account.getMoney().add(new CurrencyAccount(curren, BigDecimal.ZERO));	

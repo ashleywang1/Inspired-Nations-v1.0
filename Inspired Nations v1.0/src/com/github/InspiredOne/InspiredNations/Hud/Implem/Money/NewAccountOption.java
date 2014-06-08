@@ -19,12 +19,12 @@ public class NewAccountOption extends Option {
 	public Menu response(String input) {
 		input = input.trim();
 		if(input.isEmpty()) {
-			menu.setError(MenuError.EMPTY_INPUT());
+			menu.setError(MenuError.EMPTY_INPUT(menu.getPlayerData()));
 			return menu.getSelfPersist();
 		}
 		for(Account account:accounts){
 			if(account.getName().equalsIgnoreCase(input)) {
-				menu.setError(MenuError.ACCOUNT_NAME_ALREADY_TAKEN());
+				menu.setError(MenuError.ACCOUNT_NAME_ALREADY_TAKEN(menu.getPlayerData()));
 				return menu.getSelfPersist();
 			}
 		}

@@ -29,7 +29,7 @@ public class ClaimChestShopListener extends InspiredListener<ClaimChestShopManag
 			try {
 				this.manager.addBlock(event.getClickedBlock());
 			} catch (BlockNotChestException e) {
-				this.getManager().getActionMenu().setError(MenuError.SELECTION_MUST_BE_CHEST());
+				this.getManager().getActionMenu().setError(MenuError.SELECTION_MUST_BE_CHEST(this.getPlayerData()));
 			}
 			
 			event.setCancelled(true);

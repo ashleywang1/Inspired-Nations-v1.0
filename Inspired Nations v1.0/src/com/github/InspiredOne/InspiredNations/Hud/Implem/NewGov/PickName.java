@@ -34,7 +34,7 @@ public class PickName<T extends OwnerGov> extends InputMenu {
 			return MenuError.NO_ERROR();
 		}
 		else {
-			return MenuError.NAME_ALREADY_TAKEN(Govf.getGov().getClass());
+			return MenuError.NAME_ALREADY_TAKEN(Govf.getGov().getClass(), this.getPlayerData());
 		}
 	}
 

@@ -59,7 +59,7 @@ public class Map extends InputMenu {
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
-			return MenuError.INVALID_NUMBER_INPUT();
+			return MenuError.INVALID_NUMBER_INPUT(this.getPlayerData());
 		}
 /*		for(String test:this.getTabOptions()) {
 			if(test.equalsIgnoreCase(input)) {

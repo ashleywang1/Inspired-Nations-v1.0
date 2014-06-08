@@ -87,7 +87,7 @@ Notifyable, Iterable<Account>, Cloneable {
 	@Override
 	public String getDisplayName(PlayerData PDI) {
 		
-		return this.getName() + " (" + TextColor.VALUE + 
+		return this.getName() + " (" + TextColor.VALUE(PDI) + 
 				Tools.cut(this.getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown)) +TextColor.UNIT
 				+ " " + PDI.getCurrency() + ")";
 	}

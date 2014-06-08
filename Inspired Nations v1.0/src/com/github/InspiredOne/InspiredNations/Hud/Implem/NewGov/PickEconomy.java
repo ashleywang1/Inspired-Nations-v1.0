@@ -35,16 +35,16 @@ public class PickEconomy<T extends OwnerGov> extends InputMenu{
 		try {
 			BigDecimal answer = new BigDecimal(input);
 			if(answer.compareTo(new BigDecimal(10000)) > 0) {
-				return MenuError.MONEY_MULTIPLYER_TOO_LARGE();
+				return MenuError.MONEY_MULTIPLYER_TOO_LARGE(this.getPlayerData());
 			}
 			else if(answer.compareTo(new BigDecimal(50)) < 0) {
-				return MenuError.MONEY_MULTIPLYER_TOO_SMALL();
+				return MenuError.MONEY_MULTIPLYER_TOO_SMALL(this.getPlayerData());
 			}
 			return MenuError.NO_ERROR();
 		}
 		
 		catch (Exception ex) {
-			return MenuError.INVALID_NUMBER_INPUT();
+			return MenuError.INVALID_NUMBER_INPUT(this.getPlayerData());
 		}
 	}
 

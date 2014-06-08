@@ -40,8 +40,8 @@ public class MenuTools {
 	 * @param text
 	 * @return
 	 */
-	public static String addDivider(String text) {
-		return text.concat(TextColor.DIVIDER + Tools.repeat("-", 53) + "\n" + ChatColor.RESET);
+	public static String addDivider(String text, PlayerData receiver) {
+		return text.concat(TextColor.DIVIDER(receiver) + Tools.repeat("-", 53) + "\n" + ChatColor.RESET);
 	}
 	/**
 	 * Adds a line that shows the value of the player's wallet.
@@ -49,8 +49,8 @@ public class MenuTools {
 	 * @return
 	 */
 	public static String oneLineWallet(String text, PlayerData PDI, Payable account) {
-		String output = text.concat(TextColor.LABEL + "Holdings: " + TextColor.VALUE +
-				Tools.cut(account.getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown)) + TextColor.UNIT +" " + PDI.getCurrency() + "\n");
+		String output = text.concat(TextColor.LABEL(PDI) + "Holdings: " + TextColor.VALUE(PDI) +
+				Tools.cut(account.getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown)) + TextColor.UNIT(PDI) +" " + PDI.getCurrency() + "\n");
 		return output;
 	}
 	/**
@@ -59,8 +59,8 @@ public class MenuTools {
 	 * @param msg	the <code>String</code> to be used in the header
 	 * @return		the <code>String</code> processed to be in the menu
 	 */
-	public static String header(String msg) {
-		return addDivider(TextColor.HEADER + msg + "\n" + ChatColor.RESET);
+	public static String header(String msg, PlayerData receiver) {
+		return addDivider(TextColor.HEADER(receiver) + msg + "\n" + ChatColor.RESET, (receiver));
 	}
 
 	public class ContextData {
@@ -86,6 +86,7 @@ public class MenuTools {
 	
 	public static class MenuAlert {
 		public static Alert NO_ALERT() {
+			
 			return new Alert() {
 
 				/**
@@ -105,6 +106,7 @@ public class MenuTools {
 				}
 				
 			};
+			
 		}
 		public static Alert CANNOT_INTERACT(final InspiredGov attacked) {
 			return new Alert() {
@@ -117,7 +119,7 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					return makeMessage("You cannot interact in " + attacked.getDisplayName(receiver) 
-							+ ". Their protection is too high.");
+							+ ". Their protection is too high.", (receiver));
 				}
 
 				@Override
@@ -137,7 +139,7 @@ public class MenuTools {
 
 				@Override
 				public String getMessage(PlayerData receiver) {
-					return makeMessage("You are no longer " + govlost.getOwnerPositionName() + " of " + govlost.getName());
+					return makeMessage("You are no longer " + govlost.getOwnerPositionName() + " of " + govlost.getName(), (receiver));
 				}
 
 				@Override
@@ -159,7 +161,7 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					return makeMessage("You are no longer " + govlost.getSubjectPositionName()
-							+ " of " + govlost.getName() + ".");
+							+ " of " + govlost.getName() + ".", (receiver));
 				}
 
 				@Override
@@ -180,7 +182,7 @@ public class MenuTools {
 
 				@Override
 				public String getMessage(PlayerData reciever) {
-					return makeMessage(msg);
+					return makeMessage(msg, (reciever));
 				}
 
 				@Override
@@ -200,7 +202,7 @@ public class MenuTools {
 
 				@Override
 				public String getMessage(PlayerData receiver) {
-					return makeMessage(region.getTypeName() + " of " + gov.getDisplayName(receiver) + " successfully modified.");
+					return makeMessage(region.getTypeName() + " of " + gov.getDisplayName(receiver) + " successfully modified.", (receiver));
 				}
 
 				@Override
@@ -222,8 +224,8 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					BigDecimal converted = Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, receiver.getCurrency()));
-					return makeMessage(sender.getDisplayName(receiver) + makeMessage(" paid you " +TextColor.VALUE+ converted + " "
-							+ TextColor.UNIT + receiver.getCurrency() + "."));
+					return makeMessage(sender.getDisplayName(receiver) + makeMessage(" paid you " +TextColor.VALUE(receiver)+ converted + " "
+							+ TextColor.UNIT(receiver) + receiver.getCurrency() + ".",(receiver)), (receiver));
 				}
 
 				@Override
@@ -245,8 +247,8 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					BigDecimal converted = Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, receiver.getCurrency()));
-					return makeMessage(sender.getDisplayName(receiver) + " paid " + TextColor.VALUE + converted +
-							" " + TextColor.UNIT + receiver.getCurrency() + TextColor.ALERT + " to " + paid.getDisplayName(receiver));
+					return makeMessage(sender.getDisplayName(receiver) + " paid " + TextColor.VALUE(receiver) + converted +
+							" " + TextColor.UNIT(receiver) + receiver.getCurrency() + TextColor.ALERT(receiver) + " to " + paid.getDisplayName(receiver), (receiver));
 				}
 
 				@Override
@@ -267,7 +269,7 @@ public class MenuTools {
 
 				@Override
 				public String getMessage(PlayerData receiver) {
-					return makeMessage(gov.getTypeName() + " created successfully.");
+					return makeMessage(gov.getTypeName() + " created successfully.", receiver);
 				}
 
 				@Override
@@ -277,8 +279,8 @@ public class MenuTools {
 			};
 		}
 		
-		public static String makeMessage(Object input) {
-			return TextColor.ALERT + input.toString();
+		public static String makeMessage(Object input, PlayerData reciever) {
+			return TextColor.ALERT(reciever) + input.toString();
 		}
 
 	}
@@ -288,91 +290,91 @@ public class MenuTools {
 		public static String NO_ERROR() {
 			return "";
 		}
-		public static String HELP_PAGE_NOT_AVAILABLE(int maxPages) {
-			return makeMessage("There are only " + maxPages + " pages to this help document. Inputs must be positive.");
+		public static String HELP_PAGE_NOT_AVAILABLE(int maxPages, PlayerData PDI) {
+			return makeMessage("There are only " + maxPages + " pages to this help document. Inputs must be positive.", PDI);
 		}
-		public static String ACCOUNT_ALREADY_LINKED() {
-			return makeMessage("The account is already linked.");
+		public static String ACCOUNT_ALREADY_LINKED(PlayerData PDI) {
+			return makeMessage("The account is already linked.", PDI);
 		}
-		public static String INVALID_NUMBER_INPUT() {
-			return makeMessage("Your entry must be a number.");
+		public static String INVALID_NUMBER_INPUT(PlayerData PDI) {
+			return makeMessage("Your entry must be a number.", PDI);
 		}
-		public static String OUT_OF_RANGE_NUMBER_INPUT() {
-			return makeMessage("That is not an option.");
+		public static String OUT_OF_RANGE_NUMBER_INPUT(PlayerData PDI) {
+			return makeMessage("That is not an option.", PDI);
 		}
-		public static String NOT_AN_OPTION() {
-			return makeMessage("That is not an option.");
+		public static String NOT_AN_OPTION(PlayerData PDI) {
+			return makeMessage("That is not an option.", PDI);
 		}
-		public static String NAME_ALREADY_TAKEN(Class<? extends InspiredGov> gov) {
+		public static String NAME_ALREADY_TAKEN(Class<? extends InspiredGov> gov, PlayerData PDI) {
 			
 			String GovName = getTypeName(gov);
-			return makeMessage("That " + GovName + " name is already taken.");
+			return makeMessage("That " + GovName + " name is already taken.", PDI);
 		}
-		public static String MONEY_NAME_ALREADY_TAKEN() {
-			return makeMessage("That currency name is already in use.");
+		public static String MONEY_NAME_ALREADY_TAKEN(PlayerData PDI) {
+			return makeMessage("That currency name is already in use.", PDI);
 		}
-		public static String MONEY_MULTIPLYER_TOO_LARGE() {
-			return makeMessage("Your currency is too inflated.");
+		public static String MONEY_MULTIPLYER_TOO_LARGE(PlayerData PDI) {
+			return makeMessage("Your currency is too inflated.", PDI);
 		}
-		public static String MONEY_MULTIPLYER_TOO_SMALL() {
-			return makeMessage("Your currency is too valuable.");
+		public static String MONEY_MULTIPLYER_TOO_SMALL(PlayerData PDI) {
+			return makeMessage("Your currency is too valuable.", PDI);
 		}
-		public static String ACCOUNT_NAME_ALREADY_TAKEN() {
-			return makeMessage("That account name is already in use.");
+		public static String ACCOUNT_NAME_ALREADY_TAKEN(PlayerData PDI) {
+			return makeMessage("That account name is already in use.", PDI);
 		}
-		public static String NO_MATCHES_FOUND() {
-			return makeMessage("There are no matches found.");
+		public static String NO_MATCHES_FOUND(PlayerData PDI) {
+			return makeMessage("There are no matches found.", PDI);
 		}
-		public static String NO_SUB_GOVS_UNDER_THIS_GOV() {
-			return makeMessage("There are no governments under the control of this government.");
+		public static String NO_SUB_GOVS_UNDER_THIS_GOV(PlayerData PDI) {
+			return makeMessage("There are no governments under the control of this government.", PDI);
 		}
-		public static String NOT_ENOUGH_MONEY() {
-			return makeMessage("There is not enough money.");
+		public static String NOT_ENOUGH_MONEY(PlayerData PDI) {
+			return makeMessage("There is not enough money.", PDI);
 		}
-		public static String GOV_TOO_STRONG(InspiredGov gov) {
-			return makeMessage("The "+gov.getTypeName()+", " +gov.getName()+", is in the way.");
+		public static String GOV_TOO_STRONG(InspiredGov gov, PlayerData PDI) {
+			return makeMessage("The "+gov.getTypeName()+", " +gov.getName()+", is in the way.", PDI);
 		}
-		public static String CLAIM_OUT_OF_BOUNDS(InspiredGov gov) {
-			return makeMessage("Your claim goes outside of the " + gov.getTypeName() +", " + gov.getName() + ".");
+		public static String CLAIM_OUT_OF_BOUNDS(InspiredGov gov, PlayerData PDI) {
+			return makeMessage("Your claim goes outside of the " + gov.getTypeName() +", " + gov.getName() + ".", PDI);
 		}
-		public static String NEGATIVE_AMOUNTS_NOT_ALLOWED(BigDecimal useInstead) {
-			return makeMessage("You can't use negative values here. Use " + useInstead.abs() + " instead.");
+		public static String NEGATIVE_AMOUNTS_NOT_ALLOWED(BigDecimal useInstead, PlayerData PDI) {
+			return makeMessage("You can't use negative values here. Use " + useInstead.abs() + " instead.", PDI);
 		}
-		public static String CUBOID_NOT_FULLY_SELECTED() {
-			return makeMessage("You have not selected both points of the cuboid.");
+		public static String CUBOID_NOT_FULLY_SELECTED(PlayerData PDI) {
+			return makeMessage("You have not selected both points of the cuboid.", PDI);
 		}
-		public static String POINTS_IN_DIFFERENT_WORLDS() {
-			return makeMessage("Your selected points were in different worlds.");
+		public static String POINTS_IN_DIFFERENT_WORLDS(PlayerData PDI) {
+			return makeMessage("Your selected points were in different worlds.", PDI);
 		}
-		public static String POLYGON_NOT_SIMPLE_SHAPE() {
+		public static String POLYGON_NOT_SIMPLE_SHAPE(PlayerData PDI) {
 			return makeMessage("The polygon you selected is not simple. This means that some of the sides"
-					+ " cross. Make sure you select each corner in order.");
+					+ " cross. Make sure you select each corner in order.", PDI);
 		}
-		public static String SELECTION_MUST_BE_CHEST() {
-			return makeMessage("You may only select chests for your shop.");
+		public static String SELECTION_MUST_BE_CHEST(PlayerData PDI) {
+			return makeMessage("You may only select chests for your shop.", PDI);
 		}
-		public static String NEGATIVE_PROTECTION_LEVEL_NOT_ALLOWED() {
-			return makeMessage("Negative numbers are not allowed for protection levels.");
+		public static String NEGATIVE_PROTECTION_LEVEL_NOT_ALLOWED(PlayerData PDI) {
+			return makeMessage("Negative numbers are not allowed for protection levels.", PDI);
 		}
-		public static String NEGATIVE_MILITARY_LEVEL_NOT_ALLOWED() {
-			return makeMessage("Negative numbers are not allowed for military levels.");
+		public static String NEGATIVE_MILITARY_LEVEL_NOT_ALLOWED(PlayerData PDI) {
+			return makeMessage("Negative numbers are not allowed for military levels.", PDI);
 		}
-		public static String EMPTY_INPUT() {
-			return makeMessage("Your input was blank.");
+		public static String EMPTY_INPUT(PlayerData PDI) {
+			return makeMessage("Your input was blank.", PDI);
 		}
-		public static String ACCOUNT_ALREADY_HAS_THAT_CURRENCY() {
-			return makeMessage("The account already has that currency.");
+		public static String ACCOUNT_ALREADY_HAS_THAT_CURRENCY(PlayerData PDI) {
+			return makeMessage("The account already has that currency.", PDI);
 		}
-		public static String ACCOUNT_COLLECTION_NOT_LINKED() {
-			return makeMessage("This account is not linked to any other accounts.");
+		public static String ACCOUNT_COLLECTION_NOT_LINKED(PlayerData PDI) {
+			return makeMessage("This account is not linked to any other accounts.", PDI);
 		}
 		private static final String getTypeName(Class<? extends InspiredGov> gov) {
 			String GovName = "";
 			GovName = GovFactory.getGovInstance(gov).getTypeName();
 			return GovName;
 		}
-		private static final String makeMessage(Object msg) {
-			return "\n" + TextColor.ERROR + msg.toString();
+		private static final String makeMessage(Object msg, PlayerData PDI) {
+			return "\n" + TextColor.ERROR(PDI) + msg.toString();
 		}
 	}
 }
