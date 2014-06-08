@@ -20,37 +20,19 @@ public class ColorMenu extends OptionMenu {
 		Debug.print("after super(PDI)");
 		
 	}
-
-	@Override
-	public void unloadNonPersist() {
-		Debug.print("uNP");
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void unloadPersist() {
-		// TODO Auto-generated method stub
-		Debug.print("uP");
-	}
-
-	@Override
-	public void menuPersistent() {
-		// TODO Auto-generated method stub
-		Debug.print("cm1");
-		managers.add(new TaxTimerManager<ActionMenu>(this));
-		Debug.print("cmp2");
-		this.addActionManagers();
-		Debug.print("cmp3");
-		//this.PDITarget = this.data.getData().getPDI();
-	}
-
-	@Override
-	public void nonPersistent() {
-		// TODO Auto-generated method stub
-		Debug.print("nP");
-	}
-
+/*
+//	@Override
+//	public void menuPersistent() {
+//		// TODO Auto-generated method stub
+//		Debug.print("cm1");
+//		managers.add(new TaxTimerManager<ActionMenu>(this));
+//		Debug.print("cmp2");
+//		this.addActionManagers();
+//		Debug.print("cmp3");
+//		
+//		//this.PDITarget = this.data.getData().getPDI();
+//	}
+*/
 	@Override
 	public Menu getPreviousMenu() {
 		Debug.print("previous menu");
@@ -81,15 +63,15 @@ public class ColorMenu extends OptionMenu {
 		// TODO Auto-generated method stub
 		//Debug.print("this.PDI.theme");
 		Debug.print(this.PDI.theme.getName());
-		return "Your current menu is Light Theme";
+		return "Your current menu is" + this.PDI.theme.getName();
 		//this.PDI.theme.getName();
 	}
 
 	@Override
 	public void addOptions() {
 		Debug.print("options for Color Menu");
-		//this.options.add(new ColorOption(this, "Dark Theme", new DarkTheme("dark")));
-		//this.options.add(new ColorOption(this, "Light Theme", new LightTheme("light")));
+		this.options.add(new ColorOption(this, "Dark Theme", new DarkTheme("dark")));
+		this.options.add(new ColorOption(this, "Light Theme", new LightTheme("light")));
 		
 	}
 
