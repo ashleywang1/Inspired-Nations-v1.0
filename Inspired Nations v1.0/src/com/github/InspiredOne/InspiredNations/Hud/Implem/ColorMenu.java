@@ -63,16 +63,16 @@ public class ColorMenu extends OptionMenu {
 		// TODO Auto-generated method stub
 		//Debug.print("this.PDI.theme");
 		Debug.print(this.PDI.theme.getName());
-		return "Your current menu is" + this.PDI.theme.getName();
+		return "Your current menu is the " + this.PDI.theme.getName();
 		//this.PDI.theme.getName();
 	}
 
 	@Override
 	public void addOptions() {
 		Debug.print("options for Color Menu");
-		this.options.add(new ColorOption(this, "Dark Theme", new DarkTheme("dark")));
-		this.options.add(new ColorOption(this, "Light Theme", new LightTheme("light")));
-		
+		this.options.add(new ColorOption(this, "Dark Theme", new DarkTheme("Dark Theme")));
+		this.options.add(new ColorOption(this, "Light Theme", new LightTheme("Light Theme")));
+		this.options.add(new PromptOption(this, "Custom Theme", new ColorOptions(PDI)));
 	}
 
 	@Override
