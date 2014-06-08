@@ -123,7 +123,6 @@ public class PlayerProfile extends OptionMenu {
 
 	@Override
 	public Menu getPassTo() {
-		Debug.print("getPassTo");
 		return this.getSelfPersist();
 	}
 
@@ -143,7 +142,6 @@ public class PlayerProfile extends OptionMenu {
 	public void menuPersistent() {
 		Debug.print("m-p-1");
 		managers.add(new TaxTimerManager<ActionMenu>(this));
-		Debug.print("afterTTM");
 		managers.add(new MenuUpdateManager<ActionMenu>(this));
 		Debug.print("mp2");
 		this.addActionManagers();
@@ -159,9 +157,10 @@ public class PlayerProfile extends OptionMenu {
 
 	@Override
 	public void addOptions() {
-		Debug.print("options");
 		// TODO Auto-generated method stub
-		this.options.add(new PromptOption(this, "Set Menu Colors", new ColorMenu(PDI), "Sorry, this option is not yet available"));		
+		this.options.add(new PromptOption(this, "Set Menu Colors", new ColorMenu(PDI)));
+		//go to set theme and make another menu
+		
 		
 	}
 
