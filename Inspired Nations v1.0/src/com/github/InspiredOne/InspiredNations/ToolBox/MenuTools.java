@@ -274,12 +274,11 @@ public class MenuTools {
 				public boolean menuPersistent() {
 					return true;
 				}
-				
 			};
 		}
 		
 		public static String makeMessage(Object input) {
-			return "\n" + TextColor.ALERT + input.toString();
+			return TextColor.ALERT + input.toString();
 		}
 
 	}

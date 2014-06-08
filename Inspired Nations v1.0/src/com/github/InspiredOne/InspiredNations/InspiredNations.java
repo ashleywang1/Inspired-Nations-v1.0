@@ -17,8 +17,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -143,6 +145,16 @@ public class InspiredNations extends JavaPlugin {
 			if(!player.getAllowedInteract(event.getBlock().getLocation())) {
 				Debug.print(player.getName() + " is trying to break a block s/he is not allowed to.");
 				event.setCancelled(true);
+			}
+		}
+		@EventHandler
+		public void onPlayerInteractEvent(PlayerInteractEvent event) {
+			PlayerData player = InspiredNations.playerdata.get(new PlayerID(event.getPlayer()));
+			if (event.getAction().equals(Action.LEFT_CLICK_BLOCK) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+				if(!player.getAllowedInteract(event.getClickedBlock().getLocation())) {
+					Debug.print(player.getName() + " is trying to break a block s/he is not allowed to.");
+					event.setCancelled(true);
+				}
 			}
 		}
 	}

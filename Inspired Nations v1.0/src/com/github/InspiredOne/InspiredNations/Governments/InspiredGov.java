@@ -791,6 +791,35 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			}
 		}
 	}
+	/**
+	 * Used to split this govs account from the player's account. This
+	 * makes it so that the wallet used for the gov is a separate wallet
+	 * from the one used by the player. It preserves all other players' links
+	 * to the account as well as all other gov's links to the account. 
+	 * @param player
+	 */
+	public void splitAccount(PlayerData player) {
+		List<PlayerData> holders = this.getAccountHolders();
+	}
+	
+	public List<PlayerData> getAccountHolders() {
+		List<PlayerData> holders = new ArrayList<PlayerData>();
+		for(PlayerData player:InspiredNations.playerdata.values()) {
+			if(player.getAccounts() == this.getAccounts()) {
+				holders.add(player);
+			}
+		}
+		return holders;
+	}
+	
+	public List<InspiredGov> getGovHolders() {
+		List<InspiredGov> holders = new ArrayList<InspiredGov>();
+		return holders;
+	}
+	
+	public void joinAccount(PlayerData player) {
+		
+	}
 
 	@Override
 	public String getDisplayName(PlayerData PDI) {
