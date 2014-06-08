@@ -163,7 +163,7 @@ public class PlayerProfile extends OptionMenu {
 	public void addOptions() {
 		Debug.print("options");
 		// TODO Auto-generated method stub
-		this.options.add(new PromptOption(this, "Set Menu Colors", new ColorMenu(PDI)));		
+		this.options.add(new PromptOption(this, "Set Menu Colors", new ColorMenu(PDI), "Sorry, this option is not yet available"));		
 		
 	}
 
