@@ -3,8 +3,6 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
-import com.github.InspiredOne.InspiredNations.Hud.DarkTheme;
-import com.github.InspiredOne.InspiredNations.Hud.LightTheme;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
@@ -20,19 +18,7 @@ public class ColorMenu extends OptionMenu {
 		Debug.print("after super(PDI)");
 		
 	}
-/*
-//	@Override
-//	public void menuPersistent() {
-//		// TODO Auto-generated method stub
-//		Debug.print("cm1");
-//		managers.add(new TaxTimerManager<ActionMenu>(this));
-//		Debug.print("cmp2");
-//		this.addActionManagers();
-//		Debug.print("cmp3");
-//		
-//		//this.PDITarget = this.data.getData().getPDI();
-//	}
-*/
+
 	@Override
 	public Menu getPreviousMenu() {
 		Debug.print("previous menu");
@@ -62,16 +48,16 @@ public class ColorMenu extends OptionMenu {
 	public String getPreOptionText() {
 		// TODO Auto-generated method stub
 		//Debug.print("this.PDI.theme");
-		Debug.print(this.PDI.theme.getName());
-		return "Your current menu is the " + this.PDI.theme.getName();
+		return "Create your custom Theme";
+		//return "Your current menu is the " + this.PDI.theme.getName();
 		//this.PDI.theme.getName();
 	}
 
 	@Override
 	public void addOptions() {
 		Debug.print("options for Color Menu");
-		this.options.add(new ColorOption(this, "Dark Theme", new DarkTheme("Dark Theme")));
-		this.options.add(new ColorOption(this, "Light Theme", new LightTheme("Light Theme")));
+		//this.options.add(new ColorOptions(this, "Dark Theme", new DarkTheme("Dark Theme")));
+		//this.options.add(new ColorOptions(this, "Light Theme", new LightTheme("Light Theme")));
 		this.options.add(new PromptOption(this, "Custom Theme", new ColorOptions(PDI)));
 	}
 

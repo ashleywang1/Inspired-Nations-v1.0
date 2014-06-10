@@ -6,8 +6,10 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ColorOptions.TextCatagory;;
 
-public class ColorOptions<colorList> extends TabSelectOptionMenu<String> { //TODO fix this error
+public class ColorOptions<E> extends TabSelectOptionMenu<TextCatagory> {
+	//TODO fix this error
 
 	public ColorOptions(PlayerData PDI) {
 		super(PDI);
@@ -16,7 +18,7 @@ public class ColorOptions<colorList> extends TabSelectOptionMenu<String> { //TOD
 	@Override
 	public Menu getPreviousPrompt() {
 		// TODO Auto-generated method stub
-		return new PlayerProfile(PDI); //TODO fix this
+		return new ColorMenu(PDI);
 	}
 
 	@Override
