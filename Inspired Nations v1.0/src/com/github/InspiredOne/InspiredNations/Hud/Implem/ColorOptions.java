@@ -6,8 +6,9 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ColorOptions.TextCatagory;
 
-public class ColorOptions<E> extends TabSelectOptionMenu<E> {
+public class ColorOptions extends TabSelectOptionMenu<TextCatagory> {
 
 	public ColorOptions(PlayerData PDI) {
 		super(PDI);
@@ -42,13 +43,13 @@ public class ColorOptions<E> extends TabSelectOptionMenu<E> {
 					@Override
 					public String getDisplayName(PlayerData viewer) {
 						// TODO Auto-generated method stub
-						return PDI.theme.HEADER() + this.getName();
+						return viewer.theme.HEADER() + this.getName();
 					}
 
 					@Override
 					void changeColor(String color) {
 						// TODO Auto-generated method stub
-						//PDI.theme.setName(color);jik
+						PDI.theme.setHEADER(color);
 					} 
 					
 				});
@@ -56,10 +57,26 @@ public class ColorOptions<E> extends TabSelectOptionMenu<E> {
 		//OPTION NUMBERS
 		this.taboptions.add(
 				new TextCatagory(PDI) {
+
+					@Override
+					public String getName() {
+						// TODO Auto-generated method stub
+						return "Option Numbers";
+					}
+
+					@Override
+					public String getDisplayName(PlayerData viewer) {
+						// TODO Auto-generated method stub
+						return viewer.theme.OPTIONNUMBER() + this.getName();
+					}
+
+					@Override
+					void changeColor(String color) {
+						// TODO Auto-generated method stub
+						PDI.theme.setOPTIONNUMBER(color);
+					} 
 					
-							
-						}
-				);
+				});
 		//this.options.add(new PromptOption(this, "Custom Theme", new ColorOptions(PDI)));
 		
 	}
