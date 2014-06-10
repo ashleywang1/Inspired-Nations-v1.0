@@ -28,6 +28,8 @@ public class ColorOptions<E> extends TabSelectOptionMenu<E> {
 
 	@Override
 	public void addTabOptions() {
+		
+		//HEADER
 		this.taboptions.add(
 				new TextCatagory(PDI) {
 
@@ -40,22 +42,23 @@ public class ColorOptions<E> extends TabSelectOptionMenu<E> {
 					@Override
 					public String getDisplayName(PlayerData viewer) {
 						// TODO Auto-generated method stub
-						return PDI.theme.header;
+						return PDI.theme.HEADER() + this.getName();
 					}
 
 					@Override
 					void changeColor(String color) {
 						// TODO Auto-generated method stub
-						
-					}
+						//PDI.theme.setName(color);jik
+					} 
 					
-				}
-				
-				
-				
-				
-				
-				
+				});
+		
+		//OPTION NUMBERS
+		this.taboptions.add(
+				new TextCatagory(PDI) {
+					
+							
+						}
 				);
 		//this.options.add(new PromptOption(this, "Custom Theme", new ColorOptions(PDI)));
 		
