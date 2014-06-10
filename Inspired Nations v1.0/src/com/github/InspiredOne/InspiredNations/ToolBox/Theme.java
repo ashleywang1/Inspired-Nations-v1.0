@@ -1,12 +1,15 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
+import java.io.Serializable;
+
 import org.bukkit.ChatColor;
 
-import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Exceptions.NameAlreadyTakenException;
+public class Theme implements Serializable{
 
-public class Theme {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4217128928399815106L;
 	private String HEADER = ChatColor.BLUE + "" + ChatColor.BOLD;
 	private String SUBHEADER = ChatColor.YELLOW + "" + ChatColor.ITALIC + "" + ChatColor.BOLD;
 	private String LABEL = ChatColor.RED + "";

@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
 import java.util.ArrayList;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
@@ -36,10 +37,13 @@ public class SplitAccountOption extends Option {
 	@Override
 	public Menu response(String input) {
 		PDI = menu.PDI;
+		Debug.print("inside response of splitaccountoption");
 		if(gov.getAccounts().isLinked()) {
+			Debug.print("inside response of splitaccountoption 2");
 			gov.splitAccount(PDI, new ArrayList<PlayerID>(), new AccountCollection(gov.getName()));
 		}
 		else {
+			Debug.print("inside response of splitaccountoption 3");
 			menu.setError(MenuError.ACCOUNT_COLLECTION_NOT_LINKED(menu.PDI));
 		}
 		return menu;

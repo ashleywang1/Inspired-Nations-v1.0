@@ -807,18 +807,19 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				tested.add(test.getPlayerID());
 				for(InspiredGov gov:test.getGovHolders()) {
 					gov.splitAccount(player, tested, newAccount);
-					try {
-						gov.getAccounts().transferMoney(this.getAccounts().getTotalMoney(Currency.DEFAULT, InspiredNations.Exchange.mcdown), Currency.DEFAULT, newAccount);
-					} catch (BalanceOutOfBoundsException e) {
-						e.printStackTrace();
-					} catch (NegativeMoneyTransferException e) {
-						e.printStackTrace();
-					}
-					gov.setAccounts(newAccount);
 				}
 				test.setAccounts(newAccount);
 			}
 		}
+		try {
+			this.getAccounts().transferMoney(this.getAccounts().getTotalMoney(this.getCurrency(), InspiredNations.Exchange.mcdown), this.getCurrency(), newAccount);
+			
+		} catch (BalanceOutOfBoundsException e) {
+			e.printStackTrace();
+		} catch (NegativeMoneyTransferException e) {
+			e.printStackTrace();
+		}
+		this.setAccounts(newAccount);
 	}
 	
 	public List<PlayerData> getPlayerHolders() {
