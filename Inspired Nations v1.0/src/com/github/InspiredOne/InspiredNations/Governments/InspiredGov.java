@@ -798,11 +798,30 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * to the account as well as all other gov's links to the account. 
 	 * @param player
 	 */
-	public void splitAccount(PlayerData player) {
-		List<PlayerData> holders = this.getAccountHolders();
+	public void splitAccount(PlayerData player, List<PlayerID> tested, AccountCollection newAccount) {
+		for(Facility fac:this.getFacilities()) {
+			fac.splitAccount(player, tested, newAccount);
+		}
+		for(PlayerData test:this.getPlayerHolders()) {
+			if(!test.equals(player) && !tested.contains(test.getPlayerID())) {
+				tested.add(test.getPlayerID());
+				for(InspiredGov gov:test.getGovHolders()) {
+					gov.splitAccount(player, tested, newAccount);
+					try {
+						gov.getAccounts().transferMoney(this.getAccounts().getTotalMoney(Currency.DEFAULT, InspiredNations.Exchange.mcdown), Currency.DEFAULT, newAccount);
+					} catch (BalanceOutOfBoundsException e) {
+						e.printStackTrace();
+					} catch (NegativeMoneyTransferException e) {
+						e.printStackTrace();
+					}
+					gov.setAccounts(newAccount);
+				}
+				test.setAccounts(newAccount);
+			}
+		}
 	}
 	
-	public List<PlayerData> getAccountHolders() {
+	public List<PlayerData> getPlayerHolders() {
 		List<PlayerData> holders = new ArrayList<PlayerData>();
 		for(PlayerData player:InspiredNations.playerdata.values()) {
 			if(player.getAccounts() == this.getAccounts()) {
@@ -811,14 +830,15 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		}
 		return holders;
 	}
-	
-	public List<InspiredGov> getGovHolders() {
-		List<InspiredGov> holders = new ArrayList<InspiredGov>();
-		return holders;
-	}
-	
+	/**
+	 * 
+	 * @param player
+	 */
 	public void joinAccount(PlayerData player) {
-		
+		List<PlayerID> tested = new ArrayList<PlayerID>();
+		AccountCollection newAccount = new AccountCollection(this.getName());
+		this.splitAccount(player, tested, newAccount);
+		player.setAccounts(newAccount);
 	}
 
 	@Override

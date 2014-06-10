@@ -1,19 +1,16 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
-import com.github.InspiredOne.InspiredNations.Debug;
-import com.github.InspiredOne.InspiredNations.InspiredNations;
+import java.util.ArrayList;
+
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
-import com.github.InspiredOne.InspiredNations.Economy.Currency;
-import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
-import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class SplitAccountOption extends Option {
 
@@ -40,17 +37,7 @@ public class SplitAccountOption extends Option {
 	public Menu response(String input) {
 		PDI = menu.PDI;
 		if(gov.getAccounts().isLinked()) {
-			PDI.setAccounts(gov.getAccounts().clone());
-			Account dispose = new Account();
-			try {
-				gov.getAccounts().transferMoney(gov.getAccounts().getTotalMoney(Currency.DEFAULT, InspiredNations.Exchange.mcdown), Currency.DEFAULT, dispose);
-			} catch (BalanceOutOfBoundsException e) {
-				Debug.InformPluginDev();
-				e.printStackTrace();
-			} catch (NegativeMoneyTransferException e) {
-				Debug.InformPluginDev();
-				e.printStackTrace();
-			}
+			gov.splitAccount(PDI, new ArrayList<PlayerID>(), new AccountCollection(gov.getName()));
 		}
 		else {
 			menu.setError(MenuError.ACCOUNT_COLLECTION_NOT_LINKED(menu.PDI));

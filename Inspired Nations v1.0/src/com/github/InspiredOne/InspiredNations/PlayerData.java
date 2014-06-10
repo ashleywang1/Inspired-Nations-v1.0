@@ -474,9 +474,18 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 		} catch (PlayerOfflineException e) {
 			e.printStackTrace();
 		}
-
-		
-
 	}
-
+	/** a list of govs that 
+	 * Gets
+	 * @return
+	 */
+	public List<InspiredGov> getGovHolders() {
+		List<InspiredGov> holders = new ArrayList<InspiredGov>();
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			if(gov.getAccounts() == this.getAccounts()) {
+				holders.add(gov);
+			}
+		}
+		return holders;
+	}
 }

@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations.ToolBox;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -131,7 +130,7 @@ public class Tools {
 		 */
 		public static String OPTIONDESCRIP(PlayerData PDI) {
 			//ChatColor.GRAY + ""
-			return PDI.theme.OPTIONDESCRIP();
+			return PDI.theme.OPTIONDESCRI();
 		}
 		/**
 		 * Color to be used for an unavailable option
@@ -180,7 +179,7 @@ public class Tools {
 		 */
 		public static String ENDINSTRU(PlayerData PDI) {
 			//ChatColor.AQUA + ""
-			return PDI.theme.ENDINSTRU();
+			return PDI.theme.ENDINSTRUCT();
 		}
 		
 		private String color;
