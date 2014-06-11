@@ -13,6 +13,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class PlayerProfile extends OptionMenu {
 
+	
 	PlayerData PDITarget;
 	//Datable<PlayerID> data;
 	

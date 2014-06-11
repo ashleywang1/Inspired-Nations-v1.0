@@ -18,7 +18,7 @@ public class ColorOptions extends TabSelectOptionMenu<TextCatagory> {
 	@Override
 	public Menu getPreviousPrompt() {
 		// TODO Auto-generated method stub
-		return null;
+		return new ColorMenu(PDI);
 	}
 
 	@Override
@@ -54,6 +54,29 @@ public class ColorOptions extends TabSelectOptionMenu<TextCatagory> {
 					
 				});
 		
+		//SUBHEADER
+		this.taboptions.add(
+				new TextCatagory(PDI) {
+
+					@Override
+					public String getName() {
+						// TODO Auto-generated method stub
+						return "Sub-Header";
+					}
+
+					@Override
+					public String getDisplayName(PlayerData viewer) {
+						// TODO Auto-generated method stub
+						return viewer.theme.SUBHEADER() + this.getName();
+					}
+
+					@Override
+					void changeColor(String color) {
+						// TODO Auto-generated method stub
+						PDI.theme.setSUBHEADER(color);
+					} 
+					
+				});
 		//OPTION NUMBERS
 		this.taboptions.add(
 				new TextCatagory(PDI) {
@@ -61,7 +84,7 @@ public class ColorOptions extends TabSelectOptionMenu<TextCatagory> {
 					@Override
 					public String getName() {
 						// TODO Auto-generated method stub
-						return "Option Numbers";
+						return "Option Numbers (#)";
 					}
 
 					@Override
@@ -77,7 +100,31 @@ public class ColorOptions extends TabSelectOptionMenu<TextCatagory> {
 					} 
 					
 				});
-		//this.options.add(new PromptOption(this, "Custom Theme", new ColorOptions(PDI)));
+		
+		//OPTION
+		this.taboptions.add(
+				new TextCatagory(PDI) {
+
+					@Override
+					public String getName() {
+						// TODO Auto-generated method stub
+						return "Options";
+					}
+
+					@Override
+					public String getDisplayName(PlayerData viewer) {
+						// TODO Auto-generated method stub
+						return viewer.theme.OPTION() + this.getName();
+					}
+
+					@Override
+					void changeColor(String color) {
+						// TODO Auto-generated method stub
+						PDI.theme.setOPTION(color);
+					} 
+					
+				});
+		
 		
 	}
 

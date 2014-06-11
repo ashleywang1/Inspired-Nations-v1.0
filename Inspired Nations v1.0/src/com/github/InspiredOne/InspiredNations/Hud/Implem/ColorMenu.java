@@ -53,7 +53,8 @@ public class ColorMenu extends OptionMenu {
 	@Override
 	public void addOptions() {
 		Debug.print("options for Color Menu");
-		//this.options.add(new ThemeOption("Default"));
+		this.options.add(new DefaultTheme(this, "Default"));
+		this.options.add(new OceanTheme(this, "Ocean Theme"));
 		this.options.add(new PromptOption(this, "Custom Theme", new ColorOptions(PDI)));
 	}
 	
