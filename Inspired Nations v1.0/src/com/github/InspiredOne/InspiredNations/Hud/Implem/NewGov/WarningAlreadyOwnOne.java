@@ -36,7 +36,9 @@ public class WarningAlreadyOwnOne<T extends OwnerGov> extends OptionMenu {
 			for(OwnerGov gov:govslost) {
 				list = list.concat(gov.getDisplayName(PDI) + ", ");
 			}
-			list = list.substring(0,list.length() - 2);
+			if(list.length() > 0) {
+				list = list.substring(0,list.length() - 2);
+			}
 			
 			return "Warning! Continuing will result in the loss of ownership of " + list + ". " +
 				"Are you sure you want to continue?";

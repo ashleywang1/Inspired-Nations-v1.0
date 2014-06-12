@@ -39,7 +39,7 @@ public class ChangeTaxRateMenu extends TabSelectOptionMenu<TaxRateOption> {
 
 	@Override
 	public void addOptions() {
-		// TODO Auto-generated method stub
+		//this.options.add(new ChangeTaxOption(this, ))
 		
 	}
 
