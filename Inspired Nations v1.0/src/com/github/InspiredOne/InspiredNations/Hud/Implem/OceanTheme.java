@@ -14,7 +14,7 @@ public class OceanTheme extends ThemeOption {
 	@Override
 	public String HEADER() {
 		// TODO Auto-generated method stub
-		return ChatColor.YELLOW + "";
+		return ChatColor.YELLOW + "" + ChatColor.ITALIC + "" + ChatColor.BOLD;
 	}
 
 	@Override

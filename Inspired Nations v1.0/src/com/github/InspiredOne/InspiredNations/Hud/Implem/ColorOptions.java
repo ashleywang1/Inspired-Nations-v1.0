@@ -1,14 +1,15 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
+import org.bukkit.ChatColor;
+
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.NameAlreadyTakenException;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.ColorOptions.TextCatagory;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ColorOptions.Color;
 
-public class ColorOptions extends TabSelectOptionMenu<TextCatagory> {
+public class ColorOptions extends TabSelectOptionMenu<Color> {
 
 	public ColorOptions(PlayerData PDI) {
 		super(PDI);
@@ -18,114 +19,240 @@ public class ColorOptions extends TabSelectOptionMenu<TextCatagory> {
 	@Override
 	public Menu getPreviousPrompt() {
 		// TODO Auto-generated method stub
-		return new ColorMenu(PDI);
+		return new CustomTheme(PDI);
 	}
 
 	@Override
 	public String postTabListPreOptionsText() {
 		// TODO Auto-generated method stub
-		return "Tab to select color";
+		return "";
 	}
 
 	@Override
 	public void addTabOptions() {
+		this.taboptions.add(new Color() {
+
+			@Override
+			public String getDisplayName(PlayerData viewer) {
+				// TODO Auto-generated method stub
+				return ChatColor.AQUA  + "AQUA";
+			}
+
+			@Override
+			public String getString() {
+				// TODO Auto-generated method stub
+				return ChatColor.AQUA + "";
+			}
+			
+		});
 		
-		//HEADER
-		this.taboptions.add(
-				new TextCatagory(PDI) {
+		this.taboptions.add(new Color() {
 
-					@Override
-					public String getName() {
-						// TODO Auto-generated method stub
-						return "Header";
-					}
+			@Override
+			public String getDisplayName(PlayerData viewer) {
+				// TODO Auto-generated method stub
+				return ChatColor.BLACK  + "BLACK";
+			}
 
-					@Override
-					public String getDisplayName(PlayerData viewer) {
-						// TODO Auto-generated method stub
-						return viewer.theme.HEADER() + this.getName();
-					}
-
-					@Override
-					void changeColor(String color) {
-						// TODO Auto-generated method stub
-						PDI.theme.setHEADER(color);
-					} 
-					
-				});
+			@Override
+			public String getString() {
+				// TODO Auto-generated method stub
+				return ChatColor.BLACK + "";
+			}
+			
+		});
 		
-		//SUBHEADER
-		this.taboptions.add(
-				new TextCatagory(PDI) {
+		this.taboptions.add(new Color() {
 
-					@Override
-					public String getName() {
-						// TODO Auto-generated method stub
-						return "Sub-Header";
-					}
+			@Override
+			public String getDisplayName(PlayerData viewer) {
+				// TODO Auto-generated method stub
+				return ChatColor.BLUE  + "BLUE";
+			}
 
-					@Override
-					public String getDisplayName(PlayerData viewer) {
-						// TODO Auto-generated method stub
-						return viewer.theme.SUBHEADER() + this.getName();
-					}
-
-					@Override
-					void changeColor(String color) {
-						// TODO Auto-generated method stub
-						PDI.theme.setSUBHEADER(color);
-					} 
-					
-				});
-		//OPTION NUMBERS
-		this.taboptions.add(
-				new TextCatagory(PDI) {
-
-					@Override
-					public String getName() {
-						// TODO Auto-generated method stub
-						return "Option Numbers (#)";
-					}
-
-					@Override
-					public String getDisplayName(PlayerData viewer) {
-						// TODO Auto-generated method stub
-						return viewer.theme.OPTIONNUMBER() + this.getName();
-					}
-
-					@Override
-					void changeColor(String color) {
-						// TODO Auto-generated method stub
-						PDI.theme.setOPTIONNUMBER(color);
-					} 
-					
-				});
+			@Override
+			public String getString() {
+				// TODO Auto-generated method stub
+				return ChatColor.BLUE + "";
+			}
+			
+		});
 		
-		//OPTION
-		this.taboptions.add(
-				new TextCatagory(PDI) {
+		this.taboptions.add(new Color() {
 
-					@Override
-					public String getName() {
-						// TODO Auto-generated method stub
-						return "Options";
-					}
+			@Override
+			public String getDisplayName(PlayerData viewer) {
+				// TODO Auto-generated method stub
+				return ChatColor.DARK_AQUA  + "DARK AQUA";
+			}
 
-					@Override
-					public String getDisplayName(PlayerData viewer) {
-						// TODO Auto-generated method stub
-						return viewer.theme.OPTION() + this.getName();
-					}
-
-					@Override
-					void changeColor(String color) {
-						// TODO Auto-generated method stub
-						PDI.theme.setOPTION(color);
-					} 
-					
-				});
+			@Override
+			public String getString() {
+				// TODO Auto-generated method stub
+				return ChatColor.DARK_AQUA + "";
+			}
+			
+		});
 		
+		this.taboptions.add(new Color() {
+
+			@Override
+			public String getDisplayName(PlayerData viewer) {
+				// TODO Auto-generated method stub
+				return ChatColor.DARK_BLUE  + "DARK BLUE";
+			}
+
+			@Override
+			public String getString() {
+				// TODO Auto-generated method stub
+				return ChatColor.DARK_BLUE + "";
+			}
+			
+		});
 		
+		this.taboptions.add(new Color() {
+
+			@Override
+			public String getDisplayName(PlayerData viewer) {
+				// TODO Auto-generated method stub
+				return ChatColor.DARK_GRAY  + "DARK GRAY";
+			}
+
+			@Override
+			public String getString() {
+				// TODO Auto-generated method stub
+				return ChatColor.DARK_GRAY + "";
+			}
+			
+		});
+		
+		this.taboptions.add(new Color() {
+
+			@Override
+			public String getDisplayName(PlayerData viewer) {
+				// TODO Auto-generated method stub
+				return ChatColor.DARK_GREEN  + "DARK GREEN";
+			}
+
+			@Override
+			public String getString() {
+				// TODO Auto-generated method stub
+				return ChatColor.DARK_GREEN + "";
+			}
+			
+		});
+		
+		this.taboptions.add(new Color() {
+
+			@Override
+			public String getDisplayName(PlayerData viewer) {
+				// TODO Auto-generated method stub
+				return ChatColor.DARK_PURPLE  + "DARK_PURPLE";
+			}
+
+			@Override
+			public String getString() {
+				// TODO Auto-generated method stub
+				return ChatColor.DARK_PURPLE + "";
+			}
+			
+		});
+		
+		this.taboptions.add(new Color() {
+
+			@Override
+			public String getDisplayName(PlayerData viewer) {
+				// TODO Auto-generated method stub
+				return ChatColor.GOLD  + "GOLD";
+			}
+
+			@Override
+			public String getString() {
+				// TODO Auto-generated method stub
+				return ChatColor.GOLD + "";
+			}
+			
+		});
+		
+		this.taboptions.add(new Color() {
+
+			@Override
+			public String getDisplayName(PlayerData viewer) {
+				// TODO Auto-generated method stub
+				return ChatColor.GREEN  + "GREEN";
+			}
+
+			@Override
+			public String getString() {
+				// TODO Auto-generated method stub
+				return ChatColor.GREEN + "";
+			}
+			
+		});
+		
+		this.taboptions.add(new Color() {
+
+			@Override
+			public String getDisplayName(PlayerData viewer) {
+				// TODO Auto-generated method stub
+				return ChatColor.LIGHT_PURPLE  + "LIGHT_PURPLE";
+			}
+
+			@Override
+			public String getString() {
+				// TODO Auto-generated method stub
+				return ChatColor.LIGHT_PURPLE + "";
+			}
+			
+		});
+		
+		this.taboptions.add(new Color() {
+
+			@Override
+			public String getDisplayName(PlayerData viewer) {
+				// TODO Auto-generated method stub
+				return ChatColor.RED  + "RED";
+			}
+
+			@Override
+			public String getString() {
+				// TODO Auto-generated method stub
+				return ChatColor.RED + "";
+			}
+			
+		});
+		
+		this.taboptions.add(new Color() {
+
+			@Override
+			public String getDisplayName(PlayerData viewer) {
+				// TODO Auto-generated method stub
+				return ChatColor.WHITE  + "WHITE";
+			}
+
+			@Override
+			public String getString() {
+				// TODO Auto-generated method stub
+				return ChatColor.WHITE + "";
+			}
+			
+		});
+		
+		this.taboptions.add(new Color() {
+
+			@Override
+			public String getDisplayName(PlayerData viewer) {
+				// TODO Auto-generated method stub
+				return ChatColor.YELLOW  + "YELLOW";
+			}
+
+			@Override
+			public String getString() {
+				// TODO Auto-generated method stub
+				return ChatColor.YELLOW + "";
+			}
+			
+		});
 	}
 
 	@Override
@@ -143,15 +270,16 @@ public class ColorOptions extends TabSelectOptionMenu<TextCatagory> {
 	@Override
 	public String getHeader() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Choose the color here:";
 	}
 	
-	public abstract class TextCatagory implements Nameable {
+	public abstract class Color implements Nameable {
 		
-		PlayerData PDI;
-		
-		public TextCatagory(PlayerData PDI) {
-			this.PDI = PDI;
+
+		@Override
+		public String getName() {
+			// TODO Auto-generated method stub
+			return "";
 		}
 
 		@Override
@@ -160,9 +288,8 @@ public class ColorOptions extends TabSelectOptionMenu<TextCatagory> {
 			
 		}
 		
-		abstract void changeColor(String color);
-
-		//implement getDisplayName seperately
+		public abstract String getString();
+		
 		
 	}
 
