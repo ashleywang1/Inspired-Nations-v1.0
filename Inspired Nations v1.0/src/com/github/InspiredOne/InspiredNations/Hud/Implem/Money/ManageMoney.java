@@ -2,7 +2,6 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 
 import java.math.BigDecimal;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;

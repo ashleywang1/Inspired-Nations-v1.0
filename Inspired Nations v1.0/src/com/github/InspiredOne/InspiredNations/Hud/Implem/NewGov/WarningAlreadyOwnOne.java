@@ -1,7 +1,11 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
@@ -19,7 +23,22 @@ public class WarningAlreadyOwnOne<T extends OwnerGov> extends OptionMenu {
 
 	@Override
 	public String getPreOptionText() {
-		return "Warning! Continuing will result in the loss of ownership of your current " + Govf.getGov().getTypeName() + ". " +
+		String list = "";
+		List<OwnerGov> govslost = new ArrayList<OwnerGov>();
+			for(OwnerGov gov:PDI.getCitizenship()) {
+				
+				for(OwnerGov govlost:gov.getGovsLost(Govf.getGov(), PDI.getPlayerID())) {
+					if (!govslost.contains(govlost)) {
+						govslost.add(govlost);
+					}
+				}
+			}
+			for(OwnerGov gov:govslost) {
+				list = list.concat(gov.getDisplayName(PDI) + ", ");
+			}
+			list = list.substring(0,list.length() - 2);
+			
+			return "Warning! Continuing will result in the loss of ownership of " + list + ". " +
 				"Are you sure you want to continue?";
 	}
 

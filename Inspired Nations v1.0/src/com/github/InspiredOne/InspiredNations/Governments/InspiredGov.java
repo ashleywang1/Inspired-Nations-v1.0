@@ -428,6 +428,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			}
 		}
 		try {
+			this.updateTaxRate();
 			this.paySuper(this.currentTaxCycleValue(getCurrency()), this.getCurrency());
 		} catch (BalanceOutOfBoundsException e) {
 			e.printStackTrace();
@@ -838,13 +839,14 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	public void joinAccount(PlayerData player) {
 		List<PlayerID> tested = new ArrayList<PlayerID>();
 		AccountCollection newAccount = new AccountCollection(this.getName());
+		newAccount.addAll(player.getAccounts());
 		this.splitAccount(player, tested, newAccount);
 		player.setAccounts(newAccount);
 	}
 
 	@Override
 	public String getDisplayName(PlayerData PDI) {
-		return this.getName().concat(" (" + this.getTypeName() + ")");
+		return this.getName().concat(" [" + this.getProtectionlevel() + "]");
 	}
 	/**
 	 * Gets the name for the position of owner for this government to be

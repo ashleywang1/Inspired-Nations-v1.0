@@ -1,5 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import java.math.BigDecimal;
+
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
@@ -9,7 +11,9 @@ import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Money.ManageAccounts;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Money.PayNav;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class ManageGovMoney extends OptionMenu {
 
@@ -24,11 +28,34 @@ public class ManageGovMoney extends OptionMenu {
 	@Override
 	public String getPreOptionText() {
 		String output = "";
+		BigDecimal total = BigDecimal.ZERO;
+		String revtemp = "";
+		total = gov.getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown);
+		
+		output = MenuTools.oneLineWallet("", PDI, gov.getAccounts());
+		
+
+		
 		for(Class<? extends InspiredGov> govtype:gov.getTaxrates().keySet()) {
 			InspiredGov govtemp = GovFactory.getGovInstance(govtype);
-			output = output.concat(govtemp.getTypeName() + " Tax: " + gov.getTaxrates().get(govtype) + "\n");
+			BigDecimal taxrevenue = BigDecimal.ZERO;
+			for(InspiredGov govtax:gov.getAllSubGovs(govtype)) {
+				taxrevenue = taxrevenue.add(govtax.taxValue(govtax.getRegion().getRegion(), 1, govtax.getProtectionlevel(),
+						govtax.getAdditionalCost(), gov.getTaxrates().get(govtype), PDI.getCurrency()));
+			}
+			revtemp = revtemp.concat(TextColor.LABEL(PDI) + govtemp.getTypeName() + " (" + TextColor.VALUE(PDI) +
+					gov.getTaxrates().get(govtype) + TextColor.LABEL(PDI) + ") : "
+					+ TextColor.VALUE(PDI) + Tools.cut(taxrevenue) + " " + TextColor.UNIT(PDI)
+					+ PDI.getCurrency()+ "\n");
 		}
-		output = output.concat(Tools.cut(gov.getAccounts().getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown)).toString() + " " + PDI.getCurrency());
+		if(!gov.getTaxrates().isEmpty()) {
+			output = output.concat(TextColor.SUBHEADER(PDI) + "Tax Revenue\n");
+			output = output.concat(revtemp);
+		}
+		output = output.concat(TextColor.SUBHEADER(PDI) + "Tax Expenditures\n");
+		output = output.concat(TextColor.LABEL(PDI) + "Expenditure: " + TextColor.VALUE(PDI) + 
+				Tools.cut(gov.taxValue(gov.getRegion().getRegion(), 1, gov.getProtectionlevel(), gov.getAdditionalCost()
+						, gov.getSuperTaxRate(), PDI.getCurrency()))) + " " + TextColor.UNIT(PDI) + PDI.getCurrency() + "\n";
 		return output;
 		
 	}
@@ -50,7 +77,7 @@ public class ManageGovMoney extends OptionMenu {
 
 	@Override
 	public Menu getPassTo() {
-		return null;
+		return this;
 	}
 
 	@Override
@@ -65,6 +92,9 @@ public class ManageGovMoney extends OptionMenu {
 		}
 		if(gov.getCommonEcon().equals(gov.getClass())) {
 			this.options.add(new RenameMoneyOption(this, "Rename Money <name>", gov));
+		}
+		if(!gov.getTaxrates().isEmpty()) {
+			this.options.add(new PromptOption(this, "Change Tax Rates", new ChangeTaxRateMenu(PDI, this, gov)));
 		}
 	}
 

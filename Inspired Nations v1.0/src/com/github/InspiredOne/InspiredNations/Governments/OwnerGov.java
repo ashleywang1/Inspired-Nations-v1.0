@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.NPC;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
@@ -54,12 +53,11 @@ public abstract class OwnerGov extends InspiredGov {
 		this.owners.remove(player);
 		if(InspiredNations.playerdata.get(player).getAccounts() == (this.getAccounts())) {
 			this.getAccounts().setName(this.getName());
-			InspiredNations.playerdata.get(player).setAccounts(new AccountCollection(player.getName()));
+			this.splitAccount(player.getPDI(), new ArrayList<PlayerID>(), this.getAccounts());
 		}
 		if(this.isSubjectLess()) {
 			this.unregister();
 		}
-		
 	}
 	
 

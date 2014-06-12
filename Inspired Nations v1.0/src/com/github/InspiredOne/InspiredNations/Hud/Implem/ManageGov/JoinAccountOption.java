@@ -1,11 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Economy.Account;
-import com.github.InspiredOne.InspiredNations.Economy.Currency;
-import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
-import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
@@ -38,8 +33,7 @@ public class JoinAccountOption extends Option {
 	public Menu response(String input) {
 		PDI = menu.PDI;
 		if(!gov.getAccounts().isLinked()) {
-			gov.getAccounts().addAll(PDI.getAccounts());
-			PDI.setAccounts(gov.getAccounts());
+			gov.joinAccount(PDI);
 		}
 		else {
 			menu.setError(MenuError.ACCOUNT_ALREADY_LINKED(this.PDI));

@@ -1,8 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;

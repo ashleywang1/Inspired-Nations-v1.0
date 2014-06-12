@@ -145,7 +145,7 @@ public class MenuTools {
 				@Override
 				public boolean menuPersistent() {
 					// TODO Auto-generated method stub
-					return false;
+					return true;
 				}
 				
 			};
@@ -167,7 +167,7 @@ public class MenuTools {
 				@Override
 				public boolean menuPersistent() {
 					// TODO Auto-generated method stub
-					return false;
+					return true;
 				}
 				
 			};
