@@ -765,7 +765,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		BigDecimal difference = cost.subtract(reimburse);// positive if own country money, negative if country ows money
 		if(difference.compareTo(BigDecimal.ZERO) > 0) { 	// If for some reason you ow the country money for this
 			try {
-				this.paySuper(difference, curren);			// Pay what you ow
+				this.paySuper(difference, curren);			// Pay what you owe
 			} catch (BalanceOutOfBoundsException e) {		//	If you don't have enough
 				try {
 					this.paySuper(this.accounts.getTotalMoney(curren, InspiredNations.Exchange.mcdown), curren);	// Pay what you have
