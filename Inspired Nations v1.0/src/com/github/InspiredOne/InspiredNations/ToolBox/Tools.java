@@ -72,6 +72,7 @@ public class Tools {
 		/**
 		 * Used exclusively for the menu header.
 		 */
+
 		public static String HEADER(PlayerData PDI) {
 			//ChatColor.BLUE + "" + ChatColor.BOLD
 			return PDI.theme.HEADER();
@@ -79,6 +80,8 @@ public class Tools {
 		/**
 		 * Subheader
 		 */
+
+
 		public static String SUBHEADER(PlayerData PDI) {
 			//ChatColor.YELLOW + "" + ChatColor.ITALIC + "" + ChatColor.BOLD
 			return PDI.theme.SUBHEADER();
@@ -86,6 +89,7 @@ public class Tools {
 		/**
 		 * Used to say what the proceeding value is.
 		 */
+
 		public static String LABEL(PlayerData PDI) {
 			//ChatColor.RED + ""
 			return PDI.theme.LABEL();

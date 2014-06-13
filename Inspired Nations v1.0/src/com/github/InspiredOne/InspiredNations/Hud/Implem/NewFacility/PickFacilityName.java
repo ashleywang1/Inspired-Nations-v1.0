@@ -85,5 +85,4 @@ public class PickFacilityName extends InputMenu {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

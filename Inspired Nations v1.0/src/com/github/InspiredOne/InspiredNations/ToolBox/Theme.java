@@ -39,7 +39,7 @@ public class Theme implements Serializable{
 	public void setHEADER(String hEADER) {
 		HEADER = hEADER;
 	}
-
+	
 	public String SUBHEADER() {
 		return SUBHEADER;
 	}
@@ -159,6 +159,5 @@ public class Theme implements Serializable{
 	public void setENDINSTRUCT(String eNDINSTRUCT) {
 		ENDINSTRUCT = eNDINSTRUCT;
 	}
-	
-	
+
 }

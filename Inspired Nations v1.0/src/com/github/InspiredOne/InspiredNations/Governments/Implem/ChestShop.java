@@ -1,3 +1,4 @@
+
 package com.github.InspiredOne.InspiredNations.Governments.Implem;
 
 import java.util.ArrayList;

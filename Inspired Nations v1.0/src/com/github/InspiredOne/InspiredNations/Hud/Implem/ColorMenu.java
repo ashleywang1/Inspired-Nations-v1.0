@@ -1,49 +1,35 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
+import com.github.InspiredOne.InspiredNations.Hud.TaxTimerManager;
+import com.github.InspiredOne.InspiredNations.ToolBox.Theme;
 
 public class ColorMenu extends OptionMenu {
 
 	public ColorMenu(PlayerData PDI) {
+		
 		super(PDI);
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void unloadNonPersist() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void unloadPersist() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void menuPersistent() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void nonPersistent() {
-		// TODO Auto-generated method stub
-
+		
+		Debug.print("after super(PDI)");
+		
 	}
 
 	@Override
 	public Menu getPreviousMenu() {
+		Debug.print("previous menu");
 		return new PlayerDirectory(PDI);
+		
 	}
 
 	@Override
 	public boolean getPassBy() {
 		// TODO Auto-generated method stub
+		Debug.print("gPB");
 		return false;
 	}
 
@@ -54,25 +40,28 @@ public class ColorMenu extends OptionMenu {
 
 	@Override
 	public String getHeader() {
-		// TODO Auto-generated method stub
-		return null;
+		Debug.print("get Header");
+		return "Choose your theme here!";
 	}
 
 	@Override
 	public String getPreOptionText() {
-		// TODO Auto-generated method stub
-		return "Choose your menu colors here:";
+		// TODO somehow record Custom or Default Theme
+		return "";
 	}
 
 	@Override
 	public void addOptions() {
-		//this.options.add(new PromptOption(this, "Citizenship Requests and Offers", new SubjectOffers(PDI)));
-		
+		Debug.print("options for Color Menu");
+		this.options.add(new DefaultTheme(this, "Default"));
+		this.options.add(new OceanTheme(this, "Ocean Theme"));
+		this.options.add(new PromptOption(this, "Custom Theme", new CustomTheme(PDI)));
 	}
-
+	
 	@Override
 	public void addActionManagers() {
 		// TODO Auto-generated method stub
+		Debug.print("aAM");
 		
 	}
 
