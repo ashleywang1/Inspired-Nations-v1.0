@@ -1,6 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;

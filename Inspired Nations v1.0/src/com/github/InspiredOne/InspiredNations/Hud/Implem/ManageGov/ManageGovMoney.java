@@ -2,10 +2,12 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
 import java.math.BigDecimal;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
@@ -31,11 +33,7 @@ public class ManageGovMoney extends OptionMenu {
 		BigDecimal total = BigDecimal.ZERO;
 		String revtemp = "";
 		total = gov.getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown);
-		
 		output = MenuTools.oneLineWallet("", PDI, gov.getAccounts());
-		
-
-		
 		for(Class<? extends InspiredGov> govtype:gov.getTaxrates().keySet()) {
 			InspiredGov govtemp = GovFactory.getGovInstance(govtype);
 			BigDecimal taxrevenue = BigDecimal.ZERO;
@@ -56,6 +54,7 @@ public class ManageGovMoney extends OptionMenu {
 		output = output.concat(TextColor.LABEL(PDI) + "Expenditure: " + TextColor.VALUE(PDI) + 
 				Tools.cut(gov.taxValue(gov.getRegion().getRegion(), 1, gov.getProtectionlevel(), gov.getAdditionalCost()
 						, gov.getSuperTaxRate(), PDI.getCurrency()))) + " " + TextColor.UNIT(PDI) + PDI.getCurrency() + "\n";
+		
 		return output;
 		
 	}
@@ -93,8 +92,8 @@ public class ManageGovMoney extends OptionMenu {
 		if(gov.getCommonEcon().equals(gov.getClass())) {
 			this.options.add(new RenameMoneyOption(this, "Rename Money <name>", gov));
 		}
-		if(!gov.getTaxrates().isEmpty()) {
-			this.options.add(new PromptOption(this, "Change Tax Rates", new ChangeTaxRateMenu(PDI, this, gov)));
+		if(!gov.getTaxrates().isEmpty() && gov instanceof OwnerGov) {
+			this.options.add(new PromptOption(this, "Change Tax Rates", new ChangeTaxRateMenu(PDI, this, (OwnerGov) gov)));
 		}
 	}
 

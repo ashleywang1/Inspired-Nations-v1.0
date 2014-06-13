@@ -64,6 +64,10 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 		this.getSuperGovObj().getSuperGovObj().transferMoney(amount, curren, this);
 		//this.transferMoney(amount, curren, this.getSuperGovObj().getSuperGovObj()); I'm not sure why this is like this rather than the line above.
 	}
+	@Override
+	public double getSuperTaxRate() {
+		 return this.getSuperGovObj().getSuperGovObj().getSubTaxRate((Class<? extends OwnerGov>) this.getSuperGov());
+	}
 	
 	@Override
 	public String getOwnerPositionName() {

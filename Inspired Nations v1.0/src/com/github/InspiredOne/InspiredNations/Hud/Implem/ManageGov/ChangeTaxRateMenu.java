@@ -4,17 +4,19 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.NameAlreadyTakenException;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov.ChangeTaxRateMenu.TaxRateOption;;
 
 public class ChangeTaxRateMenu extends TabSelectOptionMenu<TaxRateOption> {
 
-	InspiredGov gov;
+	OwnerGov gov;
 	Menu previous;
 	
-	public ChangeTaxRateMenu(PlayerData PDI, Menu previous, InspiredGov gov) {
+	public ChangeTaxRateMenu(PlayerData PDI, Menu previous, OwnerGov gov) {
 		super(PDI);
 		this.gov = gov;
 		this.previous = previous;
@@ -39,7 +41,9 @@ public class ChangeTaxRateMenu extends TabSelectOptionMenu<TaxRateOption> {
 
 	@Override
 	public void addOptions() {
-		//this.options.add(new ChangeTaxOption(this, ))
+		if(this.taboptions.size() > 0) {
+			this.options.add(new ChangeTaxOption(this, "Change Tax Rate <rate>", this.getData(), gov));
+		}
 		
 	}
 
@@ -77,7 +81,7 @@ public class ChangeTaxRateMenu extends TabSelectOptionMenu<TaxRateOption> {
 		@Override
 		public String getDisplayName(PlayerData viewer) {
 			InspiredGov govtemp = GovFactory.getGovInstance(gov);
-			return govtemp.getTypeName() + " " + rate;
+			return TextColor.LABEL(PDI) + govtemp.getTypeName() + TextColor.VALUE(PDI) + " " + rate;
 		}
 	}
 }
