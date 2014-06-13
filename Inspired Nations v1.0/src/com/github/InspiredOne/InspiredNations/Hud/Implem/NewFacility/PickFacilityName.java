@@ -1,8 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.NewFacility;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
@@ -88,5 +85,4 @@ public class PickFacilityName extends InputMenu {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

@@ -66,6 +66,11 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 	}
 	
 	@Override
+	public double getSuperTaxRate() {
+		 return this.getSuperGovObj().getSuperGovObj().getSubTaxRate((Class<? extends OwnerGov>) this.getSuperGov());
+	}
+	
+	@Override
 	public String getOwnerPositionName() {
 		return "Caretaker";
 	}
