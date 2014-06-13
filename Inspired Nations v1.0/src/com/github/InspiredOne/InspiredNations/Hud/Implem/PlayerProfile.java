@@ -19,11 +19,7 @@ public class PlayerProfile extends OptionMenu {
 	
 	public <T extends Datable<PlayerID>> PlayerProfile(PlayerData PDI, T PDITarget) {
 		super(PDI);
-		Debug.print("before this.data");
-		//this.data = PDITarget;
-		Debug.print("after this.data");
 		this.PDITarget = PDITarget.getData().getPDI();
-		Debug.print("after PDITarget");
 	}
 
 	@Override
@@ -81,7 +77,10 @@ public class PlayerProfile extends OptionMenu {
 	@Override
 	public void addOptions() {
 		// TODO Auto-generated method stub
-		this.options.add(new PromptOption(this, "Set Menu Colors", new ColorMenu(PDI)));
+		if (this.PDITarget.equals(PDI)) {
+			this.options.add(new PromptOption(this, "Set Menu Colors", new ColorMenu(PDI)));
+		}
+		
 		//go to set theme and make another menu
 		
 		
