@@ -25,32 +25,23 @@ public abstract class ThemeOption extends Option {
 
 	@Override
 	public Menu response(String input) {
-		//
-		Debug.print("Top of Menu response, ThemeOption");
+
 		PDI.theme.setHEADER(HEADER());
-		Debug.print("1");
 		PDI.theme.setSUBHEADER(SUBHEADER());
-		
 		PDI.theme.setLABEL(LABEL());
-		
 		PDI.theme.setVALUE(VALUE());
-		Debug.print("2");
 		PDI.theme.setVALUEDESCRI(VALUEDESCRI());
 		PDI.theme.setDIVIDER(DIVIDER());
 		PDI.theme.setOPTION(OPTION());
-		Debug.print("3");
 		PDI.theme.setOPTIONNUMBER(OPTIONNUMBER());
 		PDI.theme.setOPTIONDESCRI(OPTIONDESCRIP());
 		PDI.theme.setUNAVAILABLE(UNAVAILABLE());
 		PDI.theme.setUNAVAILREASON((UNAVAILREASON()));
-		Debug.print("4");
 		PDI.theme.setINSTRUCTION(INSTRUCTION());
 		PDI.theme.setERROR(ERROR());
 		PDI.theme.setUNIT(UNIT());
-		Debug.print("5");
 		PDI.theme.setALERT(ALERT());
 		PDI.theme.setENDINSTRUCT(ENDINSTRU());
-		Debug.print("Bottom of Menu response, THemeOption");
 		return menu;
 	}
 	

@@ -1,5 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
+import org.bukkit.ChatColor;
+
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.NameAlreadyTakenException;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -49,7 +51,7 @@ public class CustomTheme extends TabSelectOptionMenu<TextCatagory> {
 					@Override
 					void changeColor(String color) {
 						// TODO Auto-generated method stub
-						PDI.theme.setHEADER(color);
+						PDI.theme.setHEADER(color + ChatColor.BOLD);
 					} 
 					
 				});
@@ -73,7 +75,7 @@ public class CustomTheme extends TabSelectOptionMenu<TextCatagory> {
 					@Override
 					void changeColor(String color) {
 						// TODO Auto-generated method stub
-						PDI.theme.setSUBHEADER(color);
+						PDI.theme.setSUBHEADER(color + ChatColor.ITALIC + "" + ChatColor.BOLD);
 					} 
 					
 				});
@@ -125,14 +127,12 @@ public class CustomTheme extends TabSelectOptionMenu<TextCatagory> {
 					
 				});
 		
-		
-		
 	}
 
 	@Override
 	public void addOptions() {
 		//PICK COLOR
-		this.options.add(new PromptOption(this, "Color Selection", new ColorOptions(PDI)));
+		this.options.add(new PromptOption(this, "Color Selection", new ColorOptions(PDI, this.getData())));
 				
 		
 	}

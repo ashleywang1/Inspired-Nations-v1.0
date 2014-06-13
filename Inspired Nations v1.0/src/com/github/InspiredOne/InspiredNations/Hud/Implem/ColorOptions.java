@@ -2,17 +2,25 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
 import org.bukkit.ChatColor;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.NameAlreadyTakenException;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.Option;
+import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ColorOptions.Color;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.CustomTheme.TextCatagory;
 
 public class ColorOptions extends TabSelectOptionMenu<Color> {
-
-	public ColorOptions(PlayerData PDI) {
+	
+	TextCatagory section;
+	
+	public ColorOptions(PlayerData PDI, TextCatagory tc) {
 		super(PDI);
+		section = tc;
+		
 		// TODO Auto-generated constructor stub
 	}
 
@@ -42,22 +50,6 @@ public class ColorOptions extends TabSelectOptionMenu<Color> {
 			public String getString() {
 				// TODO Auto-generated method stub
 				return ChatColor.AQUA + "";
-			}
-			
-		});
-		
-		this.taboptions.add(new Color() {
-
-			@Override
-			public String getDisplayName(PlayerData viewer) {
-				// TODO Auto-generated method stub
-				return ChatColor.BLACK  + "BLACK";
-			}
-
-			@Override
-			public String getString() {
-				// TODO Auto-generated method stub
-				return ChatColor.BLACK + "";
 			}
 			
 		});
@@ -257,7 +249,7 @@ public class ColorOptions extends TabSelectOptionMenu<Color> {
 
 	@Override
 	public void addOptions() {
-		// TODO Auto-generated method stub
+		this.options.add(new CustomOption(this, "Select", this.getData()));
 		
 	}
 
@@ -290,6 +282,27 @@ public class ColorOptions extends TabSelectOptionMenu<Color> {
 		
 		public abstract String getString();
 		
+		
+	}
+	
+	public class CustomOption extends Option {
+		
+		Color data;
+		
+		public CustomOption(OptionMenu menu, String label, Color c) {
+			super(menu, label);
+			data = c;
+		}
+
+		@Override
+		public Menu response(String input) {
+			// TODO Auto-generated method stub
+			Debug.print("about to change " + section.getDisplayName(PDI));
+			
+			section.changeColor(data.getString());
+			Debug.print("changed to" + data);
+			return menu;
+		}
 		
 	}
 
