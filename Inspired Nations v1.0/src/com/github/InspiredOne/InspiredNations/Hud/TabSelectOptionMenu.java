@@ -106,11 +106,12 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	public void actionResponse() {
 		int tabsize = this.filteredoptions.size();
 		if(this.manager.updateFromTabScroll) {
-			//this.setError(MenuError.NO_ERROR());
-			if(manager.preTabEntry.equalsIgnoreCase("+")) {
+			this.manager.updateFromTabScroll = false;
+			this.PDI.getMsg().clearMenuVisible();
+			if(manager.preTabEntry.equalsIgnoreCase("+") && tabsize > 0) {
 				this.setTabcnt(((this.getTabcnt() - 1) + tabsize) % tabsize);
 			}
-			else if(manager.preTabEntry.equalsIgnoreCase("-")) {
+			else if(manager.preTabEntry.equalsIgnoreCase("-") && tabsize > 0) {
 				this.setTabcnt((this.getTabcnt() + 1) % tabsize);
 			}
 			else if(manager.preTabEntry.equalsIgnoreCase("=")) {
@@ -218,7 +219,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		this.addTabOptions();
 		this.filteredoptions = Tools.filter(filterword, this.taboptions);
 		if(this.filteredoptions.size() == 0 && this.taboptions.size() != 0) {
-			this.setError(MenuError.NO_MATCHES_FOUND(this.getPlayerData()));
+			//this.setError(MenuError.NO_MATCHES_FOUND(this.getPlayerData()));
 			return;
 		}
 		else if(this.filteredoptions.size() != 0) {
