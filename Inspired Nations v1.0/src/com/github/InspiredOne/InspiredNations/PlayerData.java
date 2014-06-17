@@ -423,8 +423,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	}	
 	
 	/**
-	 * Determines if this player can interact with the location. Use minlevel to specify
-	 * the level that the gov has to beat in order for the player to be disallowed.
+	 * Determines if this player can interact with the location.
 	 * @param block	The location of the block clicked
 	 * @return true if player can interact.
 	 */
@@ -442,19 +441,20 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 		return true;
 	}
 	/**
-	 * Determines if this player can interact with the location. Use minlevel to specify
-	 * the level that the gov has to beat in order for the player to be disallowed.
+	 * Determines if this player can hurt another player in the location.
 	 * @param block	The location of the block clicked
 	 * @return true if player can interact.
 	 */
-	public boolean getAllowedHurt(Location block) {
+	public boolean getAllowedHurt(PlayerData target) {
 		//Iterates over all the goves that a gov contains and if any single one of them
 		//has enough protection on the block to stop interaction, then returns false
-		List<InspiredGov> isin = Tools.getGovsThatContain(block);
+		List<InspiredGov> isin = Tools.getGovsThatContain(target.getLocation());
 		Debug.print("Govs that block is inside: " + isin.size());
 		for(InspiredGov gov:isin) {
-			if(!locDependent(gov, block, ProtectionLevels.PLAYER_PROTECTION)) {
-				//this.sendNotification(MenuAlert.CANNOT_INTERACT(gov));
+			if(!locDependent(gov, target.getLocation(), ProtectionLevels.PLAYER_PROTECTION)) {
+				this.sendNotification(MenuAlert.CANNOT_HURT(gov, target));
+				target.sendNotification(MenuAlert.TRIED_TO_HURT_YOU(this));
+				
 				return false;
 			}
 		}

@@ -19,6 +19,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -148,7 +149,16 @@ public class InspiredNations extends JavaPlugin {
 				event.setCancelled(true);
 			}
 		}
-		
+		@EventHandler
+		public void onPlayerHurtPlayer(EntityDamageByEntityEvent event) {
+			if(event.getDamager() instanceof Player) { 
+				if(event.getEntity() instanceof Player) {
+					if(!new PlayerID((Player) event.getDamager()).getPDI().getAllowedHurt(new PlayerID((Player) event.getEntity()).getPDI())) {
+						event.setCancelled(true);
+					}
+				}
+			}
+		}
 		@EventHandler
 		public void onPlayerInteractEvent(PlayerInteractEvent event) {
 			PlayerData player = InspiredNations.playerdata.get(new PlayerID(event.getPlayer()));

@@ -109,6 +109,37 @@ public class MenuTools {
 			};
 			
 		}
+		public static Alert CANNOT_HURT(final InspiredGov gov, final PlayerData target) {
+			return new Alert() {
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					return makeMessage("You cannot hurt "+target.getDisplayName(receiver) + " here in " + gov + ". "
+							 + "Their protection is too high.", (receiver));
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					return false;
+				}
+				
+			};
+		}
+		public static Alert TRIED_TO_HURT_YOU(final PlayerData attacker) {
+			return new Alert() {
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					return makeMessage(attacker.getDisplayName(receiver) + " tried to hurt you.", receiver);
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					return false;
+				}
+				
+			};
+		}
 		public static Alert CANNOT_INTERACT(final InspiredGov attacked) {
 			return new Alert() {
 				

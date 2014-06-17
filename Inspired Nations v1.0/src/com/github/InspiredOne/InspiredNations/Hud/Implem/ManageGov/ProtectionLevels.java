@@ -20,7 +20,7 @@ public class ProtectionLevels extends OptionMenu {
 		super(PDI);
 		this.gov = gov;
 		this.previous = previous;
-		this.help.addPage("");
+		//this.help.addPage("");
 		}
 
 	@Override
