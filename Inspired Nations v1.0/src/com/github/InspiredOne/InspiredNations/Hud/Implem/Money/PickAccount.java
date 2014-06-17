@@ -8,8 +8,6 @@ import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
-import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
-import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class PickAccount extends TabSelectOptionMenu<Account> {
 
@@ -49,8 +47,7 @@ public class PickAccount extends TabSelectOptionMenu<Account> {
 	@Override
 	public void addOptions() {
 		this.options.add(new PromptOption(this, "Pick Currency Account", new PickCurrencyCollection(PDI, this, this.getData(), accountFrom)));
-		this.options.add(new PayAccountOption(PDI, this, "Transfer Money <amount>", accountFrom, this.getData()));
-		
+		this.options.add(new PayAccountOption(PDI, this, "Transfer Money <amount>", accountFrom, this.getData()));		
 	}
 
 	@Override

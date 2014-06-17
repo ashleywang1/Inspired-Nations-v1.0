@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.bukkit.ChatColor;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
@@ -224,6 +225,10 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					BigDecimal converted = Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, receiver.getCurrency()));
+					Debug.print(sender == null);
+					Debug.print(sender.getDisplayName(receiver) == null);
+					Debug.print(receiver == null);
+					Debug.print(receiver.getCurrency() == null);
 					return makeMessage(sender.getDisplayName(receiver) + makeMessage(" paid you " +TextColor.VALUE(receiver)+ converted + " "
 							+ TextColor.UNIT(receiver) + receiver.getCurrency() + ".",(receiver)), (receiver));
 				}

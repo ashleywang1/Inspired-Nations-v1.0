@@ -41,6 +41,7 @@ import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
+import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
 
 public class InspiredNations extends JavaPlugin {
 
@@ -147,6 +148,7 @@ public class InspiredNations extends JavaPlugin {
 				event.setCancelled(true);
 			}
 		}
+		
 		@EventHandler
 		public void onPlayerInteractEvent(PlayerInteractEvent event) {
 			PlayerData player = InspiredNations.playerdata.get(new PlayerID(event.getPlayer()));

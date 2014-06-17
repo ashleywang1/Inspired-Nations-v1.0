@@ -20,7 +20,8 @@ public class ProtectionLevels extends OptionMenu {
 		super(PDI);
 		this.gov = gov;
 		this.previous = previous;
-	}
+		this.help.addPage("");
+		}
 
 	@Override
 	public String getPreOptionText() {

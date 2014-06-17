@@ -11,6 +11,7 @@ import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
+import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 
 public class PayAccountOption extends Option {
@@ -18,12 +19,14 @@ public class PayAccountOption extends Option {
 	Payable accountsFrom;
 	Payable accountTo;
 	PlayerData PDI;
+	Nameable sender;
 	
 	public PayAccountOption(PlayerData PDI, OptionMenu menu, String label, Payable accountsFrom, Payable accountTo) {
 		super(menu, label);
 		this.accountsFrom = accountsFrom;
 		this.accountTo = accountTo;
 		this.PDI = PDI;
+		this.sender = sender;
 	}
 
 	@Override
@@ -35,11 +38,10 @@ public class PayAccountOption extends Option {
 	
 			try {
 				accountsFrom.transferMoney(amount, PDI.getCurrency(), accountTo);
-				accountTo.sendNotification(MenuAlert.RECEIVED_MONEY(amount, PDI.getCurrency(), PDI));
+				accountTo.sendNotification(MenuAlert.RECEIVED_MONEY(amount, PDI.getCurrency(), sender));
 				accountsFrom.sendNotification(MenuAlert.TRANSFER_SUCCESSFUL(amount, PDI.getCurrency(), PDI, accountTo));
 				//accountTo.sendNotification(MenuAlert.RECEIVED_MONEY(amount, PDI.getCurrency(), PDI));
 			} catch (BalanceOutOfBoundsException e) {
-				e.printStackTrace();
 				Debug.print("Inside BalanceOutOfBoundsException in the PayAccountOption Menu");
 				menu.setError(MenuError.NOT_ENOUGH_MONEY(this.PDI));
 			} catch (NegativeMoneyTransferException e) {

@@ -314,7 +314,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	public int effectiveProtLevel(int militaryvict, int protvict, int militaryattack) {
 		return Math.min(militaryvict-militaryattack, 0) + protvict;
 	}
-	private boolean breakBlock(InspiredGov gov, InspiredGov govtest, Location loc) {
+	private boolean locDependentProtLevel(InspiredGov gov, InspiredGov govtest, Location loc, int minlevel) {
 		boolean canbreak = false;
 		if(gov == govtest) {
 			Debug.print("Can break because " + gov.getName() + " equals " + gov.getName());
@@ -331,11 +331,11 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 		}
 		if(gov.getTier() > govtest.getTier()) {
 			Debug.print("Not same teir, switching to victim's supergov");
-			return this.breakBlock(gov.getSuperGovObj(), govtest, loc);
+			return this.locDependentProtLevel(gov.getSuperGovObj(), govtest, loc, minlevel);
 		}
 		else if(gov.getTier() < govtest.getTier()) {
 			Debug.print("Not same teir, switching to attacker's supergov");
-			return this.breakBlock(gov, govtest.getSuperGovObj(), loc);
+			return this.locDependentProtLevel(gov, govtest.getSuperGovObj(), loc, minlevel);
 		}
 		else {
 			if(gov.getSuperGovObj() == govtest.getSuperGovObj()) {
@@ -352,13 +352,13 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 			}
 			else {
 				Debug.print("Super gov's don't match so looking to next super govs up");
-				return breakBlock(gov.getSuperGovObj(), govtest.getSuperGovObj(), loc);
+				return locDependentProtLevel(gov.getSuperGovObj(), govtest.getSuperGovObj(), loc, minlevel);
 			}
 		}
 	}
 
 
-	@SuppressWarnings("static-access")
+/*	@SuppressWarnings("static-access")
 	public int getOppossingWarLevel(OwnerGov gov) {
 		List<Class<? extends OwnerGov>> possiblegovs = gov.getSuperGovObj().getAllSubGovs();
 		int highestLevel = 0;
@@ -372,7 +372,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 			if(leveltemp > highestLevel) highestLevel = leveltemp;
 		}
 		return highestLevel;
-	}
+	}*/
 	
 	public int getTierWarLevel(Class<? extends InspiredGov> govtype) {
 		InspiredGov govlevel = GovFactory.getGovInstance(govtype);
@@ -399,20 +399,19 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 			return 0;
 		}
 		else {
-			return Math.min(gov.getMilitaryLevel() - this.getTierWarLevel(gov.getClass()),0) + gov.getProtectionlevel();
+			return this.effectiveProtLevel(gov.getMilitaryLevel(), gov.getProtectionlevel(), this.getTierWarLevel(gov.getClass()));
 		}
 	}
 	
-	private boolean breakBlock(InspiredGov gov, Location block) {
+	private boolean locDependent(InspiredGov gov, Location block, int minlevel) {
 		//Iterates over all the govs this person is a citizen lives in, and if any can break
 		//inside the input gov, then returns true.
 		for(OwnerGov selfgov:this.getCitizenship()) {
-			if(this.breakBlock(gov, selfgov, block)) {
+			if(this.locDependentProtLevel(gov, selfgov, block, ProtectionLevels.BREAK_AND_PLACE)) {
 				return true;
 			}
 		}
 		return false;
-		
 	}
 	
 	public boolean getAllowedImmigration(InspiredGov gov) {
@@ -424,7 +423,8 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	}	
 	
 	/**
-	 * Determines if this player can interact with the block clicked.
+	 * Determines if this player can interact with the location. Use minlevel to specify
+	 * the level that the gov has to beat in order for the player to be disallowed.
 	 * @param block	The location of the block clicked
 	 * @return true if player can interact.
 	 */
@@ -434,8 +434,27 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 		List<InspiredGov> isin = Tools.getGovsThatContain(block);
 		Debug.print("Govs that block is inside: " + isin.size());
 		for(InspiredGov gov:isin) {
-			if(!breakBlock(gov, block)) {
+			if(!locDependent(gov, block, ProtectionLevels.BREAK_AND_PLACE)) {
 				this.sendNotification(MenuAlert.CANNOT_INTERACT(gov));
+				return false;
+			}
+		}
+		return true;
+	}
+	/**
+	 * Determines if this player can interact with the location. Use minlevel to specify
+	 * the level that the gov has to beat in order for the player to be disallowed.
+	 * @param block	The location of the block clicked
+	 * @return true if player can interact.
+	 */
+	public boolean getAllowedHurt(Location block) {
+		//Iterates over all the goves that a gov contains and if any single one of them
+		//has enough protection on the block to stop interaction, then returns false
+		List<InspiredGov> isin = Tools.getGovsThatContain(block);
+		Debug.print("Govs that block is inside: " + isin.size());
+		for(InspiredGov gov:isin) {
+			if(!locDependent(gov, block, ProtectionLevels.PLAYER_PROTECTION)) {
+				//this.sendNotification(MenuAlert.CANNOT_INTERACT(gov));
 				return false;
 			}
 		}
@@ -453,7 +472,6 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	public void addMoney(BigDecimal amount, Currency monType)
 			throws NegativeMoneyTransferException {
 		this.accounts.addMoney(amount, monType);
-		
 	}
 
 	@Override
