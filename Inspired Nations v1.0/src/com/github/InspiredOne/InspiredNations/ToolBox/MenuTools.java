@@ -109,8 +109,78 @@ public class MenuTools {
 			};
 			
 		}
+		public static Alert GOV_HAS_BEEN_RELATED(final Relation re, final OwnerGov govre, final OwnerGov gov) {
+			return new Alert() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -4462019551522672864L;
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					if(re.equals(Relation.ALLY)) {
+						return makeMessage(gov.getDisplayName(receiver) + " has allied you.", receiver);
+					}
+					else if(re.equals(Relation.NEUTRAL)) {
+						return makeMessage(gov.getDisplayName(receiver) + " has neutraled you.", receiver);
+					}
+					else if(re.equals(Relation.ENEMY)) {
+						return makeMessage(gov.getDisplayName(receiver) + " has enemied you.", receiver);
+					}
+					else {
+						return null;
+					}
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					return true;
+				}
+				
+			};
+		}
+		public static Alert GOV_HAS_SUCCEFULLY_RELATED(final Relation re, final OwnerGov govre, final OwnerGov gov) {
+			return new Alert() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -1606958062365777950L;
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					if(re.equals(Relation.ALLY)) {
+						return makeMessage("You have successfully allied " + govre.getDisplayName(receiver), receiver);
+					}
+					else if(re.equals(Relation.NEUTRAL)) {
+						return makeMessage("You have successfully neutraled " + govre.getDisplayName(receiver), receiver);
+					}
+					else if(re.equals(Relation.ENEMY)) {
+						return makeMessage("You have successfully enemied " + govre.getDisplayName(receiver), receiver);
+					}
+					else {
+						return null;
+					}
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+			};
+		}
+
+		
 		public static Alert CANNOT_HURT(final InspiredGov gov, final PlayerData target) {
 			return new Alert() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -4462019551522672864L;
 
 				@Override
 				public String getMessage(PlayerData receiver) {
@@ -127,6 +197,11 @@ public class MenuTools {
 		}
 		public static Alert TRIED_TO_HURT_YOU(final PlayerData attacker) {
 			return new Alert() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -1606958062365777950L;
 
 				@Override
 				public String getMessage(PlayerData receiver) {

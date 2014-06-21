@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.bukkit.Location;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -634,16 +633,9 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		BigDecimal output = BigDecimal.ZERO;
 		// Basically... multiply them all together and it gets you the value in Defualt currency
 		//TODO come up with some kind of war money function
-		Debug.print(1);
 		output = (new BigDecimal(region.volume()/10000.).multiply(new BigDecimal(taxfrac))).multiply(new BigDecimal(taxrate));
-		Debug.print(2);
 		output = output.multiply(new BigDecimal(protect)).add(additionalcost);
-		Debug.print(3);
-		Debug.print("currency null? :" +(curren ==null));
-		Debug.print("output == null? : " + (output == null));
-		Debug.print(5);
 		output = InspiredNations.Exchange.getExchangeValue(output, Currency.DEFAULT, curren);
-		Debug.print(4);
 		return output;
 	}
 	 

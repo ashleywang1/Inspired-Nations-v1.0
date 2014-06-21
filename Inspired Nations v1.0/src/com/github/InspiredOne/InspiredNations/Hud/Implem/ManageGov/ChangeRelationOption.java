@@ -4,6 +4,7 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
 import com.github.InspiredOne.InspiredNations.ToolBox.Relation;
 
@@ -41,9 +42,14 @@ public class ChangeRelationOption extends Option {
 		if(re.equals(Relation.NEUTRAL)) {
 			selfgov.getRelations().remove(govre);
 		}
+		else if (re.equals(Relation.ENEMY)){
+			selfgov.getRelations().put(govre, re);
+		}
 		else {
 			selfgov.getRelations().put(govre, re);
 		}
+		govre.sendNotification(MenuAlert.GOV_HAS_BEEN_RELATED(re, govre, selfgov));
+		selfgov.sendNotification(MenuAlert.GOV_HAS_SUCCEFULLY_RELATED(re, govre, selfgov));
 		return menu;
 	}
 
