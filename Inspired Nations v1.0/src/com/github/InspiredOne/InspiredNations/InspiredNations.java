@@ -42,7 +42,6 @@ import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
-import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
 
 public class InspiredNations extends JavaPlugin {
 

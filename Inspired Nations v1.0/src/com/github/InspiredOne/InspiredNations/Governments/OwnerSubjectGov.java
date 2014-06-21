@@ -2,7 +2,6 @@ package com.github.InspiredOne.InspiredNations.Governments;
 
 import java.math.BigDecimal;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
@@ -50,7 +49,6 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 	}
 	
 	public void removeSubject(PlayerID player) {
-		Debug.print("Inside removeSubject of OwnerSubjectGov");
 		this.removeOwner(player);
 		this.subjects.remove(player);
 		if(this.isSubjectLess()) {

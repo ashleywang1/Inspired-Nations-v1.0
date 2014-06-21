@@ -53,7 +53,5 @@ public class PickAccount extends TabSelectOptionMenu<Account> {
 	@Override
 	public void addActionManagers() {
 		// TODO Auto-generated method stub
-		
 	}
-
 }

@@ -54,7 +54,6 @@ public class MessageManager implements Serializable {
 			}
 		};
 		if(!msg.isEmpty()) {
-			Debug.print("message is: " + msg);
 			this.receiveAlert(error);
 		}
 	}
@@ -99,11 +98,9 @@ public class MessageManager implements Serializable {
 		try {
 			String output = this.pushMessageContent();
 			if(!output.isEmpty()) {
-				Debug.print("inside Push Message");
 				PDI.getPlayer().sendMessage(output);
 				MenuUpdateEvent event = new MenuUpdateEvent(PDI.getPlayerID());
 				Bukkit.getServer().getPluginManager().callEvent(event);
-				Debug.print("Event has been called");
 			}
 		}
 		catch (Exception ex) {

@@ -2,7 +2,6 @@ package com.github.InspiredOne.InspiredNations.Governments;
 
 import java.math.BigDecimal;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
@@ -30,7 +29,6 @@ public class GovFactory<T extends InspiredGov> {
 	}
 	
 	public GovFactory<T> withSuperGov(InspiredGov gov) {
-		Debug.print("Putting super gov on: "  + gov);
 		this.gov.setSuperGovObj(gov);
 		
 		if(!this.gov.getCommonEcon().equals(this.gov.getClass())) {
