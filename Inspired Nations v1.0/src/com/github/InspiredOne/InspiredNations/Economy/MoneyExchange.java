@@ -27,6 +27,10 @@ public class MoneyExchange implements Serializable{
 		}
 	}
 	
+	public void unregisterCurrency(Currency currency) {
+		this.Exchange.remove(currency);
+	}
+	
 	/**
 	 * Finds the value of money required in valueType that would yeild mon in montype if exchanged.
 	 * The reason getExchangeValue does not work in a transfer context is that getExchangeValue
@@ -95,7 +99,6 @@ public class MoneyExchange implements Serializable{
 		//TODO put these lines back into the else statement.
 		BigDecimal valueAmount = Exchange.get(valueType);
 		BigDecimal monAmount = Exchange.get(monType);
-
 		//TODO end of the lines I need to put back in the else statement.
 		
 		//Remove if(monType.equals(valueType) when you figure it out

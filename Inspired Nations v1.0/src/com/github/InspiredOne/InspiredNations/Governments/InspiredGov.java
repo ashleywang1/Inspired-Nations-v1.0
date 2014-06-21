@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -36,6 +37,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
+import com.github.InspiredOne.InspiredNations.ToolBox.Relation;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 /**
@@ -606,7 +608,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @return
 	 */
 	public BigDecimal taxValue(Region region, double taxfrac,int protect, Currency curren) {
-		return this.taxValue(region, taxfrac, protect, this.getAdditionalCost(),this.taxedrate, curren);
+		return this.taxValue(region, taxfrac, protect, this.getAdditionalCost(curren),this.taxedrate, curren);
 	}
 	/**
 	 * Gets the amount of money that will be charged for this gov as it stands at the next
@@ -615,7 +617,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @return
 	 */
 	public BigDecimal currentTaxCycleValue(Currency curren) {
-		BigDecimal output = this.taxValue(this.getRegion().getRegion(), 1, this.protectionlevel, this.getAdditionalCost(),
+		BigDecimal output = this.taxValue(this.getRegion().getRegion(), 1, this.protectionlevel, this.getAdditionalCost(curren),
 				this.getSuperGovObj().getTaxrates().get(this.getClass()), curren);
 		return output;
 	}
@@ -632,9 +634,16 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		BigDecimal output = BigDecimal.ZERO;
 		// Basically... multiply them all together and it gets you the value in Defualt currency
 		//TODO come up with some kind of war money function
+		Debug.print(1);
 		output = (new BigDecimal(region.volume()/10000.).multiply(new BigDecimal(taxfrac))).multiply(new BigDecimal(taxrate));
+		Debug.print(2);
 		output = output.multiply(new BigDecimal(protect)).add(additionalcost);
+		Debug.print(3);
+		Debug.print("currency null? :" +(curren ==null));
+		Debug.print("output == null? : " + (output == null));
+		Debug.print(5);
 		output = InspiredNations.Exchange.getExchangeValue(output, Currency.DEFAULT, curren);
+		Debug.print(4);
 		return output;
 	}
 	 
@@ -643,7 +652,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * Use it to insert the cost of war into the tax amount.
 	 * @return
 	 */
-	public BigDecimal getAdditionalCost() {
+	public BigDecimal getAdditionalCost(Currency valueType) {
 		return BigDecimal.ZERO;
 	}
 	/**

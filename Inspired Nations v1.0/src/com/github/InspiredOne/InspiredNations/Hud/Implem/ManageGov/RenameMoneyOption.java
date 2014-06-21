@@ -1,5 +1,8 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import com.github.InspiredOne.InspiredNations.Debug;
+import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.NameAlreadyTakenException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -30,11 +33,19 @@ public class RenameMoneyOption extends Option {
 	@Override
 	public Menu response(String input) {
 		try {
+			for(Currency curren:InspiredNations.Exchange.getExchangeMap().keySet()) {
+				Debug.print(curren.getName() + " == " + gov.getCurrency().getName() + "? " + (curren == gov.getCurrency()) );
+				
+			}
 			this.gov.getCurrency().setName(input);
+			for(Currency curren:InspiredNations.Exchange.getExchangeMap().keySet()) {
+				Debug.print(curren.getName() + " == " + gov.getCurrency().getName() + "? " + (curren == gov.getCurrency()) );
+				
+			}
+			
 		} catch (NameAlreadyTakenException e) {
 			menu.setError(MenuError.MONEY_NAME_ALREADY_TAKEN(menu.PDI));
 		}
-		
 		return menu;
 	}
 

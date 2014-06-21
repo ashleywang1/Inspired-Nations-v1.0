@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMilitaryLevelExecption;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
@@ -27,7 +28,7 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 	}
 
 	@Override
-	public BigDecimal getAdditionalCost() {
+	public BigDecimal getAdditionalCost(Currency curren) {
 
 		return getAdditionalCost(this.getMilitaryLevel());
 	}

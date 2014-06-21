@@ -44,6 +44,9 @@ public class CurrencyAccount implements Payable, Nameable, Serializable, Cloneab
 	public Currency getCurrency() {
 		return curren;
 	}
+	public void setCurrency(Currency curren) { 
+		this.curren = curren;
+	}
 	
 	@Override
 	public String getName() {

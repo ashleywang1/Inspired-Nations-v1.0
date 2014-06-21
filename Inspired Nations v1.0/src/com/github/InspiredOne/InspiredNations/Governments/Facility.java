@@ -38,7 +38,7 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 	}
 	@Override
 	public BigDecimal currentTaxCycleValue(Currency curren) {
-		return this.taxValue(this.getRegion().getRegion(), 1, this.protectionlevel, this.getAdditionalCost(),
+		return this.taxValue(this.getRegion().getRegion(), 1, this.protectionlevel, this.getAdditionalCost(curren),
 				this.getSuperGovObj().getSuperGovObj().getTaxrates().get(this.getSuperGov()), curren);
 	}
 	

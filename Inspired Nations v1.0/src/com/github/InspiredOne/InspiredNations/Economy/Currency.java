@@ -12,7 +12,7 @@ import com.github.InspiredOne.InspiredNations.Exceptions.NameAlreadyTakenExcepti
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 	
-public class Currency implements Serializable, Nameable, Comparable<Currency>{
+public final class Currency implements Serializable, Nameable, Comparable<Currency>{
 
 	/**
 	 * 
@@ -46,7 +46,40 @@ public class Currency implements Serializable, Nameable, Comparable<Currency>{
 			throw new NameAlreadyTakenException();
 		}
 		else {
+			BigDecimal value = InspiredNations.Exchange.getExchangeMap().get(this);
+			BigDecimal amount = new BigDecimal(InspiredNations.plugin.getConfig().getString("exchange_multiplyer"));
+			InspiredNations.Exchange.unregisterCurrency(this);
 			this.name = name;
+			InspiredNations.Exchange.registerCurrency(this, value.divide(amount, InspiredNations.Exchange.mcdown));
+
+			/*InspiredNations.Exchange.getExchangeMap().put(test, value);
+			Debug.print("Does the exchange map contain: " + test.getName() + InspiredNations.Exchange.getExchangeMap().containsKey(test));
+			for(InspiredGov gov:InspiredNations.regiondata) {
+				if(gov.getCurrency().equals(this)) {
+					gov.setCurrency(test);
+				}
+				for(Account account:gov.getAccounts()) {
+					for(CurrencyAccount caccount:account.getMoney()) {
+						if(caccount.getCurrency().equals(this)) {
+							caccount.setCurrency(test);
+						}
+					}
+				}
+			}
+			for(PlayerData PDI:InspiredNations.playerdata.values()) {
+				if(PDI.getCurrency().equals(this)) {
+					PDI.setCurrency(test);
+				}
+				for(Account account:PDI.getAccounts()) {
+					for(CurrencyAccount caccount:account.getMoney()) {
+						if(caccount.getCurrency().equals(this)) {
+							caccount.setCurrency(test);
+						}
+					}
+				}
+			}
+*/
+			//this.name = name;
 		}
 	}
 	

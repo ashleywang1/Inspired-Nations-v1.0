@@ -30,31 +30,46 @@ public class ManageGovMoney extends OptionMenu {
 	@Override
 	public String getPreOptionText() {
 		String output = "";
+		Debug.print(1);
 		BigDecimal total = BigDecimal.ZERO;
 		String revtemp = "";
 		total = gov.getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown);
+		Debug.print(2);
 		output = MenuTools.oneLineWallet("", PDI, gov.getAccounts());
+		Debug.print(3);
 		for(Class<? extends InspiredGov> govtype:gov.getTaxrates().keySet()) {
 			InspiredGov govtemp = GovFactory.getGovInstance(govtype);
 			BigDecimal taxrevenue = BigDecimal.ZERO;
 			for(InspiredGov govtax:gov.getAllSubGovs(govtype)) {
 				taxrevenue = taxrevenue.add(govtax.taxValue(govtax.getRegion().getRegion(), 1, govtax.getProtectionlevel(),
-						govtax.getAdditionalCost(), gov.getTaxrates().get(govtype), PDI.getCurrency()));
+						govtax.getAdditionalCost(PDI.getCurrency()), gov.getTaxrates().get(govtype), PDI.getCurrency()));
 			}
 			revtemp = revtemp.concat(TextColor.LABEL(PDI) + govtemp.getTypeName() + " (" + TextColor.VALUE(PDI) +
 					gov.getTaxrates().get(govtype) + TextColor.LABEL(PDI) + ") : "
 					+ TextColor.VALUE(PDI) + Tools.cut(taxrevenue) + " " + TextColor.UNIT(PDI)
 					+ PDI.getCurrency()+ "\n");
 		}
+		Debug.print(4);
 		if(!gov.getTaxrates().isEmpty()) {
 			output = output.concat(TextColor.SUBHEADER(PDI) + "Tax Revenue\n");
 			output = output.concat(revtemp);
 		}
+		Debug.print(5);
 		output = output.concat(TextColor.SUBHEADER(PDI) + "Tax Expenditures\n");
+		Debug.print("region is null: " + (gov.getRegion().getRegion() == null));
+		Debug.print("Money Name: " + PDI.getCurrency().getDisplayName(PDI));
+		Debug.print("additional cost: " + gov.getAdditionalCost(PDI.getCurrency()));
+		Debug.print("Protection Level: " + gov.getProtectionlevel());
+		Debug.print("tax rate: " + gov.getSuperTaxRate());
+		Debug.print("Previous is null: " + (previous == null));
+		Debug.print("gov is null: " + (gov == null));
+		Debug.print(gov.taxValue(gov.getRegion().getRegion(), 1, gov.getProtectionlevel(), gov.getAdditionalCost(PDI.getCurrency())
+				, gov.getSuperTaxRate(), PDI.getCurrency()));
+		Debug.print(6);
 		output = output.concat(TextColor.LABEL(PDI) + "Expenditure: " + TextColor.VALUE(PDI) + 
-				Tools.cut(gov.taxValue(gov.getRegion().getRegion(), 1, gov.getProtectionlevel(), gov.getAdditionalCost()
+				Tools.cut(gov.taxValue(gov.getRegion().getRegion(), 1, gov.getProtectionlevel(), gov.getAdditionalCost(PDI.getCurrency())
 						, gov.getSuperTaxRate(), PDI.getCurrency()))) + " " + TextColor.UNIT(PDI) + PDI.getCurrency() + "\n";
-		
+		Debug.print(7);
 		return output;
 		
 	}
@@ -90,7 +105,7 @@ public class ManageGovMoney extends OptionMenu {
 			this.options.add(new JoinAccountOption(this, "Join " + gov.getTypeName() + " Account", "Joins this account to yours", gov));
 		}
 		if(gov.getCommonEcon().equals(gov.getClass())) {
-			this.options.add(new RenameMoneyOption(this, "Rename Money <name>", gov));
+			this.options.add(new RenameMoneyOption(new ManageGovMoney(PDI, previous, gov), "Rename Money <name>", gov));
 		}
 		if(!gov.getTaxrates().isEmpty() && gov instanceof OwnerGov) {
 			this.options.add(new PromptOption(this, "Change Tax Rates", new ChangeTaxRateMenu(PDI, this, (OwnerGov) gov)));

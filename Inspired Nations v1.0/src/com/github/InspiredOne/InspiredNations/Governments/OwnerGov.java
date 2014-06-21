@@ -10,7 +10,9 @@ import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.NPC;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
+import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
+import com.github.InspiredOne.InspiredNations.ToolBox.Relation;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
@@ -23,6 +25,7 @@ public abstract class OwnerGov extends InspiredGov {
 	protected IndexedSet<PlayerID> owners = new IndexedSet<PlayerID>();
 	private IndexedSet<PlayerID> ownerRequest = new IndexedSet<PlayerID>();
 	private IndexedSet<PlayerID> ownerOffers = new IndexedSet<PlayerID>();
+	private IndexedMap<OwnerGov, Relation> relations = new IndexedMap<OwnerGov, Relation>();
 	
 	public OwnerGov() {
 		super();
@@ -194,6 +197,14 @@ public abstract class OwnerGov extends InspiredGov {
 	 */
 	public void setOwnerOffers(IndexedSet<PlayerID> ownerOffers) {
 		this.ownerOffers = ownerOffers;
+	}
+
+	public IndexedMap<OwnerGov, Relation> getRelations() {
+		return relations;
+	}
+
+	public void setRelations(IndexedMap<OwnerGov, Relation> relations) {
+		this.relations = relations;
 	}
 
 }

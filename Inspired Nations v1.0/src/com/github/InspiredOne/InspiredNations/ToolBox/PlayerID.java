@@ -8,7 +8,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 /**
@@ -19,10 +18,10 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
  * @author Jedidiah Phillips
  *
  */
-public class PlayerID implements Serializable, Nameable {
+public final class PlayerID implements Serializable, Nameable {
 
 	private static final long serialVersionUID = 4523105693338266817L;
-	private String name;
+	private final String name;
 	
 	public PlayerID(Player player) {
 		this.name = player.getName();
