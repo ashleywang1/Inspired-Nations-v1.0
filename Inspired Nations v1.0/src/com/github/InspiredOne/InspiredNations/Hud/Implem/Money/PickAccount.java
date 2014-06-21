@@ -47,7 +47,7 @@ public class PickAccount extends TabSelectOptionMenu<Account> {
 	@Override
 	public void addOptions() {
 		this.options.add(new PromptOption(this, "Pick Currency Account", new PickCurrencyCollection(PDI, this, this.getData(), accountFrom)));
-		this.options.add(new PayAccountOption(PDI, this, "Transfer Money <amount>", accountFrom, this.getData()));		
+		this.options.add(new PayAccountOption(PDI, this, "Transfer Money <amount>", accountFrom, this.getData(), PDI));		
 	}
 
 	@Override

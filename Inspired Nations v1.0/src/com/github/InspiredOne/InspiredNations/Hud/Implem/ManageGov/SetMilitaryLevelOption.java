@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMilitaryLevelExecption;
+import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
@@ -33,6 +34,7 @@ public class SetMilitaryLevelOption extends Option {
 	@Override
 	public Menu response(String input) {
 		try {
+			this.gov.paySuper(gov.getAdditionalCost(Integer.parseInt(input), gov.getCurrency()),gov.getCurrency());
 			this.gov.setMilitaryLevel(Integer.parseInt(input));
 		} catch (NumberFormatException e) {
 			this.menu.setError(MenuError.INVALID_NUMBER_INPUT(menu.PDI));
@@ -40,7 +42,9 @@ public class SetMilitaryLevelOption extends Option {
 			this.menu.setError(MenuError.NEGATIVE_MILITARY_LEVEL_NOT_ALLOWED(menu.PDI));
 		} catch (BalanceOutOfBoundsException e) {
 			this.menu.setError(MenuError.NOT_ENOUGH_MONEY(menu.PDI));
-		}
+		} catch (NegativeMoneyTransferException e) {
+			e.printStackTrace();
+		} 
 		return menu;
 	}
 

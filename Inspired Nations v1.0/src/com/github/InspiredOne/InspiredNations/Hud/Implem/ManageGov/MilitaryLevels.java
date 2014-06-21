@@ -1,9 +1,15 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import java.math.BigDecimal;
+
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class MilitaryLevels extends OptionMenu {
 
@@ -18,7 +24,39 @@ public class MilitaryLevels extends OptionMenu {
 
 	@Override
 	public String getPreOptionText() {
-		return "Military Level = " + gov.getMilitaryLevel();
+		BigDecimal taxvalue = gov.currentTaxCycleValue(PDI.getCurrency());
+		BigDecimal reimmburs = gov.taxValue(gov.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft()
+				, gov.getProtectionlevel(), gov.getAdditionalCost(PDI.getCurrency()),
+				gov.getSuperTaxRate(), PDI.getCurrency());
+		
+		BigDecimal oneLevelUp = gov.taxValue(gov.getRegion().getRegion(), 1,
+				gov.getProtectionlevel(), gov.getAdditionalCost(gov.getMilitaryLevel() + 1, PDI.getCurrency()), gov.getSuperTaxRate(),PDI.getCurrency());
+		
+		BigDecimal oneLevelUpCurrentCost = gov.taxValue(gov.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(),
+				gov.getProtectionlevel(), gov.getAdditionalCost(gov.getMilitaryLevel() + 1, PDI.getCurrency()),
+				gov.getSuperTaxRate(), PDI.getCurrency());
+		
+		BigDecimal oneLevelDown = gov.taxValue(gov.getRegion().getRegion(), 1,
+				gov.getProtectionlevel(), gov.getAdditionalCost(gov.getMilitaryLevel() - 1, PDI.getCurrency()),
+				gov.getSuperTaxRate(), PDI.getCurrency());
+		
+		BigDecimal oneLevelDownCurrentCost = gov.taxValue(gov.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(),
+				gov.getProtectionlevel(), gov.getAdditionalCost(gov.getMilitaryLevel() - 1, PDI.getCurrency()),
+				gov.getSuperTaxRate(), PDI.getCurrency());
+		
+		String output = TextColor.SUBHEADER(PDI) + "Pricing:\n";
+		output = output.concat(TextColor.LABEL(PDI) + "+1 Level Cost: " + TextColor.VALUE(PDI) + Tools.cut(oneLevelUp) + " "+ TextColor.UNIT(PDI) + PDI.getCurrency() + "\n");
+		if(gov.getMilitaryLevel() >= 1) {
+			output = output.concat(TextColor.LABEL(PDI) + "-1 Level Cost: " +TextColor.VALUE(PDI) + 
+					Tools.cut(oneLevelDown) + TextColor.UNIT(PDI) + " " +
+					PDI.getCurrency() + "\n");
+		}
+		output = output.concat(TextColor.SUBHEADER(PDI) + "Stats:\n");
+		output = output.concat(TextColor.LABEL(PDI) + "Current Military Level: " + TextColor.VALUE(PDI) + gov.getMilitaryLevel() + "\n");
+		output = output.concat(TextColor.LABEL(PDI) + "Current Total Cost: " + TextColor.VALUE(PDI) + Tools.cut(taxvalue) +
+				TextColor.UNIT(PDI) + " " + PDI.getCurrency() + "\n");
+		output = MenuTools.oneLineWallet(output, PDI, gov.getAccounts());
+		return output;
 	}
 
 	@Override

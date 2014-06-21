@@ -30,10 +30,10 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 	@Override
 	public BigDecimal getAdditionalCost(Currency curren) {
 
-		return getAdditionalCost(this.getMilitaryLevel());
+		return getAdditionalCost(this.getMilitaryLevel(), curren);
 	}
 	
-	public BigDecimal getAdditionalCost(int militarylevel) {
+	public BigDecimal getAdditionalCost(int militarylevel, Currency curren) {
 		//TODO determine the function for the cost of war here.
 		return (new BigDecimal(100)).multiply((new BigDecimal(militarylevel)).pow(2));
 	}
