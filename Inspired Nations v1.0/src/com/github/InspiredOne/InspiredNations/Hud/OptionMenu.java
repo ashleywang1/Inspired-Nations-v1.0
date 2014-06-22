@@ -53,7 +53,13 @@ public abstract class OptionMenu extends ActionMenu {
 				return this.getSelfPersist();
 			}
 			else {
-				return options.get(answer - 1).response(arg.substring(args[0].length()).trim());
+				if(options.get(answer - 1).isAvailable()) {
+					return options.get(answer - 1).response(arg.substring(args[0].length()).trim());
+				}
+				else {
+					this.setError(MenuError.makeMessage(options.get(answer - 1).getUnvailReason(), PDI));
+					return this.getSelfPersist();
+				}
 			}
 		}
 		catch (Exception ex) {
@@ -73,7 +79,7 @@ public abstract class OptionMenu extends ActionMenu {
 			}
 			else {
 				output = output.concat(TextColor.UNAVAILABLE(PDI) + "(" + TextColor.UNAVAILREASON(PDI) + iter + TextColor.UNAVAILABLE(PDI) + ") " + option.getName() +
-					TextColor.UNAVAILREASON(PDI) + option.getUnvailReason() + "\n");
+					TextColor.UNAVAILREASON(PDI) + ": " + option.getUnvailReason() + "\n");
 			}
 			iter ++;
 		}

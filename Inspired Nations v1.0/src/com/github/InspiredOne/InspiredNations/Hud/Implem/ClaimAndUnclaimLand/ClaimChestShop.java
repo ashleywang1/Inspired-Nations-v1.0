@@ -26,7 +26,6 @@ public class ClaimChestShop extends InputMenu {
 		this.gov = gov;
 		this.previous = previous;
 		manager = new ClaimChestShopManager(this);
-		mapmanager = new MapManager<ClaimChestShop>(this, gov.getSuperGovObj().getTier(), 1);
 	}
 
 	@Override
@@ -104,7 +103,12 @@ public class ClaimChestShop extends InputMenu {
 	@Override
 	public void addActionManagers() {
 		this.managers.add(manager);
-		this.managers.add(mapmanager);
+		if(gov.getSuperGovObj().getTier() != 0) {
+			this.mapmanager = new MapManager<ClaimChestShop>(this, gov.getSuperGovObj().getTier(), 1);
+		}
+		else {
+			this.mapmanager = new MapManager<ClaimChestShop>(this, 1, 1);
+		}
 		
 	}
 }

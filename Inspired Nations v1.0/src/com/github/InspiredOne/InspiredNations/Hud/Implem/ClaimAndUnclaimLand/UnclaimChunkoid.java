@@ -1,8 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
@@ -116,7 +114,13 @@ public class UnclaimChunkoid extends InputMenu {
 
 	@Override
 	public void addActionManagers() {
-		mapmanager = new MapManager<UnclaimChunkoid>(this, gov.getSuperGovObj().getTier(), 4);
+		if(gov.getSuperGovObj().getTier() != 0) {
+			this.mapmanager = new MapManager<UnclaimChunkoid>(this, gov.getSuperGovObj().getTier(), 4);
+		}
+		else {
+			this.mapmanager = new MapManager<UnclaimChunkoid>(this, 1, 4);
+		}
+		
 		try {
 			manager = new UnclaimChunkoidManager<UnclaimChunkoid>(this, new Point2D(PDI.getPlayer().getLocation().getChunk()));
 		} catch (PlayerOfflineException e) {

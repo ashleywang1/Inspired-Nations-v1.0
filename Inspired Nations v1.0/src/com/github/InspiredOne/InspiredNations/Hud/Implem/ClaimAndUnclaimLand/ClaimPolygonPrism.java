@@ -118,7 +118,12 @@ public class ClaimPolygonPrism extends InputMenu {
 	@Override
 	public void addActionManagers() {
 		manager = new ClaimPolygonPrismManager<ClaimPolygonPrism>(this);
-		mapmanager = new MapManager<ClaimPolygonPrism>(this, gov.getSuperGovObj().getTier(), 2);
+		if(gov.getSuperGovObj().getTier() != 0) {
+			this.mapmanager = new MapManager<ClaimPolygonPrism>(this, gov.getSuperGovObj().getTier(), 2);
+		}
+		else {
+			this.mapmanager = new MapManager<ClaimPolygonPrism>(this, 1, 2);
+		}
 		this.managers.add(manager);
 		this.managers.add(mapmanager);
 		

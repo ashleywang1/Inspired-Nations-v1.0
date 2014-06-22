@@ -156,7 +156,12 @@ public class ClaimCuboid extends InputMenu {
 
 	@Override
 	public void addActionManagers() {
-		this.mapmanager = new MapManager<ClaimCuboid>(this, gov.getSuperGovObj().getTier(), 2);
+		if(gov.getSuperGovObj().getTier() != 0) {
+			this.mapmanager = new MapManager<ClaimCuboid>(this, gov.getSuperGovObj().getTier(), 2);
+		}
+		else {
+			this.mapmanager = new MapManager<ClaimCuboid>(this, 1, 2);
+		}
 		this.manager = new ClaimCuboidManager<ClaimCuboid>(this);
 		this.managers.add(mapmanager);
 		this.managers.add(manager);

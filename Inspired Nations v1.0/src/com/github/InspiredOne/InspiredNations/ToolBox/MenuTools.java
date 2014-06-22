@@ -72,7 +72,8 @@ public class MenuTools {
 	
 	public enum OptionUnavail {
 		NOT_UNAVAILABLE(""),
-		NOBODY_TO_SHARE_WITH("No governments or people");
+		NOBODY_TO_SHARE_WITH("No governments or people"),
+		NEED_HIGHER_PROTECTION("You need at least Protection Level " + ProtectionLevels.IMMIGRATION_CONTROL + ".");
 		
 		private String reason;
 		
@@ -484,7 +485,7 @@ public class MenuTools {
 			GovName = GovFactory.getGovInstance(gov).getTypeName();
 			return GovName;
 		}
-		private static final String makeMessage(Object msg, PlayerData PDI) {
+		public static final String makeMessage(Object msg, PlayerData PDI) {
 			return "\n" + TextColor.ERROR(PDI) + msg.toString();
 		}
 	}

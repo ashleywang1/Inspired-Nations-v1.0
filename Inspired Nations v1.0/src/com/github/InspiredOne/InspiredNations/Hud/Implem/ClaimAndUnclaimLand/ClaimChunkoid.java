@@ -130,10 +130,13 @@ public class ClaimChunkoid extends InputMenu {
 		} catch (PlayerOfflineException e) {
 			e.printStackTrace();
 		}
-		this.mapmanager = new MapManager<ClaimChunkoid>(this, gov.getSuperGovObj().getTier(), 4);
+		if(gov.getSuperGovObj().getTier() != 0) {
+			this.mapmanager = new MapManager<ClaimChunkoid>(this, gov.getSuperGovObj().getTier(), 4);
+		}
+		else {
+			this.mapmanager = new MapManager<ClaimChunkoid>(this, 1, 4);
+		}
 		this.managers.add(manager);
 		this.managers.add(mapmanager);
-		
 	}
-
 }

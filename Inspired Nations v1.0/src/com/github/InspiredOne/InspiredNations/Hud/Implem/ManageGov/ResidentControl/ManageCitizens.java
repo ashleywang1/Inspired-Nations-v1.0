@@ -7,7 +7,9 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
+import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
 
 public class ManageCitizens extends TabSelectOptionMenu<PlayerID> {
 	OwnerGov gov;
@@ -55,12 +57,16 @@ public class ManageCitizens extends TabSelectOptionMenu<PlayerID> {
 		if(gov instanceof OwnerSubjectGov) {
 			this.options.add(new PromptOption(this, ((OwnerSubjectGov) gov).getSubjectPositionName() + " Requests and Offers", new RequestsForSubject(PDI, previous, (OwnerSubjectGov) gov)));
 		}
-		
+		if(gov.getProtectionlevel() >= ProtectionLevels.IMMIGRATION_CONTROL) { 
+			this.options.add(new BanishPlayerOption(this, "Banish Player", this.getData().getPDI(), gov));
+		}
+		else {
+			this.options.add(new BanishPlayerOption(this, "Banish Player", this.getData().getPDI(), gov, OptionUnavail.NEED_HIGHER_PROTECTION));
+		}
 	}
 
 	@Override
 	public void addActionManagers() {
 		// TODO Auto-generated method stub
-		
 	}
 }

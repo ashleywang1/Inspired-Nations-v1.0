@@ -52,8 +52,8 @@ public class Town extends OwnerSubjectGov {
 	public List<Class<? extends Facility>> getGovFacilities() {
 		List<Class<? extends Facility>> output = new ArrayList<Class<? extends Facility>>();
 		output.add(LocalPark.class);
-		output.add(Bank.class);
-		output.add(Prison.class);
+		//output.add(Bank.class);
+		//output.add(Prison.class);
 		return output;
 	}
 
