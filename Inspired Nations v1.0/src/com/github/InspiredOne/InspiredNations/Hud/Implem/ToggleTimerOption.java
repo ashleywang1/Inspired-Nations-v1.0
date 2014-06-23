@@ -18,11 +18,7 @@ public class ToggleTimerOption extends Option {
 	@Override
 	public Menu response(String input) {
 		InspiredNations.taxTimer.taxreadout = !InspiredNations.taxTimer.taxreadout;
-		if (PDI.getTimerState()=="On") {
-			PDI.setTimerState("Off");
-		} else {
-			PDI.setTimerState("On");
-		}
+		PDI.changeTimerState();
 		return menu;
 	}
 
