@@ -1,9 +1,12 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
+import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class PlayerCitizenship extends OptionMenu {
 
@@ -13,7 +16,14 @@ public class PlayerCitizenship extends OptionMenu {
 
 	@Override
 	public String getPreOptionText() {
-		return "";
+		String output = TextColor.SUBHEADER(PDI) + "Citizenship\n";
+		for(OwnerGov gov:PDI.getCitizenship()) {
+			if(gov != InspiredNations.global) {
+				output = output.concat(gov.getDisplayName(PDI) + "\n");
+			}
+			
+		}
+		return output;
 	}
 
 	@Override
@@ -33,7 +43,7 @@ public class PlayerCitizenship extends OptionMenu {
 
 	@Override
 	public Menu getPassTo() {
-		return null;
+		return this;
 	}
 
 	@Override

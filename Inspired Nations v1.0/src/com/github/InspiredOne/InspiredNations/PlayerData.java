@@ -15,6 +15,7 @@ import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.NPC;
@@ -111,6 +112,17 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	
 	public void setLocation(Location loc) {
 		this.lastLoc = new Point3D(loc);
+	}
+	
+	public void payNPC(BigDecimal mon, Currency monType, Payable accountFrom) {
+		for(NPC npc:this.npcs) {
+			try {
+				accountFrom.transferMoney(mon.divide(new BigDecimal(npcs.size()), InspiredNations.Exchange.mcdown), monType, npc.accounts);
+			} catch (BalanceOutOfBoundsException
+					| NegativeMoneyTransferException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public boolean isSubjectOf(Class<? extends InspiredGov> govtype) {

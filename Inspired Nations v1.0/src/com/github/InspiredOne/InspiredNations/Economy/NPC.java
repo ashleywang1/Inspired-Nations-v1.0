@@ -29,7 +29,7 @@ public class NPC implements Serializable, ItemBuyer {
 	 * 
 	 */
 	private static final long serialVersionUID = 8606492088647654688L;
-	AccountCollection accounts = new AccountCollection("NPC");
+	public AccountCollection accounts = new AccountCollection("NPC");
 	HashMap<CardboardBox,Account> buy = new HashMap<CardboardBox, Account>();
 	MathContext mcdown = InspiredNations.Exchange.mcdown;
 	MathContext mcup = InspiredNations.Exchange.mcup;

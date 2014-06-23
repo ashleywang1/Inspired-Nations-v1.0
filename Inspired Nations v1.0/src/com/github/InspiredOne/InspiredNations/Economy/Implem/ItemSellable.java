@@ -20,6 +20,7 @@ import com.github.InspiredOne.InspiredNations.Governments.Implem.ChestShop;
 import com.github.InspiredOne.InspiredNations.ToolBox.CardboardBox;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
+import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
@@ -82,9 +83,12 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 
 	@Override
 	public String getDisplayName(PlayerData viewer) {
-		if(this.isForSale()) {
-			String output = this.getName() + "\n" + TextColor.VALUE(viewer) + Tools.cut(this.getPrice(viewer.getCurrency(), viewer.getLocation())) + " " +
-		TextColor.UNIT(viewer) + viewer.getCurrency() + ": " + TextColor.UNIT(viewer) + this.getItem().getAmount();
+		if(this.shop.getItems().contains(this)) {
+			String output = this.getName() + "\n" + TextColor.VALUE(viewer) + this.getItem().getAmount() + TextColor.INSTRUCTION(viewer) + " for " +
+					TextColor.VALUE(viewer) + Tools.cut(this.getPrice(viewer.getCurrency(), viewer.getLocation())) + " " +
+					TextColor.UNIT(viewer) + viewer.getCurrency() + ": " + TextColor.VALUE(viewer) + 
+					Tools.cut(InspiredNations.Exchange.getTransferValue(price, this.curren, curren, InspiredNations.Exchange.mcup)) + 
+					TextColor.INSTRUCTION(viewer) + " + " + TextColor.VALUE(viewer) + Tools.cut(this.getTransCost(viewer.getCurrency(), viewer.getLocation()));
 			return output;
 		}
 		else {
@@ -112,9 +116,14 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 
 		transfer.setAmount(transfer.getAmount() - sold);
 		try {
-			BigDecimal price = this.getPrice(this.curren, buyer.getLocation()).multiply(new BigDecimal((double) transfer.getAmount()).
+			BigDecimal pricereal = this.price.multiply(new BigDecimal((double) transfer.getAmount()).
 					divide(new BigDecimal((double) this.getItem().getAmount()),InspiredNations.Exchange.mcup));
-			account.transferMoney(price, this.curren, this.shop.getAccounts());
+			account.transferMoney(pricereal, this.curren, this.shop.getAccounts());
+			for(PlayerID player:shop.getOwners()) {
+				player.getPDI().payNPC(this.getTransCost(this.curren, buyer.getLocation())
+						.divide(new BigDecimal(shop.getOwners().size()), InspiredNations.Exchange.mcdown),
+						this.curren, account);
+			}
 			((ItemBuyer) buyer).recieveItem(transfer);
 			try {
 				shop.getInventory().removeItem(transfer);
@@ -126,7 +135,6 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 				((PlayerData) buyer).getMsg().receiveError(MenuError.NOT_ENOUGH_MONEY((PlayerData) buyer));
 			}
 			e.printStackTrace();
-			
 		}
 	}
 	
@@ -163,7 +171,8 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 
 	@Override
 	public BigDecimal getPrice(Currency curren, Location locto) {
-		return InspiredNations.Exchange.getTransferValue(price, this.curren, curren, InspiredNations.Exchange.mcup);
+		return InspiredNations.Exchange.getTransferValue(price, this.curren, curren, InspiredNations.Exchange.mcup).
+				add(this.getTransCost(curren, locto));
 		
 	}
 	
@@ -176,7 +185,7 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 		//TODO think about the transportation cost function.
 		double dist = locto.distance(this.getLocation().getLocation());
 		
-		return InspiredNations.Exchange.getTransferValue((new BigDecimal(dist)).divide((new BigDecimal(100))),
+		return InspiredNations.Exchange.getTransferValue((new BigDecimal(dist)).divide((new BigDecimal(10000))),
 				Currency.DEFAULT,curren, InspiredNations.Exchange.mcup);
 	}
 	

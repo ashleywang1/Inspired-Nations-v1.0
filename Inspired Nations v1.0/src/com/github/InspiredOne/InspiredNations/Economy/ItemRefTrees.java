@@ -2,7 +2,6 @@ package com.github.InspiredOne.InspiredNations.Economy;
 
 import org.bukkit.inventory.ItemStack;
 
-import com.github.InspiredOne.InspiredNations.Economy.NPC;
 import com.github.InspiredOne.InspiredNations.Economy.Nodes.ItemNode;
 import com.github.InspiredOne.InspiredNations.Economy.Nodes.Node;
 import com.github.InspiredOne.InspiredNations.Economy.Nodes.PerfectCompNode;

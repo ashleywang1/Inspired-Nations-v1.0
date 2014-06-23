@@ -74,6 +74,17 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 		return "Caretaker";
 	}
 	
+	public List<PlayerID> getOwners() {
+		List<PlayerID> output = new ArrayList<PlayerID>();
+		if(this.getSuperGovObj() instanceof Facility) {
+			output.addAll(((Facility) this.getSuperGovObj()).getOwners());
+		}
+		else {
+			output.addAll(((OwnerGov) this.getSuperGovObj()).getOwners());
+		}
+		return output;
+	}
+	
 	public int getMilitaryLevel() {
 		return this.getSuperGovObj().getMilitaryLevel();
 	}

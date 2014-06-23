@@ -3,12 +3,15 @@ package com.github.InspiredOne.InspiredNations.Governments;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import org.bukkit.entity.Player;
+
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Economy.NPC;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
+import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.Relation;
@@ -35,6 +38,16 @@ public abstract class OwnerGov extends InspiredGov {
 	}
 	
 	public void addOwner(PlayerID player) {
+		try {
+			Player playerreal = player.getPDI().getPlayer();
+			if(playerreal.isConversing()) {
+				player.getPDI().getCon().acceptInput("exit");
+			}
+		} catch (PlayerOfflineException e) {
+			
+		}
+	
+		
 		for(OwnerGov gov:player.getPDI().getCitizenship()) {
 			for(OwnerGov govlost:gov.getGovsLost(this, player)) {
 				govlost.removeOwner(player);
