@@ -17,11 +17,11 @@ public class TaxTimer implements Serializable {
 	 */
 	private static final long serialVersionUID = 7051455502418466458L;
 	
-	PlayerData PDI;
+	//PlayerData PDI;
 	
 	private int cycleLength;
 	private int countdown;
-	public boolean taxreadout = PDI.getTimerState();
+	public boolean taxreadout;
 
 	
 	public TaxTimer(){
