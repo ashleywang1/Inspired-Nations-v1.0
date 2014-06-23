@@ -13,7 +13,8 @@ public class TaxTimerListener<T extends TaxTimerManager<?>> extends InspiredList
 	
 	@EventHandler
 	public void onTaxTimerEvent(TaxTimerEvent event) {
-		this.manager.Update();
+		if(manager.getActionMenu().PDI.TimerState) {
+			this.manager.Update();
+		}
 	}
-
 }
