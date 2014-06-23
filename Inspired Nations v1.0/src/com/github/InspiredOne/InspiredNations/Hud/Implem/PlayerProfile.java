@@ -77,9 +77,13 @@ public class PlayerProfile extends OptionMenu {
 	@Override
 	public void addOptions() {
 		// TODO Auto-generated method stub
+		//this.options.add(new AllyList(this, "Allies"));
+		//this.options.add(new EnemyList(this, "Enemies"));
+		
 		if (this.PDITarget.equals(PDI)) {
-			this.options.add(new PromptOption(this, "Set Menu Colors", new ColorMenu(PDI)));
+			this.options.add(new PromptOption(this, "Settings", new SettingsMenu(PDI)));
 		}
+		
 		
 		//go to set theme and make another menu
 		
