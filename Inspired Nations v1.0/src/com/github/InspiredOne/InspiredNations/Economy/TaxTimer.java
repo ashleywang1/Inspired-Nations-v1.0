@@ -21,7 +21,7 @@ public class TaxTimer implements Serializable {
 	
 	private int cycleLength;
 	private int countdown;
-	public boolean taxreadout;
+	public boolean taxreadout = true;
 
 	
 	public TaxTimer(){

@@ -12,6 +12,7 @@ public class ToggleTimerOption extends Option {
 
 	public ToggleTimerOption(OptionMenu menu, String label, String description) {
 		super(menu, label, description);
+		this.PDI = menu.getPlayerData();
 	}
 
 	@Override
