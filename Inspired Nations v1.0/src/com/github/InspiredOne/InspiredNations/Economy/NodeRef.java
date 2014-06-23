@@ -24,7 +24,6 @@ public class NodeRef {
 	
 	public NodeRef() {
 		item = new ItemRefTrees();
-
 		
 		Begin = new CobDugNode( new double[] {1,1}, new Node[] {
 			// { Armor
@@ -292,7 +291,21 @@ public class NodeRef {
 							}),
 					})
 					// }
+					// { Redstone
+					
+					// }
 			})
+			// }
+			// { Weapons
+				// { Potions
+			
+				// }
+				// { Hand-held Weapons
+			
+				// }
+			// }
+			// { Food
+			
 			// }
 		});
 	}

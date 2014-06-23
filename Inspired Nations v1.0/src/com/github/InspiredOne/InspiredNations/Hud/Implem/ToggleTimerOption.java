@@ -1,6 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
@@ -12,12 +11,12 @@ public class ToggleTimerOption extends Option {
 
 	public ToggleTimerOption(OptionMenu menu, String label, String description) {
 		super(menu, label, description);
-		// TODO Auto-generated constructor stub
+		this.PDI = menu.getPlayerData();
 	}
 
 	@Override
 	public Menu response(String input) {
-		InspiredNations.taxTimer.taxreadout = !InspiredNations.taxTimer.taxreadout;
+		//InspiredNations.taxTimer.taxreadout = !InspiredNations.taxTimer.taxreadout;
 		PDI.TimerState = !PDI.TimerState;
 		return menu;
 	}
