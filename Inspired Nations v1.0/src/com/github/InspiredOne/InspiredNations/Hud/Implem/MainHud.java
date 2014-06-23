@@ -85,7 +85,7 @@ public class MainHud extends OptionMenu {
 		}
 		
 		String state;
-		if (PDI.getTimerState()) {
+		if (InspiredNations.taxTimer.taxreadout) {
 			state = "On";
 		} else {
 			state = "Off";

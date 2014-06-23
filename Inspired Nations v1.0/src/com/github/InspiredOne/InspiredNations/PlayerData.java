@@ -305,10 +305,12 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	}
 	
 	public boolean getTimerState() {
+		Debug.print(TimerState + "Here is the TimerState!");
 		return TimerState;
 	}
 	
 	public void changeTimerState() {
+		Debug.print(TimerState + "has changed to " + !TimerState);
 		TimerState = !TimerState;
 	}
 
