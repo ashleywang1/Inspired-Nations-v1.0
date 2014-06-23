@@ -16,9 +16,8 @@ public class ToggleTimerOption extends Option {
 
 	@Override
 	public Menu response(String input) {
-		InspiredNations.taxTimer.taxreadout = !InspiredNations.taxTimer.taxreadout;
+		//InspiredNations.taxTimer.taxreadout = !InspiredNations.taxTimer.taxreadout;
 		PDI.TimerState = !PDI.TimerState;
-		
 		return menu;
 	}
 
