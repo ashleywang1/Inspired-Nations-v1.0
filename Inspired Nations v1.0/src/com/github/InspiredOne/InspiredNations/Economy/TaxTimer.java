@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 
 public class TaxTimer implements Serializable {
@@ -16,9 +17,11 @@ public class TaxTimer implements Serializable {
 	 */
 	private static final long serialVersionUID = 7051455502418466458L;
 	
+	PlayerData PDI;
+	
 	private int cycleLength;
 	private int countdown;
-	public boolean taxreadout = true;
+	public boolean taxreadout = PDI.getTimerState();
 
 	
 	public TaxTimer(){

@@ -83,7 +83,14 @@ public class MainHud extends OptionMenu {
 				this.options.add(new PromptOption(this, "Market", new PickMarketplace(PDI)));
 			}
 		}
-		this.options.add(new ToggleTimerOption(this, "Toggle Timer"));
+		
+		String state;
+		if (PDI.getTimerState()) {
+			state = "On";
+		} else {
+			state = "Off";
+		}
+		this.options.add(new ToggleTimerOption(this, "Toggle Timer", "(" + state + ")"));
 		this.options.add(new PromptOption(this, "Player Directory", new PlayerDirectory(PDI)));
 		this.options.add(new PromptOption(this, "Citizenship", new PlayerCitizenship(PDI)));
 		this.options.add(new PromptOption(this, "Manage Money", new ManageMoney(PDI),
