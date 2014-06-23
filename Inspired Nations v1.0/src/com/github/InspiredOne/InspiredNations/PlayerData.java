@@ -55,6 +55,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	protected PlayerData PDI;
 	public List<NPC> npcs = new ArrayList<NPC>();
 	public Theme theme = new Theme();
+	public String TimerState = "On";
 	
 	public PlayerData(PlayerID id) {
 		this.name = id.getName();
@@ -290,6 +291,14 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
+	
+	public String getTimerState() {
+		return TimerState;
+	}
+	
+	public void setTimerState(String state) {
+		TimerState = state;
+	}
 
 	public MessageManager getMsg() {
 		return msg;
@@ -506,4 +515,6 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 		}
 		return holders;
 	}
+
+
 }
