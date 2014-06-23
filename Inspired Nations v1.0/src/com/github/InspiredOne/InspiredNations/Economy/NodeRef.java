@@ -31,27 +31,27 @@ public class NodeRef {
 			new CobDugNode( new double[] {1.25,2,1.75,1}, new Node[] { // Armor
 				// { Helmet
 				new PerfectSubNode( new double[] {1,3,4,6,10}, new Node[] { // Helmet
-						new ItemNode( new ItemStack(298, 1, (short) 0), new Node[] { // Leather Helmet
+						new ItemNode( new ItemStack(Material.LEATHER_HELMET, 1, (short) 0), new Node[] { // Leather Helmet
 							new PerfectCompNode( new double[] {5}, new Node[] {
-								new ItemNode( new ItemStack(334, 1, (short) 0)) // Leather
+								new ItemNode( new ItemStack(Material.LEATHER, 1, (short) 0)) // Leather
 							})
 						}),
-						new ItemNode( new ItemStack(302, 1, (short) 0), new Node[] { // Chain Helmet
+						new ItemNode( new ItemStack(Material.CHAINMAIL_HELMET, 1, (short) 0), new Node[] { // Chain Helmet
 							new PerfectCompNode( new double[] {5}, new Node[] {
-								new ItemNode( new ItemStack(51, 1, (short) 0)) // Fire
+								new ItemNode( new ItemStack(Material.FIRE, 1, (short) 0)) // Fire
 							})
 						}),
-						new ItemNode( new ItemStack(314, 1, (short) 0), new Node[] { // Gold Helmet
+						new ItemNode( new ItemStack(Material.GOLD_HELMET, 1, (short) 0), new Node[] { // Gold Helmet
 							new PerfectCompNode( new double[] {5}, new Node[] {
 									item.goldIngot
 							})
 						}),
-						new ItemNode( new ItemStack(306, 1, (short) 0), new Node[] { // Iron Helmet
+						new ItemNode( new ItemStack(Material.IRON_HELMET, 1, (short) 0), new Node[] { // Iron Helmet
 							new PerfectCompNode( new double[] {5}, new Node[] {
 									item.ironIngot
 							})
 						}),
-						new ItemNode( new ItemStack(310, 1, (short) 0), new Node[] { // Diamond Helmet
+						new ItemNode( new ItemStack(Material.DIAMOND_HELMET, 1, (short) 0), new Node[] { // Diamond Helmet
 							new PerfectCompNode( new double[] {5}, new Node[] {
 								item.diamond
 							})
@@ -60,27 +60,27 @@ public class NodeRef {
 				// }
 				// { ChestPlate
 				new PerfectSubNode( new double[] {1,3,4,6,10}, new Node[] { // Chestplate
-						new ItemNode( new ItemStack(299, 1, (short) 0), new Node[] { // Leather Chestplate
+						new ItemNode( new ItemStack(Material.LEATHER_CHESTPLATE, 1, (short) 0), new Node[] { // Leather Chestplate
 							new PerfectCompNode( new double[] {8}, new Node[] {
-								new ItemNode( new ItemStack(334, 1, (short) 0)) // Leather
+								new ItemNode( new ItemStack(Material.LEATHER, 1, (short) 0)) // Leather
 							})
 						}),
-						new ItemNode( new ItemStack(303, 1, (short) 0), new Node[] { // Chain Chestplate
+						new ItemNode( new ItemStack(Material.CHAINMAIL_CHESTPLATE, 1, (short) 0), new Node[] { // Chain Chestplate
 							new PerfectCompNode( new double[] {8}, new Node[] {
-								new ItemNode( new ItemStack(51, 1, (short) 0)) // Fire
+								new ItemNode( new ItemStack(Material.FIRE, 1, (short) 0)) // Fire
 							})
 						}),
-						new ItemNode( new ItemStack(315, 1, (short) 0), new Node[] { // Gold Chestplate
+						new ItemNode( new ItemStack(Material.GOLD_CHESTPLATE, 1, (short) 0), new Node[] { // Gold Chestplate
 							new PerfectCompNode( new double[] {8}, new Node[] {
 									item.goldIngot
 							})
 						}),
-						new ItemNode( new ItemStack(307, 1, (short) 0), new Node[] { // Iron Chestplate
+						new ItemNode( new ItemStack(Material.IRON_CHESTPLATE, 1, (short) 0), new Node[] { // Iron Chestplate
 							new PerfectCompNode( new double[] {8}, new Node[] {
 									item.ironIngot
 							})
 						}),
-						new ItemNode( new ItemStack(311, 1, (short) 0), new Node[] { // Diamond Chestplate
+						new ItemNode( new ItemStack(Material.DIAMOND_CHESTPLATE, 1, (short) 0), new Node[] { // Diamond Chestplate
 							new PerfectCompNode( new double[] {8}, new Node[] {
 								item.diamond
 							})
@@ -89,17 +89,17 @@ public class NodeRef {
 				// }
 				// { Leggings
 				new PerfectSubNode( new double[] {1,3,4,6,10}, new Node[] { // Leggings
-						new ItemNode( new ItemStack(300, 1, (short) 0), new Node[] { // Leather Leggings
+						new ItemNode( new ItemStack(Material.LEATHER_LEGGINGS, 1, (short) 0), new Node[] { // Leather Leggings
 							new PerfectCompNode( new double[] {7}, new Node[] {
-								new ItemNode( new ItemStack(334, 1, (short) 0)) // Leather
+								new ItemNode( new ItemStack(Material.LEATHER, 1, (short) 0)) // Leather
 							})
 						}),
-						new ItemNode( new ItemStack(304, 1, (short) 0), new Node[] { // Chain Leggings
+						new ItemNode( new ItemStack(Material.CHAINMAIL_LEGGINGS, 1, (short) 0), new Node[] { // Chain Leggings
 							new PerfectCompNode( new double[] {7}, new Node[] {
-								new ItemNode( new ItemStack(51, 1, (short) 0)) // Fire
+								new ItemNode( new ItemStack(Material.FIRE, 1, (short) 0)) // Fire
 							})
 						}),
-						new ItemNode( new ItemStack(316, 1, (short) 0), new Node[] { // Gold Leggings
+						new ItemNode( new ItemStack(Material.GOLD_LEGGINGS, 1, (short) 0), new Node[] { // Gold Leggings
 							new PerfectCompNode( new double[] {7}, new Node[] {
 									item.goldIngot
 							})
