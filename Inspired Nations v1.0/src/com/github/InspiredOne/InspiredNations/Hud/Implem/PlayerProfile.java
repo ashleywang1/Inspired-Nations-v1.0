@@ -13,10 +13,8 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class PlayerProfile extends OptionMenu {
-
 	
 	PlayerData PDITarget;
-	//Datable<PlayerID> data;
 	
 	public <T extends Datable<PlayerID>> PlayerProfile(PlayerData PDI, T PDITarget) {
 		super(PDI);

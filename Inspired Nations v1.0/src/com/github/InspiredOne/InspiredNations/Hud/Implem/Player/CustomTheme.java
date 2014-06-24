@@ -14,18 +14,15 @@ public class CustomTheme extends TabSelectOptionMenu<TextCatagory> {
 
 	public CustomTheme(PlayerData PDI) {
 		super(PDI);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public Menu getPreviousPrompt() {
-		// TODO Auto-generated method stub
 		return new ColorMenu(PDI);
 	}
 
 	@Override
 	public String postTabListPreOptionsText() {
-		// TODO Auto-generated method stub
 		return "Tab to select color";
 	}
 
@@ -163,8 +160,6 @@ public class CustomTheme extends TabSelectOptionMenu<TextCatagory> {
 		}
 		
 		abstract void changeColor(String color);
-
-		//implement getDisplayName seperately
 		
 	}
 
