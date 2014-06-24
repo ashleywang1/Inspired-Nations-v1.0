@@ -1,9 +1,10 @@
-package com.github.InspiredOne.InspiredNations.Hud.Implem;
+package com.github.InspiredOne.InspiredNations.Hud.Implem.Player;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.PlayerDirectory;
 
 public class SettingsMenu extends OptionMenu {
 

@@ -12,7 +12,6 @@ public class ToggleTimerOption extends Option {
 
 	public ToggleTimerOption(OptionMenu menu, String label, String description) {
 		super(menu, label, description);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

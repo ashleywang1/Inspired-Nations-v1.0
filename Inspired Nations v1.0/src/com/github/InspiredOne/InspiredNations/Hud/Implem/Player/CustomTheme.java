@@ -1,4 +1,4 @@
-package com.github.InspiredOne.InspiredNations.Hud.Implem;
+package com.github.InspiredOne.InspiredNations.Hud.Implem.Player;
 
 import org.bukkit.ChatColor;
 
@@ -8,7 +8,7 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.CustomTheme.TextCatagory;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.CustomTheme.TextCatagory;
 
 public class CustomTheme extends TabSelectOptionMenu<TextCatagory> {
 
@@ -133,7 +133,6 @@ public class CustomTheme extends TabSelectOptionMenu<TextCatagory> {
 	public void addOptions() {
 		//PICK COLOR
 		this.options.add(new PromptOption(this, "Color Selection", new ColorOptions(PDI, this.getData())));
-				
 		
 	}
 

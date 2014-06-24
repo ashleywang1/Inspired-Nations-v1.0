@@ -1,4 +1,4 @@
-package com.github.InspiredOne.InspiredNations.Hud.Implem;
+package com.github.InspiredOne.InspiredNations.Hud.Implem.Player;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
