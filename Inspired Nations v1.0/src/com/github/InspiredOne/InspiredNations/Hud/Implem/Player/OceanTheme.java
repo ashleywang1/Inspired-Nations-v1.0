@@ -1,12 +1,12 @@
-package com.github.InspiredOne.InspiredNations.Hud.Implem;
+package com.github.InspiredOne.InspiredNations.Hud.Implem.Player;
 
 import org.bukkit.ChatColor;
 
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 
-public class DefaultTheme extends ThemeOption {
+public class OceanTheme extends ThemeOption {
 
-	public DefaultTheme(OptionMenu menu, String label) {
+	public OceanTheme(OptionMenu menu, String label) {
 		super(menu, label);
 		// TODO Auto-generated constructor stub
 	}
@@ -14,67 +14,67 @@ public class DefaultTheme extends ThemeOption {
 	@Override
 	public String HEADER() {
 		// TODO Auto-generated method stub
-		return ChatColor.BLUE + "" + ChatColor.BOLD;
+		return ChatColor.YELLOW + "" + ChatColor.ITALIC + "" + ChatColor.BOLD;
 	}
 
 	@Override
 	public String SUBHEADER() {
 		// TODO Auto-generated method stub
-		return ChatColor.YELLOW + "" + ChatColor.ITALIC + "" + ChatColor.BOLD;
+		return ChatColor.YELLOW + "";
 	}
 
 	@Override
 	public String LABEL() {
 		// TODO Auto-generated method stub
-		return ChatColor.RED + "";
+		return ChatColor.YELLOW + "";
 	}
 
 	@Override
 	public String VALUE() {
 		// TODO Auto-generated method stub
-		return ChatColor.GOLD + "";
+		return ChatColor.YELLOW + "";
 	}
 
 	@Override
 	public String VALUEDESCRI() {
 		// TODO Auto-generated method stub
-		return ChatColor.RED + "";
+		return ChatColor.WHITE + "";
 	}
 
 	@Override
 	public String DIVIDER() {
 		// TODO Auto-generated method stub
-		return ChatColor.DARK_AQUA + "";
+		return ChatColor.BLUE + "";
 	}
 
 	@Override
 	public String OPTION() {
 		// TODO Auto-generated method stub
-		return ChatColor.DARK_GREEN + "";
+		return ChatColor.GREEN + "";
 	}
 
 	@Override
 	public String OPTIONNUMBER() {
 		// TODO Auto-generated method stub
-		return ChatColor.YELLOW + "";
+		return ChatColor.AQUA + "";
 	}
 
 	@Override
 	public String OPTIONDESCRIP() {
 		// TODO Auto-generated method stub
-		return ChatColor.GRAY + "";
+		return ChatColor.YELLOW + "";
 	}
 
 	@Override
 	public String UNAVAILABLE() {
 		// TODO Auto-generated method stub
-		return ChatColor.DARK_GRAY + "";
+		return ChatColor.YELLOW + "";
 	}
 
 	@Override
 	public String UNAVAILREASON() {
 		// TODO Auto-generated method stub
-		return ChatColor.GRAY + "";
+		return ChatColor.YELLOW + "";
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class DefaultTheme extends ThemeOption {
 	@Override
 	public String ERROR() {
 		// TODO Auto-generated method stub
-		return ChatColor.RED + "";
+		return ChatColor.YELLOW + "";
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class DefaultTheme extends ThemeOption {
 	@Override
 	public String ENDINSTRU() {
 		// TODO Auto-generated method stub
-		return ChatColor.AQUA + "";
+		return ChatColor.YELLOW + "";
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.github.InspiredOne.InspiredNations.Hud.Implem;
+package com.github.InspiredOne.InspiredNations.Hud.Implem.Player;
 
 import org.bukkit.ChatColor;
 
@@ -10,8 +10,8 @@ import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.ColorOptions.Color;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.CustomTheme.TextCatagory;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.ColorOptions.Color;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.CustomTheme.TextCatagory;
 
 public class ColorOptions extends TabSelectOptionMenu<Color> {
 	

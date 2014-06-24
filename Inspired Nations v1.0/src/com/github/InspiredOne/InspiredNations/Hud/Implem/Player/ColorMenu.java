@@ -1,4 +1,4 @@
-package com.github.InspiredOne.InspiredNations.Hud.Implem;
+package com.github.InspiredOne.InspiredNations.Hud.Implem.Player;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
@@ -15,14 +15,11 @@ public class ColorMenu extends OptionMenu {
 		
 		super(PDI);
 		
-		Debug.print("after super(PDI)");
-		
 	}
 
 	@Override
 	public Menu getPreviousMenu() {
-		Debug.print("previous menu");
-		return new PlayerDirectory(PDI);
+		return new SettingsMenu(PDI);
 		
 	}
 
@@ -60,8 +57,6 @@ public class ColorMenu extends OptionMenu {
 	
 	@Override
 	public void addActionManagers() {
-		// TODO Auto-generated method stub
-		Debug.print("aAM");
 		
 	}
 

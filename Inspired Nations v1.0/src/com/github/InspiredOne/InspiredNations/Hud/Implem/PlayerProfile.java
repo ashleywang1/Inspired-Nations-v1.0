@@ -7,15 +7,14 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TaxTimerManager;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.SettingsMenu;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MenuUpdateManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class PlayerProfile extends OptionMenu {
-
 	
 	PlayerData PDITarget;
-	//Datable<PlayerID> data;
 	
 	public <T extends Datable<PlayerID>> PlayerProfile(PlayerData PDI, T PDITarget) {
 		super(PDI);
@@ -77,12 +76,12 @@ public class PlayerProfile extends OptionMenu {
 	@Override
 	public void addOptions() {
 		// TODO Auto-generated method stub
+		//this.options.add(new AllyList(this, "Allies"));
+		//this.options.add(new EnemyList(this, "Enemies"));
+		
 		if (this.PDITarget.equals(PDI)) {
-			this.options.add(new PromptOption(this, "Set Menu Colors", new ColorMenu(PDI)));
+			this.options.add(new PromptOption(this, "Settings", new SettingsMenu(PDI)));
 		}
-		
-		//go to set theme and make another menu
-		
 		
 	}
 
