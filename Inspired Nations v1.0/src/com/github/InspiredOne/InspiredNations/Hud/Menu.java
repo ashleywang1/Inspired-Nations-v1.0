@@ -6,6 +6,7 @@ import org.bukkit.conversations.Prompt;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
@@ -160,6 +161,11 @@ public abstract class Menu extends MessagePrompt {
 			return new MainHud(PDI);
 		}
 		if (arg.equalsIgnoreCase("exit")) {
+			try {
+				this.PDI.getPlayer().sendRawMessage(MenuTools.space());
+			} catch (PlayerOfflineException e) {
+				e.printStackTrace();
+			}
 			this.unloadNonPersist();
 			return Menu.END_OF_CONVERSATION;
 		}
