@@ -20,7 +20,7 @@ public class HelpMenu extends InputMenu {
 
 	@Override
 	public Menu nextMenu() {
-		return previous;
+		return this;
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class HelpMenu extends InputMenu {
 				return MenuError.HELP_PAGE_NOT_AVAILABLE(docs.size(), PDI);
 			}
 			else {
-				pagenum = page;
+				pagenum = page-1;
 				return MenuError.NO_ERROR();
 			}
 		}
@@ -68,7 +68,7 @@ public class HelpMenu extends InputMenu {
 		else {
 			String output = "";
 			for(int i = 0; i < docs.size(); i++) {
-				if(i == pagenum -1) {
+				if(i == pagenum) {
 					output = output.concat(TextColor.VALUE(PDI).toString() + (i + 1) + ", ");
 				}
 				else {
