@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 
 public class Message extends Alert implements Nameable {
 

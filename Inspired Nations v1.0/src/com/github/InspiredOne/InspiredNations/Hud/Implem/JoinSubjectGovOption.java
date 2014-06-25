@@ -4,8 +4,8 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
-import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class JoinSubjectGovOption extends Option {
 

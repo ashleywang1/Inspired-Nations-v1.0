@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
-import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 public class GovFactory<T extends InspiredGov> {

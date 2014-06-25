@@ -6,7 +6,8 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.IgnoreOfferOption;
-import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
 
 public class OffersForOwner extends TabSelectOptionMenu<PlayerID> {
 
@@ -46,8 +47,14 @@ public class OffersForOwner extends TabSelectOptionMenu<PlayerID> {
 		if(taboptions.size() != 0) {
 			this.options.add(new IgnoreOfferOption(this, "Remove Offer", this.getData(), this.gov.getOwnerOffers()));
 		}
-		this.options.add(new PromptOption(this, "Add Offer", new PickPlayerToOfferOwner(PDI, this, gov)));
-		
+		PickPlayerToOfferOwner next = new PickPlayerToOfferOwner(PDI, this, gov);
+		next.addTabOptions();
+		if(next.getTabOptions().size() > 0) {
+			this.options.add(new PromptOption(this, "Add Offer", next));
+		}
+		else {
+			this.options.add(new PromptOption(this, "Add Offer", next, OptionUnavail.NO_PEOPLE_TO_ADD));
+		}
 	}
 
 	@Override

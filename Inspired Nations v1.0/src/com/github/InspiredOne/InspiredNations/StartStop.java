@@ -20,9 +20,9 @@ import com.github.InspiredOne.InspiredNations.Economy.NPC;
 import com.github.InspiredOne.InspiredNations.Economy.NodeRef;
 import com.github.InspiredOne.InspiredNations.Economy.TaxTimer;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
-import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 
 public class StartStop {

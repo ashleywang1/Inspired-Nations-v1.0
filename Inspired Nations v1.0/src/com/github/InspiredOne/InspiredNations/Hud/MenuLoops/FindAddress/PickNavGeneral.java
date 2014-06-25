@@ -7,7 +7,7 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
-import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 
 public abstract class PickNavGeneral extends PassByOptionMenu {
 

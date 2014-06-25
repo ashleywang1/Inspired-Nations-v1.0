@@ -9,9 +9,9 @@ import org.bukkit.OfflinePlayer;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.Country;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.Regions.InspiredRegion;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
-import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class GlobalGov extends OwnerSubjectGov {
 	

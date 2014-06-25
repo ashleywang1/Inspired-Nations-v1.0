@@ -7,10 +7,10 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TaxTimerManager;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.SettingsMenu;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MenuUpdateManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
-import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class PlayerProfile extends OptionMenu {
 	

@@ -4,8 +4,9 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
-import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class OfferOwnerOption extends Option {
 
@@ -34,6 +35,7 @@ public class OfferOwnerOption extends Option {
 	public Menu response(String input) {
 		if(!this.gov.getOwnerRequests().contains(player)) {
 			this.gov.getOwnerOffers().add(player);
+			player.getPDI().sendNotification(MenuAlert.GOV_INVITED_YOU(gov, gov.getOwnerPositionName()));
 		}
 		else {
 			this.gov.addOwner(player);

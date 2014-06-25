@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
@@ -21,6 +22,7 @@ public class PickManageSelfType extends PassByOptionMenu {
 
 	@Override
 	public String getPreOptionText() {
+		Debug.print("inside pick manage self type");
 		return "Pick the type of " + GovFactory.getGovInstance(GovType).getTypeName() + ".";
 	}
 

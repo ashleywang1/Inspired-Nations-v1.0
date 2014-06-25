@@ -8,8 +8,8 @@ import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsExcep
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMilitaryLevelExecption;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeProtectionLevelException;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
-import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public abstract class OwnerSubjectGov extends OwnerGov {
 

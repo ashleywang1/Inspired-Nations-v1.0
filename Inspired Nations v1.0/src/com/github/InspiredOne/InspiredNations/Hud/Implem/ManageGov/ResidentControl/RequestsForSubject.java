@@ -7,7 +7,7 @@ import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.IgnoreOfferOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.JoinSubjectGovOption;
-import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 
 public class RequestsForSubject extends TabSelectOptionMenu<PlayerID> {
 

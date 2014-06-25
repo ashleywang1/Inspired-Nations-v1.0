@@ -72,8 +72,9 @@ public class MenuTools {
 	
 	public enum OptionUnavail {
 		NOT_UNAVAILABLE(""),
-		NOBODY_TO_SHARE_WITH("No governments or people"),
-		NEED_HIGHER_PROTECTION("You need at least Protection Level " + ProtectionLevels.IMMIGRATION_CONTROL + ".");
+		NOBODY_TO_SHARE_WITH("No governments or people."),
+		NEED_HIGHER_PROTECTION("You need at least Protection Level " + ProtectionLevels.IMMIGRATION_CONTROL + "."),
+		NO_PEOPLE_TO_ADD("There are no other players to invite.");
 		
 		private String reason;
 		
@@ -109,6 +110,22 @@ public class MenuTools {
 				
 			};
 			
+		}
+		public static Alert GOV_INVITED_YOU(final OwnerGov govinvite, final String position) {
+			return new Alert() {
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					return makeMessage("You have been invited to be a "
+				+ position + " of " + govinvite.getDisplayName(receiver) + ".", receiver);
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					return false;
+				}
+				
+			};
 		}
 		public static Alert GOV_HAS_BEEN_RELATED(final Relation re, final OwnerGov govre, final OwnerGov gov) {
 			return new Alert() {

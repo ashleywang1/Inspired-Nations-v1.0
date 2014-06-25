@@ -11,9 +11,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
 import com.github.InspiredOne.InspiredNations.Hud.MenuUpdateEvent;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Message;
-import com.github.InspiredOne.InspiredNations.ToolBox.PlayerID;
 
 public class MessageManager implements Serializable {
 

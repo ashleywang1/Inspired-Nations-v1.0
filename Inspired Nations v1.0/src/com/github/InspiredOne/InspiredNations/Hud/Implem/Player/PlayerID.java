@@ -1,4 +1,4 @@
-package com.github.InspiredOne.InspiredNations.ToolBox;
+package com.github.InspiredOne.InspiredNations.Hud.Implem.Player;
 
 import java.io.Serializable;
 
@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 /**
  * My own implementation to make changes in the player identification simple to deal
  * with. As of Minecraft 1.7.4 player names are unique and non-spoofable, however the 
