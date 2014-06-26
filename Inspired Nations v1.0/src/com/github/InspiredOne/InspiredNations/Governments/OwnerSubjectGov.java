@@ -10,6 +10,7 @@ import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferEx
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeProtectionLevelException;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 
 public abstract class OwnerSubjectGov extends OwnerGov {
 
@@ -46,6 +47,7 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 			}
 		}
 		this.subjects.add(player);
+		player.getPDI().sendNotification(MenuAlert.ADDED_AS_SUBJECT_TO_GOV(this, this.getSubjectPositionName()));
 	}
 	
 	public void removeSubject(PlayerID player) {

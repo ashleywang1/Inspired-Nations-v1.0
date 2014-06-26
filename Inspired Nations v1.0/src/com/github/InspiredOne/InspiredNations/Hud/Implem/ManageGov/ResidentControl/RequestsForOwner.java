@@ -51,7 +51,6 @@ public class RequestsForOwner extends TabSelectOptionMenu<PlayerID> {
 		}
 		this.options.add(new PromptOption(new RequestsForOwner(PDI, previous, gov), gov.getOwnerPositionName() + " Offers",
 				new OffersForOwner(PDI, previous, gov)));
-		
 	}
 
 	@Override

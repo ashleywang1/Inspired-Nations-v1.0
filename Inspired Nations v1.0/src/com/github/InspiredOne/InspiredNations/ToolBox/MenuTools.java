@@ -112,6 +112,39 @@ public class MenuTools {
 			};
 			
 		}
+		public static Alert ADDED_AS_OWNER_TO_GOV(final OwnerGov govadd, final String position) {
+			return new Alert() {
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					
+					return makeMessage("You are now " + position + " of " + govadd.getDisplayName(receiver), receiver);
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					return false;
+				}
+				
+			};
+		}
+		public static Alert ADDED_AS_SUBJECT_TO_GOV(final OwnerGov govadd, final String position) {
+			return new Alert() {
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					
+					return makeMessage("You are now a " + position + " of " + govadd.getDisplayName(receiver), receiver);
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					return false;
+				}
+				
+			};
+		}
+		
 		public static Alert GOV_INVITED_YOU(final OwnerGov govinvite, final String position) {
 			return new Alert() {
 

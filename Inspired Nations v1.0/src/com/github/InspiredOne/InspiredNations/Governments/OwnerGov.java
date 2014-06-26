@@ -54,6 +54,7 @@ public abstract class OwnerGov extends InspiredGov {
 		if(this instanceof OwnerSubjectGov) {
 			((OwnerSubjectGov) this).addSubject(player);
 		}
+		player.getPDI().sendNotification(MenuAlert.ADDED_AS_OWNER_TO_GOV(this, this.getOwnerPositionName()));
 	}
 	
 	public void removeOwner(PlayerID player) {
