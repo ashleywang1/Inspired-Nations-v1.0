@@ -22,7 +22,6 @@ public class MessageManager implements Serializable {
 	 */
 	private static final long serialVersionUID = 5200407053459680313L;
 	
-	
 	private ArrayList<Alert> messages = new ArrayList<Alert>();
 	private ArrayList<Alert> history = new ArrayList<Alert>();
 	private PlayerData PDI;
@@ -109,6 +108,7 @@ public class MessageManager implements Serializable {
 	}
 
 	public void sendChatMessage(String msg) {
+		InspiredNations.plugin.logger.info(this.PDI.getName() + ": " + msg);
 		for(PlayerID playerid:InspiredNations.playerdata.keySet()) {
 			try {
 				Player player = playerid.getPDI().getPlayer();
