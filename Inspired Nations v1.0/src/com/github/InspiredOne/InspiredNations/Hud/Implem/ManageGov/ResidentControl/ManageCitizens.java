@@ -48,7 +48,6 @@ public class ManageCitizens extends TabSelectOptionMenu<PlayerID> {
 				this.taboptions.add(subject);
 			}
 		}
-		
 	}
 
 	@Override
@@ -57,11 +56,13 @@ public class ManageCitizens extends TabSelectOptionMenu<PlayerID> {
 		if(gov instanceof OwnerSubjectGov) {
 			this.options.add(new PromptOption(this, ((OwnerSubjectGov) gov).getSubjectPositionName() + " Requests and Offers", new RequestsForSubject(PDI, previous, (OwnerSubjectGov) gov)));
 		}
-		if(gov.getProtectionlevel() >= ProtectionLevels.IMMIGRATION_CONTROL) { 
-			this.options.add(new BanishPlayerOption(this, "Banish Player", this.getData().getPDI(), gov));
-		}
-		else {
-			this.options.add(new BanishPlayerOption(this, "Banish Player", this.getData().getPDI(), gov, OptionUnavail.NEED_HIGHER_PROTECTION));
+		if(this.taboptions.size() > 0) {
+			if(gov.getProtectionlevel() >= ProtectionLevels.IMMIGRATION_CONTROL) { 
+				this.options.add(new BanishPlayerOption(this, "Banish Player", this.getData().getPDI(), gov));
+			}
+			else {
+				this.options.add(new BanishPlayerOption(this, "Banish Player", this.getData().getPDI(), gov, OptionUnavail.NEED_HIGHER_PROTECTION));
+			}
 		}
 	}
 

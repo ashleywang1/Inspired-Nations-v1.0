@@ -6,6 +6,7 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
 
 public class BanishPlayerOption extends Option {
@@ -40,7 +41,12 @@ public class BanishPlayerOption extends Option {
 		else {
 			gov.removeOwner(PDI.getPlayerID());
 		}
-		return menu;
+		if(PDI.getPlayerID().equals(menu.PDI.getPlayerID())) {
+			return new MainHud(menu.PDI);
+		}
+		else {
+			return menu;
+		}
 	}
 
 }

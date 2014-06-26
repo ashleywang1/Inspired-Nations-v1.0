@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.bukkit.entity.Player;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
@@ -38,15 +39,6 @@ public abstract class OwnerGov extends InspiredGov {
 	}
 	
 	public void addOwner(PlayerID player) {
-		try {
-			Player playerreal = player.getPDI().getPlayer();
-			if(playerreal.isConversing()) {
-				player.getPDI().getCon().acceptInput("exit");
-			}
-		} catch (PlayerOfflineException e) {
-			
-		}
-	
 		
 		for(OwnerGov gov:player.getPDI().getCitizenship()) {
 			for(OwnerGov govlost:gov.getGovsLost(this, player)) {
@@ -66,6 +58,14 @@ public abstract class OwnerGov extends InspiredGov {
 	
 	public void removeOwner(PlayerID player) {
 		this.owners.remove(player);
+/*		try {
+			Player playerreal = player.getPDI().getPlayer();
+			if(playerreal.isConversing()) {
+				player.getPDI().getCon().acceptInput("exit");
+			}
+		} catch (PlayerOfflineException e) {
+			
+		}*/
 		if(InspiredNations.playerdata.get(player).getAccounts() == (this.getAccounts())) {
 			this.getAccounts().setName(this.getName());
 			this.splitAccount(player.getPDI(), new ArrayList<PlayerID>(), this.getAccounts());

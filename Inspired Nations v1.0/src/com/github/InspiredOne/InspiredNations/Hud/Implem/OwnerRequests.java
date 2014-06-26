@@ -7,6 +7,7 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
 
 public class OwnerRequests extends TabSelectOptionMenu<OwnerGov> {
 
@@ -45,7 +46,16 @@ public class OwnerRequests extends TabSelectOptionMenu<OwnerGov> {
 		if(this.taboptions.size() != 0) {
 			this.options.add(new IgnoreOfferOption(this, "Remove Request",PDI.getPlayerID(), this.getData().getOwnerRequests()));
 		}
-		this.options.add(new PromptOption(this, "Add Request", new PickGovToRequestOwner(PDI, this, this)));
+		
+		
+		PickGovToRequestOwner next = new PickGovToRequestOwner(PDI, this, this);
+		next.addTabOptions();
+		if(next.getTabOptions().size() > 0) {
+			this.options.add(new PromptOption(this, "Add Request", next));
+		}
+		else {
+			this.options.add(new PromptOption(this, "Add Request", next,OptionUnavail.NO_GOVERNMENTS_TO_ADD));
+		}
 	}
 
 	@Override

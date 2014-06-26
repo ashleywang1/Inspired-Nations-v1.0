@@ -74,7 +74,8 @@ public class MenuTools {
 		NOT_UNAVAILABLE(""),
 		NOBODY_TO_SHARE_WITH("No governments or people."),
 		NEED_HIGHER_PROTECTION("You need at least Protection Level " + ProtectionLevels.IMMIGRATION_CONTROL + "."),
-		NO_PEOPLE_TO_ADD("There are no other players to invite.");
+		NO_PEOPLE_TO_ADD("There are no other players to invite."),
+		NO_GOVERNMENTS_TO_ADD("There are no other governments to add.");
 		
 		private String reason;
 		
@@ -113,6 +114,11 @@ public class MenuTools {
 		}
 		public static Alert GOV_INVITED_YOU(final OwnerGov govinvite, final String position) {
 			return new Alert() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -8887323195358324916L;
 
 				@Override
 				public String getMessage(PlayerData receiver) {
