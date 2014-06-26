@@ -13,13 +13,12 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 public class SignShopRegion extends Region {
 
 	Point3D loca;
+
 	
 	public SignShopRegion() {
 
 	}
 
-
-	
 	@Override
 	protected boolean instantiated() {
 		
