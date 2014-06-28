@@ -87,6 +87,7 @@ public class ChestShop extends Facility {
 	@Override
 	public List<Class<? extends Facility>> getGovFacilities() {
 		List<Class<? extends Facility>> output = new ArrayList<Class<? extends Facility>>();
+		output.add(SignShop.class);
 		return output;
 	}
 

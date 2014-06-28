@@ -53,7 +53,7 @@ public class SignShop extends Facility {
 	@Override
 	public Class<? extends OwnerGov> getSuperGov() {
 		// TODO Auto-generated method stub
-		return null;
+		return GoodBusiness.class;
 	}
 
 	@Override

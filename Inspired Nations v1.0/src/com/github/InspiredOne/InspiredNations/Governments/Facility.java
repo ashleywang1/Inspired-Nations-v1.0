@@ -32,19 +32,31 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 		return output;
 	}
 	
+	/**
+	 * Gets the super that taxes are paid to.
+	 * @return
+	 */
+	public InspiredGov getTaxSuper() {
+		InspiredGov output = this;
+		while(output instanceof Facility) {
+			output = this.getSuperGovObj();
+		}
+		return output.getSuperGovObj();
+	}
+	
 	@Override
 	public void updateTaxRate() {
-		this.taxedrate = this.getSuperGovObj().getSuperGovObj().getSubTaxRate(this.getSuperGov());
+		this.taxedrate = this.getTaxSuper().getSubTaxRate(this.getSuperGov());
 	}
 	@Override
 	public BigDecimal currentTaxCycleValue(Currency curren) {
 		return this.taxValue(this.getRegion().getRegion(), 1, this.protectionlevel, this.getAdditionalCost(curren),
-				this.getSuperGovObj().getSuperGovObj().getTaxrates().get(this.getSuperGov()), curren);
+				this.getTaxSuper().getTaxrates().get(this.getSuperGov()), curren);
 	}
 	
 	@Override
 	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
-		if(this.getSuperGovObj().getSuperGovObj() instanceof GlobalGov) {
+		if(this.getTaxSuper() instanceof GlobalGov) {
 			int npccount = 0;
 			for(PlayerID player:this.getSuperGovObj().getSubjects()) {
 				npccount += player.getPDI().npcs.size();
@@ -56,17 +68,19 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 				}
 			}
 		}
-		this.transferMoney(amount, curren, this.getSuperGovObj().getSuperGovObj());
+		else {
+			this.transferMoney(amount, curren, this.getTaxSuper());
+		}
 	}
 
 	@Override
 	public void pullFromSuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
-		this.getSuperGovObj().getSuperGovObj().transferMoney(amount, curren, this);
+		this.getTaxSuper().transferMoney(amount, curren, this);
 		//this.transferMoney(amount, curren, this.getSuperGovObj().getSuperGovObj()); I'm not sure why this is like this rather than the line above.
 	}
 	@Override
 	public double getSuperTaxRate() {
-		 return this.getSuperGovObj().getSuperGovObj().getSubTaxRate((Class<? extends OwnerGov>) this.getSuperGov());
+		 return this.getTaxSuper().getSubTaxRate((Class<? extends OwnerGov>) this.getSuperGov());
 	}
 	
 	@Override

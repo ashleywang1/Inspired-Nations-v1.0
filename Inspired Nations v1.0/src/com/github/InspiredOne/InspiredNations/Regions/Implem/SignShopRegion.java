@@ -12,7 +12,11 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 
 public class SignShopRegion extends Region {
 
-	Point3D loca;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5427150326293466846L;
+	public Point3D loca;
 
 	
 	public SignShopRegion() {
