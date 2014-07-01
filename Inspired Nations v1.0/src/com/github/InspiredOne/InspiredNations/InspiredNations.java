@@ -42,6 +42,7 @@ import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.MultiGovMap;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 
 public class InspiredNations extends JavaPlugin {
 
@@ -138,6 +139,17 @@ public class InspiredNations extends JavaPlugin {
 		public void onPlayerMove(PlayerMoveEvent event) {
 			PlayerData PDI = InspiredNations.playerdata.get(new PlayerID(event.getPlayer()));
 			PDI.setLocation(event.getTo());
+			for(InspiredGov gov:InspiredNations.regiondata) {
+				
+				if(gov.contains(event.getTo()) && !gov.contains(event.getFrom())) {
+					PDI.sendNotification(MenuAlert.WELCOME_TO_GOV(gov));
+				}
+			}
+			for(InspiredGov gov:InspiredNations.regiondata) {
+				if(!gov.contains(event.getTo()) && gov.contains(event.getFrom())) {
+					PDI.sendNotification(MenuAlert.GOODBYE_TO_GOV(gov));
+				}
+			}
 		}
 		@EventHandler
 		public void onPlayerBreakBlock(BlockBreakEvent event) {

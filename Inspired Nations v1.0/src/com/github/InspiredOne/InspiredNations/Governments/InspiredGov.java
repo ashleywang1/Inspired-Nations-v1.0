@@ -36,7 +36,6 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
-import com.github.InspiredOne.InspiredNations.ToolBox.Relation;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 /**
@@ -269,7 +268,8 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	public abstract List<Class<? extends OwnerGov>> getSubGovs();
 	/**
 	 * Returns the class of the supergov. If this is the highest form of government, then it should
-	 * return a <code>Class<? extends GlobalGov></code>.
+	 * return a <code>Class<? extends GlobalGov></code>. The Supergov must be the gov that 
+	 * taxes are paid to.
 	 * @return	the <code>InspiredGov</code> class that is the supergov to this government
 	 */
 	public abstract Class<? extends OwnerGov> getSuperGov();

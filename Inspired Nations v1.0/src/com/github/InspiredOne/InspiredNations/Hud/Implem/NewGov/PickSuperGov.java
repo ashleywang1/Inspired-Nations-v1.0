@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.NewGov;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.SuperGovWrongTypeException;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
@@ -52,7 +53,11 @@ public class PickSuperGov<T extends OwnerGov> extends PassByOptionMenu {
 			if(Govf.getGov().isSubOfClass(govCheck)) {
 				for(InspiredGov gov:PDI.getCitizenship(govCheck)) {
 					if(govCheck.equals(Govf.getGov().getSuperGov())) {
-						this.options.add(new PromptOption(this, gov.getName(), new WarningAlreadyOwnOne<T>(PDI, Govf.withSuperGov(gov))));
+						try {
+							this.options.add(new PromptOption(this, gov.getName(), new WarningAlreadyOwnOne<T>(PDI, Govf.withSuperGov(gov))));
+						} catch (SuperGovWrongTypeException e) {
+							e.printStackTrace();
+						}
 					}
 					else {
 						this.options.add(new PromptOption(this, gov.getName(), new PickSuperGov<T>(PDI, Govf, superGov)));
@@ -63,7 +68,11 @@ public class PickSuperGov<T extends OwnerGov> extends PassByOptionMenu {
 		
 		
 		for(InspiredGov gov:PDI.getCitizenship(Govf.getGov().getSuperGov())) {
-			this.options.add(new PromptOption(this, gov.getName(), new WarningAlreadyOwnOne<T>(PDI, Govf.withSuperGov(gov))));
+			try {
+				this.options.add(new PromptOption(this, gov.getName(), new WarningAlreadyOwnOne<T>(PDI, Govf.withSuperGov(gov))));
+			} catch (SuperGovWrongTypeException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}

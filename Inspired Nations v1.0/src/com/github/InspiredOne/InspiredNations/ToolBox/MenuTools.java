@@ -115,6 +115,11 @@ public class MenuTools {
 		public static Alert ADDED_AS_OWNER_TO_GOV(final OwnerGov govadd, final String position) {
 			return new Alert() {
 
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -7757366529180653770L;
+
 				@Override
 				public String getMessage(PlayerData receiver) {
 					
@@ -130,6 +135,11 @@ public class MenuTools {
 		}
 		public static Alert ADDED_AS_SUBJECT_TO_GOV(final OwnerGov govadd, final String position) {
 			return new Alert() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -6179796899976083043L;
 
 				@Override
 				public String getMessage(PlayerData receiver) {
@@ -424,6 +434,49 @@ public class MenuTools {
 					// TODO Auto-generated method stub
 					return false;
 				}
+			};
+		}
+		
+		public static Alert WELCOME_TO_GOV(final InspiredGov gov) {
+			return new Alert() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -4291314964430337719L;
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					
+					return makeMessage("You have entered " + gov.getDisplayName(receiver) + ".", receiver);
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					return false;
+				}
+				
+			};
+		}
+		
+		public static Alert GOODBYE_TO_GOV(final InspiredGov gov) {
+			return new Alert() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -2487985662361164037L;
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					return makeMessage("You have exited " + gov.getDisplayName(receiver) + ".", receiver);
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					return false;
+				}
+				
 			};
 		}
 		

@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -50,7 +51,7 @@ public class ManageFacility extends OptionMenu {
 				"(" +fac.getProtectionlevel() +")"));
 		this.options.add(new RemoveFacilityOption(this, "Remove Facility", fac));
 		this.fac.setFunctionOptions(PDI, this);
-		
+		ManageGov.addFacilityOptions(PDI, this, this, this.fac);
 	}
 
 	@Override

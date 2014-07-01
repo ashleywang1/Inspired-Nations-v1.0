@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
 import java.util.HashSet;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
@@ -40,6 +41,7 @@ public class GovernmentRegions extends PassByOptionMenu {
 
 	@Override
 	public void addOptions() {
+		Debug.print("Inside addOptions() of GovernmentRegions");
 		for(Class<? extends Facility> fac: gov.getGovFacilities()) {
 			Facility facil = GovFactory.getGovInstance(fac);
 
@@ -52,6 +54,7 @@ public class GovernmentRegions extends PassByOptionMenu {
 			if(!facil.isUnique() || allowed) {
 				this.options.add(new PromptOption(this, "New "+facil.getTypeName(), new PickFacilityType<>(PDI, this,  gov, fac)));
 			}
+			Debug.print("Inside addOptions() of GovernmentRegions 2");
 		}
 		for(Facility fac: gov.getFacilities()) {
 			HashSet<Class<? extends Facility>> set = new HashSet<Class<? extends Facility>>();
@@ -59,6 +62,7 @@ public class GovernmentRegions extends PassByOptionMenu {
 				this.options.add(new PromptOption(this, "Manage " + fac.getTypeName(), new PickFacilityToManage<>(PDI,this, gov, fac.getClass())));
 			}
 			set.add(fac.getClass());
+			Debug.print("Inside addOptions() of GovernmentRegions 3");
 		}
 	}
 

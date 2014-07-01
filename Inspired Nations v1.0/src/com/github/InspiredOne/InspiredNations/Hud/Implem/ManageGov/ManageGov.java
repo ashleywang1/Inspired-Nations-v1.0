@@ -51,15 +51,14 @@ public class ManageGov extends OptionMenu {
 		return null;
 	}
 	
-	public static void addFacilityOptions(PlayerData PDI, OptionMenu menu, InspiredGov gov) {
-		OptionMenu newman = new ManageGov(PDI, (OwnerGov) gov);
+	public static void addFacilityOptions(PlayerData PDI, OptionMenu menu, OptionMenu newman, InspiredGov gov) {
 
 		if(gov.getGovFacilities().size() > 1) {
 			menu.options.add(new PromptOption(newman, gov.getFacilityGroupName(), new GovernmentRegions(PDI, newman, gov)));
 		}
 		else {
-
 			for(Class<? extends Facility> factype:gov.getGovFacilities()) {
+				Debug.print("inside add Facility Option");
 				Facility facgov = GovFactory.getGovInstance(factype);
 				if(gov.getFacilities().size() == 0 || !facgov.isUnique()) {
 					menu.options.add(new PromptOption(newman, "New " + facgov.getTypeName(), new PickFacilityType<>(PDI, newman, gov, factype)));
@@ -68,6 +67,7 @@ public class ManageGov extends OptionMenu {
 				if(gov.getFacilities().size() > 0) {
 					menu.options.add(new PromptOption(newman, "Manage " + facgov.getTypeName(), new PickFacilityToManage<>(PDI, newman, gov, factype)));
 				}
+				Debug.print("inside add Facility Option 2");
 			}
 		}
 	}
@@ -95,7 +95,8 @@ public class ManageGov extends OptionMenu {
 			this.options.add(new UnclaimLandOption(new ManageGov(PDI, gov), "Unclaim Land", gov));
 		}
 
-		ManageGov.addFacilityOptions(PDI, this, gov);
+		OptionMenu newman = new ManageGov(PDI, (OwnerGov) gov);
+		ManageGov.addFacilityOptions(PDI, this, newman, gov);
 	}
 
 	@Override

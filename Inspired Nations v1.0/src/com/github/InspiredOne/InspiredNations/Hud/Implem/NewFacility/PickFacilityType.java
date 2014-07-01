@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.NewFacility;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Exceptions.SuperGovWrongTypeException;
 import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
@@ -50,7 +51,12 @@ public class PickFacilityType<T extends Facility> extends PassByOptionMenu {
 		Debug.print("in init of PickFacilityType 1");
 		for(Class<? extends InspiredGov> selfgov:GovFactory.getGovInstance(GovType).getSelfGovs()) {
 			Debug.print("in init of PickFacilityType 3");
-			GovFactory<T> govf = new GovFactory<T>((Class<T>) selfgov).withSuperGov(gov).withAccountCollection(gov.getAccounts());
+			GovFactory<T> govf = null;
+			try {
+				govf = new GovFactory<T>((Class<T>) selfgov).withSuperGov(gov.getSuperGovObj()).withAccountCollection(gov.getAccounts());
+			} catch (SuperGovWrongTypeException e) {
+				e.printStackTrace();
+			}
 			Debug.print("in init of PickFacilityType 4");
 			if(govf.getGov().getSelfGovs().size() == 1) {
 				Debug.print("in init of PickFacilityType 5");

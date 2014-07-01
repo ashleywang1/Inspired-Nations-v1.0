@@ -4,7 +4,10 @@ import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Governments.Implem.ChestShop;
+import com.github.InspiredOne.InspiredNations.Governments.Implem.SignShop;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand.ClaimSignShop;
 import com.github.InspiredOne.InspiredNations.Regions.CummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.NonCummulativeRegion;
 import com.github.InspiredOne.InspiredNations.Regions.Region;
@@ -88,10 +91,14 @@ public class SignShopRegion extends Region {
 
 	@Override
 	public Menu getClaimMenu(PlayerData PDI, Menu previous, InspiredGov gov) {
-		// TODO Auto-generated method stub
-		return null;
+		if(gov instanceof ChestShop) {
+			return new ClaimSignShop(PDI, previous, ((ChestShop) gov).getItems());
+		}
+		else {
+			return null;
+		}
 	}
-
+		
 	@Override
 	public Location getCharacteristicPoint() {
 		return loca.getLocation();

@@ -2,9 +2,11 @@ package com.github.InspiredOne.InspiredNations.Governments;
 
 import java.math.BigDecimal;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
+import com.github.InspiredOne.InspiredNations.Exceptions.SuperGovWrongTypeException;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
@@ -14,6 +16,7 @@ public class GovFactory<T extends InspiredGov> {
 	BigDecimal diamondvalue = BigDecimal.ONE;
 	PlayerID owner;
 	public GovFactory(Class<T> gov) {
+		Debug.print("Inside GovFactory 1");
 		this.gov = GovFactory.getGovInstance(gov);
 		//this.gov.setRegion(Tools.getInstance(this.gov.getInspiredRegion()));
 	}
@@ -28,7 +31,10 @@ public class GovFactory<T extends InspiredGov> {
 		return this;
 	}
 	
-	public GovFactory<T> withSuperGov(InspiredGov gov) {
+	public GovFactory<T> withSuperGov(InspiredGov gov) throws SuperGovWrongTypeException {
+		if(this.getGov().getSuperGov() != gov.getClass()) {
+			throw new SuperGovWrongTypeException();
+		}
 		this.gov.setSuperGovObj(gov);
 		
 		if(!this.gov.getCommonEcon().equals(this.gov.getClass())) {

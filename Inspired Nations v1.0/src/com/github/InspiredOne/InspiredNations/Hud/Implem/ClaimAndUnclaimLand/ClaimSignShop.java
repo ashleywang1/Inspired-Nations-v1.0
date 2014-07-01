@@ -4,16 +4,17 @@ import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Sellable;
+import com.github.InspiredOne.InspiredNations.Economy.Implem.ItemSellable;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.SignShop;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 
-public class ClaimSignShop extends TabSelectOptionMenu<Sellable> {
+public class ClaimSignShop extends TabSelectOptionMenu<ItemSellable> {
 
 	private Menu previous;
-	private List<Sellable> sell;
+	private List<ItemSellable> sell;
 	public SignShop shop = new SignShop();
-	public ClaimSignShop(PlayerData PDI, Menu previous, List<Sellable> sell) {
+	public ClaimSignShop(PlayerData PDI, Menu previous, List<ItemSellable> sell) {
 		super(PDI);
 		this.previous = previous;
 		this.sell = sell;
