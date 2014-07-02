@@ -46,7 +46,11 @@ public class PickFacilityName extends InputMenu {
 	public void useInput(String input) {
 		Govf = Govf.withName(input);
 		Govf.registerGov();
+		Debug.print("Inside pickfacilityname useInput");
+		Debug.print(Govf.getGov().getName());
 		this.gov.getFacilities().add(Govf.getGov());
+		Debug.print(gov.getFacilities().size());
+		Debug.print("Inside pickfacilityname useInput");
 	}
 
 	@Override

@@ -110,7 +110,7 @@ public class ChestShop extends Facility {
 
 	@Override
 	public Class<? extends OwnerGov> getSuperGov() {
-		return GoodBusiness.class;
+		return Town.class;
 	}
 
 	@Override
