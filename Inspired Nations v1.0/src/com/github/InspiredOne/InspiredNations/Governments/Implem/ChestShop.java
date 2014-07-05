@@ -109,8 +109,8 @@ public class ChestShop extends Facility {
 	}
 
 	@Override
-	public Class<? extends OwnerGov> getSuperGov() {
-		return Town.class;
+	public Class<? extends InspiredGov> getSuperGov() {
+		return GoodBusiness.class;
 	}
 
 	@Override

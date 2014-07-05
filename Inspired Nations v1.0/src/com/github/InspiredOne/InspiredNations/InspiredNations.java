@@ -27,6 +27,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
@@ -86,7 +87,7 @@ public class InspiredNations extends JavaPlugin {
 		this.getCommand("hud").setExecutor(CM);
 		this.getCommand("map").setExecutor(CM);
 		this.getCommand("npc").setExecutor(CM);
-		for(HashSet<InspiredGov> set:regiondata.values()) {
+		for(List<InspiredGov> set:regiondata.values()) {
 			for(Iterator<InspiredGov> iter = set.iterator(); iter.hasNext();){
 				InspiredGov gov = iter.next();
 				System.out.println(gov.getName());
@@ -99,6 +100,9 @@ public class InspiredNations extends JavaPlugin {
 	}
 	
 	public void onDisable() {
+		for(RegisteredListener handl:HandlerList.getRegisteredListeners(InspiredNations.plugin)) {
+			Debug.print(handl.getListener());
+		}
 		Debug.print(HandlerList.getRegisteredListeners(InspiredNations.plugin).size() + "= handlerlist size");
 		SS.Stop();
 	}

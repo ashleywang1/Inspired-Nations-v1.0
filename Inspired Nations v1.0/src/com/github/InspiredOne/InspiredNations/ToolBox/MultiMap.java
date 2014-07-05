@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,18 +20,18 @@ import java.util.Set;
  * @param <T>	Key
  * @param <K>	Value
  */
-public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable, Iterable<K> {
+public class MultiMap<T, K> implements Map<T, List<K>>, Serializable, Iterable<K> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5789101682525659411L;
 	
-	protected HashMap<T, HashSet<K>> set = new HashMap<T, HashSet<K>>();
+	protected HashMap<T, List<K>> set = new HashMap<T, List<K>>();
 
 	@Override
 	public void clear() {
-		set = new HashMap<T, HashSet<K>>();
+		set = new HashMap<T, List<K>>();
 		
 	}
 
@@ -43,8 +44,8 @@ public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable, Iterabl
 	public boolean containsValue(Object arg0) {
 		boolean output = false;
 		
-		for(Iterator<HashSet<K>> iter = set.values().iterator();iter.hasNext();) {
-			HashSet<K> searchColl = iter.next();
+		for(Iterator<List<K>> iter = set.values().iterator();iter.hasNext();) {
+			List<K> searchColl = iter.next();
 			for(Iterator<K> iter2 = searchColl.iterator(); iter2.hasNext();) {
 				K value = iter2.next();
 				if(value == arg0) {
@@ -58,17 +59,17 @@ public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable, Iterabl
 	}
 
 	@Override
-	public Set<Entry<T, HashSet<K>>> entrySet() {
+	public Set<Entry<T, List<K>>> entrySet() {
 		
-		Set<Entry<T, HashSet<K>>> output = new HashSet<Entry<T,HashSet<K>>>();
+		Set<Entry<T, List<K>>> output = new HashSet<Entry<T,List<K>>>();
 		
 		for(Iterator<T> iter1 = set.keySet().iterator(); iter1.hasNext();) {
 			T key = iter1.next();
 			for(Iterator<K> iter2 = set.get(key).iterator(); iter2.hasNext();) {
 				K value = iter2.next();
-				HashSet<K> input = new HashSet<K>();
+				List<K> input = new ArrayList<K>();
 				input.add(value);
-				output.add(new AbstractMap.SimpleEntry<T,HashSet<K>>(key, input));
+				output.add(new AbstractMap.SimpleEntry<T,List<K>>(key, input));
 			}
 		}
 		return output;
@@ -90,8 +91,8 @@ public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable, Iterabl
 	}
 
 	@Override
-	public Collection<HashSet<K>> values() {
-		Collection<HashSet<K>> values = new ArrayList<HashSet<K>>();
+	public Collection<List<K>> values() {
+		Collection<List<K>> values = new ArrayList<List<K>>();
 		for(Iterator<T> iter1 = set.keySet().iterator(); iter1.hasNext();) {
 			T key = iter1.next();
 			values.add(set.get(key));
@@ -100,12 +101,12 @@ public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable, Iterabl
 	}
 
 	@Override
-	public HashSet<K> get(Object key) {
+	public List<K> get(Object key) {
 		return set.get(key);
 	}
 
 	@Override
-	public HashSet<K> put(T key, HashSet<K> value) {
+	public List<K> put(T key, List<K> value) {
 		return set.put(key, value);
 	}
 	
@@ -114,14 +115,14 @@ public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable, Iterabl
 			set.get(key).add(value);
 		}
 		else {
-			HashSet<K> setval = new HashSet<K>();
+			List<K> setval = new ArrayList<K>();
 			setval.add(value);
 			set.put(key, setval);
 		}
 	}
 
 	@Override
-	public HashSet<K> remove(Object key) {
+	public List<K> remove(Object key) {
 		return set.remove(key);
 	}
 
@@ -130,7 +131,7 @@ public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable, Iterabl
 		for(T key:this.keySet()) {
 			for(K val:this.get(key)) {
 				if(val.equals(value)) {
-					HashSet<K> temp = this.get(key);
+					List<K> temp = this.get(key);
 					temp.remove(value);
 					valueRemoved = val;
 					this.put(key, temp);
@@ -141,7 +142,7 @@ public class MultiMap<T, K> implements Map<T, HashSet<K>>, Serializable, Iterabl
 	}
 	
 	@Override
-	public void putAll(Map<? extends T, ? extends HashSet<K>> m) {
+	public void putAll(Map<? extends T, ? extends List<K>> m) {
 		for(Iterator<? extends T> iter = m.keySet().iterator(); iter.hasNext();) {
 			T key = iter.next();
 			set.put(key, m.get(key));

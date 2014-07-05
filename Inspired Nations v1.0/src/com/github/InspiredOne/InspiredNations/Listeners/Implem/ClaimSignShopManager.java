@@ -7,6 +7,7 @@ public class ClaimSignShopManager extends ActionManager<ClaimSignShop> {
 
 	public ClaimSignShopManager(ClaimSignShop menu) {
 		super(menu);
+		this.listeners.add(new ClaimSignShopListener(this));
 	}
 
 }

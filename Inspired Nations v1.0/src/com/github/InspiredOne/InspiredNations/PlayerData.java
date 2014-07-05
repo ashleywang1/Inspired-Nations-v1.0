@@ -215,7 +215,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	 * @param class1
 	 * @return
 	 */
-	public List<OwnerGov> getCitizenship(Class<? extends OwnerGov> class1) {
+	public List<OwnerGov> getCitizenship(Class<? extends InspiredGov> class1) {
 		return getCitizenship(class1, InspiredNations.regiondata.get(class1));
 	}
 	
@@ -236,7 +236,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	 * @param govDir	all the governments to check
 	 * @return	a list off all the governments in which the player is a citizen
 	 */
-	public List<OwnerGov> getCitizenship(Class<? extends OwnerGov> govType, HashSet<? extends InspiredGov> govDir) {
+	public List<OwnerGov> getCitizenship(Class<? extends InspiredGov> govType, List<? extends InspiredGov> govDir) {
 		List<OwnerGov> output = new ArrayList<OwnerGov>();
 
 		for(InspiredGov gov:govDir) {

@@ -18,6 +18,7 @@ public class PickClaimType extends PassByOptionMenu {
 		super(PDI);
 		this.gov = gov;
 		this.previous = previous;
+		Debug.print("In PickClaimType constructor");
 	}
 
 	@Override

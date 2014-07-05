@@ -51,9 +51,9 @@ public class SignShop extends Facility {
 	}
 
 	@Override
-	public Class<? extends OwnerGov> getSuperGov() {
+	public Class<? extends InspiredGov> getSuperGov() {
 		// TODO Auto-generated method stub
-		return Town.class;
+		return ChestShop.class;
 	}
 
 	@Override

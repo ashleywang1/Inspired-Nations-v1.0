@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
@@ -36,22 +37,19 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 	 * Gets the super that taxes are paid to.
 	 * @return
 	 */
+	@Override
 	public InspiredGov getTaxSuper() {
 		InspiredGov output = this;
 		while(output instanceof Facility) {
-			output = this.getSuperGovObj();
+			output = output.getSuperGovObj();
 		}
 		return output.getSuperGovObj();
 	}
 	
 	@Override
-	public void updateTaxRate() {
-		this.taxedrate = this.getTaxSuper().getSubTaxRate(this.getSuperGov());
-	}
-	@Override
 	public BigDecimal currentTaxCycleValue(Currency curren) {
 		return this.taxValue(this.getRegion().getRegion(), 1, this.protectionlevel, this.getAdditionalCost(curren),
-				this.getTaxSuper().getTaxrates().get(this.getSuperGov()), curren);
+				this.getCurrentTaxedRate(), curren);
 	}
 	
 	@Override
@@ -80,7 +78,8 @@ public abstract class Facility extends InspiredGov implements Serializable, Name
 	}
 	@Override
 	public double getSuperTaxRate() {
-		 return this.getTaxSuper().getSubTaxRate((Class<? extends OwnerGov>) this.getSuperGov());
+		Debug.print("Facility: GetSuperTaxRate()");
+		 return this.getSuperGovObj().getSuperTaxRate();
 	}
 	
 	@Override

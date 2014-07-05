@@ -38,6 +38,11 @@ public abstract class OwnerGov extends InspiredGov {
 		return this.owners;
 	}
 	
+	@Override
+	public InspiredGov getTaxSuper() {
+		return this.getSuperGovObj();
+	}
+	
 	public void addOwner(PlayerID player) {
 		
 		for(OwnerGov gov:player.getPDI().getCitizenship()) {
@@ -123,7 +128,7 @@ public abstract class OwnerGov extends InspiredGov {
 	
 	@Override
 	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
-		if(this.getSuperGovObj() instanceof GlobalGov) {
+		if(this.getTaxSuper() instanceof GlobalGov) {
 			int npccount = 0;
 			for(PlayerID player:this.getSubjects()) {
 				npccount += player.getPDI().npcs.size();
@@ -136,15 +141,11 @@ public abstract class OwnerGov extends InspiredGov {
 			}
 		}
 		else {
-			this.transferMoney(amount, curren, this.getSuperGovObj());
+			this.transferMoney(amount, curren, this.getTaxSuper());
 		}
 		
 	}
 	
-	@Override
-	public void updateTaxRate() {
-		this.getSuperGovObj().getSubTaxRate(this.getClass());
-	}
 	/**
 	 * Indicates if the player can become a citizen or owner of this government
 	 * without having to give up ownership and citizenship of any govs.

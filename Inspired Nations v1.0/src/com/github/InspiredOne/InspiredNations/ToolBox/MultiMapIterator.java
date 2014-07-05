@@ -1,13 +1,13 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class MultiMapIterator<T> implements Iterator<T> {
 
 	private MultiMap <?, T> map;
-	private Iterator<HashSet<T>> HashIter;
+	private Iterator<List<T>> HashIter;
 	private Iterator<T> govIter;
 	private T value;
 	public MultiMapIterator(MultiMap<?, T> map) {

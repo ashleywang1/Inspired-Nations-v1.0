@@ -4,7 +4,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.SignChangeEvent;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
@@ -22,6 +24,7 @@ public class ClaimSignShopListener extends InspiredListener<ClaimSignShopManager
 
 	public SignShopLand land = new SignShopLand();
 	public SignShopRegion region = new SignShopRegion();
+	public boolean valid = false;
 	PlayerData PDI;
 	public ClaimSignShopListener(ClaimSignShopManager manager) {
 		super(manager);
@@ -33,11 +36,14 @@ public class ClaimSignShopListener extends InspiredListener<ClaimSignShopManager
 		if(!this.getPlayerData().getPlayerID().equals(new PlayerID(event.getPlayer()))) {
 			return;
 		}
+		Debug.print("Inside onsignplace 1");
 		if(event.getBlock().getType().equals(Material.SIGN)) {
+			Debug.print("Inside onsignplace 2");
 			region.loca = new Point3D(event.getBlock().getLocation());
-			
+			valid = false;
 			try {
 				this.manager.getActionMenu().shop.setLand(region);
+				valid = true;
 			} catch (BalanceOutOfBoundsException e) {
 				this.manager.getActionMenu().setError(MenuError.NOT_ENOUGH_MONEY(PDI));
 			} catch (InspiredGovTooStrongException e) {
@@ -47,12 +53,24 @@ public class ClaimSignShopListener extends InspiredListener<ClaimSignShopManager
 			} catch (InsufficientRefundAccountBalanceException e) {
 				this.manager.getActionMenu().setError(MenuError.NOT_ENOUGH_MONEY(PDI));
 			}
+
+		}
+		manager.Update();
+	}
+	
+	public void onSignChangeText(SignChangeEvent event) {
+		if(!this.getPlayerData().getPlayerID().equals(new PlayerID(event.getPlayer()))) {
+			return;
+		}
+		Debug.print("Inside onsignchangeText 1");
+		if(valid) {
+			Debug.print("Inside onsignchangeText 2");
 			Sign sign = (Sign) event.getBlock().getState();
 			sign.setLine(0, manager.getActionMenu().shop.getName());
 			sign.setLine(1, manager.getActionMenu().getData().getName());
 			sign.setLine(2, manager.getActionMenu().getData().getItem().getAmount() + "");
 			sign.setLine(3, Tools.cut(manager.getActionMenu().getData().getPrice(PDI.getCurrency(), region.getCharacteristicPoint())).toString());
+			sign.update();
 		}
-		manager.Update();
 	}
 }

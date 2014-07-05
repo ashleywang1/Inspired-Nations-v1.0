@@ -1,7 +1,9 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
@@ -22,10 +24,10 @@ public class MultiGovMap extends MultiMap<Class<? extends InspiredGov>, Inspired
 	}
 	
 	@Override
-	public HashSet<InspiredGov> get(Object key) {
+	public List<InspiredGov> get(Object key) {
 		@SuppressWarnings("unchecked")
 		InspiredGov gov = GovFactory.getGovInstance((Class<? extends InspiredGov>) key);
-		HashSet<InspiredGov> output = new HashSet<InspiredGov>();
+		List<InspiredGov> output = new ArrayList<InspiredGov>();
 
 		for(Class<? extends InspiredGov> govtype:gov.getSelfGovs()) {
 			output.addAll(set.get(govtype));

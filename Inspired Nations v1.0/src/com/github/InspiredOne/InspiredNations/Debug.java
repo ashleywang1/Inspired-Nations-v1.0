@@ -5,7 +5,7 @@ import com.github.InspiredOne.InspiredNations.Economy.Nodes.Node;
 
 public class Debug {
 
-	private static boolean report = true;
+	private static boolean report = false;
 	private static String InformPluginDev = "If you see this, tell plugin developer";
 	public static void print(Object msg) {
 		InspiredNations.plugin.logger.info(msg.toString());

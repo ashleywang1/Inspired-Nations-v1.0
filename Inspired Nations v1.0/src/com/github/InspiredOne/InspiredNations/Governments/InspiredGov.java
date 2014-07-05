@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -60,7 +61,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	private IndexedMap<Class<? extends InspiredGov>, Double> taxrates = new IndexedMap<Class<? extends InspiredGov>, Double>();
 	private InspiredGov supergov;
 	private String name;
-	protected double taxedrate = 1; // the last tax rate used on this gov. Used to calculate prices.
+	private double taxedrate = 1; // the last tax rate used on this gov. Used to calculate prices.
 	protected int protectionlevel = 0;
 	private Currency currency = Currency.DEFAULT;
 	
@@ -197,9 +198,16 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		return this.getSubjects().contains(player);
 	}
 	/**
+	 * Gets the supergov that this gov pays taxes to.
+	 * @return
+	 */
+	public abstract InspiredGov getTaxSuper();
+	/**
 	 * A function to update the TaxRate that this government will use when claiming and unclaiming land.
 	 */
-	public abstract void updateTaxRate();
+	public final void updateTaxRate() {
+		this.taxedrate = this.getSuperTaxRate();
+	}
 	/**
 	 * Returns a <code>List</code> of all <code>InspiredGovs</code> that have been created under this government.
 	 * It does this by searching 6666through the <code>HashMap</code> in the plugin class
@@ -272,7 +280,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * taxes are paid to.
 	 * @return	the <code>InspiredGov</code> class that is the supergov to this government
 	 */
-	public abstract Class<? extends OwnerGov> getSuperGov();
+	public abstract Class<? extends InspiredGov> getSuperGov();
 	/**
 	 * Returns all the governments that could be claimed with 
 	 * @return	a <code>List</code> of <code>InspiredGov</code> classes that can
@@ -310,7 +318,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	@SuppressWarnings("unchecked")
 	public double getSuperTaxRate() {
-		 return this.supergov.getSubTaxRate((Class<? extends OwnerGov>) this.getClass());
+		 return this.getTaxSuper().getSubTaxRate((Class<? extends OwnerGov>) this.getClass());
 	}
 	/**
 	 * 
@@ -383,7 +391,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @throws NegativeMoneyTransferException 
 	 */
 	public void paySuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
-		this.accounts.transferMoney(amount, curren, this.getSuperGovObj().accounts);
+		this.accounts.transferMoney(amount, curren, this.getTaxSuper().accounts);
 	}
 	/**
 	 * 
@@ -393,7 +401,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @throws NegativeMoneyTransferException 
 	 */
 	public void pullFromSuper(BigDecimal amount, Currency curren) throws BalanceOutOfBoundsException, NegativeMoneyTransferException {
-		this.getSuperGovObj().getAccounts().transferMoney(amount, curren, this.accounts);
+		this.getTaxSuper().getAccounts().transferMoney(amount, curren, this.accounts);
 	}
 	/**
 	 * Gets a list of all the governments that are below this government (including itself)
@@ -484,7 +492,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * the regiondata hashmap is stored
 	 */
 	public void register() {
-		HashSet<InspiredGov> value = new HashSet<InspiredGov>();
+		List<InspiredGov> value = new ArrayList<InspiredGov>();
 		if(!InspiredNations.regiondata.containsKey(this.getClass())) {
 			InspiredNations.regiondata.put(this.getClass(), value);
 		}
@@ -606,7 +614,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @param curren
 	 * @return
 	 */
-	public BigDecimal taxValue(Region region, double taxfrac,int protect, Currency curren) {
+	public final BigDecimal taxValue(Region region, double taxfrac,int protect, Currency curren) {
 		return this.taxValue(region, taxfrac, protect, this.getAdditionalCost(curren),this.taxedrate, curren);
 	}
 	/**
@@ -617,8 +625,24 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public BigDecimal currentTaxCycleValue(Currency curren) {
 		BigDecimal output = this.taxValue(this.getRegion().getRegion(), 1, this.protectionlevel, this.getAdditionalCost(curren),
-				this.getSuperGovObj().getTaxrates().get(this.getClass()), curren);
+				this.getSuperTaxRate(), curren);
 		return output;
+	}
+     /**
+	 * Gets the tax rate that is currently set in the TaxSuperGov.
+	 * @return
+	 */
+	public final double getCurrentTaxedRate() {
+		if(this instanceof Facility) {
+			return this.getSuperGovObj().getCurrentTaxedRate();
+		}
+		else if(this instanceof OwnerGov){
+			return this.getSuperGovObj().getSubTaxRate((Class<? extends OwnerGov>) this.getClass());
+		}
+		else {
+			Debug.InformPluginDev();
+			return 0;
+		}
 	}
 	/**
 	 * Returns the amount of money that the parameters would costs
@@ -629,13 +653,16 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * @param curren
 	 * @return
 	 */
-	public BigDecimal taxValue(Region region, double taxfrac, int protect, BigDecimal additionalcost, double taxrate, Currency curren) {
+	public final BigDecimal taxValue(Region region, double taxfrac, int protect, BigDecimal additionalcost, double taxrate, Currency curren) {
 		BigDecimal output = BigDecimal.ZERO;
 		// Basically... multiply them all together and it gets you the value in Defualt currency
 		//TODO come up with some kind of war money function
 		output = (new BigDecimal(region.volume()/10000.).multiply(new BigDecimal(taxfrac))).multiply(new BigDecimal(taxrate));
+		Debug.print(output.toString() + ", " + taxfrac + ", " + taxrate);
 		output = output.multiply(new BigDecimal(protect)).add(additionalcost);
+		Debug.print(output.toString() + ",  " + protect);
 		output = InspiredNations.Exchange.getExchangeValue(output, Currency.DEFAULT, curren);
+		Debug.print(output.toString());
 		return output;
 	}
 	 

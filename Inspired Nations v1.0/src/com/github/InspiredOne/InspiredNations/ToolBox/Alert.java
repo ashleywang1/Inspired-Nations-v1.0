@@ -7,10 +7,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 
 public abstract class Alert implements Nameable, Serializable {
 
@@ -96,4 +99,27 @@ public abstract class Alert implements Nameable, Serializable {
 		output.add(Alert.ageSort);
 		return output;
 	}
+/*	@Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
+            // if deriving: appendSuper(super.hashCode()).
+            append(name).
+            toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (!(obj instanceof PlayerID))
+            return false;
+        PlayerID rhs = (PlayerID) obj;
+
+        return new EqualsBuilder().
+            // if deriving: appendSuper(super.equals(obj)).
+            append(name, rhs.getName()).
+            isEquals();
+    }*/
 }

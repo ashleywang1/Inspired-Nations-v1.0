@@ -35,12 +35,17 @@ public class GovFactory<T extends InspiredGov> {
 		if(this.getGov().getSuperGov() != gov.getClass()) {
 			throw new SuperGovWrongTypeException();
 		}
+		Debug.print("Inside withSuperGov 1");
 		this.gov.setSuperGovObj(gov);
-		
+		Debug.print("Inside withSuperGov 2");
 		if(!this.gov.getCommonEcon().equals(this.gov.getClass())) {
+			Debug.print("Inside withSuperGov 3");
 			this.gov.setCurrency(gov.getCurrency());
+			Debug.print("Inside withSuperGov 4");
 		}
+		Debug.print("Inside withSuperGov 5");
 		this.gov.updateTaxRate();
+		Debug.print("Inside withSuperGov 6");
 		return this;
 	}
 	
