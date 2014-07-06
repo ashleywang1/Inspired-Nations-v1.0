@@ -28,16 +28,20 @@ public class ClaimSignShopListener extends InspiredListener<ClaimSignShopManager
 	PlayerData PDI;
 	public ClaimSignShopListener(ClaimSignShopManager manager) {
 		super(manager);
+		Debug.print("Inside ClaimSignShopListeners 1");
 		PDI = manager.getActionMenu().PDI;
+		Debug.print("Inside ClaimSignShopListeners 2");
 	}
 
 	@EventHandler
 	public void onSignPlace(BlockPlaceEvent event) {
 		if(!this.getPlayerData().getPlayerID().equals(new PlayerID(event.getPlayer()))) {
+			Debug.print("Inside onsignplace 0");
 			return;
 		}
 		Debug.print("Inside onsignplace 1");
-		if(event.getBlock().getType().equals(Material.SIGN)) {
+		Debug.print(event.getBlock().getType());
+		if(event.getBlock().getType().equals(Material.SIGN_POST)) {
 			Debug.print("Inside onsignplace 2");
 			region.loca = new Point3D(event.getBlock().getLocation());
 			valid = false;
@@ -58,18 +62,22 @@ public class ClaimSignShopListener extends InspiredListener<ClaimSignShopManager
 		manager.Update();
 	}
 	
+	@EventHandler
 	public void onSignChangeText(SignChangeEvent event) {
 		if(!this.getPlayerData().getPlayerID().equals(new PlayerID(event.getPlayer()))) {
+			Debug.print("Inside onsigntext 0");
 			return;
 		}
 		Debug.print("Inside onsignchangeText 1");
 		if(valid) {
 			Debug.print("Inside onsignchangeText 2");
 			Sign sign = (Sign) event.getBlock().getState();
-			sign.setLine(0, manager.getActionMenu().shop.getName());
-			sign.setLine(1, manager.getActionMenu().getData().getName());
-			sign.setLine(2, manager.getActionMenu().getData().getItem().getAmount() + "");
-			sign.setLine(3, Tools.cut(manager.getActionMenu().getData().getPrice(PDI.getCurrency(), region.getCharacteristicPoint())).toString());
+			event.setLine(0, manager.getActionMenu().shop.getSuperGovObj().getName());
+			event.setLine(1, manager.getActionMenu().getData().getName());
+			event.setLine(2, manager.getActionMenu().getData().getItem().getAmount() + "");
+			event.setLine(3, Tools.cut(manager.getActionMenu().getData().getPrice(PDI.getCurrency(), region.getCharacteristicPoint())).toString());
+
+			sign.update(true);
 			sign.update();
 		}
 	}

@@ -53,7 +53,8 @@ public class PickFacilityType<T extends Facility> extends PassByOptionMenu {
 			Debug.print("in init of PickFacilityType 3");
 			GovFactory<T> govf = null;
 			try {
-				govf = new GovFactory<T>((Class<T>) selfgov).withSuperGov(gov).withAccountCollection(gov.getAccounts());
+				Debug.print("Accounts null in PickFacility Type?" + (gov.getAccounts() == null));
+				govf = new GovFactory<T>((Class<T>) selfgov).withSuperGov(gov).withAccountCollection(gov.getAccounts()).withCurrency(gov.getCurrency());
 			} catch (SuperGovWrongTypeException e) {
 				e.printStackTrace();
 			}

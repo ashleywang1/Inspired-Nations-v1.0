@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
+import com.github.InspiredOne.InspiredNations.Listeners.Implem.MenuUpdateManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.TabScrollManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
@@ -203,9 +204,12 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	// way I could do this. Until then, ctrl-c and ctrl-v.
 	@Override
 	public void menuPersistent() {
+		this.setError(MenuError.NO_ERROR());
 		managers.add(new TaxTimerManager<ActionMenu>(this));
+		managers.add(new MenuUpdateManager<ActionMenu>(this));
 		manager = new TabScrollManager<TabSelectOptionMenu<E>>(this);
 		this.managers.add(manager);
+		this.addActionManagers();
 	}
 
 	@Override

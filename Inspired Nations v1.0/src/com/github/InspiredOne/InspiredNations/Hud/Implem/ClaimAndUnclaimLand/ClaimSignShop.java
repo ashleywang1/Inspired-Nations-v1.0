@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Economy.Sellable;
 import com.github.InspiredOne.InspiredNations.Economy.Implem.ItemSellable;
+import com.github.InspiredOne.InspiredNations.Governments.Implem.ChestShop;
 import com.github.InspiredOne.InspiredNations.Governments.Implem.SignShop;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
@@ -15,13 +15,14 @@ public class ClaimSignShop extends TabSelectOptionMenu<ItemSellable> {
 
 	private Menu previous;
 	private List<ItemSellable> sell;
-	public SignShop shop = new SignShop();
-	public ClaimSignShop(PlayerData PDI, Menu previous, List<ItemSellable> sell) {
+	public SignShop shop;
+	public ClaimSignShop(PlayerData PDI, Menu previous, SignShop signshop) {
 		super(PDI);
 		Debug.print("Inside claim sign shop constructor");
 		this.linesperitem = 2;
 		this.previous = previous;
-		this.sell = sell;
+		this.sell =((ChestShop) signshop.getSuperGovObj()).getItems();
+		shop = signshop;
 	}
 
 	@Override
@@ -50,6 +51,7 @@ public class ClaimSignShop extends TabSelectOptionMenu<ItemSellable> {
 
 	@Override
 	public void addActionManagers() {
+		Debug.print("Inside AddActionManagers of ClaimSignShop");
 		this.managers.add(new ClaimSignShopManager(this));
 	}
 

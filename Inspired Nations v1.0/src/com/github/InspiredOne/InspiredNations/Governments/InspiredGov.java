@@ -684,6 +684,8 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public void setLand(Region region) throws BalanceOutOfBoundsException, InspiredGovTooStrongException, RegionOutOfEncapsulationBoundsException, InsufficientRefundAccountBalanceException {
 		Currency curren = Currency.DEFAULT;
+		Debug.print("Is accounts null? "  + (this.accounts == null));
+		Debug.print("Is mcdown null? " + (InspiredNations.Exchange.mcdown));
 		BigDecimal holdings = this.accounts.getTotalMoney(curren, InspiredNations.Exchange.mcdown);
 		BigDecimal reimburse = this.taxValue(this.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
