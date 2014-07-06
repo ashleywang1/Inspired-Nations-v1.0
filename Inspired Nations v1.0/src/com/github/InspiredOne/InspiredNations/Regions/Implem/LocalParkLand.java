@@ -44,7 +44,7 @@ public class LocalParkLand extends InspiredRegion {
 		output.add(HouseLand.class);
 		output.add(GoodBusinessLand.class);
 		output.add(ServiceBusinessLand.class);
-		return null;
+		return output;
 	}
 
 	@Override

@@ -15,6 +15,7 @@ min_diamond_value: 100
 max_diamond_value: 10000
 tax_cycle_length: 300
 player_npc_pop: 100
+npc_buy_prob: 1
 
 
 # Adjust this number to change the formating of the HUD. #

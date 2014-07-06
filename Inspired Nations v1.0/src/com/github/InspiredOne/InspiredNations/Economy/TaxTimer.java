@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 
 public class TaxTimer implements Serializable {
 	
@@ -65,6 +66,20 @@ public class TaxTimer implements Serializable {
 				TaxTimerEvent event = new TaxTimerEvent(InspiredNations.taxTimer);
 				if(taxreadout) {
 					Bukkit.getServer().getPluginManager().callEvent(event);
+				}
+				double rand = 100.*Math.random();
+				if(rand <InspiredNations.plugin.getConfig().getInt("npc_buy_prob")) {
+					for(PlayerID PDItemp:InspiredNations.playerdata) {
+						try {
+							PDItemp.getPDI().getPlayer();
+							for(NPC npc:PDItemp.getPDI().npcs) {
+								npc.buyOut();
+							}	
+						}
+						catch (Exception ex) {
+							
+						}
+					}
 				}
 				countdown--;
 				if(countdown == 0) {

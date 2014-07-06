@@ -155,7 +155,7 @@ public class Cuboid extends NonCummulativeRegion {
 
 	@Override
 	public boolean IsIn(Region region) {
-		Debug.print("in Cuboid.IsIn(Region)");
+		Debug.print("in Cuboid.IsIn(Region) 1");
 		Point3D point;
 		for(int x = this.pointmin.x; x <= this.pointmax.x; x++) {
 			for(int y = this.pointmin.y; y <= this.pointmax.y; y++) {
@@ -167,6 +167,7 @@ public class Cuboid extends NonCummulativeRegion {
 				}
 			}
 		}
+		Debug.print("in Cuboid.IsIn(Region) 2");
 		return true;
 	}
 	

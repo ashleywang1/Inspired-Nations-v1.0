@@ -64,7 +64,7 @@ public class LocalPark extends Facility {
 	@Override
 	public String getFacilityGroupName() {
 		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 	@Override
 	public void setFunctionOptions(PlayerData PDI, OptionMenu menu) {
