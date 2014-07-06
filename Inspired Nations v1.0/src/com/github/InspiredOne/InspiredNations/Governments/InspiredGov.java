@@ -950,7 +950,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 
         return new EqualsBuilder().
             // if deriving: appendSuper(super.equals(obj)).
-            append(name, rhs.hashID).
+            append(hashID, rhs.hashID).
             isEquals();
     }
 	
