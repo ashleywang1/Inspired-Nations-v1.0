@@ -192,7 +192,6 @@ public class MenuTools {
 				public boolean menuPersistent() {
 					return false;
 				}
-				
 			};
 		}
 		

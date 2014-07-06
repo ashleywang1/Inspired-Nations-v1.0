@@ -244,6 +244,9 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 
 	@Override
 	public void unloadPersist() {
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
 		managers = new ArrayList<ActionManager<?>>();
 	}
 }

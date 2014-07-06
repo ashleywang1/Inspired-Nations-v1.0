@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.bukkit.Location;
 
 import com.github.InspiredOne.InspiredNations.Debug;
@@ -55,6 +57,8 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	private static final long serialVersionUID = 5014430464149332251L;
 	
+	private static int globalid = 0;
+	private final int hashID;
 	private AccountCollection accounts;
 	private InspiredRegion region;
 	//private List<Facility> facilities = new ArrayList<Facility>();
@@ -72,6 +76,8 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		for(Class<? extends InspiredGov> gov:this.getSubGovs()) {
 			this.registerTaxRates(gov);
 		}
+		this.hashID = globalid;
+		globalid++;
 		//accounts = new AccountCollection("");
 	}
 	/**
@@ -923,6 +929,30 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		}
 		return tier;
 	}
+	
+	@Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
+            // if deriving: appendSuper(super.hashCode()).
+            append(this.hashID).
+            toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (!(obj instanceof InspiredGov))
+            return false;
+        InspiredGov rhs = (InspiredGov) obj;
+
+        return new EqualsBuilder().
+            // if deriving: appendSuper(super.equals(obj)).
+            append(name, rhs.hashID).
+            isEquals();
+    }
 	
 	@Override
 	public String toString() {

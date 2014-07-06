@@ -116,7 +116,7 @@ public class MessageManager implements Serializable {
 					playerid.getPDI().getMsg().receiveAlert(new Message(true, PDI.getPlayerID(), msg));
 				}
 				else {
-					playerid.getPDI().getMsg().receiveAlert(new Message(false, PDI.getPlayerID(), msg));
+					playerid.getPDI().getMsg().receiveAlert(new Message(playerid.getPDI().chatState, PDI.getPlayerID(), msg));
 				}
 			}
 			catch (Exception ex) {

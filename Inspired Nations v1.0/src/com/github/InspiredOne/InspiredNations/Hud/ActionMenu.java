@@ -94,6 +94,9 @@ public abstract class ActionMenu extends Menu {
 
 	@Override
 	public void unloadPersist() {
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
 		managers = new ArrayList<ActionManager<?>>();
 	}
 }

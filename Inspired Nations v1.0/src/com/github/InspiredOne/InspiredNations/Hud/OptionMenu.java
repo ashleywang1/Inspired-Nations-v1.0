@@ -139,6 +139,9 @@ public abstract class OptionMenu extends ActionMenu {
 
 	@Override
 	public void unloadPersist() {
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
 		managers = new ArrayList<ActionManager<?>>();
 	}
 	

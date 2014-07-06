@@ -58,6 +58,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	public List<NPC> npcs = new ArrayList<NPC>();
 	public Theme theme = new Theme();
 	public boolean TimerState = true;
+	public boolean chatState = true;
 	
 	public PlayerData(PlayerID id) {
 		this.name = id.getName();

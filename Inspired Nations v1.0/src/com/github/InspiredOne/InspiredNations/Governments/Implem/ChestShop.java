@@ -49,7 +49,6 @@ public class ChestShop extends Facility {
 				inv = (Inventory) ((Chest) chest.getLocation().getBlock().getState()).getInventory();
 			}
 			catch (Exception e) {
-				e.printStackTrace();
 				throw new NoShopRegionException();
 			}
 		}
