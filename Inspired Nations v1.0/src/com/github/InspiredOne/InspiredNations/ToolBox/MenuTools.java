@@ -155,6 +155,47 @@ public class MenuTools {
 			};
 		}
 		
+		public static Alert ALLY_TRIED_TO_HURT_YOU(final PlayerData attacker) {
+			return new Alert() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 6265029800715995613L;
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					return makeMessage(attacker.getDisplayName(receiver) + " is trying to hurt you.", receiver);
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					return true;
+				}
+			};
+		}
+		
+		public static Alert CANT_HURT_ALLY(final PlayerData target) {
+			return new Alert() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -3534863904446112401L;
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					return makeMessage("You cannot hurt your ally, " + target.getDisplayName(receiver), receiver);
+				}
+
+				@Override
+				public boolean menuPersistent() {
+					return false;
+				}
+				
+			};
+		}
+		
 		public static Alert GOV_INVITED_YOU(final OwnerGov govinvite, final String position) {
 			return new Alert() {
 

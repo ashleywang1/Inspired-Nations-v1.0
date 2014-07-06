@@ -29,11 +29,13 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Point3D;
 import com.github.InspiredOne.InspiredNations.ToolBox.ProtectionLevels;
+import com.github.InspiredOne.InspiredNations.ToolBox.Relation;
 import com.github.InspiredOne.InspiredNations.ToolBox.Theme;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
@@ -478,6 +480,23 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 				target.sendNotification(MenuAlert.TRIED_TO_HURT_YOU(this));
 				
 				return false;
+			}
+
+		}
+		for(OwnerGov citi:this.getCitizenship()) {
+			for(OwnerGov cititar:target.getCitizenship()) {
+				if(citi.getRelations().get(cititar) == Relation.ENEMY) {
+					return true;
+				}
+			}
+		}
+		for(OwnerGov citi:this.getCitizenship()) {
+			for(OwnerGov cititar:target.getCitizenship()) {
+				if(citi.getRelations().get(cititar) == Relation.ALLY) {
+					target.sendNotification(MenuAlert.ALLY_TRIED_TO_HURT_YOU(this));
+					this.sendNotification(MenuAlert.CANT_HURT_ALLY(target));
+					return false;
+				}
 			}
 		}
 		return true;
