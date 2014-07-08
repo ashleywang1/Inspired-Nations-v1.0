@@ -29,7 +29,6 @@ public class PlayerProfile extends OptionMenu {
 
 	@Override
 	public Menu getPreviousMenu() {
-		Debug.print("poop");
 		return new PlayerDirectory(PDI);
 	}
 
@@ -70,7 +69,7 @@ public class PlayerProfile extends OptionMenu {
 	@Override
 	public String getPreOptionText() {
 		Debug.print("profile");
-		return "Here is your profile:";
+		return "";
 	}
 
 	@Override
