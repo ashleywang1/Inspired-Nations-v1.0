@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -664,11 +663,8 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		// Basically... multiply them all together and it gets you the value in Defualt currency
 		//TODO come up with some kind of war money function
 		output = (new BigDecimal(region.volume()/10000.).multiply(new BigDecimal(taxfrac))).multiply(new BigDecimal(taxrate));
-		Debug.print(output.toString() + ", " + taxfrac + ", " + taxrate);
 		output = output.multiply(new BigDecimal(protect)).add(additionalcost);
-		Debug.print(output.toString() + ",  " + protect);
 		output = InspiredNations.Exchange.getExchangeValue(output, Currency.DEFAULT, curren);
-		Debug.print(output.toString());
 		return output;
 	}
 	 
@@ -690,8 +686,6 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 */
 	public void setLand(Region region) throws BalanceOutOfBoundsException, InspiredGovTooStrongException, RegionOutOfEncapsulationBoundsException, InsufficientRefundAccountBalanceException {
 		Currency curren = Currency.DEFAULT;
-		Debug.print("Is accounts null? "  + (this.accounts == null));
-		Debug.print("Is mcdown null? " + (InspiredNations.Exchange.mcdown));
 		BigDecimal holdings = this.accounts.getTotalMoney(curren, InspiredNations.Exchange.mcdown);
 		BigDecimal reimburse = this.taxValue(this.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal cost = this.taxValue(region, InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
@@ -700,6 +694,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		if(holdings.compareTo(difference) < 0) {
 			throw new BalanceOutOfBoundsException();
 		}
+		
 		// Is it inside all the regions it's supposed to be in?
 		for(Class<? extends InspiredRegion > regionType:this.getRegion().getEncapsulatingRegions()) {
 			InspiredRegion check = Tools.getInstance(regionType);
@@ -709,6 +704,14 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 				}
 			}
 		}
+		for(InspiredGov gov:this.getAllSubGovsAndFacilitiesJustBelow()) {
+			Debug.print("In remove Land Not In 6");
+			if(gov.getRegion().getEncapsulatingRegions().contains(this.getRegion().getClass())) {
+				Debug.print("In remove Land Not In 7");
+				gov.removeLandNotIn(region);
+			}
+		}
+
 		// Does it cross over any regions that it can't be over?
 		for(InspiredGov gov:this.getSuperGovObj().getAllSubGovsAndFacilitiesJustBelow()) {
 			if(gov != this) {
@@ -754,6 +757,50 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		this.getRegion().addLand(region);
 		this.sendNotification(MenuAlert.REGION_UPDATED_SUCCESSFULY(region, this));
 	}
+	
+	public void removeLandNotIn(Region select) {
+		Region regionfrom = this.getRegion().getRegion();
+		Currency curren = Currency.DEFAULT;
+		BigDecimal reimburse = this.taxValue(this.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
+		Debug.print("In remove Land Not In 1");
+		if(regionfrom instanceof CummulativeRegion<?>) {
+			Debug.print("In remove Land Not In 2");
+			ArrayList<NonCummulativeRegion> removed = new ArrayList<NonCummulativeRegion>();
+			for(NonCummulativeRegion region:((CummulativeRegion<?>) regionfrom).getRegions()) {
+				if(!region.IsIn(select)) {
+					removed.add(region);
+				}
+			}
+			((CummulativeRegion<?>) regionfrom).getRegions().removeAll(removed);
+		}
+		else {
+			Debug.print("In remove Land Not In 3");
+			if(!regionfrom.IsIn(select)) {
+				this.getRegion().setRegion(new nullRegion());
+			}
+		}
+		for(InspiredGov gov:this.getAllSubGovsAndFacilitiesJustBelow()) {
+			Debug.print("In remove Land Not In 4");
+			gov.removeLandNotIn(this.getRegion().getRegion());
+		}
+		BigDecimal newcost = this.taxValue(this.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
+		BigDecimal difference = reimburse.subtract(newcost);
+		try {
+			Debug.print("In remove Land Not In 5");
+			this.pullFromSuper(difference, curren);	// Pull the reimbursment from them
+		} catch (BalanceOutOfBoundsException e) {	// If they don't have enough
+			try {
+				this.pullFromSuper(this.getSuperGovObj().accounts.getTotalMoney(curren, InspiredNations.Exchange.mcdown), curren); // Pull all they have
+			} catch (BalanceOutOfBoundsException e1) {	// Should not encounter
+				e1.printStackTrace();	
+			} catch (NegativeMoneyTransferException e1) { // Should not encounter
+				e1.printStackTrace();
+			}
+		} catch (NegativeMoneyTransferException e) {	// Should not encounter
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Assumes that this region intersects the region <code>select</code>. 
 	 * @param select

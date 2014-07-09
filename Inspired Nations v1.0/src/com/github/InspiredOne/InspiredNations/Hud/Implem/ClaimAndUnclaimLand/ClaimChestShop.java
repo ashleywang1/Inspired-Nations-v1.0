@@ -109,6 +109,7 @@ public class ClaimChestShop extends InputMenu {
 		else {
 			this.mapmanager = new MapManager<ClaimChestShop>(this, 1, 1);
 		}
+		this.managers.add(this.mapmanager);
 		
 	}
 }

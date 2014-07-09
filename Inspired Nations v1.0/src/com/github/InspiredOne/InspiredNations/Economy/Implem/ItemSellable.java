@@ -87,7 +87,7 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 			String output = this.getName() + "\n" + TextColor.VALUE(viewer) + this.getItem().getAmount() + TextColor.INSTRUCTION(viewer) + " for " +
 					TextColor.VALUE(viewer) + Tools.cut(this.getPrice(viewer.getCurrency(), viewer.getLocation())) + " " +
 					TextColor.UNIT(viewer) + viewer.getCurrency() + ": " + TextColor.VALUE(viewer) + 
-					Tools.cut(InspiredNations.Exchange.getTransferValue(price, this.curren, curren, InspiredNations.Exchange.mcup)) + 
+					Tools.cut(InspiredNations.Exchange.getTransferValue(price, this.curren, viewer.getCurrency(), InspiredNations.Exchange.mcup)) + 
 					TextColor.INSTRUCTION(viewer) + " + " + TextColor.VALUE(viewer) + Tools.cut(this.getTransCost(viewer.getCurrency(), viewer.getLocation()));
 			return output;
 		}

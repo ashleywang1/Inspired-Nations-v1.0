@@ -16,9 +16,6 @@ public class MultiMapIterator<T> implements Iterator<T> {
 		if(HashIter.hasNext()) {
 			govIter = HashIter.next().iterator();
 		}
-		if(govIter.hasNext()) {
-			value = govIter.next();
-		}
 	}
 
 	@Override
@@ -41,6 +38,7 @@ public class MultiMapIterator<T> implements Iterator<T> {
 			throw new NoSuchElementException();
 		}
 		else {
+
 			value = govIter.next();
 			return value;
 		}
@@ -50,5 +48,4 @@ public class MultiMapIterator<T> implements Iterator<T> {
 	public void remove() {
 		map.remove(value);
 	}
-
 }

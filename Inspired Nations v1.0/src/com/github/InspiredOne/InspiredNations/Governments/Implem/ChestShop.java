@@ -41,11 +41,13 @@ public class ChestShop extends Facility {
 	}
 
 	public Inventory getInventory() throws NoShopRegionException {
-		ShopRegion region = ((ShopRegion) this.getRegion().getRegion());
-		Point3D chest = region.one;
+		ShopRegion region = null;
+		Point3D chest = null;
 		Inventory inv = null;
-		if(region.volume() >= 1) {
+		if(this.getRegion().getRegion().volume() >= 1) {
 			try {
+				region = ((ShopRegion) this.getRegion().getRegion());
+				chest = region.one;
 				inv = (Inventory) ((Chest) chest.getLocation().getBlock().getState()).getInventory();
 			}
 			catch (Exception e) {

@@ -1,6 +1,10 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ManageGov;
 
 import com.github.InspiredOne.InspiredNations.Debug;
+import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
+import com.github.InspiredOne.InspiredNations.Exceptions.InspiredGovTooStrongException;
+import com.github.InspiredOne.InspiredNations.Exceptions.InsufficientRefundAccountBalanceException;
+import com.github.InspiredOne.InspiredNations.Exceptions.RegionOutOfEncapsulationBoundsException;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
@@ -25,6 +29,24 @@ public class UnclaimLandOption extends Option {
 		Debug.print("In responce of UnclaimLandOption 1");
 		Region region = gov.getRegion().getRegion();
 		Debug.print("In responce of UnclaimLandOption 2");
+		
+		try {
+			gov.setLand(new nullRegion());
+		} catch (BalanceOutOfBoundsException e) {
+			e.printStackTrace();
+		} catch (InspiredGovTooStrongException e) {
+			e.printStackTrace();
+		} catch (RegionOutOfEncapsulationBoundsException e) {
+			e.printStackTrace();
+		} catch (InsufficientRefundAccountBalanceException e) {
+			
+		}
+		
+/*		for(InspiredGov subgov:this.gov.getAllSubGovsAndFacilitiesJustBelow()) {
+			if(subgov.getRegion().getEncapsulatingRegions().contains(gov.getRegion().getClass())) {
+				subgov.getRegion().setRegion(new nullRegion());
+			}
+		}
 		if(region instanceof CummulativeRegion) {
 			Debug.print("In responce of UnclaimLandOption 3");
 			return ((CummulativeRegion<?>) region).getUnclaimMenu(menu.getPlayerData(), menu, gov);
@@ -32,7 +54,7 @@ public class UnclaimLandOption extends Option {
 		else if(region instanceof NonCummulativeRegion) {
 			Debug.print("In responce of UnclaimLandOption 5");
 			gov.getRegion().setRegion(new nullRegion());
-		}
+		}*/
 		return menu;
 	}
 }

@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -143,6 +142,7 @@ public class InspiredNations extends JavaPlugin {
 		public void onPlayerMove(PlayerMoveEvent event) {
 			PlayerData PDI = InspiredNations.playerdata.get(new PlayerID(event.getPlayer()));
 			PDI.setLocation(event.getTo());
+			Debug.print("Size of region data: " + InspiredNations.regiondata.size());
 			for(InspiredGov gov:InspiredNations.regiondata) {
 				Debug.print("Checking if entering: " + gov);
 				if(gov.contains(event.getTo()) && !gov.contains(event.getFrom())) {

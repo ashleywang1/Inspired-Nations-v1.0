@@ -110,7 +110,7 @@ public class Account implements Serializable, Nameable, Payable, Cloneable {
 		}
 		else {
 			for(CurrencyAccount curren:money) {
-				BigDecimal amountup = curren.getTotalMoney(monType, InspiredNations.Exchange.mcup);
+				//BigDecimal amountup = curren.getTotalMoney(monType, InspiredNations.Exchange.mcup);
 				BigDecimal amountdown = curren.getTotalMoney(monType, InspiredNations.Exchange.mcdown);
 				
 				if(mon.compareTo(amountdown) >= 0) {

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
-import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
 
 /**
  * Used to allow option menus to be bypassed if there is only one option.

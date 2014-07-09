@@ -92,7 +92,7 @@ public class Message extends Alert implements Nameable {
 
 	@Override
 	public boolean menuPersistent() {
-		return false;
+		return true;
 	}
 	
 	
