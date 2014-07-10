@@ -43,7 +43,7 @@ public class PickRelationMenu extends PickGovGeneral {
 			this.options.add(new ChangeRelationOption(this, "Ally " + this.getData().getName(),
 					Relation.ALLY, (OwnerGov) this.getData(), this.gov));
 			this.options.add(new ChangeRelationOption(this, "Enemy " + this.getData().getName(),
-					Relation.ALLY, (OwnerGov) this.getData(), this.gov));
+					Relation.ENEMY, (OwnerGov) this.getData(), this.gov));
 		}
 	}
 

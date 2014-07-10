@@ -58,12 +58,12 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	
 	private static int globalid = 0;
 	private final int hashID;
-	private AccountCollection accounts;
+	protected AccountCollection accounts;
 	private InspiredRegion region;
 	//private List<Facility> facilities = new ArrayList<Facility>();
 	private IndexedMap<Class<? extends InspiredGov>, Double> taxrates = new IndexedMap<Class<? extends InspiredGov>, Double>();
 	private InspiredGov supergov;
-	private String name;
+	protected String name;
 	private double taxedrate = 1; // the last tax rate used on this gov. Used to calculate prices.
 	protected int protectionlevel = 0;
 	private Currency currency = Currency.DEFAULT;

@@ -39,11 +39,14 @@ public class Relations extends TabSelectOptionMenu<OwnerGov> {
 	public void addOptions() {
 		this.options.add(new PromptOption(this, "Add Relation", new PickRelationMenu(PDI, this, this, gov)));
 		if(!this.taboptions.isEmpty()) {
-
-			this.options.add(new ChangeRelationOption(this, "Ally " + this.getData().getName(),
-					Relation.ALLY, this.getData(), this.gov));
-			this.options.add(new ChangeRelationOption(this, "Enemy " + this.getData().getName(), 
-					Relation.ENEMY, this.getData(), this.gov));
+			if(this.gov.getRelations().get(this.getData()) == Relation.ENEMY) {
+				this.options.add(new ChangeRelationOption(this, "Ally " + this.getData().getName(),
+						Relation.ALLY, this.getData(), this.gov));
+			}
+			else {
+				this.options.add(new ChangeRelationOption(this, "Enemy " + this.getData().getName(), 
+						Relation.ENEMY, this.getData(), this.gov));
+			}
 			this.options.add(new ChangeRelationOption(this, "Neutral " + this.getData().getName(),
 					Relation.NEUTRAL, this.getData(), this.gov));
 		}

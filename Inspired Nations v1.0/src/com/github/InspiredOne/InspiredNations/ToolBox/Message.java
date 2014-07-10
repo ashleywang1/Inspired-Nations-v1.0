@@ -49,6 +49,7 @@ public class Message extends Alert implements Nameable {
 			int index = 0;
 			String append;
 			for(String test:args) {
+				String orig = test;
 				append = "";
 				if(test.startsWith("$")) {
 					scan = true;
@@ -71,6 +72,7 @@ public class Message extends Alert implements Nameable {
 					}
 					catch (Exception ex) {
 						checkNext = !checkNext;
+						test = orig;
 					}
 					// Modify the value of the string in the list
 					args[index] = test + append;
@@ -83,7 +85,10 @@ public class Message extends Alert implements Nameable {
 				output = output.concat(concat + " ");
 				}
 			}
-			return output.substring(0, output.length() - 1);
+			if(output.length() > 0) {
+				return output.substring(0, output.length() - 1);
+			}
+			else return "";
 		}
 		else {
 			return input;

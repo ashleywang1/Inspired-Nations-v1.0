@@ -42,6 +42,17 @@ public abstract class OwnerGov extends InspiredGov {
 	public InspiredGov getTaxSuper() {
 		return this.getSuperGovObj();
 	}
+	/**
+	 * Removes the player from the government
+	 */
+	public void removePlayer(PlayerData PDI) {
+		if(this instanceof OwnerSubjectGov) {
+			((OwnerSubjectGov) this).removeSubject(PDI.getPlayerID());
+		}
+		else {
+			this.removeOwner(PDI.getPlayerID());
+		}
+	}
 	
 	public void addOwner(PlayerID player) {
 		

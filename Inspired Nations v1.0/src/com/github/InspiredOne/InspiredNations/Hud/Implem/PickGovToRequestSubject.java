@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
@@ -52,6 +53,7 @@ public class PickGovToRequestSubject extends PickGovGeneral {
 		String description = "";
 		if(this.taboptions.size() != 0) {
 			OwnerSubjectGov gov = ((OwnerSubjectGov) this.getData());
+			Debug.print("Is a subject of this gov? " + gov.isSubject(PDI.getPlayerID()));
 			if(gov.getAllSubGovsAndFacilitiesJustBelow().size() > 0 && gov.isSubject(PDI.getPlayerID())) {
 				this.options.add(new PromptOption(this, "Search Under", new PickGovToRequestSubject(PDI, this, this.next, gov)));
 			}

@@ -82,7 +82,7 @@ public class ClaimChestShop extends InputMenu {
 
 	@Override
 	public String getHeader() {
-		return "Claim Chest Shop";
+		return "Claim Chest Shop: " + gov.getName();
 	}
 
 	@Override

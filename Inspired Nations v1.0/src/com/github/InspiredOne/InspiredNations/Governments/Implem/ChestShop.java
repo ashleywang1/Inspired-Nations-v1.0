@@ -128,4 +128,12 @@ public class ChestShop extends Facility {
 	public void setItems(IndexedSet<ItemSellable> items) {
 		this.items = items;
 	}
+	@Override
+	public void setName(String name) {
+		this.accounts.setName(name);
+		this.name = name;
+/*		if(this.getRegion() instanceof ShopRegion) {
+			if(((ShopRegion) this.getRegion())
+		}*/
+	}
 }
