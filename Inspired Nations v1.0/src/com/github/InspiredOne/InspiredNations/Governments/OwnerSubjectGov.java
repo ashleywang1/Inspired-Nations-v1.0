@@ -46,6 +46,8 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 				}
 			}
 		}
+		this.subjectOffers.remove(player);
+		this.subjectRequests.remove(player);
 		this.subjects.add(player);
 		player.getPDI().sendNotification(MenuAlert.ADDED_AS_SUBJECT_TO_GOV(this, this.getSubjectPositionName()));
 	}

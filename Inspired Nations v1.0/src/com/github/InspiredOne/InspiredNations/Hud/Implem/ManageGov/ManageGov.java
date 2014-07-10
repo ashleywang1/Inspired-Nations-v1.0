@@ -94,6 +94,7 @@ public class ManageGov extends OptionMenu {
 		if(gov.getRegion().getRegion().volume() != 0) {
 			this.options.add(new UnclaimLandOption(new ManageGov(PDI, gov), "Unclaim Land", gov));
 		}
+		this.options.add(new RenameGovOption(this, "Rename " + gov.getTypeName() + " <Name>", gov));
 
 		OptionMenu newman = new ManageGov(PDI, (OwnerGov) gov);
 		ManageGov.addFacilityOptions(PDI, this, newman, gov);

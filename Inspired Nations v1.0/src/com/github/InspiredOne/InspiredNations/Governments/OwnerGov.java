@@ -66,6 +66,8 @@ public abstract class OwnerGov extends InspiredGov {
 				}
 			}
 		}
+		this.ownerOffers.remove(player);
+		this.ownerRequest.remove(player);
 		this.owners.add(player);
 		if(this instanceof OwnerSubjectGov) {
 			((OwnerSubjectGov) this).addSubject(player);

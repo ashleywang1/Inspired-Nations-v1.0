@@ -57,7 +57,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	protected PlayerData PDI;
 	public List<NPC> npcs = new ArrayList<NPC>();
 	public Theme theme = new Theme();
-	public boolean TimerState = true;
+	public boolean TimerState = false;
 	public boolean chatState = true;
 	
 	public PlayerData(PlayerID id) {
