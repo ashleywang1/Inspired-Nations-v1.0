@@ -101,7 +101,7 @@ public class ManageGov extends OptionMenu {
 		ManageGov.addFacilityOptions(PDI, this, newman, gov);
 		
 		if (gov.isOwner( PDI.getPlayerID() )) {
-			this.options.add(new DeleteGovOption(new ManageGov(PDI,gov), "Delete Government", gov, PDI.getPlayerID()));
+			this.options.add(new DeleteGovOption(new ManageGov(PDI,gov), "Delete Government", gov, PDI));
 		};
 		
 
