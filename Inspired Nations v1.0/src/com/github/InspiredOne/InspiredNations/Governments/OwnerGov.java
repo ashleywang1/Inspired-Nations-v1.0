@@ -30,6 +30,7 @@ public abstract class OwnerGov extends InspiredGov {
 	private IndexedSet<PlayerID> ownerOffers = new IndexedSet<PlayerID>();
 	private IndexedMap<OwnerGov, Relation> relations = new IndexedMap<OwnerGov, Relation>();
 	
+	
 	public OwnerGov() {
 		super();
 	}
@@ -37,6 +38,10 @@ public abstract class OwnerGov extends InspiredGov {
 	protected IndexedSet<PlayerID> getOwners() {
 		return this.owners;
 	}
+	
+//	public IndexedSet<PlayerID> getOwnersList() {
+//		return (IndexedSet<PlayerID>) this.owners.clone();
+//	}
 	
 	@Override
 	public InspiredGov getTaxSuper() {
@@ -229,6 +234,12 @@ public abstract class OwnerGov extends InspiredGov {
 
 	public void setRelations(IndexedMap<OwnerGov, Relation> relations) {
 		this.relations = relations;
+	}
+	
+	public void deleteGov() {
+		for (PlayerID PID: this.owners) {
+			this.removeOwner(PID);
+		}
 	}
 
 }
