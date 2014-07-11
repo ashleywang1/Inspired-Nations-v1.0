@@ -1,6 +1,8 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.Facility;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
@@ -59,7 +61,7 @@ public class LeaveGovOption extends Option {
 		int protection = gov.getProtectionlevel();
 		
 		//If player is only ruler and protection < 2, player leaves and subjects banished, country disappears
-		if (numOwners == 1 && protection < 2) {
+		if (numOwners == 1 && protection < 2 || gov.getSubjects().size() == 0) {
 			gov.removeOwner(PDI.getPlayerID());
 			
 			//banish all the subjects. NOTE: may or may not be redundant with gov.unregister()
@@ -67,11 +69,23 @@ public class LeaveGovOption extends Option {
 				gov.removePlayer(PID);
 			}
 			
+			for (InspiredGov subGov: gov.getAllSubGovsAndFacilitiesJustBelow()) {
+				Debug.print(subGov);
+				if (subGov instanceof Facility) {
+					//TODO delete facility
+				}
+				else if (subGov instanceof OwnerGov){
+					((OwnerGov) subGov).removeOwner(PDI.getPlayerID());
+				}
+				else if (subGov instanceof OwnerSubjectGov){
+					((OwnerSubjectGov) subGov).removeOwner(PDI.getPlayerID());
+				}
+			};
 			gov.unregister();
 		}
 		
 		//If player is the only ruler and protection > 2, player leaves and subjects have option to become ruler
-		if (numOwners == 1 && protection > 2) {
+		if (numOwners == 1 && gov.getSubjects().size() > 0 && protection > 2) {
 			gov.removeOwner(PDI.getPlayerID());
 			
 			//allow subjects to become ruler
@@ -83,7 +97,7 @@ public class LeaveGovOption extends Option {
 			gov.removeOwner(PDI.getPlayerID());
 		};
 		
-		//gov.removePlayer(PDI.getPlayerID());
+		
 		return menu;
 	}
 	
