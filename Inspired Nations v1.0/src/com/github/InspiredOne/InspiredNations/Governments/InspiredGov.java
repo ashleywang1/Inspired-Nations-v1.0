@@ -313,7 +313,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	 * 
 	 * @param subgov	the <code>InspiredGov</code> type to be searched for
 	 * @return			the <code>double</code> representation of the tax rate
-	 */
+	 */	
 	public double getSubTaxRate(Class<? extends OwnerGov> subgov) {
 		return taxrates.get(subgov);
 	}

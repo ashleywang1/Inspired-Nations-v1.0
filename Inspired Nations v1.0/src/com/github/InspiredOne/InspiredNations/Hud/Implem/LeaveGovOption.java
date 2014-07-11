@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
@@ -53,9 +54,21 @@ public class LeaveGovOption extends Option {
 
 	@Override
 	public Menu response(String input) {
-
+		
 		int numOwners = gov.getOwnersList().size();
 		int protection = gov.getProtectionlevel();
+		
+		//If player is only ruler and protection < 2, player leaves and subjects banished, country disappears
+		if (numOwners == 1 && protection < 2) {
+			gov.removeOwner(PDI.getPlayerID());
+			
+			//banish all the subjects. NOTE: may or may not be redundant with gov.unregister()
+			for (PlayerID PID: gov.getSubjects()) {
+				gov.removePlayer(PID);
+			}
+			
+			gov.unregister();
+		}
 		
 		//If player is the only ruler and protection > 2, player leaves and subjects have option to become ruler
 		if (numOwners == 1 && protection > 2) {
@@ -65,16 +78,6 @@ public class LeaveGovOption extends Option {
 			gov.setOwnerOffers(gov.getSubjects());
 		}
 		
-		//If player is only ruler and protection < 2, player leaves and subjects banished, country disappears
-		if (numOwners == 1 && protection < 2) {
-			gov.removeOwner(PDI.getPlayerID());
-			
-			//banish all the subjects
-			for (PlayerID PID: gov.getSubjects()) {
-				gov.removePlayer(PID);
-			}
-		}	
-		
 		//If player is not the only ruler, player leaves
 		if ( numOwners> 1) {
 			gov.removeOwner(PDI.getPlayerID());
@@ -83,5 +86,5 @@ public class LeaveGovOption extends Option {
 		//gov.removePlayer(PDI.getPlayerID());
 		return menu;
 	}
-
+	
 }
