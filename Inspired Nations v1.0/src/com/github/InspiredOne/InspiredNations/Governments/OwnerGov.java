@@ -39,9 +39,9 @@ public abstract class OwnerGov extends InspiredGov {
 		return this.owners;
 	}
 	
-//	public IndexedSet<PlayerID> getOwnersList() {
-//		return (IndexedSet<PlayerID>) this.owners.clone();
-//	}
+	public IndexedSet<PlayerID> getOwnersList() {
+		return (IndexedSet<PlayerID>) this.owners.clone();
+	}
 	
 	@Override
 	public InspiredGov getTaxSuper() {
@@ -50,12 +50,12 @@ public abstract class OwnerGov extends InspiredGov {
 	/**
 	 * Removes the player from the government
 	 */
-	public void removePlayer(PlayerData PDI) {
+	public void removePlayer(PlayerID PID) {
 		if(this instanceof OwnerSubjectGov) {
-			((OwnerSubjectGov) this).removeSubject(PDI.getPlayerID());
+			((OwnerSubjectGov) this).removeSubject(PID);
 		}
 		else {
-			this.removeOwner(PDI.getPlayerID());
+			this.removeOwner(PID);
 		}
 	}
 	
@@ -236,13 +236,13 @@ public abstract class OwnerGov extends InspiredGov {
 		this.relations = relations;
 	}
 	
-	public void deleteGov() {
-		for (PlayerID PID: this.owners) {
-			this.removeOwner(PID);
-			Debug.print(this.getGovsLost(this, PID));
-		}
-		
-		
-	}
+//	public void deleteGov() {
+//		for (PlayerID PID: this.owners) {
+//			this.removeOwner(PID);
+//			Debug.print(this.getGovsLost(this, PID));
+//		}
+//		
+//		
+//	}
 
 }

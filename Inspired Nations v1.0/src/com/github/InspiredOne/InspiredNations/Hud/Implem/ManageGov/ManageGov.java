@@ -100,13 +100,6 @@ public class ManageGov extends OptionMenu {
 		OptionMenu newman = new ManageGov(PDI, (OwnerGov) gov);
 		ManageGov.addFacilityOptions(PDI, this, newman, gov);
 		
-		
-		Debug.print("NOT Able to delete government");
-		
-		if (gov.isOwner( PDI.getPlayerID() )) {
-			
-			this.options.add(new DeleteGovOption(new ManageGov(PDI,gov), "Remove Country", gov, PDI));
-		};
 
 	}
 
