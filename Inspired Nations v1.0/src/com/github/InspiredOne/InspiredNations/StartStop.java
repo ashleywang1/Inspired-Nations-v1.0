@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.instrument.Instrumentation;
 import java.math.BigDecimal;
+import java.util.Collection;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -112,10 +113,9 @@ public class StartStop {
 		// End of things to delete
 		this.EconMap();
 		try {
-			Player[] online = plugin.getServer().getOnlinePlayers();
-			for (int i = 0; i < online.length; i++) {
-				Debug.print("Unregistering: " + online[i].getName());
-				PlayerID onlineP = new PlayerID(online[i]);
+			Collection<? extends Player> online = plugin.getServer().getOnlinePlayers();
+			for (Player player:online) {
+				PlayerID onlineP = new PlayerID(player);
 				PlayerData.unRegister(onlineP);
 			}
 		}
