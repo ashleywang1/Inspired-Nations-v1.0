@@ -239,7 +239,10 @@ public abstract class OwnerGov extends InspiredGov {
 	public void deleteGov() {
 		for (PlayerID PID: this.owners) {
 			this.removeOwner(PID);
+			Debug.print(this.getGovsLost(this, PID));
 		}
+		
+		
 	}
 
 }

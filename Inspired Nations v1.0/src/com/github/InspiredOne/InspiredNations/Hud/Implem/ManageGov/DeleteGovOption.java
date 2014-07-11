@@ -30,10 +30,14 @@ public class DeleteGovOption extends Option {
 //			gov.removeOwner(PID);
 //		};
 		
-		gov.deleteGov();
+		Debug.print("Just before deleting Gov");
+		//gov.deleteGov();
+		gov.removeOwner(PDI.getPlayerID());
 		Debug.print("deleting Gov");
 		
+
 		return new MainHud(PDI);
+		//return menu;
 	}
 
 }
