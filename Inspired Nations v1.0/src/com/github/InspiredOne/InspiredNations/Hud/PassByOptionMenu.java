@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
+import com.github.InspiredOne.InspiredNations.Listeners.Implem.MenuUpdateManager;
 
 /**
  * Used to allow option menus to be bypassed if there is only one option.
@@ -36,7 +37,13 @@ public abstract class PassByOptionMenu extends OptionMenu{
 	// way I could do this. Until then, ctrl-c and ctrl-v.
 	@Override
 	public void menuPersistent() {
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
+		managers = new ArrayList<ActionManager<?>>();
 		managers.add(new TaxTimerManager<ActionMenu>(this));
+		managers.add(new MenuUpdateManager<ActionMenu>(this));
+		this.addActionManagers();
 
 	}
 

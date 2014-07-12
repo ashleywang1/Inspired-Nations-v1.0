@@ -1,6 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.Player;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -22,27 +23,28 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 public final class PlayerID implements Serializable, Nameable {
 
 	private static final long serialVersionUID = 4523105693338266817L;
-	private final String name;
+	private final UUID ID;
 	
 	public PlayerID(Player player) {
-		this.name = player.getName();
+		ID = player.getUniqueId();
 	}
 	public PlayerID(OfflinePlayer player) {
-		this.name = player.getName();
+		ID = player.getUniqueId();
 	}
-	public PlayerID(CommandSender player) {
-		this.name = player.getName();
+	
+	public UUID getID() {
+		return ID;
 	}
 	
 	public String getName() {
-		return this.name;
+		return InspiredNations.plugin.getServer().getPlayer(ID).getName();
 	}
 	
 	@Override
     public int hashCode() {
         return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
             // if deriving: appendSuper(super.hashCode()).
-            append(name).
+            append(ID).
             toHashCode();
     }
 
@@ -58,13 +60,13 @@ public final class PlayerID implements Serializable, Nameable {
 
         return new EqualsBuilder().
             // if deriving: appendSuper(super.equals(obj)).
-            append(name, rhs.getName()).
+            append(ID, rhs.ID).
             isEquals();
     }
     
     @Override
     public String toString() {
-    	return name;
+    	return this.getName();
     }
 
 	public PlayerData getPDI() {

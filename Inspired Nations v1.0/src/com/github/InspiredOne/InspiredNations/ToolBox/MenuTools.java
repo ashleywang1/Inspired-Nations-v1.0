@@ -526,7 +526,7 @@ public class MenuTools {
 				/**
 				 * 
 				 */
-				private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = -7797465337304908395L;
 
 				@Override
 				public String getMessage(PlayerData receiver) {

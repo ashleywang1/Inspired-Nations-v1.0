@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.event.HandlerList;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
@@ -28,6 +29,8 @@ public abstract class ActionManager<T extends ActionMenu> {
 	 * Starts the PlayerListener associated with this operation.
 	 */
 	public void startListening() {
+		Debug.print("**********Starting Listeners************");
+		Debug.startcount++;
 		for(InspiredListener<?> listener:this.getPlayerListener()) {
 			InspiredNations.plugin.getServer().getPluginManager().registerEvents(listener, InspiredNations.plugin);
 		}
@@ -36,6 +39,9 @@ public abstract class ActionManager<T extends ActionMenu> {
 	 * Shuts down the PlayerListener associated with this operation.
 	 */
 	public void stopListening() {
+		Debug.print("############Stopping Listeners##########");
+		Debug.startcount--;
+		Debug.print("Start Count at: " + Debug.startcount);
 		for(InspiredListener<?> listener:this.getPlayerListener()) {
 			HandlerList.unregisterAll(listener);
 		}

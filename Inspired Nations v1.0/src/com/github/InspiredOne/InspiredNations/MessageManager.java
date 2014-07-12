@@ -2,9 +2,8 @@ package com.github.InspiredOne.InspiredNations;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,7 +13,6 @@ import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
 import com.github.InspiredOne.InspiredNations.Hud.MenuUpdateEvent;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
-import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.Message;
 
 public class MessageManager implements Serializable {
@@ -24,8 +22,8 @@ public class MessageManager implements Serializable {
 	 */
 	private static final long serialVersionUID = 5200407053459680313L;
 	
-	private TreeMap<Alert, Integer> messages = new TreeMap<Alert, Integer>(Alert.ageSort.getComparator());
-	private TreeMap<Alert, Integer> history = new TreeMap<Alert, Integer>(Alert.ageSort.getComparator());
+	private HashMap<Alert, Integer> messages = new HashMap<Alert, Integer>(/*Alert.ageSort.getComparator()*/);
+	private HashMap<Alert, Integer> history = new HashMap<Alert, Integer>(/*Alert.ageSort.getComparator()*/);
 	//private ArrayList<Alert> messages = new ArrayList<Alert>();
 	//private ArrayList<Alert> history = new ArrayList<Alert>();
 	private PlayerData PDI;

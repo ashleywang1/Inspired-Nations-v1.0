@@ -205,6 +205,10 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	@Override
 	public void menuPersistent() {
 		this.setError(MenuError.NO_ERROR());
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
+		managers = new ArrayList<ActionManager<?>>();
 		managers.add(new TaxTimerManager<ActionMenu>(this));
 		managers.add(new MenuUpdateManager<ActionMenu>(this));
 		manager = new TabScrollManager<TabSelectOptionMenu<E>>(this);
