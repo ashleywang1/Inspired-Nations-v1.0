@@ -224,11 +224,9 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	
 	public List<OwnerGov> getCitizenship() {
 		ArrayList<OwnerGov> output = new ArrayList<OwnerGov>();
-		for(Class<? extends InspiredGov> govtype:InspiredNations.regiondata.keySet()) {
-			for(InspiredGov gov:InspiredNations.regiondata.get(govtype)) {
-				if(gov.isSubject(this.getPlayerID())) {
-					output.add((OwnerGov) gov);
-				}
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			if(gov.isSubject(this.getPlayerID())) {
+				output.add((OwnerGov) gov);
 			}
 		}
 		return output;
@@ -333,7 +331,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 
 	@Override
 	public void sendNotification(Alert msg) {
-		this.getMsg().receiveAlert(msg);
+		this.getMsg().receiveAlert(msg, true);
 	}
 	
 	public int effectiveProtLevel(int militaryvict, int protvict, int militaryattack) {

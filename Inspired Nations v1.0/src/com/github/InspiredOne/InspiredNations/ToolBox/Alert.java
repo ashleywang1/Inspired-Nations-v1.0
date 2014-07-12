@@ -20,11 +20,13 @@ public abstract class Alert implements Nameable, Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8148726689920578981L;
+	public static final long serialVersionUID = 8148726689920578981L;
 	public Calendar calendar;
 	public boolean menuVisible = true;
 	private boolean expired = false; //turned to true when expires.
 	private int timerid = -1;
+	private PlayerData viewer;
+	
 	transient public static SortTool<Alert> ageSort = new SortTool<Alert>() {
 		
 		@Override
@@ -48,6 +50,7 @@ public abstract class Alert implements Nameable, Serializable {
 	
 	public Alert() {
 		calendar = Calendar.getInstance();
+		this.viewer = viewer;
 	}
 
 	public boolean expired() {
@@ -99,11 +102,11 @@ public abstract class Alert implements Nameable, Serializable {
 		output.add(Alert.ageSort);
 		return output;
 	}
-/*	@Override
+	@Override
     public int hashCode() {
         return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
             // if deriving: appendSuper(super.hashCode()).
-            append(name).
+            append(this.serialVersionUID).
             toHashCode();
     }
 
@@ -115,11 +118,11 @@ public abstract class Alert implements Nameable, Serializable {
             return true;
         if (!(obj instanceof PlayerID))
             return false;
-        PlayerID rhs = (PlayerID) obj;
+        Alert rhs = (Alert) obj;
 
         return new EqualsBuilder().
             // if deriving: appendSuper(super.equals(obj)).
-            append(name, rhs.getName()).
+            append(this.serialVersionUID, rhs.serialVersionUID).
             isEquals();
-    }*/
+    }
 }
