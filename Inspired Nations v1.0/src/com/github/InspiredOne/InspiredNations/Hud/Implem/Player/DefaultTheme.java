@@ -106,5 +106,6 @@ public class DefaultTheme extends ThemeOption {
 		// TODO Auto-generated method stub
 		return ChatColor.AQUA + "";
 	}
+	
 
 }

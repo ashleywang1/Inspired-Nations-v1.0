@@ -26,6 +26,9 @@ public class Theme implements Serializable{
 	private String ALERT = ChatColor.YELLOW + "";
 	private String UNIT = ChatColor.YELLOW + "";
 	private String ENDINSTRUCT = ChatColor.AQUA + "";
+	private String ENEMY = ChatColor.RED + "";
+	private String NEUTRAL = ChatColor.YELLOW + "";
+	private String ALLY = ChatColor.LIGHT_PURPLE + "";
 	
 	
 	public Theme() {
@@ -158,6 +161,30 @@ public class Theme implements Serializable{
 
 	public void setENDINSTRUCT(String eNDINSTRUCT) {
 		ENDINSTRUCT = eNDINSTRUCT;
+	}
+
+	public String ENEMY() {
+		return ENEMY;
+	}
+
+	public void setENEMY(String eNEMY) {
+		ENEMY = eNEMY;
+	}
+
+	public String NEUTRAL() {
+		return NEUTRAL;
+	}
+
+	public void setNEUTRAL(String nEUTRAL) {
+		NEUTRAL = nEUTRAL;
+	}
+
+	public String ALLY() {
+		return ALLY;
+	}
+
+	public void setALLY(String aLLY) {
+		ALLY = aLLY;
 	}
 
 }

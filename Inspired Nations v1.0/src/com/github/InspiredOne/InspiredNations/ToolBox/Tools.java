@@ -185,6 +185,27 @@ public class Tools {
 			//ChatColor.AQUA + ""
 			return PDI.theme.ENDINSTRUCT();
 		}
+		/**
+		 * Used for Enemy Nations and players
+		 */
+		public static String ENEMY(PlayerData PDI) {
+			//ChatColor.AQUA + ""
+			return PDI.theme.ENEMY();
+		}
+		/**
+		 * Used for Neutral Nations and players
+		 */
+		public static String NEUTRAL(PlayerData PDI) {
+			//ChatColor.AQUA + ""
+			return PDI.theme.NEUTRAL();
+		}
+		/**
+		 * Used for Ally Nations and players
+		 */
+		public static String ALLY(PlayerData PDI) {
+			//ChatColor.AQUA + ""
+			return PDI.theme.ALLY();
+		}
 		
 		private String color;
 		
