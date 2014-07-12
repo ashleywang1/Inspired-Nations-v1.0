@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Governments;
 import java.math.BigDecimal;
 
 import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMilitaryLevelExecption;
@@ -10,7 +11,9 @@ import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferEx
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeProtectionLevelException;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
+import com.github.InspiredOne.InspiredNations.ToolBox.Relation;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public abstract class OwnerSubjectGov extends OwnerGov {
 
@@ -178,5 +181,23 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 	 * @return
 	 */
 	public abstract String getSubjectPositionName();
+	
+	@Override
+	public String getDisplayName(PlayerData PDI) {
+		String color = TextColor.NEUTRAL(PDI);
+		for(OwnerGov gov:PDI.getCitizenship()) {
+			if(this.getRelations().get(gov) == Relation.ENEMY
+					|| gov.getRelations().get(this) == Relation.ENEMY) {
+				color = TextColor.ENEMY(PDI);
+				break;
+			}
+			else if(this.getRelations().get(gov) == Relation.ALLY
+					&& gov.getRelations().get(this) == Relation.ALLY) {
+				color = TextColor.ALLY(PDI);
+			}
+		}
+		return color + this.getName().concat(" [" + this.getProtectionlevel()
+						+ ", " + this.getMilitaryLevel() + "]");
+	}
 
 }
