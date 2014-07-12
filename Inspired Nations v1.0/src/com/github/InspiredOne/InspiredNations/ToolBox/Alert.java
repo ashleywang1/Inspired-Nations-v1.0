@@ -25,7 +25,6 @@ public abstract class Alert implements Nameable, Serializable {
 	public boolean menuVisible = true;
 	private boolean expired = false; //turned to true when expires.
 	private int timerid = -1;
-	private PlayerData viewer;
 	
 	transient public static SortTool<Alert> ageSort = new SortTool<Alert>() {
 		
@@ -50,7 +49,6 @@ public abstract class Alert implements Nameable, Serializable {
 	
 	public Alert() {
 		calendar = Calendar.getInstance();
-		this.viewer = viewer;
 	}
 
 	public boolean expired() {
