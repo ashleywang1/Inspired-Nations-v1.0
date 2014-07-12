@@ -18,6 +18,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.Relation;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public abstract class OwnerGov extends InspiredGov {
 	
@@ -229,6 +230,22 @@ public abstract class OwnerGov extends InspiredGov {
 
 	public void setRelations(IndexedMap<OwnerGov, Relation> relations) {
 		this.relations = relations;
+	}
+	@Override
+	public String getDisplayName(PlayerData PDI) {
+		String color = TextColor.NEUTRAL(PDI);
+		for(OwnerGov gov:PDI.getCitizenship()) {
+			if(this.getRelations().get(gov) == Relation.ENEMY
+					|| gov.getRelations().get(this) == Relation.ENEMY) {
+				color = TextColor.ENEMY(PDI);
+				break;
+			}
+			else if(this.getRelations().get(gov) == Relation.ALLY
+					&& gov.getRelations().get(this) == Relation.ALLY) {
+				color = TextColor.ALLY(PDI);
+			}
+		}
+		return color + this.getName().concat(" [" + this.getProtectionlevel() + "]");
 	}
 
 }

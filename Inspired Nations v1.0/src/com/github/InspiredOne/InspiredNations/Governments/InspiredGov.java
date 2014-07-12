@@ -34,6 +34,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Payable;
@@ -929,7 +930,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 
 	@Override
 	public String getDisplayName(PlayerData PDI) {
-		return this.getName().concat(" [" + this.getProtectionlevel() + "]");
+		return TextColor.NEUTRAL(PDI) + this.getName().concat(" [" + this.getProtectionlevel() + "]");
 	}
 	/**
 	 * Gets the name for the position of owner for this government to be
