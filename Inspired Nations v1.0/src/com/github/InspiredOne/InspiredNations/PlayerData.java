@@ -49,22 +49,22 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	private static final long serialVersionUID = 8628182579123244877L;
 	
 	private transient Conversation con;
-	private String name;
 	private AccountCollection accounts;
 	private Currency currency;
 	private MessageManager msg;
 	private Point3D lastLoc;
 	protected PlayerData PDI;
+	private PlayerID id;
 	public List<NPC> npcs = new ArrayList<NPC>();
 	public Theme theme = new Theme();
 	public boolean TimerState = false;
 	public boolean chatState = true;
 	
 	public PlayerData(PlayerID id) {
-		this.name = id.getName();
+		this.id = id;
 		con = null;
 		currency = Currency.DEFAULT;
-		accounts = new AccountCollection(this.name);
+		accounts = new AccountCollection(this.getName());
 		msg = new MessageManager(this);
 		PDI = this;
 		for(int i = 0; i < 1; i++) {
@@ -81,13 +81,13 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	}
 	@Override
 	public String getName() {
-		return name;
+		return this.getPlayerID().getName();
 	}
 	
 	public Player getPlayer() throws PlayerOfflineException {
 		InspiredNations plugin = InspiredNations.plugin;
 		
-		Player output = plugin.getServer().getPlayer(name);
+		Player output = plugin.getServer().getPlayer(this.getPlayerID().getID());
 		if(output == null) {
 			throw new PlayerOfflineException();
 		}
@@ -97,12 +97,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	}
 	
 	public PlayerID getPlayerID() {
-		for(PlayerID PID:InspiredNations.playerdata.keySet()) {
-			if(InspiredNations.playerdata.get(PID) == this) {
-				return PID;
-			}
-		}
-		return null;
+		return id;
 	}
 	@Override
 	public Location getLocation() {

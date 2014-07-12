@@ -100,7 +100,7 @@ public abstract class Alert implements Nameable, Serializable {
 		output.add(Alert.ageSort);
 		return output;
 	}
-	@Override
+/*	@Override
     public int hashCode() {
         return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
             // if deriving: appendSuper(super.hashCode()).
@@ -122,5 +122,5 @@ public abstract class Alert implements Nameable, Serializable {
             // if deriving: appendSuper(super.equals(obj)).
             append(this.serialVersionUID, rhs.serialVersionUID).
             isEquals();
-    }
+    }*/
 }

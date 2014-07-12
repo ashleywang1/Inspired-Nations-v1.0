@@ -112,6 +112,10 @@ public abstract class OptionMenu extends ActionMenu {
 	// way I could do this. Until then, ctrl-c and ctrl-v.
 	@Override
 	public void menuPersistent() {
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
+		managers = new ArrayList<ActionManager<?>>();
 		managers.add(new TaxTimerManager<ActionMenu>(this));
 		managers.add(new MenuUpdateManager<ActionMenu>(this));
 		this.addActionManagers();

@@ -69,6 +69,10 @@ public abstract class ActionMenu extends Menu {
 	@Override
 	public void menuPersistent() {
 		this.setError(MenuError.NO_ERROR());
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
+		managers = new ArrayList<ActionManager<?>>();
 		managers.add(new TaxTimerManager<ActionMenu>(this));
 		managers.add(new MenuUpdateManager<ActionMenu>(this));
 		this.addActionManagers();
