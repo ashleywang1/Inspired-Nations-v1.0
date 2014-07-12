@@ -4,6 +4,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.JoinOwnerGovOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickPlayerGeneral;
 
@@ -18,7 +19,7 @@ public class PickPlayerToOfferOwner extends PickPlayerGeneral {
 
 	@Override
 	public boolean check(PlayerID player) {
-		if(gov.isOwner(player)) {
+		if(gov.isOwner(player) || gov.getOwnerOffers().contains(player)) {
 			return false;
 		}
 		else {
@@ -39,8 +40,14 @@ public class PickPlayerToOfferOwner extends PickPlayerGeneral {
 	@Override
 	public void addOptions() {
 		if(this.taboptions.size() != 0) {
-			this.options.add(new OfferOwnerOption(this, "Offer " + gov.getOwnerPositionName(), gov, this.getData()));
+			if(gov.getOwnerRequests().contains(this.getData())) {
+				this.options.add(new JoinOwnerGovOption(this, "Accept Request", this.gov, this.getData()));
+			}
+			else {
+				this.options.add(new OfferOwnerOption(this, "Offer " + gov.getOwnerPositionName(), gov, this.getData()));
+			}
 		}
+		
 		
 	}
 

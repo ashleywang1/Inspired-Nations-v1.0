@@ -4,6 +4,7 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.JoinSubjectGovOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickPlayerGeneral;
 
@@ -18,7 +19,7 @@ public class PickPlayerToOfferCitizenship extends PickPlayerGeneral {
 
 	@Override
 	public boolean check(PlayerID player) {
-		if(gov.isSubject(player)) {
+		if(gov.isSubject(player) || gov.getSubjectOffers().contains(player)) {
 			return false;
 		}
 		else {
@@ -39,7 +40,12 @@ public class PickPlayerToOfferCitizenship extends PickPlayerGeneral {
 	@Override
 	public void addOptions() {
 		if(this.getTabOptions().size() != 0) {
-			this.options.add(new OfferSubjectOption(this, "Offer " + gov.getSubjectPositionName(), this.gov, this.getData()));
+			if(gov.getSubjectRequests().contains(this.getData())) {
+				this.options.add(new JoinSubjectGovOption(this, "Accept Request", this.gov, this.getData()));
+			}
+			else {
+				this.options.add(new OfferSubjectOption(this, "Offer " + gov.getSubjectPositionName(), this.gov, this.getData()));
+			}
 		}
 		
 	}

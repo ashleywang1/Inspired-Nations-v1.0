@@ -110,7 +110,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	@Override
 	public void sendNotification(Alert msg) {
 		for(PlayerID player:this.getSubjects()) {
-			player.getPDI().getMsg().receiveAlert(msg);
+			player.getPDI().getMsg().receiveAlert(msg, true);
 		}
 	}
 	/**

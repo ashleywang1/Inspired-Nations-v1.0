@@ -63,7 +63,7 @@ public class PickGovToRequestSubject extends PickGovGeneral {
 			if(gov.getSubjectOffers().contains(PDI.getPlayerID())) {
 				this.options.add(new JoinSubjectGovOption(this, "Accept Offer From " + this.getData().getName(), (OwnerSubjectGov) this.getData(), PDI.getPlayerID()));
 			}
-			else {
+			else if (!gov.isSubject(PDI.getPlayerID())) {
 				options.add(new RequestSubjectOption(this, "Request " + gov.getSubjectPositionName(), description, gov));
 			}
 		}

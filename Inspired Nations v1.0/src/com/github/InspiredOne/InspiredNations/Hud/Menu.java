@@ -115,6 +115,7 @@ public abstract class Menu extends MessagePrompt {
 	 * @return	the <code>String</code> of the prompt text as it would appear exactly
 	 */
 	public final String getPromptText() {
+		Debug.print("Inside getPromptText()==============");
 		String space = MenuTools.space();
 		String main = MenuTools.header(this.getHeader() + " " + InspiredNations.taxTimer.getTimeLeftReadout(), PDI);
 		String filler = this.getFiller();
@@ -248,7 +249,7 @@ public abstract class Menu extends MessagePrompt {
 		return this;
 	}
 	public final Menu setAlert(Alert alert) {
-		this.PDI.getMsg().receiveAlert(alert);
+		this.PDI.getMsg().receiveAlert(alert, false);
 		return this;
 	}
 	/**
