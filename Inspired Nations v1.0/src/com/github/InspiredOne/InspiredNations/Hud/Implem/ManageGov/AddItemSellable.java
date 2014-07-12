@@ -27,7 +27,7 @@ public class AddItemSellable extends TabSelectOptionMenu<ItemSellable> {
 
 	@Override
 	public String postTabListPreOptionsText() {
-		return "";
+		return "Put the items you would like to sell in the chest.";
 	}
 
 	@Override
