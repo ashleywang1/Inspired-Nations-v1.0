@@ -24,11 +24,14 @@ public final class PlayerID implements Serializable, Nameable {
 
 	private static final long serialVersionUID = 4523105693338266817L;
 	private final UUID ID;
+	private String name;
 	
 	public PlayerID(Player player) {
+		this.name = player.getName();
 		ID = player.getUniqueId();
 	}
 	public PlayerID(OfflinePlayer player) {
+		this.name = player.getName();
 		ID = player.getUniqueId();
 	}
 	
@@ -37,7 +40,13 @@ public final class PlayerID implements Serializable, Nameable {
 	}
 	
 	public String getName() {
-		return InspiredNations.plugin.getServer().getPlayer(ID).getName();
+		try {
+			name = InspiredNations.plugin.getServer().getPlayer(ID).getName();
+		}
+		catch (Exception ex) {
+		}
+		return name;
+
 	}
 	
 	@Override
