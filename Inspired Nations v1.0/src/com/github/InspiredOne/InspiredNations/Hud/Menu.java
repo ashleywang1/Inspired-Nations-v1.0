@@ -246,11 +246,11 @@ public abstract class Menu extends MessagePrompt {
 	 */
 	public final Menu setError(String error) {
 		this.PDI.getMsg().receiveError(error);
-		return this;
+		return this.getSelfPersist();
 	}
 	public final Menu setAlert(Alert alert) {
 		this.PDI.getMsg().receiveAlert(alert, false);
-		return this;
+		return this.getSelfPersist();
 	}
 	/**
 	 * 
