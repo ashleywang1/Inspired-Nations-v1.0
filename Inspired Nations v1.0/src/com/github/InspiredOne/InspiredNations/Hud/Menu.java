@@ -9,6 +9,7 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ChatMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
@@ -161,6 +162,10 @@ public abstract class Menu extends MessagePrompt {
 		if (arg.equalsIgnoreCase("hud")) {
 			this.unloadNonPersist();
 			return new MainHud(PDI);
+		}
+		if (arg.equalsIgnoreCase("chat")) {
+			this.unloadNonPersist();
+			return new ChatMenu(PDI, this.getSelfPersist());
 		}
 		if (arg.equalsIgnoreCase("exit")) {
 			try {
