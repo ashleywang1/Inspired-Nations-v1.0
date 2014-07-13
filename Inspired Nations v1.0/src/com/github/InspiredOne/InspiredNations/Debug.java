@@ -8,19 +8,19 @@ public class Debug {
 	private static boolean report = false;
 	private static String InformPluginDev = "If you see this, tell plugin developer";
 	public static void print(Object msg) {
-		//InspiredNations.plugin.logger.info(msg.toString());
+		InspiredNations.plugin.logger.info(msg.toString());
 		
 	}
 	
 	public static void print(int i) {
-		//InspiredNations.plugin.logger.info("Debuger check: " + i);
+		InspiredNations.plugin.logger.info("Debuger check: " + i);
 	}
 	
 	public static void InformPluginDev() {
 		InspiredNations.plugin.logger.info(InformPluginDev);
 	}
 	public static void node(Object msg) {
-		//InspiredNations.plugin.logger.info("Node Tier " + Node.tier + ": " + msg.toString());
+		InspiredNations.plugin.logger.info("Node Tier " + Node.tier + ": " + msg.toString());
 		Node.tier--;
 	}
 	

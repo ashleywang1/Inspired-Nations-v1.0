@@ -57,6 +57,7 @@ public class LeaveGovOption extends Option {
 	@Override
 	public Menu response(String input) {
 		
+		
 		int numOwners = gov.getOwnersList().size();
 		int protection = gov.getProtectionlevel();
 		
@@ -70,7 +71,7 @@ public class LeaveGovOption extends Option {
 			}
 			
 			for (InspiredGov subGov: gov.getAllSubGovsAndFacilitiesJustBelow()) {
-				Debug.print(subGov);
+				Debug.print(subGov.getName());
 				if (subGov instanceof Facility) {
 					//TODO delete facility
 				}
