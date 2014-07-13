@@ -30,8 +30,9 @@ public abstract class ActionManager<T extends ActionMenu> {
 	 */
 	public void startListening() {
 		Debug.print("**********Starting Listeners************");
-		Debug.startcount++;
+
 		for(InspiredListener<?> listener:this.getPlayerListener()) {
+			Debug.startcount++;
 			InspiredNations.plugin.getServer().getPluginManager().registerEvents(listener, InspiredNations.plugin);
 		}
 	}
@@ -40,9 +41,10 @@ public abstract class ActionManager<T extends ActionMenu> {
 	 */
 	public void stopListening() {
 		Debug.print("############Stopping Listeners##########");
-		Debug.startcount--;
+
 		Debug.print("Start Count at: " + Debug.startcount);
 		for(InspiredListener<?> listener:this.getPlayerListener()) {
+			Debug.startcount--;
 			HandlerList.unregisterAll(listener);
 		}
 	}

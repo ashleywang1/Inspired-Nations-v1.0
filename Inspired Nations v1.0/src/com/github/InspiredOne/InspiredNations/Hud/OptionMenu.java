@@ -53,8 +53,10 @@ public abstract class OptionMenu extends ActionMenu {
 				return this.getSelfPersist();
 			}
 			else {
-				if(options.get(answer - 1).isAvailable()) {
-					return options.get(answer - 1).response(arg.substring(args[0].length()).trim());
+				Option option = options.get(answer - 1);
+				if(option.isAvailable()) {
+					this.unloadNonPersist();
+					return option.response(arg.substring(args[0].length()).trim());
 				}
 				else {
 					this.setError(MenuError.makeMessage(options.get(answer - 1).getUnvailReason(), PDI));
@@ -148,5 +150,4 @@ public abstract class OptionMenu extends ActionMenu {
 		}
 		managers = new ArrayList<ActionManager<?>>();
 	}
-	
 }

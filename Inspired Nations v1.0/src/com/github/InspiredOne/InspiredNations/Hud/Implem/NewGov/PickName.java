@@ -55,6 +55,7 @@ public class PickName<T extends OwnerGov> extends InputMenu {
 
 	@Override
 	public Menu nextMenu() {
+		this.unloadNonPersist();
 		return new PickMoneyName<T>(PDI, Govf);
 	}
 

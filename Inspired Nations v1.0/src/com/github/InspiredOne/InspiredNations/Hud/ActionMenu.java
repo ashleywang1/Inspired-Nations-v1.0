@@ -22,6 +22,9 @@ public abstract class ActionMenu extends Menu {
 
 	public final void Update() {
 		this.actionResponse();
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
 		if (!current.equals(this.getPromptText())) {
 			try {
 				PDI.getCon().outputNextPrompt();
@@ -63,6 +66,14 @@ public abstract class ActionMenu extends Menu {
 	 * Add all the action managers using this method.
 	 */
 	public abstract void addActionManagers();
+	
+	@Override
+	public Menu getSelfPersist() {
+		for(ActionManager<?> manager:this.getActionManager()) {
+			manager.stopListening();
+		}
+		return this;
+	}
 
 	// These methods are overridden by all the super classes. I wish there were a better
 	// way I could do this. Until then, ctrl-c and ctrl-v.
