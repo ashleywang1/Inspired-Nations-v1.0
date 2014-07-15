@@ -55,7 +55,7 @@ public abstract class OptionMenu extends ActionMenu {
 			else {
 				Option option = options.get(answer - 1);
 				if(option.isAvailable()) {
-					this.unloadNonPersist();
+					//this.unloadNonPersist(); //Gets rid of memory leak but freezes the claim chunkoid menu.
 					return option.response(arg.substring(args[0].length()).trim());
 				}
 				else {

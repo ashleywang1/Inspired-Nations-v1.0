@@ -22,9 +22,10 @@ public abstract class ActionMenu extends Menu {
 
 	public final void Update() {
 		this.actionResponse();
-		for(ActionManager<?> manager:this.getActionManager()) {
+/*		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
-		}
+		}*/ //Gets rid of memory leak but freezes the claim chunkoid menu.
+		// may freeze other things.
 		if (!current.equals(this.getPromptText())) {
 			try {
 				PDI.getCon().outputNextPrompt();
