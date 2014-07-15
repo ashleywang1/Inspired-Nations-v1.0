@@ -37,9 +37,14 @@ public class PlayerCitizenship extends TabSelectOptionMenu<OwnerGov> {
 	public void addOptions() {
 		this.options.add(new PromptOption(this, "Ownership Requests and Offers", new OwnerOffers(PDI)));
 		this.options.add(new PromptOption(this, "Citizenship Requests and Offers", new SubjectOffers(PDI)));
+		
+		//If you are an owner, you may completely delete the government
 		if(this.getTabOptions().size() > 0) {
 			this.options.add(new LeaveGovOption(this, "Leave " + this.getData().getName(), this.getData()));
 		}
+		
+		//If you are a subject, you can only leave
+		
 	}
 
 	@Override
