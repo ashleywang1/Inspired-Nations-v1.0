@@ -21,7 +21,7 @@ public class Debug {
 		InspiredNations.plugin.logger.info(InformPluginDev);
 	}
 	public static void node(Object msg) {
-		InspiredNations.plugin.logger.info("Node Tier " + Node.tier + ": " + msg.toString());
+		//InspiredNations.plugin.logger.info("Node Tier " + Node.tier + ": " + msg.toString());
 		Node.tier--;
 	}
 	

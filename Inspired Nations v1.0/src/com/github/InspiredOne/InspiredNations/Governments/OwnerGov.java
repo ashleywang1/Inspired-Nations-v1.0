@@ -72,25 +72,30 @@ public abstract class OwnerGov extends InspiredGov {
 				}
 			}
 		}
+		
+		
 		this.ownerOffers.remove(player);
 		this.ownerRequest.remove(player);
 		this.owners.add(player);
 		if(this instanceof OwnerSubjectGov) {
 			((OwnerSubjectGov) this).addSubject(player);
 		}
+		for(OwnerGov gov:player.getPDI().getAllOwnerApplications()) {
+			
+		}
 		player.getPDI().sendNotification(MenuAlert.ADDED_AS_OWNER_TO_GOV(this, this.getOwnerPositionName()));
 	}
 	
 	public void removeOwner(PlayerID player) {
 		this.owners.remove(player);
-/*		try {
+		try {
 			Player playerreal = player.getPDI().getPlayer();
 			if(playerreal.isConversing()) {
 				player.getPDI().getCon().acceptInput("exit");
 			}
 		} catch (PlayerOfflineException e) {
 			
-		}*/
+		}
 		if(InspiredNations.playerdata.get(player).getAccounts() == (this.getAccounts())) {
 			this.getAccounts().setName(this.getName());
 			this.splitAccount(player.getPDI(), new ArrayList<PlayerID>(), this.getAccounts());

@@ -157,14 +157,16 @@ public class InspiredNations extends JavaPlugin {
 		public void onPlayerMove(PlayerMoveEvent event) {
 			PlayerData PDI = InspiredNations.playerdata.get(new PlayerID(event.getPlayer()));
 			PDI.setLocation(event.getTo());
-			for(InspiredGov gov:InspiredNations.regiondata) {
-				if(gov.contains(event.getTo()) && !gov.contains(event.getFrom())) {
-					PDI.sendNotification(MenuAlert.WELCOME_TO_GOV(gov));
+			if(!event.getTo().getBlock().equals(event.getFrom())) {
+				for(InspiredGov gov:InspiredNations.regiondata) {
+					if(gov.contains(event.getTo()) && !gov.contains(event.getFrom())) {
+						PDI.sendNotification(MenuAlert.WELCOME_TO_GOV(gov));
+					}
 				}
-			}
-			for(InspiredGov gov:InspiredNations.regiondata) {
-				if(!gov.contains(event.getTo()) && gov.contains(event.getFrom())) {
-					PDI.sendNotification(MenuAlert.GOODBYE_TO_GOV(gov));
+				for(InspiredGov gov:InspiredNations.regiondata) {
+					if(!gov.contains(event.getTo()) && gov.contains(event.getFrom())) {
+						PDI.sendNotification(MenuAlert.GOODBYE_TO_GOV(gov));
+					}
 				}
 			}
 		}
