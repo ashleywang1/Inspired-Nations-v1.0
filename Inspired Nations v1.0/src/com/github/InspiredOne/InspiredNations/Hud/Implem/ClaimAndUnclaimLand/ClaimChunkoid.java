@@ -136,7 +136,7 @@ public class ClaimChunkoid extends InputMenu {
 		else {
 			this.mapmanager = new MapManager<ClaimChunkoid>(this, 1, 4);
 		}
-		this.managers.add(manager);
-		this.managers.add(mapmanager);
+		this.getActionManager().add(manager);
+		this.getActionManager().add(mapmanager);
 	}
 }

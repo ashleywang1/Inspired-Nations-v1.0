@@ -81,37 +81,21 @@ public abstract class InputMenu extends ActionMenu {
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
-		managers = new ArrayList<ActionManager<?>>();
-		managers.add(new TaxTimerManager<ActionMenu>(this));
-		managers.add(new InputManager<InputMenu>(this, this.getTabOptions()));
-		managers.add(new MenuUpdateManager<InputMenu>(this));
+		this.getActionManager().clear();
+		this.getActionManager().add(new TaxTimerManager<ActionMenu>(this));
+		this.getActionManager().add(new InputManager<InputMenu>(this, this.getTabOptions()));
+		this.getActionManager().add(new MenuUpdateManager<InputMenu>(this));
+
 		this.addActionManagers();
 		this.addTabOptions();
 	}
 
-	@Override
-	public void nonPersistent() {
-		for(ActionManager<?> manager:this.getActionManager()) {
-			manager.stopListening();
-		}
-		for(ActionManager<?> manager:this.getActionManager()) {
-			manager.startListening();
-		}
-	}
-
-	@Override
-	public void unloadNonPersist() {
-		for(ActionManager<?> manager:this.getActionManager()) {
-			manager.stopListening();
-		}
-	}
 
 	@Override
 	public void unloadPersist() {
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
-		managers = new ArrayList<ActionManager<?>>();
 		tabOptions = new ArrayList<String>();
 	}
 	

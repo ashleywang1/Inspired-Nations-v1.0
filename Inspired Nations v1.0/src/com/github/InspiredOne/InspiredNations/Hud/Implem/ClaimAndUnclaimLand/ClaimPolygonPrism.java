@@ -124,8 +124,8 @@ public class ClaimPolygonPrism extends InputMenu {
 		else {
 			this.mapmanager = new MapManager<ClaimPolygonPrism>(this, 1, 2);
 		}
-		this.managers.add(manager);
-		this.managers.add(mapmanager);
+		this.getActionManager().add(manager);
+		this.getActionManager().add(mapmanager);
 		
 	}
 

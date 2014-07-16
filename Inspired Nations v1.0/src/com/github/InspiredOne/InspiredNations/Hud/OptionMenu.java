@@ -55,7 +55,6 @@ public abstract class OptionMenu extends ActionMenu {
 			else {
 				Option option = options.get(answer - 1);
 				if(option.isAvailable()) {
-					this.unloadNonPersist();
 					return option.response(arg.substring(args[0].length()).trim());
 				}
 				else {
@@ -117,9 +116,10 @@ public abstract class OptionMenu extends ActionMenu {
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
-		managers = new ArrayList<ActionManager<?>>();
-		managers.add(new TaxTimerManager<ActionMenu>(this));
-		managers.add(new MenuUpdateManager<ActionMenu>(this));
+
+		this.getActionManager().clear();
+		this.getActionManager().add(new TaxTimerManager<ActionMenu>(this));
+		this.getActionManager().add(new MenuUpdateManager<ActionMenu>(this));
 		this.addActionManagers();
 		
 	}
@@ -143,11 +143,4 @@ public abstract class OptionMenu extends ActionMenu {
 		this.options = new ArrayList<Option>();
 	}
 
-	@Override
-	public void unloadPersist() {
-		for(ActionManager<?> manager:this.getActionManager()) {
-			manager.stopListening();
-		}
-		managers = new ArrayList<ActionManager<?>>();
-	}
 }

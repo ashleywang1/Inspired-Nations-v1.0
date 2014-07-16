@@ -163,8 +163,8 @@ public class ClaimCuboid extends InputMenu {
 			this.mapmanager = new MapManager<ClaimCuboid>(this, 1, 2);
 		}
 		this.manager = new ClaimCuboidManager<ClaimCuboid>(this);
-		this.managers.add(mapmanager);
-		this.managers.add(manager);
+		this.getActionManager().add(mapmanager);
+		this.getActionManager().add(manager);
 		
 	}
 }

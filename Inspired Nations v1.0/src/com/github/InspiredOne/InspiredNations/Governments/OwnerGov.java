@@ -31,12 +31,17 @@ public abstract class OwnerGov extends InspiredGov {
 	private IndexedSet<PlayerID> ownerOffers = new IndexedSet<PlayerID>();
 	private IndexedMap<OwnerGov, Relation> relations = new IndexedMap<OwnerGov, Relation>();
 	
+	
 	public OwnerGov() {
 		super();
 	}
 	
 	protected IndexedSet<PlayerID> getOwners() {
 		return this.owners;
+	}
+	
+	public IndexedSet<PlayerID> getOwnersList() {
+		return (IndexedSet<PlayerID>) this.owners.clone();
 	}
 	
 	@Override
@@ -46,12 +51,12 @@ public abstract class OwnerGov extends InspiredGov {
 	/**
 	 * Removes the player from the government
 	 */
-	public void removePlayer(PlayerData PDI) {
+	public void removePlayer(PlayerID PID) {
 		if(this instanceof OwnerSubjectGov) {
-			((OwnerSubjectGov) this).removeSubject(PDI.getPlayerID());
+			((OwnerSubjectGov) this).removeSubject(PID);
 		}
 		else {
-			this.removeOwner(PDI.getPlayerID());
+			this.removeOwner(PID);
 		}
 	}
 	
@@ -67,25 +72,30 @@ public abstract class OwnerGov extends InspiredGov {
 				}
 			}
 		}
+		
+		
 		this.ownerOffers.remove(player);
 		this.ownerRequest.remove(player);
 		this.owners.add(player);
 		if(this instanceof OwnerSubjectGov) {
 			((OwnerSubjectGov) this).addSubject(player);
 		}
+		for(OwnerGov gov:player.getPDI().getAllOwnerApplications()) {
+			
+		}
 		player.getPDI().sendNotification(MenuAlert.ADDED_AS_OWNER_TO_GOV(this, this.getOwnerPositionName()));
 	}
 	
 	public void removeOwner(PlayerID player) {
 		this.owners.remove(player);
-/*		try {
+		try {
 			Player playerreal = player.getPDI().getPlayer();
 			if(playerreal.isConversing()) {
 				player.getPDI().getCon().acceptInput("exit");
 			}
 		} catch (PlayerOfflineException e) {
 			
-		}*/
+		}
 		if(InspiredNations.playerdata.get(player).getAccounts() == (this.getAccounts())) {
 			this.getAccounts().setName(this.getName());
 			this.splitAccount(player.getPDI(), new ArrayList<PlayerID>(), this.getAccounts());
@@ -231,7 +241,8 @@ public abstract class OwnerGov extends InspiredGov {
 	public void setRelations(IndexedMap<OwnerGov, Relation> relations) {
 		this.relations = relations;
 	}
-	@Override
+
+		@Override
 	public String getDisplayName(PlayerData PDI) {
 		String color = TextColor.NEUTRAL(PDI);
 		for(OwnerGov gov:PDI.getCitizenship()) {
@@ -247,5 +258,15 @@ public abstract class OwnerGov extends InspiredGov {
 		}
 		return color + this.getName().concat(" [" + this.getProtectionlevel() + "]");
 	}
+	
+//	public void deleteGov() {
+//		for (PlayerID PID: this.owners) {
+//			this.removeOwner(PID);
+//			Debug.print(this.getGovsLost(this, PID));
+//		}
+//		
+//		
+//	}
+
 
 }

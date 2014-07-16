@@ -52,7 +52,7 @@ public class ClaimSignShop extends TabSelectOptionMenu<ItemSellable> {
 	@Override
 	public void addActionManagers() {
 		Debug.print("Inside AddActionManagers of ClaimSignShop");
-		this.managers.add(new ClaimSignShopManager(this));
+		this.getActionManager().add(new ClaimSignShopManager(this));
 	}
 
 	@Override

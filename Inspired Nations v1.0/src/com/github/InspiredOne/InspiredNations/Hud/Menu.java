@@ -50,7 +50,7 @@ public abstract class Menu extends MessagePrompt {
 	 * Loads menu persistent variabls suce as Acton Managers and state data.
 	 */
 	private final void loadMenuPersistent() {
-		//this.unloadMenuPersistent();
+		//this.unloadNonPersist();
 		if(!loaded) {
 			this.PDI.getMsg().clearMenuVisible();
 			this.menuPersistent();

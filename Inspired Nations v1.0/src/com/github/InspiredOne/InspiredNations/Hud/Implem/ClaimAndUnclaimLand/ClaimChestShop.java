@@ -102,14 +102,14 @@ public class ClaimChestShop extends InputMenu {
 
 	@Override
 	public void addActionManagers() {
-		this.managers.add(manager);
+		this.getActionManager().add(manager);
 		if(gov.getSuperGovObj().getTier() != 0) {
 			this.mapmanager = new MapManager<ClaimChestShop>(this, gov.getSuperGovObj().getTier(), 1);
 		}
 		else {
 			this.mapmanager = new MapManager<ClaimChestShop>(this, 1, 1);
 		}
-		this.managers.add(this.mapmanager);
+		this.getActionManager().add(this.mapmanager);
 		
 	}
 }

@@ -28,6 +28,7 @@ import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
+import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
@@ -59,6 +60,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	public Theme theme = new Theme();
 	public boolean TimerState = false;
 	public boolean chatState = true;
+	public transient ArrayList<ActionManager<?>> actionmanagers;
 	
 	public PlayerData(PlayerID id) {
 		this.id = id;
