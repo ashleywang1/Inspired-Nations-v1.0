@@ -207,12 +207,12 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		this.setError(MenuError.NO_ERROR());
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
+			this.getActionManager().remove(manager);
 		}
-		managers = new ArrayList<ActionManager<?>>();
-		managers.add(new TaxTimerManager<ActionMenu>(this));
-		managers.add(new MenuUpdateManager<ActionMenu>(this));
+		this.getActionManager().add(new TaxTimerManager<ActionMenu>(this));
+		this.getActionManager().add(new MenuUpdateManager<ActionMenu>(this));
 		manager = new TabScrollManager<TabSelectOptionMenu<E>>(this);
-		this.managers.add(manager);
+		this.getActionManager().add(manager);
 		this.addActionManagers();
 	}
 
@@ -251,6 +251,6 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
-		managers = new ArrayList<ActionManager<?>>();
+		this.getActionManager().clear();
 	}
 }

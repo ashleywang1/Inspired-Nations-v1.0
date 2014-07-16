@@ -126,8 +126,8 @@ public class UnclaimChunkoid extends InputMenu {
 		} catch (PlayerOfflineException e) {
 			e.printStackTrace();
 		}
-		this.managers.add(mapmanager);
-		this.managers.add(manager);
+		this.getActionManager().add(mapmanager);
+		this.getActionManager().add(manager);
 		
 	}
 

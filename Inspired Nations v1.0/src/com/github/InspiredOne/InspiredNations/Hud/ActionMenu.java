@@ -14,7 +14,7 @@ public abstract class ActionMenu extends Menu {
 
 	private String current = "";
 	// Menu Persistent
-	protected List<ActionManager<?>> managers = new ArrayList<ActionManager<?>>();
+//	protected List<ActionManager<?>> managers = new ArrayList<ActionManager<?>>();
 	
 	public ActionMenu(PlayerData PDI) {
 		super(PDI);
@@ -37,7 +37,7 @@ public abstract class ActionMenu extends Menu {
 				//ex.printStackTrace();
 			}
 			current = this.getPromptText();
-			for(ActionManager<?> mana:this.managers) {
+			for(ActionManager<?> mana:this.getActionManager()) {
 				mana.textChange();
 			}
 		}
@@ -56,7 +56,10 @@ public abstract class ActionMenu extends Menu {
 	 * @return	an <code>ArrayList</code> of all the action managers
 	 */
 	public final List<ActionManager<?>> getActionManager() {
-		return managers;
+		if(PDI.actionmanagers == null) {
+			PDI.actionmanagers = new ArrayList<ActionManager<?>>();
+		}
+		return PDI.actionmanagers;
 	}
 
 	/**
@@ -84,9 +87,9 @@ public abstract class ActionMenu extends Menu {
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
-		managers = new ArrayList<ActionManager<?>>();
-		managers.add(new TaxTimerManager<ActionMenu>(this));
-		managers.add(new MenuUpdateManager<ActionMenu>(this));
+		this.getActionManager().clear();
+		this.getActionManager().add(new TaxTimerManager<ActionMenu>(this));
+		this.getActionManager().add(new MenuUpdateManager<ActionMenu>(this));
 		this.addActionManagers();
 		
 	}
@@ -113,6 +116,6 @@ public abstract class ActionMenu extends Menu {
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
-		managers = new ArrayList<ActionManager<?>>();
+		this.getActionManager().clear();
 	}
 }

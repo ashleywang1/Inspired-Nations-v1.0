@@ -102,7 +102,7 @@ public class Map extends InputMenu {
 	@Override
 	public void addActionManagers() {
 		manager = new MapManager<Map>(this, initialtier, initialzoom);
-		managers.add(manager);
+		this.getActionManager().add(manager);
 		
 	}
 }

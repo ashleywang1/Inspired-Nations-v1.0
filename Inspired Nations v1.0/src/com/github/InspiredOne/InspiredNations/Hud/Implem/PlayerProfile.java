@@ -58,8 +58,8 @@ public class PlayerProfile extends OptionMenu {
 	@Override
 	public void menuPersistent() {
 		Debug.print("m-p-1");
-		managers.add(new TaxTimerManager<ActionMenu>(this));
-		managers.add(new MenuUpdateManager<ActionMenu>(this));
+		this.getActionManager().add(new TaxTimerManager<ActionMenu>(this));
+		this.getActionManager().add(new MenuUpdateManager<ActionMenu>(this));
 		Debug.print("mp2");
 		this.addActionManagers();
 		Debug.print("mp3");

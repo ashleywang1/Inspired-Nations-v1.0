@@ -35,43 +35,5 @@ public abstract class PassByOptionMenu extends OptionMenu{
 	
 	// These methods are overridden by all the super classes. I wish there were a better
 	// way I could do this. Until then, ctrl-c and ctrl-v.
-	@Override
-	public void menuPersistent() {
-		for(ActionManager<?> manager:this.getActionManager()) {
-			manager.stopListening();
-		}
-		managers = new ArrayList<ActionManager<?>>();
-		managers.add(new TaxTimerManager<ActionMenu>(this));
-		managers.add(new MenuUpdateManager<ActionMenu>(this));
-		this.addActionManagers();
 
-	}
-
-	@Override
-	public void nonPersistent() {
-		for(ActionManager<?> manager:this.getActionManager()) {
-			manager.stopListening();
-		}
-		for(ActionManager<?> manager:this.getActionManager()) {
-			manager.startListening();
-		}
-		this.addOptions();
-	}
-
-	@Override
-	public void unloadNonPersist() {
-		for(ActionManager<?> manager:this.getActionManager()) {
-			manager.stopListening();
-		}
-		this.options = new ArrayList<Option>();
-	}
-
-	@Override
-	public void unloadPersist() {
-		for(ActionManager<?> manager:this.getActionManager()) {
-			manager.stopListening();
-		}
-		managers = new ArrayList<ActionManager<?>>();
-	}
-	
 }
