@@ -81,7 +81,14 @@ public abstract class OwnerGov extends InspiredGov {
 			((OwnerSubjectGov) this).addSubject(player);
 		}
 		for(OwnerGov gov:player.getPDI().getAllOwnerApplications()) {
-			
+			if(this.getGovsLost(gov, player).size() > 0) {
+				gov.getOwnerRequests().remove(player);
+			}
+		}
+		for(OwnerSubjectGov gov:player.getPDI().getAllResidenceApplications()) {
+			if(this.getGovsLost(gov, player).size() > 0) {
+				gov.getSubjectRequests().remove(player);
+			}
 		}
 		player.getPDI().sendNotification(MenuAlert.ADDED_AS_OWNER_TO_GOV(this, this.getOwnerPositionName()));
 	}
@@ -118,15 +125,14 @@ public abstract class OwnerGov extends InspiredGov {
 		return null;
 	}
 	/**
-	 * Gets a list of all the govs that would be lost if this player were to
-	 * switch to this govTo
+	 * Gets a list of all the govs that would be lost under this gov if this player were to
+	 * switch to govTo
 	 * @param govTo
 	 * @return
 	 */
 	public ArrayList<OwnerGov> getGovsLost(OwnerGov govTo, PlayerID PID) {
 		ArrayList<OwnerGov> output = new ArrayList<OwnerGov>();
 			if(this.getCommonGovObj() != govTo.getSuperGovObj(this.getCommonGov())) {
-				
 				output.add(this);
 			}
 			for(Class<? extends InspiredGov> govtype: this.getSubGovs()) {

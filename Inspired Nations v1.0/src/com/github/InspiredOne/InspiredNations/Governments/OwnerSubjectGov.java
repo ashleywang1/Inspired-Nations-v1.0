@@ -52,6 +52,16 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 		this.subjectOffers.remove(player);
 		this.subjectRequests.remove(player);
 		this.subjects.add(player);
+		for(OwnerGov gov:player.getPDI().getAllOwnerApplications()) {
+			if(this.getGovsLost(gov, player).size() > 0) {
+				gov.getOwnerRequests().remove(player);
+			}
+		}
+		for(OwnerSubjectGov gov:player.getPDI().getAllResidenceApplications()) {
+			if(this.getGovsLost(gov, player).size() > 0) {
+				gov.getSubjectRequests().remove(player);
+			}
+		}
 		player.getPDI().sendNotification(MenuAlert.ADDED_AS_SUBJECT_TO_GOV(this, this.getSubjectPositionName()));
 	}
 	
