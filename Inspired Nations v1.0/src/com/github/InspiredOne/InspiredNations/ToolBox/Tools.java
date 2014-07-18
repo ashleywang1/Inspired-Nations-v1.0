@@ -57,9 +57,15 @@ public class Tools {
 	public static BigDecimal cut(BigDecimal input) {
 		return input.divide(BigDecimal.ONE, 2, BigDecimal.ROUND_DOWN);
 	}
+	
 	public static <T extends Nameable> List<T> filter(String key, List<T> fulllist) {
 		List<T> output = new ArrayList<T>();
-		
+		Debug.print("inside filter. filterkey is:" + key);
+		Debug.print("Is filter key empty? " + key.isEmpty());
+		Debug.print("Is the fulllist empty? " + fulllist.isEmpty());
+		if(key.isEmpty()) {
+			return fulllist;
+		}
 		for(T test:fulllist) {
 			if(test.getName().toLowerCase().contains(key.toLowerCase())) {
 				output.add(test);

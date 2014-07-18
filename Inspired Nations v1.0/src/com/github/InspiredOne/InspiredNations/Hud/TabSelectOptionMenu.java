@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MenuUpdateManager;
@@ -109,6 +110,8 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		if(this.manager.updateFromTabScroll) {
 			this.manager.updateFromTabScroll = false;
 			this.PDI.getMsg().clearMenuVisible();
+			Debug.print("Filteredoptions size: " + tabsize);
+			Debug.print("Filterword is: " + filterword);
 			if(manager.preTabEntry.equalsIgnoreCase("+") && tabsize > 0) {
 				this.setTabcnt(((this.getTabcnt() - 1) + tabsize) % tabsize);
 			}
@@ -120,6 +123,8 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			}
 			else if(!manager.preTabEntry.isEmpty()) {
 				this.filterword = manager.preTabEntry;
+				Debug.print("Filterword is: " + filterword);
+				Debug.print("Setting the filter word =============");
 				List<E> tempOptions = Tools.filter(filterword, this.taboptions);
 				if(tempOptions.size() <= 0) {
 					this.setError(MenuError.NO_MATCHES_FOUND(this.getPlayerData()));
@@ -209,6 +214,8 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			manager.stopListening();
 		}
 		this.getActionManager().clear();
+		Debug.print("Filtering!!!!!!! with" + filterword);
+		this.filteredoptions = Tools.filter(filterword, this.taboptions);
 		this.getActionManager().add(new TaxTimerManager<ActionMenu>(this));
 		this.getActionManager().add(new MenuUpdateManager<ActionMenu>(this));
 		manager = new TabScrollManager<TabSelectOptionMenu<E>>(this);
@@ -224,6 +231,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.startListening();
 		}
+		Debug.print("Filtering!!!!!!! 2 with :" + filterword);
 		this.addTabOptions();
 		this.filteredoptions = Tools.filter(filterword, this.taboptions);
 		if(this.filteredoptions.size() == 0 && this.taboptions.size() != 0) {

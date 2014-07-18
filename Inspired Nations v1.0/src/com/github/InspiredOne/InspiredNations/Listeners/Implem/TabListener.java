@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Listeners.Implem;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.Listeners.InspiredListener;
 import com.github.InspiredOne.InspiredNations.Listeners.TabManager;
@@ -21,6 +22,7 @@ public class TabListener<T extends TabManager<?>> extends InspiredListener<T> {
 		}
 		event.getTabCompletions().clear();
 		this.getManager().preTabEntry = event.getLastToken();
+		Debug.print("The PreTabEntry is: " + this.getManager().preTabEntry);
 		this.getManager().Update();
 
 		
