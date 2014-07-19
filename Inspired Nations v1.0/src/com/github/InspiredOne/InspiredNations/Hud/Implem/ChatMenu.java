@@ -1,9 +1,11 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
+
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
-import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
+import com.github.InspiredOne.InspiredNations.ToolBox.Messaging.Alert;
 
 public class ChatMenu extends TabSelectOptionMenu<Alert> {
 
@@ -21,12 +23,13 @@ public class ChatMenu extends TabSelectOptionMenu<Alert> {
 
 	@Override
 	public String postTabListPreOptionsText() {
-		return null;
+		return "";
 	}
 
 	@Override
 	public void addTabOptions() {
-		
+		this.PDI.getMsg().missedSize = 0;
+		this.getTabOptions().addAll(PDI.getMsg().messages);
 	}
 
 	@Override
@@ -42,6 +45,19 @@ public class ChatMenu extends TabSelectOptionMenu<Alert> {
 	@Override
 	public String getHeader() {
 		return "Chat";
+	}
+	
+	@Override
+	public final String getPreOptionText() {
+		String output = "";
+		if(!tabOptionsToText(taboptions, tabcnt).isEmpty()) {
+			output = output.concat(tabOptionsToText(taboptions, tabcnt));
+		}
+		if(!this.postTabListPreOptionsText().isEmpty()) {
+			output = MenuTools.addDivider(output.concat("\n"),this.getPlayerData());
+			output = output.concat(this.postTabListPreOptionsText() + "\n");
+		}
+		return output;
 	}
 
 }

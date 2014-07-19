@@ -11,14 +11,14 @@ import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.ChatMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
-import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
+import com.github.InspiredOne.InspiredNations.ToolBox.Messaging.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public abstract class Menu extends MessagePrompt {
 
 	// Conversation Persistent
-	private static String footer;
+	private String footer;
 	public PlayerData PDI;
 	public InspiredNations plugin;
 	// Menu Persistent: Only initialized once for this menu instance.
@@ -31,7 +31,7 @@ public abstract class Menu extends MessagePrompt {
 	public Menu(PlayerData PDI) {
 		this.PDI = PDI;
 		this.plugin = InspiredNations.plugin;
-		this.footer = MenuTools.addDivider("",PDI) + TextColor.ENDINSTRU(PDI) + "Type 'exit' to leave, 'say' to chat, or 'back'/'hud' to go back.";
+		this.footer = MenuTools.addDivider("",PDI) + TextColor.ENDINSTRU(PDI) + "Keywords: exit, chat, say, back, hud.";
 	}
 	/**
 	 * When the menu is initialized, all options, tab options, tab selects, and text is
@@ -116,11 +116,10 @@ public abstract class Menu extends MessagePrompt {
 	 * @return	the <code>String</code> of the prompt text as it would appear exactly
 	 */
 	public final String getPromptText() {
-		Debug.print("Inside getPromptText()==============");
 		String space = MenuTools.space();
 		String main = MenuTools.header(this.getHeader() + " " + InspiredNations.taxTimer.getTimeLeftReadout(), PDI);
 		String filler = this.getFiller();
-		String end = footer;
+		String end = footer + " {" + PDI.getMsg().missedSize + "}";
 		String errmsg = this.PDI.getMsg().pushMessageContent();
 		if(!errmsg.isEmpty()) {
 			end = end.concat("\n");
@@ -169,6 +168,10 @@ public abstract class Menu extends MessagePrompt {
 		}
 		if (arg.equalsIgnoreCase("exit")) {
 			try {
+				this.PDI.getMsg().missedSize = 0;
+				for(Alert alert:PDI.getMsg().messages) {
+					this.PDI.getPlayer().sendRawMessage(alert.getDisplayName(PDI));
+				}
 				this.PDI.getPlayer().sendRawMessage(MenuTools.space());
 			} catch (PlayerOfflineException e) {
 				e.printStackTrace();

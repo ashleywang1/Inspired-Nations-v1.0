@@ -1,4 +1,4 @@
-package com.github.InspiredOne.InspiredNations.ToolBox;
+package com.github.InspiredOne.InspiredNations.ToolBox.Messaging;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,6 +14,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
+import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.SortTool;
 
 public abstract class Alert implements Nameable, Serializable {
 
@@ -23,8 +25,9 @@ public abstract class Alert implements Nameable, Serializable {
 	public static final long serialVersionUID = 8148726689920578981L;
 	public Calendar calendar;
 	public boolean menuVisible = true;
-	private boolean expired = false; //turned to true when expires.
+	public boolean expired = false; //turned to true when expires.
 	private int timerid = -1;
+	private int stacksize = 1;
 	
 	transient public static SortTool<Alert> ageSort = new SortTool<Alert>() {
 		
@@ -84,21 +87,35 @@ public abstract class Alert implements Nameable, Serializable {
 
 	@Override
 	public String getDisplayName(PlayerData viewer) {
-		int end = 20;
 		String msg = this.getMessage(viewer);
-		if(msg.length() <= end) {
+		if(this.stacksize == 1) {
+			return msg;
+		}
+		else {
+			return msg.concat(" [" + this.stacksize + "]");
+		}
+		
+/*		if(msg.length() <= end) {
 			end = msg.length() - 1;
 			return getName() + " " + msg.substring(0, end);
 		}
 		else {
 			return getName() + " " + msg.substring(0, end) + "...";	
-		}
+		}*/
 	}
 
 	public static List<SortTool<Alert>> getComparators() {
 		List<SortTool<Alert>> output = new ArrayList<SortTool<Alert>>();
 		output.add(Alert.ageSort);
 		return output;
+	}
+	
+	public void incrementStack() {
+		this.stacksize++;
+		InspiredNations.plugin.getServer().getScheduler().cancelTask(timerid);;
+		this.expired = false;
+		timerid = -1;
+		this.calendar = Calendar.getInstance();
 	}
 /*	@Override
     public int hashCode() {

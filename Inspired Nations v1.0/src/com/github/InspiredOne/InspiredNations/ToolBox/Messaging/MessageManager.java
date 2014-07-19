@@ -1,19 +1,20 @@
-package com.github.InspiredOne.InspiredNations;
+package com.github.InspiredOne.InspiredNations.ToolBox.Messaging;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.github.InspiredOne.InspiredNations.Debug;
+import com.github.InspiredOne.InspiredNations.InspiredNations;
+import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
 import com.github.InspiredOne.InspiredNations.Hud.MenuUpdateEvent;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
-import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
-import com.github.InspiredOne.InspiredNations.ToolBox.Message;
 
 public class MessageManager implements Serializable {
 
@@ -22,33 +23,39 @@ public class MessageManager implements Serializable {
 	 */
 	private static final long serialVersionUID = 5200407053459680313L;
 	
-	private HashMap<Alert, Integer> messages = new HashMap<Alert, Integer>(/*Alert.ageSort.getComparator()*/);
-	private HashMap<Alert, Integer> history = new HashMap<Alert, Integer>(/*Alert.ageSort.getComparator()*/);
-	//private ArrayList<Alert> messages = new ArrayList<Alert>();
-	//private ArrayList<Alert> history = new ArrayList<Alert>();
+	
+	public ArrayList<Alert> messages = new ArrayList<Alert>();
 	private PlayerData PDI;
 	transient BukkitRunnable Timer;
+	private int histLength = 50;
+	public int missedSize = 0;
 	public MessageManager(PlayerData PDI) {
 		this.PDI = PDI;
 	}
 	
 	public void receiveAlert(Alert alert, Boolean refresh) {
-		if(messages.containsKey(alert)) {
-			messages.put(alert, messages.get(alert) + 1);
+		boolean incremented = false;
+		for(Alert alertTemp:messages) {
+			if(!alertTemp.expired() && alert.getMessage(PDI).equals(alertTemp.getMessage(PDI))) {
+				alertTemp.incrementStack();
+				incremented = true;
+				break;
+			}
 		}
-		else {
-			messages.put(alert, 1);
+		if(!incremented) {
+			messages.add(alert);
 		}
-		if(history.containsKey(alert)) {
-			history.put(alert, history.get(alert) + 1);
+		Collections.sort(messages, Alert.ageSort.getComparator());
+		
+		while(messages.size() > histLength) {
+			messages.remove(0);
 		}
-		else {
-			history.put(alert, 1);
-		}
+		Debug.print("Messages Length: " +this.messages.size());
+		
 		pushMessage(refresh);
 	}
 	public void receiveError(final String msg) {
-		Alert error = new Alert() {
+		Error error = new Error() {
 			/**
 			 * 
 			 */
@@ -59,46 +66,23 @@ public class MessageManager implements Serializable {
 				return msg;
 			}
 
-			@Override
-			public boolean menuPersistent() {
-				return false;
-			}
 		};
 		if(!msg.isEmpty()) {
 			this.receiveAlert(error, false);
 		}
 	}
 	
-	public void clearMenuVisible() {
-		List<Alert> removeList = new ArrayList<Alert>();
-		for(Alert alert:messages.keySet()) {
-			if(alert.menuVisible && !alert.menuPersistent()) {
-				removeList.add(alert);
-			}
-		}
-		
-		for(Alert remove: removeList) {
-			messages.remove(remove);
-		}
-	}
-	
 	public String pushMessageContent() {
 		String output = "";
-		List<Alert> removeList = new ArrayList<Alert>();
 		try {
 			Player player = PDI.getPlayer();
 			
-			for(Alert alert:messages.keySet()) {
-				if(alert.menuVisible || !player.isConversing()) {
-					output = output.concat(alert.getMessage(PDI) + " [" + messages.get(alert) + "]" + "\n");
-					if(alert.expired() || !player.isConversing()) {
-						removeList.add(alert);
-					}
+			for(Alert alert:messages) {
+				if((alert.menuVisible && !alert.expired()) || !player.isConversing()) {
+					output = output.concat(alert.getDisplayName(PDI) + "\n");
 				}
 			}
-			for(Alert remove: removeList) {
-				messages.remove(remove);
-			}
+
 		} catch (PlayerOfflineException e) {
  
 		}
@@ -107,8 +91,12 @@ public class MessageManager implements Serializable {
 	
 	public void pushMessage(boolean refresh) {
 		try {
-			String output = this.pushMessageContent();
-			if(!output.isEmpty()) {
+			String output = messages.get(messages.size() -1).getDisplayName(PDI);
+			if(PDI.getPlayer().isConversing()) {
+				output = this.pushMessageContent();
+				this.missedSize++;
+			}
+			else if(!output.isEmpty()) {
 				PDI.getPlayer().sendMessage(output);
 				if(refresh) {
 					MenuUpdateEvent event = new MenuUpdateEvent(PDI.getPlayerID());
@@ -139,5 +127,20 @@ public class MessageManager implements Serializable {
 			}
 		}
 		
+	}
+
+	public void clearMenuVisible() {
+		List<Error> remove = new ArrayList<Error>();
+		for(Alert alert:messages) {
+			if(alert.menuVisible) {
+				alert.expired = true;
+			}
+			if(alert instanceof Error) {
+				remove.add((Error) alert);
+			}
+		}
+		for(Error error:remove) {
+			messages.remove(error);
+		}
 	}
 }

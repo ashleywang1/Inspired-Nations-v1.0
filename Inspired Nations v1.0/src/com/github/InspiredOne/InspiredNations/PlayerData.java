@@ -29,7 +29,6 @@ import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
-import com.github.InspiredOne.InspiredNations.ToolBox.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Notifyable;
@@ -40,6 +39,8 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Relation;
 import com.github.InspiredOne.InspiredNations.ToolBox.Theme;
 import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
+import com.github.InspiredOne.InspiredNations.ToolBox.Messaging.Alert;
+import com.github.InspiredOne.InspiredNations.ToolBox.Messaging.MessageManager;
 
 
 public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer{

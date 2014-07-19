@@ -1,4 +1,4 @@
-package com.github.InspiredOne.InspiredNations.ToolBox;
+package com.github.InspiredOne.InspiredNations.ToolBox.Messaging;
 
 import java.math.BigDecimal;
 import java.util.Locale;
@@ -6,6 +6,8 @@ import java.util.Locale;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
+import com.github.InspiredOne.InspiredNations.ToolBox.Nameable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 
 public class Message extends Alert implements Nameable {
 

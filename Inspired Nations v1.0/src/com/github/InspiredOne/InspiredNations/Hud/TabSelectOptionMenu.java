@@ -28,7 +28,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
  */
 public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu implements Datable<E> {
 
-	private int tabcnt = 0;
+	protected int tabcnt = 0;
 	protected int sort = 0;
 	private String filterword = "";
 	private int rangeBottom = maxLines;
@@ -58,7 +58,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 
 
 	@Override
-	public final String getPreOptionText() {
+	public String getPreOptionText() {
 		String output = "";
 		if(!tabOptionsToText(taboptions, tabcnt).isEmpty()) {
 			output = output.concat(tabOptionsToText(taboptions, tabcnt));

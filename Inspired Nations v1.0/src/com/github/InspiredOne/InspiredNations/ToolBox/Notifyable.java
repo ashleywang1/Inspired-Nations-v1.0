@@ -1,5 +1,7 @@
 package com.github.InspiredOne.InspiredNations.ToolBox;
 
+import com.github.InspiredOne.InspiredNations.ToolBox.Messaging.Alert;
+
 public interface Notifyable {
 
 	/**
