@@ -47,15 +47,20 @@ public class ClaimPolygonPrism extends InputMenu {
 					return MenuError.NO_ERROR();
 				}
 				else {
+					manager.prism = new PolygonPrism();
 					return (MenuError.POLYGON_NOT_SIMPLE_SHAPE(this.PDI));
 				}
 			} catch (BalanceOutOfBoundsException e) {
+				manager.prism = new PolygonPrism();
 				return (MenuError.NOT_ENOUGH_MONEY(this.PDI));
 			} catch (InspiredGovTooStrongException e) {
+				manager.prism = new PolygonPrism();
 				return (MenuError.GOV_TOO_STRONG(e.gov, this.PDI));
 			} catch (RegionOutOfEncapsulationBoundsException e) {
+				manager.prism = new PolygonPrism();
 				return (MenuError.CLAIM_OUT_OF_BOUNDS(e.gov, this.PDI));
 			} catch (InsufficientRefundAccountBalanceException e) {
+				manager.prism = new PolygonPrism();
 				//TODO do something with this.
 			}
 		}
