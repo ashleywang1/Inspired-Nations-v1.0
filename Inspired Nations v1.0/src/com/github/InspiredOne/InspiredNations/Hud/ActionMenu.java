@@ -84,8 +84,7 @@ public abstract class ActionMenu extends Menu {
 			manager.stopListening();
 		}
 
-		//this.getActionManager().clear();
-		Debug.print("Inside menuPersist");
+		this.getActionManager().clear();
 		this.getActionManager().add(new TaxTimerManager<ActionMenu>(this));
 		this.getActionManager().add(new MenuUpdateManager<ActionMenu>(this));
 		this.addActionManagers();
@@ -111,7 +110,6 @@ public abstract class ActionMenu extends Menu {
 
 	@Override
 	public void unloadPersist() {
-		Debug.print("Inside UnloadPersist");
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}

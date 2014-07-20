@@ -52,7 +52,7 @@ public class MessageManager implements Serializable {
 		}
 		Debug.print("Messages Length: " +this.messages.size());
 		
-		pushMessage(true);
+		pushMessage(refresh);
 	}
 	public void receiveError(final String msg) {
 		Error error = new Error() {
@@ -96,7 +96,7 @@ public class MessageManager implements Serializable {
 				output = this.pushMessageContent();
 				this.missedSize++;
 			}
-			else if(!output.isEmpty()) {
+			if(!output.isEmpty()) {
 				PDI.getPlayer().sendMessage(output);
 				if(refresh) {
 					MenuUpdateEvent event = new MenuUpdateEvent(PDI.getPlayerID());
