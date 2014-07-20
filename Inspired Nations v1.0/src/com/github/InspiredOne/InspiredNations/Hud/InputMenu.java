@@ -3,7 +3,6 @@ package com.github.InspiredOne.InspiredNations.Hud;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.InputManager;
@@ -81,13 +80,11 @@ public abstract class InputMenu extends ActionMenu {
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
-		Debug.print("Inside menuPersist");
 		this.getActionManager().clear();
 		this.tabOptions.clear();
 		this.getActionManager().add(new TaxTimerManager<ActionMenu>(this));
 		this.getActionManager().add(new InputManager<InputMenu>(this, this.getTabOptions()));
 		this.getActionManager().add(new MenuUpdateManager<InputMenu>(this));
-
 		this.addActionManagers();
 		this.addTabOptions();
 	}
@@ -97,7 +94,6 @@ public abstract class InputMenu extends ActionMenu {
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
-		Debug.print("Inside unloadPersist");
 		tabOptions = new ArrayList<String>();
 		this.getActionManager().clear();
 	}

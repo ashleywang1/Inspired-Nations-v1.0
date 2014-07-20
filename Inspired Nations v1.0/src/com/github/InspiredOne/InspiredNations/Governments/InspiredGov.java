@@ -706,9 +706,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			}
 		}
 		for(InspiredGov gov:this.getAllSubGovsAndFacilitiesJustBelow()) {
-			Debug.print("In remove Land Not In 6");
 			if(gov.getRegion().getEncapsulatingRegions().contains(this.getRegion().getClass())) {
-				Debug.print("In remove Land Not In 7");
 				gov.removeLandNotIn(region);
 			}
 		}
@@ -763,9 +761,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		Region regionfrom = this.getRegion().getRegion();
 		Currency curren = Currency.DEFAULT;
 		BigDecimal reimburse = this.taxValue(this.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
-		Debug.print("In remove Land Not In 1");
 		if(regionfrom instanceof CummulativeRegion<?>) {
-			Debug.print("In remove Land Not In 2");
 			ArrayList<NonCummulativeRegion> removed = new ArrayList<NonCummulativeRegion>();
 			for(NonCummulativeRegion region:((CummulativeRegion<?>) regionfrom).getRegions()) {
 				if(!region.IsIn(select)) {
@@ -775,19 +771,16 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			((CummulativeRegion<?>) regionfrom).getRegions().removeAll(removed);
 		}
 		else {
-			Debug.print("In remove Land Not In 3");
 			if(!regionfrom.IsIn(select)) {
 				this.getRegion().setRegion(new nullRegion());
 			}
 		}
 		for(InspiredGov gov:this.getAllSubGovsAndFacilitiesJustBelow()) {
-			Debug.print("In remove Land Not In 4");
 			gov.removeLandNotIn(this.getRegion().getRegion());
 		}
 		BigDecimal newcost = this.taxValue(this.getRegion().getRegion(), InspiredNations.taxTimer.getFractionLeft(), this.protectionlevel, curren);
 		BigDecimal difference = reimburse.subtract(newcost);
 		try {
-			Debug.print("In remove Land Not In 5");
 			this.pullFromSuper(difference, curren);	// Pull the reimbursment from them
 		} catch (BalanceOutOfBoundsException e) {	// If they don't have enough
 			try {

@@ -3,9 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
-import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
-import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickCurrencyGeneral;
 
 public class PickCurrencyToAdd extends PickCurrencyGeneral {

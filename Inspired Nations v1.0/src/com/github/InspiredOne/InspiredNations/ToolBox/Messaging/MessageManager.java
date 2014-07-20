@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
@@ -50,7 +49,6 @@ public class MessageManager implements Serializable {
 		while(messages.size() > histLength) {
 			messages.remove(0);
 		}
-		Debug.print("Messages Length: " +this.messages.size());
 		
 		pushMessage(refresh);
 	}

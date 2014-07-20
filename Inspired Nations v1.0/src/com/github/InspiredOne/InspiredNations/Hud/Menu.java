@@ -4,7 +4,6 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
@@ -101,17 +100,11 @@ public abstract class Menu extends MessagePrompt {
 	
 	@Override
 	public final boolean blocksForInput(ConversationContext arg0) {
-		if(this instanceof TabSelectOptionMenu) {
-			Debug.print("Inside blocksForInput: " +((TabSelectOptionMenu) this).filteredoptions.size());
-		}
 		return !this.passBy();
 	}
 	
 	@Override
 	public final String getPromptText(ConversationContext arg0) {
-		if(this instanceof TabSelectOptionMenu) {
-			Debug.print("Inside getPromptText: " +((TabSelectOptionMenu) this).filteredoptions.size());
-		}
 		this.Initialize();
 		return this.getPromptText();
 	}
@@ -139,9 +132,6 @@ public abstract class Menu extends MessagePrompt {
 	
 	@Override
 	public final Prompt acceptInput(ConversationContext arg0, String arg) {
-		if(this instanceof TabSelectOptionMenu) {
-			Debug.print("Inside acceptInput: " +((TabSelectOptionMenu) this).filteredoptions.size());
-		}
 		if(arg == null) {
 			Menu output = this.getPassTo();
 			this.unloadNonPersist();
@@ -197,9 +187,6 @@ public abstract class Menu extends MessagePrompt {
 	 * in the menu graph
 	 */
 	private final Menu checkBack() {
-		if(this instanceof TabSelectOptionMenu) {
-			Debug.print("Inside checkBack: " +((TabSelectOptionMenu) this).filteredoptions.size());
-		}
 		Menu previous = this.getPreviousMenu().getSelfPersist();
 		this.unloadMenuPersistent();
 		if(!previous.passBy()) {
@@ -217,9 +204,6 @@ public abstract class Menu extends MessagePrompt {
 	 * in the menu graph
 	 */
 	private final Menu checkNext(String input) {
-		if(this instanceof TabSelectOptionMenu) {
-			Debug.print("Inside checkNext: " +((TabSelectOptionMenu) this).filteredoptions.size());
-		}
 		Menu next = this.getNextMenu(input);
 		this.unloadNonPersist();
 		if(this != next) {

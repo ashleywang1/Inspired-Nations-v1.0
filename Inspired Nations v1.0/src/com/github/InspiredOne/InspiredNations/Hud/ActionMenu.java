@@ -4,7 +4,6 @@ package com.github.InspiredOne.InspiredNations.Hud;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Listeners.ActionManager;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MenuUpdateManager;
@@ -27,7 +26,6 @@ public abstract class ActionMenu extends Menu {
 				PDI.getCon().outputNextPrompt();
 			}
 			catch (Exception ex) {
-				Debug.print("exception caught, running unloadNonPersist()");
 				this.unloadNonPersist();
 				//PDI.getCon().acceptInput("exit");
 				ex.printStackTrace();

@@ -1,6 +1,5 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -43,9 +42,7 @@ public class ManageCurrencies extends TabSelectOptionMenu<CurrencyAccount> {
 	public void addTabOptions() {
 		for(CurrencyAccount curren:account.getMoney()) {
 			this.taboptions.add(curren);
-			Debug.print("currency being added");
 		}
-		Debug.print("Inside addTabOptions of managercurrencies " + filteredoptions.size());
 		
 	}
 
