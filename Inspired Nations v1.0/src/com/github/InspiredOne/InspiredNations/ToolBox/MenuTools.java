@@ -76,7 +76,8 @@ public class MenuTools {
 		NOBODY_TO_SHARE_WITH("No governments or people."),
 		NEED_HIGHER_PROTECTION("You need at least Protection Level " + ProtectionLevels.IMMIGRATION_CONTROL + "."),
 		NO_PEOPLE_TO_ADD("There are no other players to invite."),
-		NO_GOVERNMENTS_TO_ADD("There are no other governments to add.");
+		NO_GOVERNMENTS_TO_ADD("There are no other governments to add."),
+		NO_CURRENCIES_TO_ADD("There are no other currencies to add.");
 		
 		private String reason;
 		
@@ -123,7 +124,7 @@ public class MenuTools {
 
 				@Override
 				public String getMessage(PlayerData receiver) {
-					
+				
 					return makeMessage("You are now " + position + " of " + govadd.getDisplayName(receiver), receiver);
 				}
 

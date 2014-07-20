@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.ClaimAndUnclaimLand;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.InspiredOne.InspiredNations.Debug;
@@ -14,14 +15,14 @@ import com.github.InspiredOne.InspiredNations.Listeners.Implem.ClaimSignShopMana
 public class ClaimSignShop extends TabSelectOptionMenu<ItemSellable> {
 
 	private Menu previous;
-	private List<ItemSellable> sell;
+	private ArrayList<ItemSellable> sell;
 	public SignShop shop;
 	public ClaimSignShop(PlayerData PDI, Menu previous, SignShop signshop) {
 		super(PDI);
 		Debug.print("Inside claim sign shop constructor");
 		this.linesperitem = 2;
 		this.previous = previous;
-		this.sell =((ChestShop) signshop.getSuperGovObj()).getItems();
+		this.sell = ((ChestShop) signshop.getSuperGovObj()).getItems();
 		shop = signshop;
 	}
 

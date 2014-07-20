@@ -9,7 +9,6 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.ChatMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.Messaging.Alert;
@@ -102,11 +101,17 @@ public abstract class Menu extends MessagePrompt {
 	
 	@Override
 	public final boolean blocksForInput(ConversationContext arg0) {
+		if(this instanceof TabSelectOptionMenu) {
+			Debug.print("Inside blocksForInput: " +((TabSelectOptionMenu) this).filteredoptions.size());
+		}
 		return !this.passBy();
 	}
 	
 	@Override
 	public final String getPromptText(ConversationContext arg0) {
+		if(this instanceof TabSelectOptionMenu) {
+			Debug.print("Inside getPromptText: " +((TabSelectOptionMenu) this).filteredoptions.size());
+		}
 		this.Initialize();
 		return this.getPromptText();
 	}
@@ -134,7 +139,9 @@ public abstract class Menu extends MessagePrompt {
 	
 	@Override
 	public final Prompt acceptInput(ConversationContext arg0, String arg) {
-		
+		if(this instanceof TabSelectOptionMenu) {
+			Debug.print("Inside acceptInput: " +((TabSelectOptionMenu) this).filteredoptions.size());
+		}
 		if(arg == null) {
 			Menu output = this.getPassTo();
 			this.unloadNonPersist();
@@ -160,10 +167,12 @@ public abstract class Menu extends MessagePrompt {
 		}
 		if (arg.equalsIgnoreCase("hud")) {
 			this.unloadNonPersist();
+			this.unloadMenuPersistent();
 			return new MainHud(PDI);
 		}
 		if (arg.equalsIgnoreCase("chat")) {
 			this.unloadNonPersist();
+			this.unloadMenuPersistent();
 			return new Chat(PDI, this.getSelfPersist());
 		}
 		if (arg.equalsIgnoreCase("exit")) {
@@ -176,8 +185,8 @@ public abstract class Menu extends MessagePrompt {
 			} catch (PlayerOfflineException e) {
 				e.printStackTrace();
 			}
-			Debug.print("exit has been sent");
 			this.unloadNonPersist();
+			this.unloadMenuPersistent();
 			return Menu.END_OF_CONVERSATION;
 		}
 		return this.checkNext(arg);
@@ -188,10 +197,13 @@ public abstract class Menu extends MessagePrompt {
 	 * in the menu graph
 	 */
 	private final Menu checkBack() {
+		if(this instanceof TabSelectOptionMenu) {
+			Debug.print("Inside checkBack: " +((TabSelectOptionMenu) this).filteredoptions.size());
+		}
 		Menu previous = this.getPreviousMenu().getSelfPersist();
-		this.unloadNonPersist();
+		this.unloadMenuPersistent();
 		if(!previous.passBy()) {
-			previous.PDI = this.PDI;
+			//previous.PDI = this.PDI; What is this I don't even.
 			return previous;
 		}
 		else {
@@ -205,8 +217,14 @@ public abstract class Menu extends MessagePrompt {
 	 * in the menu graph
 	 */
 	private final Menu checkNext(String input) {
+		if(this instanceof TabSelectOptionMenu) {
+			Debug.print("Inside checkNext: " +((TabSelectOptionMenu) this).filteredoptions.size());
+		}
 		Menu next = this.getNextMenu(input);
 		this.unloadNonPersist();
+		if(this != next) {
+			this.unloadMenuPersistent();
+		}
 		while(next.passBy()) {
 			next = (Menu) next.getPassTo();
 		}

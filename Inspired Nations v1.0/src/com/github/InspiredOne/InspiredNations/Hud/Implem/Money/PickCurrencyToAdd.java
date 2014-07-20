@@ -4,15 +4,16 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickCurrencyGeneral;
 
 public class PickCurrencyToAdd extends PickCurrencyGeneral {
 
 	Account account;
-	Menu previous;
+	OptionMenu previous;
 	
-	public PickCurrencyToAdd(PlayerData PDI, Menu previous, Account account) {
+	public PickCurrencyToAdd(PlayerData PDI, OptionMenu previous, Account account) {
 		super(PDI, previous);
 		this.account = account;
 		this.previous = previous;
@@ -30,9 +31,12 @@ public class PickCurrencyToAdd extends PickCurrencyGeneral {
 
 	@Override
 	public void addOptions() {
-		this.options.add(new AddCurrencyToAccountOption(this,"Add " + this.getData() + " To Your Account",account,this.getData()));
-
-		
+		if(this.getTabOptions().size() >= 2) {
+			this.options.add(new AddCurrencyToAccountOption(this,"Add " + this.getData() + " To Your Account",account,this.getData()));
+		}
+		else if (this.getTabOptions().size() == 1) {
+			this.options.add(new AddCurrencyToAccountOption(previous,"Add " + this.getData() + " To Your Account",account,this.getData()));
+		}
 	}
 
 	@Override

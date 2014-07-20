@@ -27,10 +27,10 @@ public abstract class ActionMenu extends Menu {
 				PDI.getCon().outputNextPrompt();
 			}
 			catch (Exception ex) {
-				Debug.print(PDI.getCon() == null);
+				Debug.print("exception caught, running unloadNonPersist()");
 				this.unloadNonPersist();
 				//PDI.getCon().acceptInput("exit");
-				//ex.printStackTrace();
+				ex.printStackTrace();
 			}
 			current = this.getPromptText();
 			for(ActionManager<?> mana:this.getActionManager()) {
@@ -84,7 +84,8 @@ public abstract class ActionMenu extends Menu {
 			manager.stopListening();
 		}
 
-		this.getActionManager().clear();
+		//this.getActionManager().clear();
+		Debug.print("Inside menuPersist");
 		this.getActionManager().add(new TaxTimerManager<ActionMenu>(this));
 		this.getActionManager().add(new MenuUpdateManager<ActionMenu>(this));
 		this.addActionManagers();
@@ -110,10 +111,10 @@ public abstract class ActionMenu extends Menu {
 
 	@Override
 	public void unloadPersist() {
+		Debug.print("Inside UnloadPersist");
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
-		
 		this.getActionManager().clear();
 	}
 }

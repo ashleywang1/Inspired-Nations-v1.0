@@ -45,7 +45,7 @@ public class ManageAccounts extends TabSelectOptionMenu<Account> {
 			this.options.add(new ChangeTabOrderOption<>(new ManageAccounts(PDI, previous, accounts), "Change Account Order <+/->", PDI.getAccounts(), this.getData()));
 			this.options.add(new PromptOption(this, "Manage " + this.getData().getName() + " account", new ManageAccount(PDI, previous, this.getData(), accounts)));
 			this.options.add(new PromptOption(this, "Pay With " + this.getData().getName(), new PayNav(PDI, this, this.getData())));
-			this.options.add(new PromptOption(this, "Manage Currencies In " +this.getData().getName(), new ManageCurrencies(PDI, previous,this.getData(), accounts)));
+			this.options.add(new PromptOption(this, "Manage Currencies In " +this.getData().getName(), new ManageCurrencies(PDI, this,this.getData(), accounts)));
 		}
 		if(taboptions.size() > 1) {
 			this.options.add(new RemoveAccountOption(this, "Remove Account", this.getData(), this.accounts));
@@ -58,7 +58,6 @@ public class ManageAccounts extends TabSelectOptionMenu<Account> {
 	@Override
 	public void addActionManagers() {
 		// TODO Auto-generated method stub
-		
 	}
 
 }

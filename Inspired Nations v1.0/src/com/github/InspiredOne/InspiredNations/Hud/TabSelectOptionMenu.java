@@ -34,8 +34,8 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	private int rangeBottom = maxLines;
 	private static final int maxLines = 7;
 	public int linesperitem = 1;
-	protected List<E> taboptions = new ArrayList<E>();
-	private List<E> filteredoptions = new ArrayList<E>();
+	protected ArrayList<E> taboptions = new ArrayList<E>();
+	public ArrayList<E> filteredoptions = new ArrayList<E>();
 	private E data;
 	private TabScrollManager<TabSelectOptionMenu<E>> manager;
 	public TabSelectOptionMenu(PlayerData PDI) {
@@ -43,11 +43,13 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	}
 
 	public List<E> getTabOptions() {
+		Debug.print("Inside getTabOptions: " + taboptions.size());
 		return this.taboptions;
 	}
 
 	@Override
 	public boolean getPassBy() {
+		Debug.print("Inside getPassBy: " + taboptions.size());
 		return false;
 	}
 	
@@ -101,17 +103,17 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 				}
 			}
 		}
+		Debug.print("Inside tabOptionsToText: " +filteredoptions.size());
 		return output;
 	}
 
 	@Override
 	public void actionResponse() {
 		int tabsize = this.filteredoptions.size();
+		Debug.print("tabsize is : " + tabsize);
 		if(this.manager.updateFromTabScroll) {
 			this.manager.updateFromTabScroll = false;
 			this.PDI.getMsg().clearMenuVisible();
-			Debug.print("Filteredoptions size: " + tabsize);
-			Debug.print("Filterword is: " + filterword);
 			if(manager.preTabEntry.equalsIgnoreCase("+") && tabsize > 0) {
 				this.setTabcnt(((this.getTabcnt() - 1) + tabsize) % tabsize);
 			}
@@ -122,10 +124,9 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 				sort++;
 			}
 			else if(!manager.preTabEntry.isEmpty()) {
+				Debug.print("Setting filterword because preTabEntry is not empty but doesn't equal + - or =: " +manager.preTabEntry);
 				this.filterword = manager.preTabEntry;
-				Debug.print("Filterword is: " + filterword);
-				Debug.print("Setting the filter word =============");
-				List<E> tempOptions = Tools.filter(filterword, this.taboptions);
+				ArrayList<E> tempOptions = Tools.filter(filterword, this.taboptions);
 				if(tempOptions.size() <= 0) {
 					this.setError(MenuError.NO_MATCHES_FOUND(this.getPlayerData()));
 					return;
@@ -159,6 +160,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 	@Override
 	public final Menu getPreviousMenu() {
 		if(!this.filteredoptions.containsAll(taboptions)) {
+			Debug.print("Setting filterword to blank");
 			filterword = "";
 			return this.getSelfPersist();
 		}
@@ -214,8 +216,6 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			manager.stopListening();
 		}
 		this.getActionManager().clear();
-		Debug.print("Filtering!!!!!!! with" + filterword);
-		this.filteredoptions = Tools.filter(filterword, this.taboptions);
 		this.getActionManager().add(new TaxTimerManager<ActionMenu>(this));
 		this.getActionManager().add(new MenuUpdateManager<ActionMenu>(this));
 		manager = new TabScrollManager<TabSelectOptionMenu<E>>(this);
@@ -231,9 +231,9 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.startListening();
 		}
-		Debug.print("Filtering!!!!!!! 2 with :" + filterword);
 		this.addTabOptions();
 		this.filteredoptions = Tools.filter(filterword, this.taboptions);
+		Debug.print("Inside nonPersist. FilteredOptions: " + this.filteredoptions.size());
 		if(this.filteredoptions.size() == 0 && this.taboptions.size() != 0) {
 			//this.setError(MenuError.NO_MATCHES_FOUND(this.getPlayerData()));
 			return;
@@ -250,6 +250,7 @@ public abstract class TabSelectOptionMenu<E extends Nameable> extends OptionMenu
 			manager.stopListening();
 		}
 		this.options = new ArrayList<Option>();
+		Debug.print("Inside UnloadNonPersist. Clearing tab options.");
 		this.taboptions = new ArrayList<E>();
 		this.filteredoptions = new ArrayList<E>();
 	}

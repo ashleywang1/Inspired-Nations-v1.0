@@ -58,19 +58,18 @@ public class Tools {
 		return input.divide(BigDecimal.ONE, 2, BigDecimal.ROUND_DOWN);
 	}
 	
-	public static <T extends Nameable> List<T> filter(String key, List<T> fulllist) {
-		List<T> output = new ArrayList<T>();
-		Debug.print("inside filter. filterkey is:" + key);
-		Debug.print("Is filter key empty? " + key.isEmpty());
-		Debug.print("Is the fulllist empty? " + fulllist.isEmpty());
+	public static <T extends Nameable> ArrayList<T> filter(String key, ArrayList<T> fulllist) {
+		ArrayList<T> output = new ArrayList<T>();
 		if(key.isEmpty()) {
-			return fulllist;
+			Debug.print("Filter is sending out initial list " + fulllist.size());
+			return (ArrayList<T>) fulllist.clone();
 		}
 		for(T test:fulllist) {
 			if(test.getName().toLowerCase().contains(key.toLowerCase())) {
 				output.add(test);
 			}
 		}
+		Debug.print("Filter left the list with # entries: " + output.size());
 		return output;
 	}
 	

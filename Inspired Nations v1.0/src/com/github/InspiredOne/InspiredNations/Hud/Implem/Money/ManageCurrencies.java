@@ -1,5 +1,6 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.Money;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
@@ -7,6 +8,7 @@ import com.github.InspiredOne.InspiredNations.Economy.CurrencyAccount;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
+import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
 
 public class ManageCurrencies extends TabSelectOptionMenu<CurrencyAccount> {
 
@@ -23,7 +25,7 @@ public class ManageCurrencies extends TabSelectOptionMenu<CurrencyAccount> {
 
 	@Override
 	public Menu getPreviousPrompt() {
-		return new ManageAccounts(PDI, previous, accounts);
+		return previous;
 	}
 
 	@Override
@@ -41,7 +43,9 @@ public class ManageCurrencies extends TabSelectOptionMenu<CurrencyAccount> {
 	public void addTabOptions() {
 		for(CurrencyAccount curren:account.getMoney()) {
 			this.taboptions.add(curren);
+			Debug.print("currency being added");
 		}
+		Debug.print("Inside addTabOptions of managercurrencies " + filteredoptions.size());
 		
 	}
 
@@ -55,8 +59,14 @@ public class ManageCurrencies extends TabSelectOptionMenu<CurrencyAccount> {
 				this.options.add(new RemoveCurrencyOption(this, "Remove " + this.getData().getCurrency(), account, this.getData()));
 			}
 		}
-		this.options.add(new PromptOption(this, "Add Currency", new PickCurrencyToAdd(PDI, this , account)));
-		
+		PickCurrencyToAdd next = new PickCurrencyToAdd(PDI, this , account);
+		next.addTabOptions();
+		if(next.getTabOptions().size() > 0) {
+			this.options.add(new PromptOption(this, "Add Currency", next));
+		}
+		else {
+			this.options.add(new PromptOption(this, "Add Currency", next, OptionUnavail.NO_CURRENCIES_TO_ADD));
+		}
 	}
 
 	@Override

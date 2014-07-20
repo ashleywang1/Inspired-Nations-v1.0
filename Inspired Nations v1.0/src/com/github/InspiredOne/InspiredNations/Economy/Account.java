@@ -90,8 +90,7 @@ public class Account implements Serializable, Nameable, Payable, Cloneable {
 			throw new NegativeMoneyTransferException();
 		}
 
-		// looks to see if accountCollection has MonType
-		CurrencyAccount account = getCurrenAccount(monType);
+
 		
 		if(this.AutoExchange) {
 			if(this.money.isEmpty()) {
@@ -100,6 +99,8 @@ public class Account implements Serializable, Nameable, Payable, Cloneable {
 			money.get(0).addMoney(mon, monType);
 		}
 		else {
+			// looks to see if accountCollection has MonType
+			CurrencyAccount account = getCurrenAccount(monType);
 			account.addMoney(mon, monType);
 		}
 	}
