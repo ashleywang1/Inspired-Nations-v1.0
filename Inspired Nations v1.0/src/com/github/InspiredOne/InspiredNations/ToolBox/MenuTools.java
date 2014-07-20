@@ -494,7 +494,7 @@ public class MenuTools {
 
 				@Override
 				public boolean menuPersistent() {
-					return false;
+					return true;
 				}
 				
 			};
@@ -515,9 +515,8 @@ public class MenuTools {
 
 				@Override
 				public boolean menuPersistent() {
-					return false;
+					return true;
 				}
-				
 			};
 		}
 		

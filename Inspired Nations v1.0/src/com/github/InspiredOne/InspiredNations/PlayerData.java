@@ -41,6 +41,7 @@ import com.github.InspiredOne.InspiredNations.ToolBox.Tools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuAlert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Messaging.Alert;
 import com.github.InspiredOne.InspiredNations.ToolBox.Messaging.MessageManager;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 
 public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer{
@@ -324,7 +325,27 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	@Override
 	public String getDisplayName(PlayerData PDI) {
 		//TODO make this name the one used for messages and everything.
-		return ChatColor.RESET + this.getName();
+		String color = TextColor.NEUTRAL(PDI);
+		String symbol = "";
+		for(OwnerGov gov:this.getCitizenship() ) {
+			symbol = "*";
+			if(gov.isOwner(this.getPlayerID()) ) {
+				symbol = "**";
+				break;
+			}
+		}
+		for(OwnerGov gov:this.getCitizenship()) {
+			for(OwnerGov govthis:PDI.getCitizenship()) {
+				if(gov.getRelations().get(govthis) == Relation.ENEMY || govthis.getRelations().get(gov) == Relation.ENEMY) {
+					color = TextColor.ENEMY(PDI);
+					return color + this.getName();
+				}
+				if(gov.getRelations().get(govthis) == Relation.ALLY && govthis.getRelations().get(gov) == Relation.ALLY) {
+					color = TextColor.ALLY(PDI);
+				}
+			}
+		}
+		return color + this.getName() + symbol;
 	}
 
 	@Override

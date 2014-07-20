@@ -17,5 +17,4 @@ public class TabManager<T extends ActionMenu> extends ActionManager<T> {
 	public String getPreTabEntry() {
 		return this.preTabEntry;
 	}
-
 }

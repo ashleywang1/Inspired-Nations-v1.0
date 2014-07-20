@@ -69,9 +69,9 @@ public abstract class ActionMenu extends Menu {
 	
 	@Override
 	public Menu getSelfPersist() {
-		for(ActionManager<?> manager:this.getActionManager()) {
+/*		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
-		}
+		}*/
 		return this;
 	}
 
@@ -113,6 +113,7 @@ public abstract class ActionMenu extends Menu {
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
+		
 		this.getActionManager().clear();
 	}
 }

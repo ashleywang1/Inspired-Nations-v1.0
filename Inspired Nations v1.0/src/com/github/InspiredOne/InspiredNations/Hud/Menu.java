@@ -50,9 +50,8 @@ public abstract class Menu extends MessagePrompt {
 	 * Loads menu persistent variabls suce as Acton Managers and state data.
 	 */
 	private final void loadMenuPersistent() {
-		//this.unloadNonPersist();
 		if(!loaded) {
-			this.PDI.getMsg().clearMenuVisible();
+			//this.PDI.getMsg().clearMenuVisible();
 			this.menuPersistent();
 			loaded = true;
 		}
@@ -83,6 +82,7 @@ public abstract class Menu extends MessagePrompt {
 	public abstract void nonPersistent();
 	
 	public Menu getSelfPersist() {
+
 		return this;
 	}
 	/**
@@ -164,7 +164,7 @@ public abstract class Menu extends MessagePrompt {
 		}
 		if (arg.equalsIgnoreCase("chat")) {
 			this.unloadNonPersist();
-			return new ChatMenu(PDI, this.getSelfPersist());
+			return new Chat(PDI, this.getSelfPersist());
 		}
 		if (arg.equalsIgnoreCase("exit")) {
 			try {

@@ -52,7 +52,7 @@ public class MessageManager implements Serializable {
 		}
 		Debug.print("Messages Length: " +this.messages.size());
 		
-		pushMessage(refresh);
+		pushMessage(true);
 	}
 	public void receiveError(final String msg) {
 		Error error = new Error() {
@@ -102,7 +102,6 @@ public class MessageManager implements Serializable {
 					MenuUpdateEvent event = new MenuUpdateEvent(PDI.getPlayerID());
 					Bukkit.getServer().getPluginManager().callEvent(event);
 				}
-
 			}
 		}
 		catch (Exception ex) {

@@ -10,7 +10,6 @@ public class Debug {
 	private static String InformPluginDev = "If you see this, tell plugin developer";
 	public static void print(Object msg) {
 		InspiredNations.plugin.logger.info(msg.toString());
-		
 	}
 	
 	public static void print(int i) {

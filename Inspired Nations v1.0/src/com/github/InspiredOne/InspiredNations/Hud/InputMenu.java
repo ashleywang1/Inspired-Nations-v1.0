@@ -82,6 +82,7 @@ public abstract class InputMenu extends ActionMenu {
 			manager.stopListening();
 		}
 		this.getActionManager().clear();
+		this.tabOptions.clear();
 		this.getActionManager().add(new TaxTimerManager<ActionMenu>(this));
 		this.getActionManager().add(new InputManager<InputMenu>(this, this.getTabOptions()));
 		this.getActionManager().add(new MenuUpdateManager<InputMenu>(this));
@@ -90,13 +91,13 @@ public abstract class InputMenu extends ActionMenu {
 		this.addTabOptions();
 	}
 
-
 	@Override
 	public void unloadPersist() {
 		for(ActionManager<?> manager:this.getActionManager()) {
 			manager.stopListening();
 		}
 		tabOptions = new ArrayList<String>();
+		this.getActionManager().clear();
 	}
 	
 }
