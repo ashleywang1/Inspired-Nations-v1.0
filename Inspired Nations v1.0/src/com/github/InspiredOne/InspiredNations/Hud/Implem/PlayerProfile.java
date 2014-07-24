@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
@@ -11,6 +12,7 @@ import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.SettingsMenu;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MenuUpdateManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class PlayerProfile extends OptionMenu {
 	
@@ -23,7 +25,6 @@ public class PlayerProfile extends OptionMenu {
 
 	@Override
 	public String getHeader() {
-		Debug.print("before profile");
 		return "Profile: " + PDITarget.getName();
 	}
 
@@ -52,24 +53,18 @@ public class PlayerProfile extends OptionMenu {
 	public void addActionManagers() {
 		
 	}
-	
-	// These methods are overridden by all the super classes. I wish there were a better
-	// way I could do this. Until then, ctrl-c and ctrl-v.
-	@Override
-	public void menuPersistent() {
-		Debug.print("m-p-1");
-		this.getActionManager().add(new TaxTimerManager<ActionMenu>(this));
-		this.getActionManager().add(new MenuUpdateManager<ActionMenu>(this));
-		Debug.print("mp2");
-		this.addActionManagers();
-		Debug.print("mp3");
-		//this.PDITarget = this.data.getData().getPDI();
-	}
 
 	@Override
 	public String getPreOptionText() {
-		Debug.print("profile");
-		return "";
+		String output = TextColor.LABEL(PDI) + "Citizenship: ";
+		for(OwnerGov gov:this.PDITarget.getCitizenship()) {
+			output = output.concat(gov.getDisplayName(PDI) + ", ");
+		}
+		if(output.length() > 0) {
+			output = output.substring(0,output.length() - 2) + "\n";
+		}
+		
+		return output;
 	}
 
 	@Override

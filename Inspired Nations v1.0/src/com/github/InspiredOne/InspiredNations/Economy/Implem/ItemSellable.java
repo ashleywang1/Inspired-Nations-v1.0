@@ -128,13 +128,13 @@ public class ItemSellable implements Sellable, Nameable, Serializable {
 			try {
 				shop.getInventory().removeItem(transfer);
 			} catch (NoShopRegionException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		} catch (BalanceOutOfBoundsException | NegativeMoneyTransferException e) {
 			if(buyer instanceof PlayerData) {
 				((PlayerData) buyer).getMsg().receiveError(MenuError.NOT_ENOUGH_MONEY((PlayerData) buyer));
 			}
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	

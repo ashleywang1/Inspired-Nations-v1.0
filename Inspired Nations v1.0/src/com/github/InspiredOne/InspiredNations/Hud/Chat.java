@@ -42,6 +42,7 @@ public class Chat extends InputMenu {
 
 	@Override
 	public String getInstructions() {
+		this.PDI.getMsg().missedSize = 0;
 		String output = "";
 		for(int i=framebase-15;i <= framebase;i++) {
 			if(PDI.getMsg().messages.size() >= i+1 && i >= 0) {

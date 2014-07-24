@@ -328,10 +328,12 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 		String color = TextColor.NEUTRAL(PDI);
 		String symbol = "";
 		for(OwnerGov gov:this.getCitizenship() ) {
-			symbol = "*";
-			if(gov.isOwner(this.getPlayerID()) ) {
-				symbol = "**";
-				break;
+			if(!(gov == InspiredNations.global)) {
+				symbol = "*";
+				if(gov.isOwner(this.getPlayerID()) ) {
+					symbol = "**";
+					break;
+				}
 			}
 		}
 		for(OwnerGov gov:this.getCitizenship()) {
