@@ -97,9 +97,9 @@ public class MainHud extends OptionMenu {
 				"(" + Tools.cut(PDI.getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown)) + " "+ PDI.getCurrency() + ")"));
 		
 		//this.options.add(new getMoneyOption(this, "Get 1000 " + PDI.getCurrency().getName(), PDI));
+		//this.options.add(new PromptOption(this, "Manage", new ManageAll(PDI, this)));
+		//this.options.add(new PromptOption(this, "New", new NewAll(PDI)));
 		
-		//this.options.add(new PromptOption(this, "Manage", new ManageAll(PDI, gov)));
-		//this.options.add(new PromptOption(this, "New", new NewAll(PDI, gov)));
 		
 		List<Class<? extends OwnerGov>> array = InspiredNations.global.getAllSubGovs();
 		array.remove(InspiredNations.global.getClass());

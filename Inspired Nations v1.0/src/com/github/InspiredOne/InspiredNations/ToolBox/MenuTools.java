@@ -2,6 +2,8 @@ package com.github.InspiredOne.InspiredNations.ToolBox;
 
 import java.math.BigDecimal;
 
+import javax.sound.sampled.ReverbType;
+
 import org.bukkit.ChatColor;
 
 import com.github.InspiredOne.InspiredNations.Debug;
@@ -125,7 +127,7 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 				
-					return makeMessage("You are now " + position + " of " + govadd.getDisplayName(receiver), receiver);
+					return makeMessage("You are now " + position + " of " + govadd.getDisplayName(receiver) + TextColor.ALERT(receiver) +".", receiver);
 				}
 
 				@Override
@@ -146,7 +148,7 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					
-					return makeMessage("You are now a " + position + " of " + govadd.getDisplayName(receiver), receiver);
+					return makeMessage("You are now a " + position + " of " + govadd.getDisplayName(receiver) + TextColor.ALERT(receiver) +".", receiver);
 				}
 
 				@Override
@@ -187,7 +189,7 @@ public class MenuTools {
 
 				@Override
 				public String getMessage(PlayerData receiver) {
-					return makeMessage("You cannot hurt your ally, " + target.getDisplayName(receiver), receiver);
+					return makeMessage("You cannot hurt your ally, " + target.getDisplayName(receiver) + TextColor.ALERT(receiver) +".", receiver);
 				}
 
 				@Override
@@ -208,7 +210,7 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					return makeMessage("You have been invited to be a "
-				+ position + " of " + govinvite.getDisplayName(receiver) + ".", receiver);
+				+ position + " of " + govinvite.getDisplayName(receiver)+ TextColor.ALERT(receiver)+ ".", receiver);
 				}
 
 				@Override
@@ -229,13 +231,13 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					if(re.equals(Relation.ALLY)) {
-						return makeMessage(gov.getDisplayName(receiver) + " has allied you.", receiver);
+						return makeMessage(gov.getDisplayName(receiver) + TextColor.ALERT(receiver) + " has allied you.", receiver);
 					}
 					else if(re.equals(Relation.NEUTRAL)) {
-						return makeMessage(gov.getDisplayName(receiver) + " has neutraled you.", receiver);
+						return makeMessage(gov.getDisplayName(receiver) + TextColor.ALERT(receiver) + " has neutraled you.", receiver);
 					}
 					else if(re.equals(Relation.ENEMY)) {
-						return makeMessage(gov.getDisplayName(receiver) + " has enemied you.", receiver);
+						return makeMessage(gov.getDisplayName(receiver) + TextColor.ALERT(receiver) + " has enemied you.", receiver);
 					}
 					else {
 						return null;
@@ -260,13 +262,13 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					if(re.equals(Relation.ALLY)) {
-						return makeMessage("You have successfully allied " + govre.getDisplayName(receiver), receiver);
+						return makeMessage("You have successfully allied " + govre.getDisplayName(receiver) + TextColor.ALERT(receiver) + ".", receiver);
 					}
 					else if(re.equals(Relation.NEUTRAL)) {
-						return makeMessage("You have successfully neutraled " + govre.getDisplayName(receiver), receiver);
+						return makeMessage("You have successfully neutraled " + govre.getDisplayName(receiver) + TextColor.ALERT(receiver) + ".", receiver);
 					}
 					else if(re.equals(Relation.ENEMY)) {
-						return makeMessage("You have successfully enemied " + govre.getDisplayName(receiver), receiver);
+						return makeMessage("You have successfully enemied " + govre.getDisplayName(receiver) + TextColor.ALERT(receiver) + ".", receiver);
 					}
 					else {
 						return null;
@@ -293,7 +295,8 @@ public class MenuTools {
 
 				@Override
 				public String getMessage(PlayerData receiver) {
-					return makeMessage("You cannot hurt "+target.getDisplayName(receiver) + " here in " + gov + ". "
+					return makeMessage("You cannot hurt "+target.getDisplayName(receiver)+ TextColor.ALERT(receiver) +
+							" here in " + gov + TextColor.ALERT(receiver)+". "
 							 + "Their protection is too high.", (receiver));
 				}
 
@@ -314,7 +317,7 @@ public class MenuTools {
 
 				@Override
 				public String getMessage(PlayerData receiver) {
-					return makeMessage(attacker.getDisplayName(receiver) + " tried to hurt you.", receiver);
+					return makeMessage(attacker.getDisplayName(receiver) + TextColor.ALERT(receiver) + " tried to hurt you.", receiver);
 				}
 
 				@Override
@@ -335,7 +338,7 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					return makeMessage("You cannot interact in " + attacked.getDisplayName(receiver) 
-							+ ". Their protection is too high.", (receiver));
+							+ TextColor.ALERT(receiver)+". Their protection is too high.", (receiver));
 				}
 
 				@Override
@@ -418,7 +421,8 @@ public class MenuTools {
 
 				@Override
 				public String getMessage(PlayerData receiver) {
-					return makeMessage(region.getTypeName() + " of " + gov.getDisplayName(receiver) + " successfully modified.", (receiver));
+					return makeMessage(region.getTypeName() + " of " + gov.getDisplayName(receiver) + TextColor.ALERT(receiver) +
+							" successfully modified.", (receiver));
 				}
 
 				@Override
@@ -440,12 +444,8 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					BigDecimal converted = Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, receiver.getCurrency()));
-					Debug.print(sender == null);
-					Debug.print(sender.getDisplayName(receiver) == null);
-					Debug.print(receiver == null);
-					Debug.print(receiver.getCurrency() == null);
 					return makeMessage(sender.getDisplayName(receiver) + makeMessage(" paid you " +TextColor.VALUE(receiver)+ converted + " "
-							+ TextColor.UNIT(receiver) + receiver.getCurrency() + ".",(receiver)), (receiver));
+							+ TextColor.UNIT(receiver) + receiver.getCurrency() + TextColor.ALERT(receiver)+ ".",(receiver)), (receiver));
 				}
 
 				@Override
@@ -467,8 +467,9 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					BigDecimal converted = Tools.cut(InspiredNations.Exchange.getExchangeValue(amount, curren, receiver.getCurrency()));
-					return makeMessage(sender.getDisplayName(receiver) + TextColor.ALERT(receiver) + " paid " + TextColor.VALUE(receiver) + converted +
-							" " + TextColor.UNIT(receiver) + receiver.getCurrency() + TextColor.ALERT(receiver) + " to " + paid.getDisplayName(receiver), (receiver));
+					return makeMessage(sender.getDisplayName(receiver), receiver) + makeMessage(TextColor.ALERT(receiver) + " paid " + TextColor.VALUE(receiver) + converted +
+							" " + TextColor.UNIT(receiver) + receiver.getCurrency() + TextColor.ALERT(receiver) + " to " + paid.getDisplayName(receiver)
+							+TextColor.ALERT(receiver) + ".", (receiver));
 				}
 
 				@Override
@@ -490,7 +491,8 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					
-					return makeMessage("You have entered " + gov.getDisplayName(receiver) + ".", receiver);
+					return makeMessage("You have entered " + gov.getDisplayName(receiver), receiver) +
+							makeMessage(".", receiver);
 				}
 
 				@Override
@@ -511,7 +513,8 @@ public class MenuTools {
 
 				@Override
 				public String getMessage(PlayerData receiver) {
-					return makeMessage("You have exited " + gov.getDisplayName(receiver) + ".", receiver);
+					return makeMessage("You have exited " + gov.getDisplayName(receiver),receiver) +
+							makeMessage(".", receiver);
 				}
 
 				@Override
