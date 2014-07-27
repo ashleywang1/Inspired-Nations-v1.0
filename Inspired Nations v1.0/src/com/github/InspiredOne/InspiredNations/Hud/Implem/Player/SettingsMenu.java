@@ -5,6 +5,7 @@ import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.PlayerDirectory;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.ToggleTimerOption;
 
 public class SettingsMenu extends OptionMenu {
 
@@ -21,7 +22,13 @@ public class SettingsMenu extends OptionMenu {
 
 	@Override
 	public void addOptions() {
-
+		String state;
+		if (PDI.TimerState) {
+			state = "On";
+		} else {
+			state = "Off";
+		}
+		this.options.add(new ToggleTimerOption(this, "Toggle Timer", "(" + state + ")"));
 		this.options.add(new PromptOption(this, "Set Menu Colors", new ColorMenu(PDI)));
 	}
 

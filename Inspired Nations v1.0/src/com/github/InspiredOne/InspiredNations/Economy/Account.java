@@ -25,7 +25,7 @@ public class Account implements Serializable, Nameable, Payable, Cloneable {
 	private static final String typeName = "Money";
 	private String name = "Money";
 	private ArrayList<CurrencyAccount> money = new ArrayList<CurrencyAccount>();
-	private boolean AutoExchange = false;
+	private boolean AutoExchange = true;
 
 	
 	public Account() {

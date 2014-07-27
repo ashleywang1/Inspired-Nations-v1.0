@@ -84,21 +84,14 @@ public class MainHud extends OptionMenu {
 			}
 		}
 		
-		String state;
-		if (PDI.TimerState) {
-			state = "On";
-		} else {
-			state = "Off";
-		}
-		this.options.add(new ToggleTimerOption(this, "Toggle Timer", "(" + state + ")"));
+
 		this.options.add(new PromptOption(this, "Player Directory", new PlayerDirectory(PDI)));
 		this.options.add(new PromptOption(this, "Citizenship", new PlayerCitizenship(PDI)));
 		this.options.add(new PromptOption(this, "Manage Money", new ManageMoney(PDI),
 				"(" + Tools.cut(PDI.getTotalMoney(PDI.getCurrency(), InspiredNations.Exchange.mcdown)) + " "+ PDI.getCurrency() + ")"));
 		
 		//this.options.add(new getMoneyOption(this, "Get 1000 " + PDI.getCurrency().getName(), PDI));
-		//this.options.add(new PromptOption(this, "Manage", new ManageAll(PDI, this)));
-		//this.options.add(new PromptOption(this, "New", new NewAll(PDI)));
+
 		
 		
 		List<Class<? extends OwnerGov>> array = InspiredNations.global.getAllSubGovs();
@@ -106,14 +99,16 @@ public class MainHud extends OptionMenu {
 		for(Class<? extends OwnerGov> gov:array) {
 			OwnerGov govobj = (OwnerGov) GovFactory.getGovInstance(gov);
 			if(!PDI.getOwnership(gov).isEmpty()) {
-				this.options.add(new PromptOption(this, "Manage " + govobj.getTypeName(), new PickManageSelfType(PDI, gov)));
+				this.options.add(new PromptOption(this, "Manage Government", new ManageAll(PDI, this)));
+				break;
 			}
 		}
 	
 		for(Class<? extends OwnerGov> gov:array) {
 			OwnerGov govobj = (OwnerGov) GovFactory.getGovInstance(gov);
 			if(!PDI.getCitizenship(govobj.getSuperGov()).isEmpty()) {
-				this.options.add(new PromptOption(this, "New " + govobj.getTypeName(), new PickSelfType<>(PDI, gov)));
+				this.options.add(new PromptOption(this, "New Government", new NewAll(PDI, this)));
+				break;
 			}
 		}
 	}
