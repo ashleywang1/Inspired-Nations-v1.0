@@ -4,6 +4,7 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
@@ -40,12 +41,19 @@ public class PlayerCitizenship extends TabSelectOptionMenu<OwnerGov> {
 		
 		//If you are an owner, you may completely delete the government
 		if(this.getTabOptions().size() > 0) {
-			this.options.add(new LeaveGovOption(this, "Leave " + this.getData().getName(), this.getData()));
+			
+			if (this.getData().isOwner(PDI.getPlayerID())) {
+				this.options.add(new DeleteGovOption(this, "Delete " + this.getData().getName(), this.getData()));
+			}
+			if (this.getData().isSubject(PDI.getPlayerID())) {
+				this.options.add(new LeaveGovOption(this, "Leave " + this.getData().getName(), this.getData()));
+			}
 		}
 		
-		//If you are a subject, you can only leave
+		
 		
 	}
+	
 
 	@Override
 	public void addActionManagers() {
@@ -60,4 +68,26 @@ public class PlayerCitizenship extends TabSelectOptionMenu<OwnerGov> {
 	}
 
 
+	public class LeaveGovOption extends Option {
+		
+		OwnerGov gov;
+		//Menu citizenship;
+
+		public LeaveGovOption(OptionMenu menu, String label, OwnerGov ownerGov) {
+			super(menu, label);
+			gov = ownerGov;
+			//citizenship = menu;
+			
+		}
+
+		@Override
+		public Menu response(String input) {
+			
+			gov.removePlayer(PDI.getPlayerID());
+			return menu;
+		}
+		
+	}
+
 }
+

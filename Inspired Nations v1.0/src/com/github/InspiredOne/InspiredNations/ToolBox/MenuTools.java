@@ -116,6 +116,31 @@ public class MenuTools {
 			};
 			
 		}
+		public static Alert GOV_UNREGISTERED(final InspiredGov gov) {
+			return new Alert() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -4486493616302101435L;
+
+
+				@Override
+				public String getMessage(PlayerData receiver) {
+					// TODO Auto-generated method stub
+					return makeMessage("The government " + gov.getName() + "has been deleted.", receiver);
+				}
+				
+
+				@Override
+				public boolean menuPersistent() {
+					// TODO Auto-generated method stub
+					return true;
+				}
+				
+			};
+			
+		}
 		public static Alert ADDED_AS_OWNER_TO_GOV(final OwnerGov govadd, final String position) {
 			return new Alert() {
 

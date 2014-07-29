@@ -95,6 +95,8 @@ public abstract class OwnerGov extends InspiredGov {
 	
 	public void removeOwner(PlayerID player) {
 		this.owners.remove(player);
+		
+		
 		try {
 			Player playerreal = player.getPDI().getPlayer();
 			if(playerreal.isConversing()) {
@@ -109,6 +111,7 @@ public abstract class OwnerGov extends InspiredGov {
 		}
 		if(this.isSubjectLess()) {
 			this.unregister();
+			this.joinAccount(player.getPDI());
 		}
 	}
 	
