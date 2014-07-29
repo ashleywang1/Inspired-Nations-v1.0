@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
+import com.github.InspiredOne.InspiredNations.Economy.Account;
 import com.github.InspiredOne.InspiredNations.Economy.AccountCollection;
 import com.github.InspiredOne.InspiredNations.Economy.Currency;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
@@ -186,10 +187,51 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		}
 	}
 	public void unregister() {
-		InspiredNations.regiondata.removeValue(this);
-		for(InspiredGov gov:this.getAllSubGovsAndFacilitiesJustBelow()) {
-			gov.unregister();
+		for (PlayerID PID: this.getSubjects()) {
+			PID.getPDI().sendNotification(MenuAlert.GOV_UNREGISTERED(this));
 		}
+
+		for(InspiredGov gov:this.getAllSubGovsAndFacilitiesJustBelow()) {
+			
+			gov.unregister();
+			
+			if (gov instanceof Facility) {
+				//join facility account with supergov account
+				try {
+					gov.transferMoney(gov.getAccounts().getTotalMoney(currency.DEFAULT, InspiredNations.Exchange.mcdown), currency.DEFAULT, gov.getSuperGovObj());
+				} catch (BalanceOutOfBoundsException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NegativeMoneyTransferException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			
+		}
+		
+		try {
+			Account GovAccount = new Account(this.getName());
+			
+			this.getAccounts().transferMoney(this.getAccounts().getTotalMoney(currency.DEFAULT, InspiredNations.Exchange.mcdown), currency.DEFAULT, GovAccount);
+			
+			if (this instanceof OwnerGov) {
+				for (PlayerID PID: ((OwnerGov) this).getOwnersList()) {
+					PID.getPDI().getAccounts().add(GovAccount);
+				}
+			}
+		} catch (BalanceOutOfBoundsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NegativeMoneyTransferException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Debug.print("removing Region Data");		
+		InspiredNations.regiondata.removeValue(this);
+		Debug.print("removed Region Data");
 	}
 
 	/**
