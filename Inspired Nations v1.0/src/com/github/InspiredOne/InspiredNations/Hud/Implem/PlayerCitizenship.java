@@ -50,8 +50,6 @@ public class PlayerCitizenship extends TabSelectOptionMenu<OwnerGov> {
 			}
 		}
 		
-		
-		
 	}
 	
 
