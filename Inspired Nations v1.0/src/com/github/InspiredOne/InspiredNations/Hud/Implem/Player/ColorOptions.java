@@ -249,7 +249,7 @@ public class ColorOptions extends TabSelectOptionMenu<Color> {
 
 	@Override
 	public void addOptions() {
-		this.options.add(new CustomOption(this, "Select", this.getData()));
+		this.options.add(new CustomColorOption(this, "Select", this.getData()));
 		
 	}
 
@@ -285,11 +285,11 @@ public class ColorOptions extends TabSelectOptionMenu<Color> {
 		
 	}
 	
-	public class CustomOption extends Option {
+	public class CustomColorOption extends Option {
 		
 		Color data;
 		
-		public CustomOption(OptionMenu menu, String label, Color c) {
+		public CustomColorOption(OptionMenu menu, String label, Color c) {
 			super(menu, label);
 			data = c;
 		}

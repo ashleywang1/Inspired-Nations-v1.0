@@ -11,8 +11,8 @@ import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.TaxTimerManager;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.AllyList;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.RelationList;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.SettingsMenu;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MenuUpdateManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
@@ -74,9 +74,9 @@ public class PlayerProfile extends OptionMenu {
 	@Override
 	public void addOptions() {
 		// TODO Auto-generated method stub
-		//this.options.add(new TabSelectOptionMenu(this, "Allies", new AllyList(PDI));
-		this.options.add(new PromptOption(this, "Ally List", new AllyList(PDI)));
-		//this.options.add(new EnemyList(this, "Enemies"));
+		
+		this.options.add(new PromptOption(this, "Ally List", new RelationList(PDI, "Ally")));
+		this.options.add(new PromptOption(this, "Enemy List", new RelationList(PDI, "Enemy")));
 		
 		if (this.PDITarget.equals(PDI)) {
 			this.options.add(new PromptOption(this, "Settings", new SettingsMenu(PDI)));
