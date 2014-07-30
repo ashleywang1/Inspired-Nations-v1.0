@@ -1,5 +1,7 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
+import javax.swing.text.html.Option;
+
 import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
@@ -7,7 +9,9 @@ import com.github.InspiredOne.InspiredNations.Hud.ActionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
+import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.TaxTimerManager;
+import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.AllyList;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.SettingsMenu;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MenuUpdateManager;
@@ -70,7 +74,8 @@ public class PlayerProfile extends OptionMenu {
 	@Override
 	public void addOptions() {
 		// TODO Auto-generated method stub
-		//this.options.add(new AllyList(this, "Allies"));
+		//this.options.add(new TabSelectOptionMenu(this, "Allies", new AllyList(PDI));
+		this.options.add(new PromptOption(this, "Ally List", new AllyList(PDI)));
 		//this.options.add(new EnemyList(this, "Enemies"));
 		
 		if (this.PDITarget.equals(PDI)) {
