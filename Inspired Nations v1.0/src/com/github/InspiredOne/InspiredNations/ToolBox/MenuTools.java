@@ -128,7 +128,7 @@ public class MenuTools {
 				@Override
 				public String getMessage(PlayerData receiver) {
 					// TODO Auto-generated method stub
-					return makeMessage("The government " + gov.getName() + "has been deleted.", receiver);
+					return makeMessage("The government " + gov.getName() + " has been deleted.", receiver);
 				}
 				
 

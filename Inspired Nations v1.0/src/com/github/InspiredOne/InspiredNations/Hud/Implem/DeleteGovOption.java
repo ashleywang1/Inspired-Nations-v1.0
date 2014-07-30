@@ -46,30 +46,6 @@ public class DeleteGovOption extends Option {
 			//unregister the government from the map
 			gov.unregister();
 			
-//			//banish all the subjects.
-//			for (PlayerID PID: gov.getSubjects()) {
-//				gov.removePlayer(PID);
-//				
-//			}
-
-//			for (InspiredGov SubGov: gov.getAllSubGovsAndFacilitiesJustBelow()) {//list that returns OwnerGovs and OwnerSubjectGovs
-//				if (SubGov instanceof OwnerGov) {
-//					for (PlayerID PID: ((OwnerGov) SubGov).getSubjects()) {
-//						gov.removePlayer(PID);
-//						//SubGov.unregister();
-//					}
-//				}
-//			}
-			
-//			//banish the player from all sub governments
-//			List<OwnerGov> AllGovs = PDI.getCitizenship();
-//			AllGovs.remove(InspiredNations.global);
-//			
-//			for (OwnerGov subGov: AllGovs) {
-//				Debug.print(subGov.getName());
-//				subGov.removePlayer(PDI.getPlayerID());
-//				subGov.unregister();
-//			};
 		}
 		
 		//If player is the only ruler and protection < 2, player leaves and subjects have option to become ruler
