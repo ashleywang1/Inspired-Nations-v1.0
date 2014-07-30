@@ -1,38 +1,31 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem.Player;
 
-import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
-import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.MainHud;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.PlayerDirectory;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.PlayerProfile;
 import com.github.InspiredOne.InspiredNations.ToolBox.Relation;
 
 public class RelationList extends TabSelectOptionMenu<PlayerData> {
 	
-	String relation;
 	Relation status;
+	PlayerData target;
 
-	public RelationList(PlayerData PDI, String r) {
+	public RelationList(PlayerData PDI, PlayerData target, Relation r) {
 		super(PDI);
-		relation = r;
+		status = r;
+		this.target = target;
 		
-		if (relation=="Ally") {
-			status = Relation.ALLY;
-		} else {
-			status = Relation.ENEMY;
-		}
 	}
 
 	@Override
 	public Menu getPreviousPrompt() {
 		// TODO can't figure out the line below
-		return new PlayerProfile(PDI, new PlayerDirectory(PDI));
+		return new PlayerProfile(PDI, PDI);
 	}
 
 	@Override
@@ -74,7 +67,7 @@ public class RelationList extends TabSelectOptionMenu<PlayerData> {
 	@Override
 	public String getHeader() {
 		// TODO Auto-generated method stub
-		return "List of " + PDI.getName() + "'s " + relation ;
+		return "List of " + PDI.getName() + "'s " + status.toString() ;
 	}
 	
 	
