@@ -57,6 +57,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 	private MessageManager msg;
 	private Point3D lastLoc;
 	protected PlayerData PDI;
+	public boolean kill = false; // if true, the menu will be killed
 	private PlayerID id;
 	public List<NPC> npcs = new ArrayList<NPC>();
 	public Theme theme = new Theme();

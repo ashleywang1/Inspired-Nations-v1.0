@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Governments;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.github.InspiredOne.InspiredNations.Debug;
@@ -13,6 +14,7 @@ import com.github.InspiredOne.InspiredNations.Economy.NPC;
 import com.github.InspiredOne.InspiredNations.Exceptions.BalanceOutOfBoundsException;
 import com.github.InspiredOne.InspiredNations.Exceptions.NegativeMoneyTransferException;
 import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
+import com.github.InspiredOne.InspiredNations.Hud.MenuUpdateEvent;
 import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedMap;
 import com.github.InspiredOne.InspiredNations.ToolBox.IndexedSet;
@@ -94,13 +96,15 @@ public abstract class OwnerGov extends InspiredGov {
 	}
 	
 	public void removeOwner(PlayerID player) {
+		if(!this.isOwner(player)) {
+			return;
+		}
 		this.owners.remove(player);
-		
 		
 		try {
 			Player playerreal = player.getPDI().getPlayer();
 			if(playerreal.isConversing()) {
-				player.getPDI().getCon().acceptInput("exit");
+				player.getPDI().kill = true;
 			}
 		} catch (PlayerOfflineException e) {
 			
@@ -109,7 +113,14 @@ public abstract class OwnerGov extends InspiredGov {
 			this.getAccounts().setName(this.getName());
 			this.splitAccount(player.getPDI(), new ArrayList<PlayerID>(), this.getAccounts());
 		}
+		if(!this.isSubject(player)) {
+			for(OwnerGov govlost:this.getGovsLost(player)) {
+				govlost.removePlayer(player);
+			}
+		}
+		Debug.print("Is  this subjectless? " + this.isSubjectLess());
 		if(this.isSubjectLess()) {
+			player.getPDI().sendNotification(MenuAlert.GOV_UNREGISTERED(this));
 			this.unregister();
 			this.joinAccount(player.getPDI());
 		}
@@ -137,18 +148,29 @@ public abstract class OwnerGov extends InspiredGov {
 		ArrayList<OwnerGov> output = new ArrayList<OwnerGov>();
 			if(this.getCommonGovObj() != govTo.getSuperGovObj(this.getCommonGov())) {
 				output.add(this);
+				output.addAll(this.getGovsLost(PID));
 			}
-			for(Class<? extends InspiredGov> govtype: this.getSubGovs()) {
-				for(InspiredGov subgovtest:this.getAllSubGovs(govtype)) {
-					if(subgovtest instanceof OwnerGov) {
-						if(subgovtest.isSubject(PID)) {
-							output.addAll(((OwnerGov) subgovtest).getGovsLost(govTo, PID));
-						}
-					}
-				}
-			}
+
 		return output;
 	}
+	/**
+	 * Returns a list of all the govs that would be lost if player leaves this gov
+	 * @param PID
+	 * @return
+	 */
+	public ArrayList<OwnerGov> getGovsLost(PlayerID PID) {
+		ArrayList<OwnerGov> output = new ArrayList<OwnerGov>();
+		for(InspiredGov gov:this.getAllSubGovsBelow()) {
+			if(gov instanceof OwnerGov) {
+				if (gov.isSubject(PID) && (((OwnerGov) gov).getCommonGovObj().isSubOf(this)|| ((OwnerGov) gov).getCommonGovObj() == this)) {
+					output.add((OwnerGov)gov);
+					output.addAll(((OwnerGov)gov).getGovsLost(PID));
+				}
+			}
+		}
+		return output;
+	}
+	
 	
 	public boolean isOwner(PlayerID player) {
 		return this.owners.contains(player);
@@ -166,11 +188,15 @@ public abstract class OwnerGov extends InspiredGov {
 			for(PlayerID player:this.getSubjects()) {
 				npccount += player.getPDI().npcs.size();
 			}
-			BigDecimal payment = amount.divide(new BigDecimal(npccount), InspiredNations.Exchange.mcdown);
-			for(PlayerID player:this.getSubjects()) {
-				for(NPC npc:player.getPDI().npcs) {
-					this.transferMoney(payment, curren, npc);
-				}
+			Debug.print("Is amount == 0? " + (amount.compareTo(BigDecimal.ZERO) > 0));
+			Debug.print(amount.toString());
+			if(npccount > 0) {
+				BigDecimal payment = amount.divide(new BigDecimal(npccount), InspiredNations.Exchange.mcdown);
+				for(PlayerID player:this.getSubjects()) {
+					for(NPC npc:player.getPDI().npcs) {
+						this.transferMoney(payment, curren, npc);
+					}
+				}	
 			}
 		}
 		else {

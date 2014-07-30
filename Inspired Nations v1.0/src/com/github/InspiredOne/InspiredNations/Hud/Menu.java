@@ -4,6 +4,7 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Exceptions.PlayerOfflineException;
@@ -132,6 +133,11 @@ public abstract class Menu extends MessagePrompt {
 	
 	@Override
 	public final Prompt acceptInput(ConversationContext arg0, String arg) {
+		Debug.print("Input accepted: " + arg);
+		if(PDI.kill) {
+			PDI.kill = false;
+			return Menu.END_OF_CONVERSATION;
+		}
 		if(arg == null) {
 			Menu output = this.getPassTo();
 			this.unloadNonPersist();

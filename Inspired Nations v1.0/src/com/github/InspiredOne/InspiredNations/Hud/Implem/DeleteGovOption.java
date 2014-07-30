@@ -1,18 +1,12 @@
 package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
-import java.util.List;
 
-import com.github.InspiredOne.InspiredNations.Debug;
-import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
-import com.github.InspiredOne.InspiredNations.Governments.Facility;
-import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerSubjectGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
-import com.github.InspiredOne.InspiredNations.Hud.Implem.Player.PlayerID;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.OptionUnavail;
 
 public class DeleteGovOption extends Option {
@@ -33,25 +27,6 @@ public class DeleteGovOption extends Option {
 	}
 
 	public DeleteGovOption(OptionMenu menu, String label, String description, OwnerGov gov) {
-		super(menu, label, description);
-		this.gov = gov;
-		PDI = menu.getPlayerData();
-	}
-	
-	///Is this needed or will a OwnerSubject gov still apply in the cases above?
-	public DeleteGovOption(OptionMenu menu, String label, OptionUnavail reason, OwnerSubjectGov gov) {
-		super(menu, label, reason);
-		this.gov = gov;
-		PDI = menu.getPlayerData();
-	}
-
-	public DeleteGovOption(OptionMenu menu, String label, OwnerSubjectGov gov) {
-		super(menu, label);
-		this.gov = gov;
-		PDI = menu.getPlayerData();
-	}
-
-	public DeleteGovOption(OptionMenu menu, String label, String description, OwnerSubjectGov gov) {
 		super(menu, label, description);
 		this.gov = gov;
 		PDI = menu.getPlayerData();
@@ -98,11 +73,8 @@ public class DeleteGovOption extends Option {
 		}
 		
 		//If player is the only ruler and protection < 2, player leaves and subjects have option to become ruler
-		if (numOwners == 1 && gov.getSubjects().size() > 0 && protection < 2) {
-			gov.removeOwner(PDI.getPlayerID());
-			if (gov instanceof OwnerSubjectGov) {
-				((OwnerSubjectGov) gov).removeSubject(PDI.getPlayerID());
-			}
+		else if (numOwners == 1 && protection < 2) {
+			gov.removePlayer(PDI.getPlayerID());
 			
 			//allow subjects to become ruler
 			//TODO later replace this with checks on MainHud for governments without owners
@@ -110,13 +82,9 @@ public class DeleteGovOption extends Option {
 		}
 		
 		//If player is not the only ruler, player leaves
-		if ( numOwners> 1) {
-			gov.removeOwner(PDI.getPlayerID());
-			if (gov instanceof OwnerSubjectGov) {
-				((OwnerSubjectGov) gov).removeSubject(PDI.getPlayerID());
-			}
+		else if ( numOwners> 1) {
+			gov.removePlayer(PDI.getPlayerID());
 		};
-		
 		
 		return menu;
 	}

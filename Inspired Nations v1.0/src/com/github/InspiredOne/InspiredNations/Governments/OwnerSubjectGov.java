@@ -68,8 +68,15 @@ public abstract class OwnerSubjectGov extends OwnerGov {
 	public void removeSubject(PlayerID player) {
 		this.removeOwner(player);
 		this.subjects.remove(player);
+		if(!this.isSubject(player)) {
+			for(OwnerGov govlost:this.getGovsLost(player)) {
+				govlost.removePlayer(player);
+			}
+		}
 		if(this.isSubjectLess()) {
+			player.getPDI().sendNotification(MenuAlert.GOV_UNREGISTERED(this));
 			this.unregister();
+			this.joinAccount(player.getPDI());
 		}
 	}
 	

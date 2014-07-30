@@ -187,51 +187,62 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		}
 	}
 	public void unregister() {
+		// First send all the players a notification so that they know what is going on.
 		for (PlayerID PID: this.getSubjects()) {
 			PID.getPDI().sendNotification(MenuAlert.GOV_UNREGISTERED(this));
 		}
-
-		for(InspiredGov gov:this.getAllSubGovsAndFacilitiesJustBelow()) {
-			
-			gov.unregister();
-			
-			if (gov instanceof Facility) {
-				//join facility account with supergov account
-				try {
-					gov.transferMoney(gov.getAccounts().getTotalMoney(currency.DEFAULT, InspiredNations.Exchange.mcdown), currency.DEFAULT, gov.getSuperGovObj());
-				} catch (BalanceOutOfBoundsException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NegativeMoneyTransferException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-			
-		}
-		
 		try {
-			Account GovAccount = new Account(this.getName());
-			
-			this.getAccounts().transferMoney(this.getAccounts().getTotalMoney(currency.DEFAULT, InspiredNations.Exchange.mcdown), currency.DEFAULT, GovAccount);
-			
-			if (this instanceof OwnerGov) {
-				for (PlayerID PID: ((OwnerGov) this).getOwnersList()) {
-					PID.getPDI().getAccounts().add(GovAccount);
-				}
-			}
-		} catch (BalanceOutOfBoundsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NegativeMoneyTransferException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Refunds all the protection that wasn't used.
+			this.setLand(new nullRegion());
+		} catch (BalanceOutOfBoundsException e1) {
+			e1.printStackTrace();
+		} catch (InspiredGovTooStrongException e1) {
+			e1.printStackTrace();
+		} catch (RegionOutOfEncapsulationBoundsException e1) {
+			e1.printStackTrace();
+		} catch (InsufficientRefundAccountBalanceException e1) {
 		}
-		
-		Debug.print("removing Region Data");		
+		// Make sure that all subgovs also become unregistered. They cannot exist without a supergov.
+		for(InspiredGov gov:this.getAllSubGovsAndFacilitiesJustBelow()) {
+			gov.unregister();
+		}
+
+		if (this instanceof Facility) {
+			//join facility account with supergov account
+			try {
+				this.transferMoney(this.getAccounts().getTotalMoney(currency.DEFAULT, InspiredNations.Exchange.mcdown), currency.DEFAULT, this.getSuperGovObj());
+			} catch (BalanceOutOfBoundsException e) {
+				e.printStackTrace();
+			} catch (NegativeMoneyTransferException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			// Or transfer all the money to the owners' accounts
+			try {
+				Account GovAccount = new Account(this.getName());
+				
+				this.getAccounts().transferMoney(this.getAccounts().getTotalMoney(currency.DEFAULT, InspiredNations.Exchange.mcdown), currency.DEFAULT, GovAccount);
+				
+				if (this instanceof OwnerGov) {
+					for (PlayerID PID: ((OwnerGov) this).getOwnersList()) {
+						PID.getPDI().getAccounts().add(GovAccount);
+					}
+				}
+			} catch (BalanceOutOfBoundsException e) {
+				e.printStackTrace();
+			} catch (NegativeMoneyTransferException e) {
+				e.printStackTrace();
+			}
+		}
+		// remove the government from all of the gov relations
+		for(InspiredGov gov:InspiredNations.regiondata) {
+			if(gov instanceof OwnerGov) {
+				((OwnerGov) gov).getRelations().remove(gov);
+			}
+		}
+		// Finally remove the government from regiondata
 		InspiredNations.regiondata.removeValue(this);
-		Debug.print("removed Region Data");
 	}
 
 	/**
@@ -376,6 +387,18 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		List<Facility> output = new ArrayList<Facility>();
 		for(Class<? extends Facility> facType:this.getGovFacilities()) {
 			output.addAll(this.getAllSubGovs(facType));
+		}
+		return output;
+	}
+	/**
+	 * Returns a list of all the governments below this government.
+	 * @return
+	 */
+	public ArrayList<InspiredGov> getAllSubGovsBelow() {
+		ArrayList<InspiredGov> output = new ArrayList<InspiredGov>();
+		for(InspiredGov gov:this.getAllSubGovsAndFacilitiesJustBelow()) {
+			output.add(gov);
+			output.addAll(gov.getAllSubGovsBelow());
 		}
 		return output;
 	}

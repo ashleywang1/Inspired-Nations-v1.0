@@ -43,10 +43,10 @@ public class PlayerCitizenship extends TabSelectOptionMenu<OwnerGov> {
 		if(this.getTabOptions().size() > 0) {
 			
 			if (this.getData().isOwner(PDI.getPlayerID())) {
-				this.options.add(new DeleteGovOption(this, "Delete " + this.getData().getName(), this.getData()));
+				this.options.add(new DeleteGovOption(new PlayerCitizenship(PDI), "Delete " + this.getData().getName(), this.getData()));
 			}
 			if (this.getData().isSubject(PDI.getPlayerID())) {
-				this.options.add(new LeaveGovOption(this, "Leave " + this.getData().getName(), this.getData()));
+				this.options.add(new LeaveGovOption(new PlayerCitizenship(PDI), "Leave " + this.getData().getName(), this.getData()));
 			}
 		}
 		
