@@ -19,7 +19,7 @@ public class DeleteGovWarning extends OptionMenu {
 	@Override
 	public String getPreOptionText() {
 		// TODO Auto-generated method stub
-		return "";
+		return "WARNING! This is for FOREVER. Are you sure you want to proceed?";
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class DeleteGovWarning extends OptionMenu {
 	@Override
 	public String getHeader() {
 		// TODO Auto-generated method stub
-		return "WARNING! This is for FOREVER. Are you sure you want to proceed?";
+		return "";
 	}
 	
 	public class DoNotDeleteOption extends Option {
