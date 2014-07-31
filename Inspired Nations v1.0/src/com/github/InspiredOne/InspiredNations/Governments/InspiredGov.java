@@ -188,6 +188,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 	}
 	public void unregister() {
 		// First send all the players a notification so that they know what is going on.
+		Debug.print("*********************************** Inside Unregister");
 		for (PlayerID PID: this.getSubjects()) {
 			PID.getPDI().sendNotification(MenuAlert.GOV_UNREGISTERED(this));
 		}
@@ -204,6 +205,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		}
 		// Make sure that all subgovs also become unregistered. They cannot exist without a supergov.
 		for(InspiredGov gov:this.getAllSubGovsAndFacilitiesJustBelow()) {
+			Debug.print("Inside unregister: " + gov.getName());
 			gov.unregister();
 		}
 
@@ -242,6 +244,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 			}
 		}
 		// Finally remove the government from regiondata
+		Debug.print("Getting unregistered: " + this.getName());
 		InspiredNations.regiondata.removeValue(this);
 	}
 

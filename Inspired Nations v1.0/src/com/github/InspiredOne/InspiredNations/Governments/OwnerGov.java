@@ -161,6 +161,7 @@ public abstract class OwnerGov extends InspiredGov {
 	public ArrayList<OwnerGov> getGovsLost(PlayerID PID) {
 		ArrayList<OwnerGov> output = new ArrayList<OwnerGov>();
 		for(InspiredGov gov:this.getAllSubGovsBelow()) {
+			Debug.print("All subgovsbelow " + gov.getName());
 			if(gov instanceof OwnerGov) {
 				if (gov.isSubject(PID) && (((OwnerGov) gov).getCommonGovObj().isSubOf(this)|| ((OwnerGov) gov).getCommonGovObj() == this)) {
 					output.add((OwnerGov)gov);

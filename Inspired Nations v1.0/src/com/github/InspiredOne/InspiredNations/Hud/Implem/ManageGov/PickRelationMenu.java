@@ -4,18 +4,22 @@ import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
+import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.MenuLoops.FindAddress.PickGovGeneral;
 import com.github.InspiredOne.InspiredNations.ToolBox.Datable;
 import com.github.InspiredOne.InspiredNations.ToolBox.Relation;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class PickRelationMenu extends PickGovGeneral {
 
 	OwnerGov gov;
+	OptionMenu previous;
 	
-	public PickRelationMenu(PlayerData PDI, Menu previous, Menu next,
+	public PickRelationMenu(PlayerData PDI, OptionMenu previous, Menu next,
 			Datable<InspiredGov> superGov, OwnerGov gov) {
 		super(PDI, previous, next, superGov);
 		this.gov = gov;
+		this.previous = previous;
 	}
 
 	public PickRelationMenu(PlayerData PDI, Menu previous, Menu next, OwnerGov gov) {
@@ -34,15 +38,23 @@ public class PickRelationMenu extends PickGovGeneral {
 
 	@Override
 	public String postTabListPreOptionsText() {
-		return "";
+		String output = "";
+		if(this.taboptions.size() == 0) {
+			output = TextColor.INSTRUCTION(PDI) + "There are no other governments to add.";
+		}
+		return output;
 	}
 
 	@Override
 	public void addOptions() {
+		OptionMenu back = this;
+		if(taboptions.size() == 1) {
+			back = previous;
+		}
 		if(!this.taboptions.isEmpty()) {
-			this.options.add(new ChangeRelationOption(this, "Ally " + this.getData().getName(),
+			this.options.add(new ChangeRelationOption(back, "Ally " + this.getData().getName(),
 					Relation.ALLY, (OwnerGov) this.getData(), this.gov));
-			this.options.add(new ChangeRelationOption(this, "Enemy " + this.getData().getName(),
+			this.options.add(new ChangeRelationOption(back, "Enemy " + this.getData().getName(),
 					Relation.ENEMY, (OwnerGov) this.getData(), this.gov));
 		}
 	}
