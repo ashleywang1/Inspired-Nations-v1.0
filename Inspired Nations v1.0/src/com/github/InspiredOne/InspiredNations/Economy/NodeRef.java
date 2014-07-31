@@ -25,12 +25,12 @@ public class NodeRef {
 	public NodeRef() {
 		item = new ItemRefTrees();
 		
-		Begin = new CobDugNode( new double[] {1,1,2}, new Node[] {
+		Begin = new CobDugNode( new double[] {1,1}, new Node[] {
 			// { Armor
 				item.armor,
 			// }
 			// { Tools
-				item.tools,
+				item.tools
 			// }
 			// { Weapons
 				// { Potions

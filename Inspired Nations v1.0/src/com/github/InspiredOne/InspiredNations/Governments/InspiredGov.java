@@ -238,7 +238,7 @@ public abstract class InspiredGov implements Serializable, Nameable, Datable<Ins
 		// remove the government from all of the gov relations
 		for(InspiredGov gov:InspiredNations.regiondata) {
 			if(gov instanceof OwnerGov) {
-				((OwnerGov) gov).getRelations().remove(gov);
+				((OwnerGov) gov).getRelations().remove(this);
 			}
 		}
 		// Finally remove the government from regiondata
