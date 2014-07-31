@@ -37,13 +37,11 @@ public class PlayerDirectory extends TabSelectOptionMenu<PlayerID> {
 
 	@Override
 	public void addOptions() {
-		options.add(new PromptOption(this, "Profile", new PlayerProfile(PDI,this)));
-		
+		options.add(new PromptOption(this, "Profile", new PlayerProfile(PDI,this.getData().getPDI())));
 	}
 
 	@Override
 	public void addActionManagers() {
 		
 	}
-
 }

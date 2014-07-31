@@ -329,7 +329,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 		String color = TextColor.NEUTRAL(PDI);
 		String symbol = "";
 		for(OwnerGov gov:this.getCitizenship() ) {
-			if(!(gov == InspiredNations.global)) {
+			if(gov != InspiredNations.global) {
 				symbol = "*";
 				if(gov.isOwner(this.getPlayerID()) ) {
 					symbol = "**";
@@ -341,7 +341,7 @@ public class PlayerData implements Serializable, Nameable, Notifyable, ItemBuyer
 			for(OwnerGov govthis:PDI.getCitizenship()) {
 				if(gov.getRelations().get(govthis) == Relation.ENEMY || govthis.getRelations().get(gov) == Relation.ENEMY) {
 					color = TextColor.ENEMY(PDI);
-					return color + this.getName();
+					return color + this.getName() + symbol;
 				}
 				if(gov.getRelations().get(govthis) == Relation.ALLY && govthis.getRelations().get(gov) == Relation.ALLY) {
 					color = TextColor.ALLY(PDI);

@@ -25,7 +25,7 @@ public class RelationList extends TabSelectOptionMenu<PlayerData> {
 	@Override
 	public Menu getPreviousPrompt() {
 		// TODO can't figure out the line below
-		return new PlayerProfile(PDI, PDI);
+		return new PlayerProfile(PDI, target);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class RelationList extends TabSelectOptionMenu<PlayerData> {
 	@Override
 	public void addTabOptions() {
 		// TODO this has repeated tabs
-		for (OwnerGov gov: PDI.getCitizenship()) {
+		for (OwnerGov gov: target.getCitizenship()) {
 			for (OwnerGov allygov: gov.getRelations().keySet()) {
 				if (gov.getRelations().get(allygov) == status) {
 					for (PlayerID ally: allygov.getSubjects()) {
@@ -67,7 +67,7 @@ public class RelationList extends TabSelectOptionMenu<PlayerData> {
 	@Override
 	public String getHeader() {
 		// TODO Auto-generated method stub
-		return "List of " + PDI.getName() + "'s " + status.toString() ;
+		return "List of " + target.getName() + "'s " + status.toString() ;
 	}
 	
 	
@@ -82,7 +82,6 @@ public class RelationList extends TabSelectOptionMenu<PlayerData> {
 
 		@Override
 		public Menu response(String input) {
-
 
 			return new PlayerProfile(PDI, new PlayerDirectory(targetPDI));
 		}
