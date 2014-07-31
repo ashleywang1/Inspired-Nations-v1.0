@@ -83,7 +83,7 @@ public class RelationList extends TabSelectOptionMenu<PlayerData> {
 		@Override
 		public Menu response(String input) {
 
-			return new PlayerProfile(PDI, new PlayerDirectory(targetPDI));
+			return new PlayerProfile(PDI, targetPDI);
 		}
 		
 	}
