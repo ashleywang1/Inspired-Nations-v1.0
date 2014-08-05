@@ -53,8 +53,9 @@ public class RelationList extends TabSelectOptionMenu<PlayerData> {
 
 	@Override
 	public void addOptions() {
-
-		this.options.add(new CustomAllyOption(this, "View Profile", this.getData()));
+		if(this.getTabOptions().size() > 0) {
+			this.options.add(new CustomAllyOption(this, "View Profile", this.getData()));
+		}
 		
 	}
 
