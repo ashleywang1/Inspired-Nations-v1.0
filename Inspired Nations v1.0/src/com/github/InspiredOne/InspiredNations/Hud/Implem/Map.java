@@ -4,10 +4,12 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.GovFactory;
 import com.github.InspiredOne.InspiredNations.Governments.InspiredGov;
+import com.github.InspiredOne.InspiredNations.Hud.HelpMenu;
 import com.github.InspiredOne.InspiredNations.Hud.InputMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Listeners.Implem.MapManager;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class Map extends InputMenu {
 
@@ -17,6 +19,14 @@ public class Map extends InputMenu {
 	
 	public Map(PlayerData PDI) {
 		super(PDI);
+		help = new HelpMenu(PDI, this).addPage(
+				"Welcome to the Map. \n"
+				+ "This map displays the different countries and towns near you,"
+				+ " as well as the land that they have claimed. Each symbol represents a chunk of land."
+				+ "A colored '/' symbol shows land claimed by a country, with the color corresponding"
+				+ "to the key below the map. A colored '#' symbol shows land claimed by a town, and it will be"
+				+ "the same color as the country it belongs to."
+				);
 	}
 
 	@Override

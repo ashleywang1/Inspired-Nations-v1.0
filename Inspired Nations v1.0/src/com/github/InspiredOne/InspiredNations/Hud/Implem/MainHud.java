@@ -37,6 +37,9 @@ public class MainHud extends OptionMenu {
 				+ "executes them. Typically you are presented with a list of numbered "
 				+ "options. To select an option, you just type the number that appears "
 				+ "beside it. For instance:\n"
+				+ "\n"
+				+ "\n"
+				+ "\n"
 				+ TextColor.OPTION(this.getPlayerData()) + ""
 				);
 		

@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
+import com.github.InspiredOne.InspiredNations.Hud.HelpMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
@@ -19,6 +20,9 @@ public class PlayerProfile extends OptionMenu {
 	
 	public <T extends Datable<PlayerID>> PlayerProfile(PlayerData PDI, T PDITarget) {
 		super(PDI);
+		help = new HelpMenu(PDI, this).addPage(
+				"Welcome to " + PDITarget.getData().getDisplayName(PDITarget.getData().getPDI()) + "'s profile page. \n"
+				);
 		
 		this.PDITarget = PDITarget.getData().getPDI();
 	}
