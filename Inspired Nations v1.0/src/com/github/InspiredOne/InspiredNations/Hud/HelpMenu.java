@@ -2,6 +2,7 @@ package com.github.InspiredOne.InspiredNations.Hud;
 
 import java.util.ArrayList;
 
+import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools;
 import com.github.InspiredOne.InspiredNations.ToolBox.MenuTools.MenuError;
@@ -36,6 +37,7 @@ public class HelpMenu extends InputMenu {
 			}
 		}
 		catch (Exception ex) {
+			Debug.print("Invalid number help page?");
 			return MenuError.INVALID_NUMBER_INPUT(PDI);
 		}
 	}
@@ -52,10 +54,10 @@ public class HelpMenu extends InputMenu {
 
 	@Override
 	public String getInstructions() {
-		String output = "Type the page number you want to read. Pages available: \n";
+		Debug.print("loading Help Page");
+		String output = "";
 		output = output.concat(pageNumList() + "\n");
 		if(docs.size() > 0) {
-			output = MenuTools.addDivider(output,PDI);
 			output = output.concat(TextColor.INSTRUCTION(PDI) + docs.get(pagenum));
 		}
 		return output;
@@ -65,8 +67,11 @@ public class HelpMenu extends InputMenu {
 		if(docs.size() == 0) {
 			return TextColor.ERROR(PDI) + "There are no help docs for this topic.";
 		}
+		else if(docs.size() == 1) {
+			return "";
+		}
 		else {
-			String output = "";
+			String output = "Type the page number you want to read. Pages available: \n";
 			for(int i = 0; i < docs.size(); i++) {
 				if(i == pagenum) {
 					output = output.concat(TextColor.VALUE(PDI).toString() + (i + 1) + ", ");
@@ -75,8 +80,8 @@ public class HelpMenu extends InputMenu {
 					output = output.concat(TextColor.VALUEDESCRI(PDI).toString() + (i + 1) + ", ");
 				}
 			}
-			output = output.substring(0, output.length() - 2);
-
+			output = output.substring(0, output.length() - 2) + "\n";
+			output = MenuTools.addDivider(output,PDI);
 			return output;
 		}
 

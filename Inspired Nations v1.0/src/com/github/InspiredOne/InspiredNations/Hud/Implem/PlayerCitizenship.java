@@ -3,6 +3,7 @@ package com.github.InspiredOne.InspiredNations.Hud.Implem;
 import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Governments.OwnerGov;
+import com.github.InspiredOne.InspiredNations.Hud.HelpMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.Option;
 import com.github.InspiredOne.InspiredNations.Hud.OptionMenu;
@@ -14,6 +15,11 @@ public class PlayerCitizenship extends TabSelectOptionMenu<OwnerGov> {
 
 	public PlayerCitizenship(PlayerData PDI) {
 		super(PDI);
+		help = new HelpMenu(PDI, this).addPage(
+				"Welcome to the Citizenship page! \n"
+				+ "This page lists all the governments that you belong to. You can only belong to one country"
+				+ " and town at a time."
+				);
 	}
 
 	@Override

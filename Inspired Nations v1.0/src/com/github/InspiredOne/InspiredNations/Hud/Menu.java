@@ -30,7 +30,7 @@ public abstract class Menu extends MessagePrompt {
 	public Menu(PlayerData PDI) {
 		this.PDI = PDI;
 		this.plugin = InspiredNations.plugin;
-		this.footer = MenuTools.addDivider("",PDI) + TextColor.ENDINSTRU(PDI) + "Keywords: exit, chat, say, back, hud.";
+		this.footer = MenuTools.addDivider("",PDI) + TextColor.ENDINSTRU(PDI) + "Keywords: exit, chat, say, help, back, hud.";
 	}
 	/**
 	 * When the menu is initialized, all options, tab options, tab selects, and text is
@@ -159,6 +159,7 @@ public abstract class Menu extends MessagePrompt {
 			return this.checkBack();
 		}
 		if (arg.equalsIgnoreCase("help")) {
+			Debug.print("return help page");
 			return this.getHelp();
 		}
 		if (arg.equalsIgnoreCase("hud")) {
