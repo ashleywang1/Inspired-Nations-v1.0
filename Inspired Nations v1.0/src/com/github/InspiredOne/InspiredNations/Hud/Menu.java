@@ -28,6 +28,9 @@ public abstract class Menu extends MessagePrompt {
 	
 	
 	public Menu(PlayerData PDI) {
+		if(!(this instanceof HelpMenu)) {
+			help = new HelpMenu(PDI, this);
+		}
 		this.PDI = PDI;
 		this.plugin = InspiredNations.plugin;
 		this.footer = MenuTools.addDivider("",PDI) + TextColor.ENDINSTRU(PDI) + "Keywords: exit, chat, say, back, hud.";
