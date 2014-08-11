@@ -18,6 +18,7 @@ public class PickName<T extends OwnerGov> extends InputMenu {
 	public PickName(PlayerData PDI, GovFactory<T> Govf) {
 		super(PDI);
 		this.Govf = Govf;
+		
 	}
 
 	@Override

@@ -21,7 +21,7 @@ public class Theme implements Serializable{
 	private String OPTIONDESCRI = ChatColor.GRAY + "";
 	private String UNAVAIL = ChatColor.DARK_GRAY + "";
 	private String UNAVAILREASON = ChatColor.GRAY + "";
-	private String INSTRUCTION = ChatColor.YELLOW + "";
+	private String INSTRUCTION = ChatColor.GREEN + "";
 	private String ERROR = ChatColor.RED + "";
 	private String ALERT = ChatColor.YELLOW + "";
 	private String UNIT = ChatColor.YELLOW + "";

@@ -80,7 +80,7 @@ public class DefaultTheme extends ThemeOption {
 	@Override
 	public String INSTRUCTION() {
 		// TODO Auto-generated method stub
-		return ChatColor.YELLOW + "";
+		return ChatColor.GREEN + "";
 	}
 
 	@Override

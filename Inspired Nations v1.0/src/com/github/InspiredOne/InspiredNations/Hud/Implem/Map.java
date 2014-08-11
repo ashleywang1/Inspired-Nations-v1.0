@@ -20,13 +20,14 @@ public class Map extends InputMenu {
 	public Map(PlayerData PDI) {
 		super(PDI);
 		help = new HelpMenu(PDI, this).addPage(
-				"Welcome to the Map. \n"
+				"Welcome to the Map! \n"
 				+ "This map displays the different countries and towns near you,"
 				+ " as well as the land that they have claimed. Each symbol represents a chunk of land."
 				+ "A colored '/' symbol shows land claimed by a country, with the color corresponding"
 				+ "to the key below the map. A colored '#' symbol shows land claimed by a town, and it will be"
 				+ "the same color as the country it belongs to."
 				);
+		//possibly add a page detailing the coordinates of the different countries?
 	}
 
 	@Override

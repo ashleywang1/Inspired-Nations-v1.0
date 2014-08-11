@@ -4,14 +4,20 @@ import com.github.InspiredOne.InspiredNations.InspiredNations;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.MarketPlace;
 import com.github.InspiredOne.InspiredNations.Economy.Sellable;
+import com.github.InspiredOne.InspiredNations.Hud.HelpMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.PassByOptionMenu;
 import com.github.InspiredOne.InspiredNations.Hud.PromptOption;
+import com.github.InspiredOne.InspiredNations.ToolBox.Tools.TextColor;
 
 public class PickMarketplace extends PassByOptionMenu {
 
 	public PickMarketplace(PlayerData PDI) {
 		super(PDI);
+		help = new HelpMenu(PDI, this).addPage(
+				"Welcome to the Marketplace! \n"
+				+ "Here you can buy any item in minecraft that is currently on the market! "
+				); //TODO this is not showing up for some reason
 	}
 
 	@Override
