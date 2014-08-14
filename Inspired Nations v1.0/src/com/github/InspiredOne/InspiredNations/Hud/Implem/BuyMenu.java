@@ -6,6 +6,7 @@ import com.github.InspiredOne.InspiredNations.Debug;
 import com.github.InspiredOne.InspiredNations.PlayerData;
 import com.github.InspiredOne.InspiredNations.Economy.MarketPlace;
 import com.github.InspiredOne.InspiredNations.Economy.Sellable;
+import com.github.InspiredOne.InspiredNations.Hud.HelpMenu;
 import com.github.InspiredOne.InspiredNations.Hud.Menu;
 import com.github.InspiredOne.InspiredNations.Hud.TabSelectOptionMenu;
 import com.github.InspiredOne.InspiredNations.ToolBox.SortTool;
@@ -18,6 +19,9 @@ public class BuyMenu<T extends Sellable> extends TabSelectOptionMenu<T> {
 	public BuyMenu(PlayerData PDI, MarketPlace<T> market) {
 		super(PDI);
 		this.market = market;
+		help = new HelpMenu(PDI, this).addPage(
+				"Welcome to the " + market.getName() + " Marketplace! \n"
+				);
 	}
 
 	@Override

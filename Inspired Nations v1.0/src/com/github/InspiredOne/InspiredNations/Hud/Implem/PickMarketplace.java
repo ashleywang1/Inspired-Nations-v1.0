@@ -16,8 +16,8 @@ public class PickMarketplace extends PassByOptionMenu {
 		super(PDI);
 		help = new HelpMenu(PDI, this).addPage(
 				"Welcome to the Marketplace! \n"
-				+ "Here you can buy any item in minecraft that is currently on the market! "
-				); //TODO this is not showing up for some reason
+				+ "Coming soon are stock markets and government markets!"
+				);
 	}
 
 	@Override
