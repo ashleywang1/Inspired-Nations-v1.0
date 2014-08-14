@@ -20,7 +20,7 @@ public class BuyMenu<T extends Sellable> extends TabSelectOptionMenu<T> {
 		super(PDI);
 		this.market = market;
 		help = new HelpMenu(PDI, this).addPage(
-				"Welcome to the " + market.getName() + " Marketplace! \n"
+				"Welcome to the " + market.getName() + " \n"
 				);
 	}
 
