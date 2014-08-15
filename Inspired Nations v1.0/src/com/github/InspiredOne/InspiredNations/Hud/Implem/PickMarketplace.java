@@ -16,7 +16,6 @@ public class PickMarketplace extends PassByOptionMenu {
 		super(PDI);
 		help = new HelpMenu(PDI, this).addPage(
 				"Welcome to the Marketplace! \n"
-				+ "Coming soon are stock markets and government markets!"
 				);
 	}
 
